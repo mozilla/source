@@ -1,0 +1,1 @@
+{% if organization_link_list %}<li><i class="icon-cogs"></i>{% for organization in organization_link_list %}<a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endif %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% set active_nav = "code" %}
+
+{% block content %}
+<div class="page-block">
+    <h1>{{ code.name }}</h1>
+    <h4><a href="{{ code.url }}">Project home</a></h4>
+    {% if code.description %}<p>{{ code.description|nl2br }}</p>{% endif %}
+</div>
+
+<div class="page-block">
+    {% with person_link_list = code.people.all() %}
+    {% include "people/_person_link_list.html" %}{% endwith %}
+    
+    {% with organization_link_list = code.organizations.all() %}
+    {% include "people/_organization_link_list.html" %}{% endwith %}
+    
+    {% with article_link_list = code.article_set.all() %}
+    {% include "articles/_article_link_list.html" %}{% endwith %}
+    
+    {% with basic_link_list = code.codelink_set.all() %}
+    {% include "utils/_basic_link_list.html" %}{% endwith %}
+</div>
+{% endblock content %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% set active_nav = "code" %}
+
+{% block content %}
+<div class="page-block">
+    <h1>Code</h1>
+</div>
+
+{% for code in object_list %}
+    <h4><a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h4>
+{% endfor %}
+{% endblock content %}

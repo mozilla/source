@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set active_nav = "people" %}
+
+{% block content %}
+<div class="page-block">
+    <h1>{{ organization.name }}</h1>
+    {% if organization.description %}<p>{{ organization.description|nl2br }}</p>{% endif %}
+</div>
+
+<div class="page-block">
+    {% with person_link_list = organization.person_set.all() %}
+    {% include "people/_person_link_list.html" %}{% endwith %}
+
+    {% with code_link_list = organization.code_set.all() %}
+    {% include "code/_code_link_list.html" %}{% endwith %}
+
+    {% with basic_link_list = organization.organizationlink_set.all() %}
+    {% include "utils/_basic_link_list.html" %}{% endwith %}
+
+    {% with article_link_list = organization.article_set.all() %}
+    {% include "articles/_article_link_list.html" %}{% endwith %}
+</div>
+{% endblock content %}

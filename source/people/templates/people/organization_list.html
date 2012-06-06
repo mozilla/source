@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% set active_nav = "people" %}
+
+{% block content %}
+<h1>Organizations</h1>
+
+{% for organization in object_list %}
+    <h4><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h4>
+{% endfor %}
+{% endblock content %}

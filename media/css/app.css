@@ -1,0 +1,242 @@
+/*  Override bootstrap.css defaults here, 
+    until all the styles are belong to us */
+
+/*
+ul#navigation {list-style: none; margin: 0; padding: 0; overflow: hidden; display: inline-block; border-right: 2px solid #111; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.35); -moz-box-shadow: 0 1px 2px rgba(0,0,0,.35); box-shadow: 0 1px 2px rgba(0,0,0,.35);}
+ul#navigation li {float: left; border: 2px solid #111; border-right: none;}
+ul#navigation li a {display: block; padding: 5px 12px; text-decoration: none; color: #444;}
+ul#navigation li.active a, ul#navigation li a:hover {background-color: #e3e3e3}
+*/
+.container {
+    width: auto;
+    max-width: 800px;
+}
+.content {margin: 0 15px;}
+.page-block {margin-bottom: 2em;}
+footer {
+    border-top: none;
+    margin-top: 1em;
+    padding-top: 1em;
+}
+a {text-decoration: underline;}
+ul.errorlist {list-style: none; margin: 0;}
+ul.errorlist li {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  background-color: #fcf8e3;
+  border: 1px solid #fbeed5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  color: #c09853;
+}
+
+.divider {padding-bottom: 4px; border-bottom: 1px solid #ddd; margin-bottom: 18px;}
+
+ul.link-list {list-style: none; margin: 0; padding: 0; font-size: inherit; margin-bottom: 2em;}
+ul.link-list li {line-height: 1.2; margin-bottom: .67em;}
+ul.link-list li i {margin-right: .25em; font-size: 16px;}
+ul.link-list li p {padding: .5em 24px;}
+ul.link-list-inline {margin-bottom: 0; overflow: hidden;}
+ul.link-list-inline li {float: left; margin-right: 1em;}
+
+#topbar {
+	position: fixed;
+	background-color: #e4e4e4;
+	width: 100%;
+	top: 0;
+	border-bottom: 1px solid #767676;
+	-moz-box-shadow: 0px 2px 4px #767676;
+	-webkit-box-shadow: 0px 2px 4px #767676;
+	box-shadow: 0px 2px 4px #767676;
+	overflow: hidden;
+}
+
+#topbar .container {
+	width: auto;
+	max-width: 800px;
+	height: 50px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 0 15px;
+}
+
+#topbar img.opennews {
+	padding-top: 10px;
+	float: right;
+	height: 30px;
+}
+
+#topbar img.sourcelogomin {
+	padding-top: 5px;
+	display: none;
+}
+
+#navigation {
+    float: right;
+    font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+	text-transform: uppercase;
+	width: 380px;
+	text-shadow: 0px 1px 0px #f3f3f4;
+	margin: 0 0 0 0;
+}
+#navigation li {
+	display: inline;
+	margin: 0;
+}
+
+#navigation li a {
+	border-right: 1px solid #e4e4e4;
+	border-left: 1px solid #e4e4e4;
+	padding: 15px 10px;
+	color: #333333;
+	text-decoration: none;
+    display: inline-block;
+}
+
+#navigation li a:hover {
+	border-right: 1px solid #eeeeee;
+	border-left: 1px solid #eeeeee;
+	background-color: #c2c2c2;
+}
+
+img.opennews {
+}
+
+.fixed {
+	position: fixed;
+	top: 50px;
+	left: 600px;
+}
+
+.content {margin-top: 100px;}
+
+body {
+	font-family: Georgia;
+	font-size: 14px;
+	line-height: 1.8;
+}
+
+article, p {
+	font-size: 18px;
+	line-height: 1.8em;
+}
+
+p, li p {
+    font-family: Georgia;
+}
+
+article {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h1, h2, h3, h5, h6, ul {
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	font-weight: 400;
+	text-align: left;
+	color: #2e2e2d;
+}
+
+
+h1 {
+    font-size: 36px;
+	margin-bottom: 18px;
+	font-weight: 700;
+}
+
+h2 {
+    font-size: 30px;
+	margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 24px;
+	margin-bottom: 12px;
+	font-weight: 300;
+}
+article h3 {margin-top: 1em;}
+
+h4 {
+	font-family: Georgia;
+	font-weight: normal;
+	font-size: 1.3em;
+	margin-top: 0px;
+	margin-bottom: 45px;
+	line-height: 1.2em;
+	color: rgba(250,121,7,0.94);
+}
+
+h5 {
+    font-size: 18px;
+	margin-bottom: 12px;
+	font-weight: 300;
+}
+
+h6, aside h5 {
+    font-size: inherit;
+    font-weight: 300;
+    margin-bottom: 1em;
+    text-transform: none;
+}
+
+.list-header {margin-bottom: .5em;}
+.inset-right {width: 30%; float: right; border-left: 1px solid #ccc; padding-left: 1em; margin-left: 1em;}
+
+aside  {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	float: right;
+	width: 200px;
+	height: 100%;
+	padding: 8px 0 0 30px;
+	font-size: .8em;
+	margin-top: 0px;
+	line-height: 1.1em;
+}
+
+aside .byline {
+    margin-bottom: 2em;
+}
+aside #library{
+	margin-top: 50px;
+}
+
+aside #library ul {
+list-style-type: square;
+padding: 0;
+margin-left: 20px;
+}
+
+aside #library li {
+	margin-bottom: 10px;
+}
+
+.byline-date {
+}
+
+.byline-name {
+}
+.byline-organization {
+}
+
+img#main-logo {
+    width: 450px;
+}
+
+@media screen and (max-width: 640px) {
+    #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}
+    #navigation {float: left; font-size: 12px; width: auto; padding-top: 5px;}
+    #navigation li a {border: none; padding: 10px;}
+    #navigation li a:hover {border: none;}
+}
+
+@media screen and (max-width: 480px) {
+    #topbar {position: relative;}
+    .content {margin-top: 20px;}
+    aside {float: none; display: block; padding: 8px 0;}
+    img#main-logo {width: 100%;}
+}

@@ -1,0 +1,1 @@
+{% if person_link_list %}<li><i class="icon-user"></i>{% for person in person_link_list %}<a href="{{ person.get_absolute_url() }}">{{ person.name() }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endif %}
