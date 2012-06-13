@@ -3,7 +3,11 @@
 
 {% block content %}
 <div class="page-block">
-    <h1>{{ organization.name }}</h1>
+    <h1 class="maintopic">Organizations</h1>
+</div>
+
+<div class="page-block">
+    <h2>{{ organization.name }}</h2>
     {% if organization.description %}<p>{{ organization.description|nl2br }}</p>{% endif %}
 </div>
 

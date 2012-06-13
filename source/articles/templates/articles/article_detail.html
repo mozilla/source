@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
+{% block site_js_extra %}
+<script src="{{ MEDIA_URL }}js/jquery.syntaxhighlighter.min.js"></script>
+<script type="text/javascript">
+    $.SyntaxHighlighter.init();
+</script>
+{% endblock %}
+
 {% block content %}
-    <h2>{{ article.get_article_type_display() }}: {{ article.title }}</h2>
+    <h2>{{ article.title }}</h2>
+    <h4>{{ article.summary }}</h4>
     
     <aside>
         <div class="byline">
@@ -19,7 +27,7 @@
         {% include "people/_organization_link_list.html" %}{% endwith %}
     </aside>
     
-    <p>{{ article.body|nl2br }}</p>
+    <p>{{ article.body|safe|nl2br }}</p>
     
     {% for articleblock in article.articleblock_set.all() %}
     <div class="page-block">

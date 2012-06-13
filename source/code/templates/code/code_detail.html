@@ -3,9 +3,15 @@
 
 {% block content %}
 <div class="page-block">
-    <h1>{{ code.name }}</h1>
-    <h4><a href="{{ code.url }}">Project home</a></h4>
+    <h1 class="maintopic">Code</h1>
+</div>
+
+<div class="page-block">
+    <h2>{{ code.name }}</h2>
     {% if code.description %}<p>{{ code.description|nl2br }}</p>{% endif %}
+    <ul class="link-list">
+        <li><i class="icon-home"></i><a href="{{ code.url }}">Project home</a></li>
+    </ul>
 </div>
 
 <div class="page-block">

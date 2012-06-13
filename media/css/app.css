@@ -11,6 +11,8 @@ ul#navigation li.active a, ul#navigation li a:hover {background-color: #e3e3e3}
     width: auto;
     max-width: 800px;
 }
+
+
 .content {margin: 0 15px;}
 .page-block {margin-bottom: 2em;}
 footer {
@@ -42,87 +44,89 @@ ul.link-list-inline {margin-bottom: 0; overflow: hidden;}
 ul.link-list-inline li {float: left; margin-right: 1em;}
 
 #topbar {
-	position: fixed;
-	background-color: #e4e4e4;
-	width: 100%;
-	top: 0;
-	border-bottom: 1px solid #767676;
-	-moz-box-shadow: 0px 2px 4px #767676;
-	-webkit-box-shadow: 0px 2px 4px #767676;
-	box-shadow: 0px 2px 4px #767676;
-	overflow: hidden;
+    position: fixed;
+    background-color: #e4e4e4;
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid #767676;
+    -moz-box-shadow: 0px 2px 4px #767676;
+    -webkit-box-shadow: 0px 2px 4px #767676;
+    box-shadow: 0px 2px 4px #767676;
+    overflow: hidden;
 }
 
 #topbar .container {
-	width: auto;
-	max-width: 800px;
-	height: 50px;
-	margin-right: auto;
-	margin-left: auto;
-	padding: 0 15px;
+    width: auto;
+    max-width: 800px;
+    height: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 15px;
 }
 
 #topbar img.opennews {
-	padding-top: 10px;
-	float: right;
-	height: 30px;
+    padding-top: 2px;
+    float: right;
 }
 
+
 #topbar img.sourcelogomin {
-	padding-top: 5px;
-	display: none;
+    padding-top: 5px;
+    display: none;
 }
 
 #navigation {
     float: right;
     font-family: 'Open Sans', sans-serif;
-	font-weight: 300;
-	font-size: 16px;
-	text-transform: uppercase;
-	width: 380px;
-	text-shadow: 0px 1px 0px #f3f3f4;
-	margin: 0 0 0 0;
+    font-weight: 300;
+    font-size: 16px;
+    text-transform: uppercase;
+    width: 300px;
+    text-shadow: 0px 1px 0px #f3f3f4;
+    margin: 0 0 0 0;
+
 }
 #navigation li {
-	display: inline;
-	margin: 0;
+    display: inline;
+    margin: 0;
 }
 
+
+
 #navigation li a {
-	border-right: 1px solid #e4e4e4;
-	border-left: 1px solid #e4e4e4;
-	padding: 15px 10px;
-	color: #333333;
-	text-decoration: none;
+    border-right: 1px solid #e4e4e4;
+    border-left: 1px solid #e4e4e4;
+    padding: 15px 10px;
+    padding-top: 16px;
+    color: #333333;
+    text-decoration: none;
     display: inline-block;
 }
 
 #navigation li a:hover {
-	border-right: 1px solid #eeeeee;
-	border-left: 1px solid #eeeeee;
-	background-color: #c2c2c2;
+    border-right: 1px solid #dfdfdf;
+    border-left: 1px solid #dfdfdf;
+    background-color: #d8d8d8;
 }
 
-img.opennews {
-}
 
 .fixed {
-	position: fixed;
-	top: 50px;
-	left: 600px;
+    position: fixed;
+    top: 50px;
+    left: 600px;
 }
 
 .content {margin-top: 100px;}
 
 body {
-	font-family: Georgia;
-	font-size: 14px;
-	line-height: 1.8;
+    font-family: Georgia;
+    font-size: 14px;
+    line-height: 1.8;
 }
 
 article, p {
-	font-size: 18px;
-	line-height: 1.8em;
+    font-size: 18px;
+    line-height: 1.8em;
 }
 
 p, li p {
@@ -130,50 +134,75 @@ p, li p {
 }
 
 article {
-	margin-right: auto;
-	margin-left: auto;
+    margin-right: auto;
+    margin-left: auto;
 }
 
+article, .container {
+    font-family: Georgia;
+    font-size: 1.3em;
+    line-height: 1.8em;
+}
+
+
 h1, h2, h3, h5, h6, ul {
-	font-family: 'Open Sans', Helvetica, sans-serif;
-	font-weight: 400;
-	text-align: left;
-	color: #2e2e2d;
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    font-weight: 400;
+    text-align: left;
+    color: #2e2e2d;
+}
+
+h1, h2 {
+    font-weight: 300;
+    text-transform: uppercase;
+    font-size: 1.4em;
 }
 
 
 h1 {
-    font-size: 36px;
-	margin-bottom: 18px;
-	font-weight: 700;
+    margin-bottom: 18px;
 }
 
+
 h2 {
-    font-size: 30px;
-	margin-bottom: 15px;
+    font-weight: 400;
+    font-size:1.1em;
+    margin-bottom: 10px;
+    line-height: 1.3em;
+    margin-bottom: 15px;
+
+
 }
+
 
 h3 {
     font-size: 24px;
-	margin-bottom: 12px;
-	font-weight: 300;
+    margin-bottom: 12px;
+    font-weight: 300;
+    color: rgba(250,121,7,0.94);
 }
+
+h3 a {
+    color: #2e2e2d;
+}
+
 article h3 {margin-top: 1em;}
 
 h4 {
-	font-family: Georgia;
-	font-weight: normal;
-	font-size: 1.3em;
-	margin-top: 0px;
-	margin-bottom: 45px;
-	line-height: 1.2em;
-	color: rgba(250,121,7,0.94);
+    font-family: Georgia;
+    font-weight: normal;
+    font-size: .9em;
+    margin-top: 0px;
+    margin-bottom: 45px;
+    line-height: 1.3em;
+    width: 800px;
+    color: rgba(250,121,7,0.94);
 }
 
 h5 {
     font-size: 18px;
-	margin-bottom: 12px;
-	font-weight: 300;
+    margin-bottom: 12px;
+    font-weight: 300;
 }
 
 h6, aside h5 {
@@ -183,26 +212,31 @@ h6, aside h5 {
     text-transform: none;
 }
 
+h6 a {
+    text-decoration: none;
+    color: #2e2e2d;
+}
+
 .list-header {margin-bottom: .5em;}
 .inset-right {width: 30%; float: right; border-left: 1px solid #ccc; padding-left: 1em; margin-left: 1em;}
 
 aside  {
-	font-family: 'Open Sans', sans-serif;
-	font-weight: 300;
-	float: right;
-	width: 200px;
-	height: 100%;
-	padding: 8px 0 0 30px;
-	font-size: .8em;
-	margin-top: 0px;
-	line-height: 1.1em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    float: right;
+    width: 200px;
+    height: 100%;
+    padding: 8px 0 0 30px;
+    font-size: .8em;
+    margin-top: 0px;
+    line-height: 1.1em;
 }
 
 aside .byline {
     margin-bottom: 2em;
 }
 aside #library{
-	margin-top: 50px;
+    margin-top: 50px;
 }
 
 aside #library ul {
@@ -212,7 +246,7 @@ margin-left: 20px;
 }
 
 aside #library li {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .byline-date {
@@ -223,9 +257,82 @@ aside #library li {
 .byline-organization {
 }
 
-img#main-logo {
-    width: 450px;
+img#main-logo {}
+
+/* DAN ADDITIONS START HERE */
+.gist {
+    font-size: .7em;
+    line-height: 1.1em;
 }
+
+p.date {
+    margin-top: 10px;
+}
+
+p.byline {
+    font-weight: 400;
+}
+p.organization {
+    font-weight: 400;
+    margin-top: -10px;
+}
+
+ul.link-list {
+    font-size: .7em;
+    font-weight: 300;
+}
+
+aside ul.link-list {
+    font-size: .8em;
+}
+
+
+.link-list a {
+    font-weight: 400;
+}
+
+
+h1 a, h2 a, .link-list a {
+    color: black;
+}
+
+h1.name {
+    font-weight: 400;
+}
+
+
+.link-list-inline li:nth-child(2n):before {
+    content: "| ";
+    margin-left: -10px; 
+}
+
+span.category, span.category a {
+    color: rgb(252, 110, 31);
+}
+
+h2 span.category {
+    font-size: .6em;
+    font-weight: 300;
+    padding-bottom: 0px;
+    display: block;
+}
+
+a {
+    color: rgb(173, 49, 33);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+h1.maintopic {
+    text-align: right;
+    margin-right: 218px;
+    margin-top: -20px;
+}
+/* DAN ADDITIONS STOP HERE */
 
 @media screen and (max-width: 640px) {
     #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}

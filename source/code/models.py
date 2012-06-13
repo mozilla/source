@@ -11,7 +11,7 @@ class Code(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     url = models.URLField(verify_exists=False)
-    description = models.TextField('Bio', blank=True)
+    description = models.TextField('Description', blank=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     #tags

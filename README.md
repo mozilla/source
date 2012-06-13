@@ -38,7 +38,7 @@ This repository includes a sqlite demo database, with a few articles, people, or
 
 `manage.py syncdb`
 
-Or just leave things pointing to the sqlite demo database for a quick peek. Either way, it's time to fire it up!
+Or just leave things pointing to the sqlite demo database for a quick peek. (There's a test admin user set up under the credentials admin/admin). Either way, it's time to fire it up!
 
 `manage.py runserver`
 

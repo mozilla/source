@@ -21,6 +21,7 @@ MINIFY_BUNDLES = {
     },
     'js': {
         'sourceapp_js': (
+            'js/app.js',
         ),
     }
 }

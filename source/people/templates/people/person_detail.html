@@ -3,7 +3,11 @@
 
 {% block content %}
 <div class="page-block">
-    <h1>{{ person.name() }}</h1>
+    <h1 class="maintopic">People</h1>
+</div>
+
+<div class="page-block">
+    <h2>{{ person.name() }}</h2>
     {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
 
     <ul class="link-list">

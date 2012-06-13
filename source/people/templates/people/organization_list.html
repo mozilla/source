@@ -2,9 +2,9 @@
 {% set active_nav = "people" %}
 
 {% block content %}
-<h1>Organizations</h1>
+<h1 class="maintopic">Organizations</h1>
 
 {% for organization in object_list %}
-    <h4><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h4>
+    <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
 {% endfor %}
 {% endblock content %}
