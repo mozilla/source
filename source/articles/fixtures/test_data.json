@@ -1,0 +1,114 @@
+[
+    {
+        "pk": 3, 
+        "model": "articles.article", 
+        "fields": {
+            "body": "<p>If you have previously worked with Django templates, you should find Jinja2 very familiar. In fact, most of the syntax elements look and work the same.</p><p>However, Jinja2 provides some more syntax elements covered in the documentation and some work a bit different.</p><p>This section covers the template changes. As the API is fundamentally different we won\u2019t cover it here.</p>", 
+            "organizations": [
+                1
+            ], 
+            "code": [
+                1
+            ], 
+            "author": 1, 
+            "pubdate": "2012-06-02T22:00:28", 
+            "title": "This article has some article blocks", 
+            "created": "2012-06-02T22:02:57.316", 
+            "people": [
+                2
+            ], 
+            "modified": "2012-06-12T20:41:05.123", 
+            "summary": "The ProPublica News Apps Team explains how they built a 'Tangled Web' of election contribution data", 
+            "article_type": "how-to", 
+            "is_live": true, 
+            "slug": "article-has-some-article-blocks"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "articles.article", 
+        "fields": {
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus accumsan mattis eros in malesuada. Quisque ut dolor nec mi vulputate elementum. Donec adipiscing, ligula sed fringilla vulputate, odio sapien tristique leo, id molestie elit lacus nec elit. Vestibulum consequat interdum turpis, nec tempus dui cursus vel. In egestas dolor eu quam accumsan vitae pharetra mauris venenatis. Mauris dictum, arcu in mattis imperdiet, felis quam venenatis quam, vitae luctus elit risus ac tellus. In ut sem eros.\r\n\r\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse in elementum neque. Praesent vestibulum enim eget metus cursus nec volutpat nunc molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec tellus magna, vulputate nec semper sed, mattis a tortor. Integer elit sapien, auctor sit amet malesuada nec, rhoncus eu sem. Ut varius malesuada nibh, pellentesque adipiscing erat tristique vel. Pellentesque enim odio, posuere nec laoreet ac, auctor fermentum nisl. Phasellus vel libero ut ante tincidunt sollicitudin sit amet et enim. Mauris facilisis eros et lacus condimentum nec vehicula quam fringilla. In ipsum mi, aliquet ac rutrum non, venenatis ut libero. Phasellus sed faucibus orci. Aenean tortor risus, rutrum eu venenatis in, sollicitudin nec augue.\r\n\r\nEtiam volutpat felis vel magna pulvinar a vestibulum risus volutpat. Nunc egestas pretium elit, vel ornare nibh pretium at. Integer varius lacus at massa tristique in viverra velit pharetra. Nulla a metus neque, ac elementum ante. Donec nec metus a quam blandit mollis et eu dolor. Donec vulputate dui quis arcu hendrerit et tempor diam cursus. Donec viverra, nulla vitae egestas tincidunt, dolor nisl imperdiet justo, a cursus magna risus at arcu. Nunc ac erat mattis est cursus accumsan eget non purus. Nulla in est at eros faucibus blandit. Morbi volutpat orci sit amet odio congue et semper nulla interdum. Aenean eget est nunc, sed sagittis ante. In diam orci, venenatis vitae elementum et, eleifend pulvinar leo. Nulla facilisi. Nam vestibulum molestie accumsan. Curabitur justo elit, elementum sit amet hendrerit et, consectetur vel lorem.\r\n\r\nDonec bibendum sagittis est ac adipiscing. Morbi ac nisi quis justo tincidunt eleifend non vel ante. Aenean tincidunt dolor sed quam tempor sollicitudin. Sed lobortis fermentum mi sit amet viverra. Nunc commodo venenatis mi, vitae laoreet augue vehicula at. Integer lobortis orci vel felis ullamcorper volutpat. Maecenas hendrerit erat et orci mollis tempus. Suspendisse ipsum libero, tristique ac porta quis, tempus eu ante. Quisque augue metus, ultrices sed suscipit adipiscing, tempus ac justo. Aenean eleifend nisl scelerisque nisi interdum quis lacinia lorem consequat. Phasellus et dignissim turpis. Curabitur vel posuere odio. Phasellus vel lorem ac nunc dapibus pulvinar nec ac est. In orci purus, auctor nec ullamcorper eget, varius eu massa. Mauris dapibus tristique nisi quis aliquam.\r\n\r\nPhasellus augue sapien, mattis ac egestas sed, pharetra at tellus. Aliquam varius risus a lectus ultricies eget venenatis nisi tempor. Vestibulum sem libero, accumsan eget sagittis et, faucibus in erat. Phasellus ac urna vitae orci mollis luctus. Aenean malesuada suscipit quam, facilisis pretium mi scelerisque in. Proin ac lectus vitae dolor scelerisque bibendum nec sit amet justo. Cras nec tortor quis purus faucibus ultricies. Praesent a neque augue. Curabitur posuere arcu eget augue lobortis eu posuere libero lacinia. Nullam vulputate lacus eu metus tincidunt consectetur. In hac habitasse platea dictumst. Praesent feugiat porttitor magna, in fermentum risus gravida ac. Nullam a massa orci, at rutrum est. ", 
+            "organizations": [
+                2
+            ], 
+            "code": [], 
+            "author": 1, 
+            "pubdate": "2012-06-02T20:03:19", 
+            "title": "Building awesome things on deadline", 
+            "created": "2012-06-02T20:04:11.397", 
+            "people": [
+                3
+            ], 
+            "modified": "2012-06-02T20:04:11.397", 
+            "summary": "Etiam volutpat felis vel magna pulvinar a vestibulum risus volutpat. Nunc egestas pretium elit, vel ornare nibh pretium at. Integer varius lacus at massa tristique in viverra velit pharetra. Nulla a metus neque, ac elementum ante. Donec nec metus a quam blandit mollis et eu dolor. Donec vulputate dui quis arcu hendrerit et tempor diam cursus. Donec viverra, nulla vitae egestas tincidunt, dolor nisl imperdiet justo, a cursus magna risus at arcu. Nunc ac erat mattis est cursus accumsan eget non purus.", 
+            "article_type": "interview", 
+            "is_live": true, 
+            "slug": "building-awesome-things-deadline"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "articles.article", 
+        "fields": {
+            "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus accumsan mattis eros in malesuada. Quisque ut dolor nec mi vulputate elementum. Donec adipiscing, ligula sed fringilla vulputate, odio sapien tristique leo, id molestie elit lacus nec elit. Vestibulum consequat interdum turpis, nec tempus dui cursus vel. In egestas dolor eu quam accumsan vitae pharetra mauris venenatis. Mauris dictum, arcu in mattis imperdiet, felis quam venenatis quam, vitae luctus elit risus ac tellus. In ut sem eros.\r\n\r\nVestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse in elementum neque. Praesent vestibulum enim eget metus cursus nec volutpat nunc molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec tellus magna, vulputate nec semper sed, mattis a tortor. Integer elit sapien, auctor sit amet malesuada nec, rhoncus eu sem. Ut varius malesuada nibh, pellentesque adipiscing erat tristique vel. Pellentesque enim odio, posuere nec laoreet ac, auctor fermentum nisl. Phasellus vel libero ut ante tincidunt sollicitudin sit amet et enim. Mauris facilisis eros et lacus condimentum nec vehicula quam fringilla. In ipsum mi, aliquet ac rutrum non, venenatis ut libero. Phasellus sed faucibus orci. Aenean tortor risus, rutrum eu venenatis in, sollicitudin nec augue.\r\n\r\nEtiam volutpat felis vel magna pulvinar a vestibulum risus volutpat. Nunc egestas pretium elit, vel ornare nibh pretium at. Integer varius lacus at massa tristique in viverra velit pharetra. Nulla a metus neque, ac elementum ante. Donec nec metus a quam blandit mollis et eu dolor. Donec vulputate dui quis arcu hendrerit et tempor diam cursus. Donec viverra, nulla vitae egestas tincidunt, dolor nisl imperdiet justo, a cursus magna risus at arcu. Nunc ac erat mattis est cursus accumsan eget non purus. Nulla in est at eros faucibus blandit. Morbi volutpat orci sit amet odio congue et semper nulla interdum. Aenean eget est nunc, sed sagittis ante. In diam orci, venenatis vitae elementum et, eleifend pulvinar leo. Nulla facilisi. Nam vestibulum molestie accumsan. Curabitur justo elit, elementum sit amet hendrerit et, consectetur vel lorem.\r\n\r\nDonec bibendum sagittis est ac adipiscing. Morbi ac nisi quis justo tincidunt eleifend non vel ante. Aenean tincidunt dolor sed quam tempor sollicitudin. Sed lobortis fermentum mi sit amet viverra. Nunc commodo venenatis mi, vitae laoreet augue vehicula at. Integer lobortis orci vel felis ullamcorper volutpat. Maecenas hendrerit erat et orci mollis tempus. Suspendisse ipsum libero, tristique ac porta quis, tempus eu ante. Quisque augue metus, ultrices sed suscipit adipiscing, tempus ac justo. Aenean eleifend nisl scelerisque nisi interdum quis lacinia lorem consequat. Phasellus et dignissim turpis. Curabitur vel posuere odio. Phasellus vel lorem ac nunc dapibus pulvinar nec ac est. In orci purus, auctor nec ullamcorper eget, varius eu massa. Mauris dapibus tristique nisi quis aliquam.\r\n\r\nPhasellus augue sapien, mattis ac egestas sed, pharetra at tellus. Aliquam varius risus a lectus ultricies eget venenatis nisi tempor. Vestibulum sem libero, accumsan eget sagittis et, faucibus in erat. Phasellus ac urna vitae orci mollis luctus. Aenean malesuada suscipit quam, facilisis pretium mi scelerisque in. Proin ac lectus vitae dolor scelerisque bibendum nec sit amet justo. Cras nec tortor quis purus faucibus ultricies. Praesent a neque augue. Curabitur posuere arcu eget augue lobortis eu posuere libero lacinia. Nullam vulputate lacus eu metus tincidunt consectetur. In hac habitasse platea dictumst. Praesent feugiat porttitor magna, in fermentum risus gravida ac. Nullam a massa orci, at rutrum est. ", 
+            "organizations": [
+                1
+            ], 
+            "code": [
+                1
+            ], 
+            "author": 1, 
+            "pubdate": "2012-06-02T20:01:53", 
+            "title": "An introduction to Simple Tiles Streets", 
+            "created": "2012-06-02T20:03:02.618", 
+            "people": [
+                2
+            ], 
+            "modified": "2012-06-02T20:03:02.618", 
+            "summary": "Phasellus augue sapien, mattis ac egestas sed, pharetra at tellus. Aliquam varius risus a lectus ultricies eget venenatis nisi tempor. Vestibulum sem libero, accumsan eget sagittis et, faucibus in erat. Phasellus ac urna vitae orci mollis luctus. Aenean malesuada suscipit quam, facilisis pretium mi scelerisque in. Proin ac lectus vitae dolor scelerisque bibendum nec sit amet justo. Cras nec tortor quis purus faucibus ultricies. Praesent a neque augue. Curabitur posuere arcu eget augue lobortis eu posuere libero lacinia. Nullam vulputate lacus eu metus tincidunt consectetur. In hac habitasse platea dictumst. Praesent feugiat porttitor magna, in fermentum risus gravida ac. Nullam a massa orci, at rutrum est. ", 
+            "article_type": "project", 
+            "is_live": true, 
+            "slug": "introduction-simple-tiles-streets"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "articles.articleblock", 
+        "fields": {
+            "body": "<p>In Django method calls work implicitly. With Jinja2 you have to specify that you want to call an object. Thus this Django code:</p><pre class=\"highlight\">{% for page in user.get_created_pages %}<br>    ...<br>{% endfor %}</pre><p>will look like this in Jinja:</p><pre class=\"highlight\">{% for page in user.get_created_pages() %}<br>    ...<br>{% endfor %}</pre><p>This allows you to pass variables to the function which is also used for macros which is not possible in Django.</p>", 
+            "title": "Method calls", 
+            "created": "2012-06-02T22:02:57.323", 
+            "modified": "2012-06-12T20:38:21.774", 
+            "slug": "method-calls", 
+            "article": 3, 
+            "order": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "articles.articleblock", 
+        "fields": {
+            "body": "<p>In Django you can use the following constructs to check for equality:</p><pre class=\"highlight\">{% ifequal foo \"bar\" %}<br>    ...<br>{% else %}<br>    ...<br>{% endifequal %}</pre><p>In Jinja2 you can use the normal if statement in combination with operators:</p><pre class=\"highlight\">{% if foo == 'bar' %}<br>    ...<br>{% else %}<br>    ...<br>{% endif %}</pre><p>You can also have multiple elif branches in your template:<p><pre class=\"highlight\">{% if something %}<br>    ...<br>{% elif otherthing %}<br>    ...<br>{% elif foothing %}<br>    ...<br>{% else %}<br>    ...<br>{% endif %}</pre></p>", 
+            "title": "Conditions", 
+            "created": "2012-06-02T22:02:57.324", 
+            "modified": "2012-06-12T20:38:21.779", 
+            "slug": "conditions", 
+            "article": 3, 
+            "order": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "articles.articleblock", 
+        "fields": {
+            "body": "<p>Jinja2 provides more than one argument for filters. Also the syntax for argument passing is different. A template that looks like this in Django:</p><pre class=\"highlight\">{{ items|join:\", \" }}</pre><p>looks like this in Jinja2:<p><pre class=\"highlight\">{{ items|join(', ') }}</pre><p>In fact it\u2019s a bit more verbose but it allows different types of arguments - including variables - and more than one of them.</p>", 
+            "title": "Filter arguments", 
+            "created": "2012-06-02T22:02:57.324", 
+            "modified": "2012-06-12T20:39:10.666", 
+            "slug": "filter-arguments", 
+            "article": 3, 
+            "order": 3
+        }
+    }
+]

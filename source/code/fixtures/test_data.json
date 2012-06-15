@@ -1,0 +1,33 @@
+[
+    {
+        "pk": 1, 
+        "model": "code.code", 
+        "fields": {
+            "organizations": [
+                1
+            ], 
+            "name": "Simple Tiles Streets", 
+            "created": "2012-06-02T20:01:39.422", 
+            "url": "https://github.com/thejefflarson/simple-tiles-streets", 
+            "people": [
+                2
+            ], 
+            "is_active": true, 
+            "modified": "2012-06-12T20:53:12.912", 
+            "is_live": true, 
+            "slug": "simple-tiles-streets", 
+            "description": "Generating all the roads for you since 2012"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "code.codelink", 
+        "fields": {
+            "url": "http://www.google.com/", 
+            "code": 1, 
+            "modified": "2012-06-02T22:37:30.758", 
+            "name": "This is an arbitrary link added in the admin", 
+            "created": "2012-06-02T22:37:30.758"
+        }
+    }
+]

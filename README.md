@@ -34,14 +34,18 @@ Then:
 
 ### Configuration
 
-This repository includes a sqlite demo database, with a few articles, people, organizations and code pages in place for you to play with. If you want to switch over to MySQL instead, you'll need to create a new database, adjust the DATABASES dict in source/settings/local.py accordingly, and then
+The existing database config points to sqlite for quick testing. If you'd rather switch to MySQL, you'll need to create a new database, adjust the DATABASES dict in source/settings/local.py accordingly, and then
 
-`manage.py syncdb`
+`python manage.py syncdb`
 
-Or just leave things pointing to the sqlite demo database for a quick peek. (There's a test admin user set up under the credentials admin/admin). Either way, it's time to fire it up!
+This repository includes a few fixtures with test articles, people, organizations and code records for you to play with. If you'd like to add them, next run
 
-`manage.py runserver`
+`python manage.py loaddata test_data`
 
-And you should be able view your dev server at [http://localhost:8000/][localhost]
+And then it's time to fire it up!
+
+`python manage.py runserver`
+
+Now you should be able view your dev server at [http://localhost:8000/][localhost]
 
 [localhost]: http://localhost:8000/

@@ -2,3 +2,4 @@
 *.pot
 *.pyc
 local_settings.py
+source_demo_db

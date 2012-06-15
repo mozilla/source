@@ -1,0 +1,106 @@
+[
+    {
+        "pk": 3, 
+        "model": "people.person", 
+        "fields": {
+            "organizations": [
+                2
+            ], 
+            "first_name": "Heather", 
+            "last_name": "Billings", 
+            "description": "", 
+            "created": "2012-06-02T19:59:44.711", 
+            "show_in_lists": true, 
+            "modified": "2012-06-02T19:59:44.711", 
+            "email": "", 
+            "twitter_username": "hbillings", 
+            "is_live": true, 
+            "github_username": "", 
+            "slug": "heather-billings"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "people.person", 
+        "fields": {
+            "organizations": [], 
+            "first_name": "Erin", 
+            "last_name": "Kissane", 
+            "description": "", 
+            "created": "2012-06-02T19:58:13.163", 
+            "show_in_lists": true, 
+            "modified": "2012-06-02T19:58:17.978", 
+            "email": "erin@contentsmagazine.com", 
+            "twitter_username": "kissane", 
+            "is_live": true, 
+            "github_username": "", 
+            "slug": "erin-kissane"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "people.person", 
+        "fields": {
+            "organizations": [
+                1
+            ], 
+            "first_name": "Jeff", 
+            "last_name": "Larson", 
+            "description": "", 
+            "created": "2012-06-02T19:59:05.924", 
+            "show_in_lists": true, 
+            "modified": "2012-06-02T22:39:56.680", 
+            "email": "", 
+            "twitter_username": "thejefflarson", 
+            "is_live": true, 
+            "github_username": "thejefflarson", 
+            "slug": "jeff-larson"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "people.personlink", 
+        "fields": {
+            "url": "http://www.google.com/", 
+            "person": 2, 
+            "modified": "2012-06-02T22:39:56.688", 
+            "name": "A link added via admin", 
+            "created": "2012-06-02T22:39:56.688"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "people.organization", 
+        "fields": {
+            "description": "This is a descriptive paragraph about the organization, if we want one.", 
+            "created": "2012-06-02T19:59:01.961", 
+            "modified": "2012-06-02T22:40:34.806", 
+            "is_live": true, 
+            "slug": "propublica", 
+            "name": "ProPublica"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "people.organization", 
+        "fields": {
+            "description": "", 
+            "created": "2012-06-02T19:59:41.796", 
+            "modified": "2012-06-02T19:59:41.796", 
+            "is_live": true, 
+            "slug": "chicago-tribune", 
+            "name": "The Chicago Tribune"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "people.organizationlink", 
+        "fields": {
+            "url": "http://www.google.com/", 
+            "organization": 1, 
+            "modified": "2012-06-02T22:40:34.809", 
+            "name": "An organization link added in the admin", 
+            "created": "2012-06-02T22:40:34.809"
+        }
+    }
+]
