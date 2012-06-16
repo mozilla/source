@@ -19,7 +19,7 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), ('pubdate', 'is_live'),)}),
+        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('article_type', 'summary', 'body',)}),
     )

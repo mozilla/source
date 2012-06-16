@@ -25,6 +25,7 @@ class Article(models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     pubdate = models.DateTimeField(default=datetime.now)
+    subhead = models.CharField(max_length=128)
     authors = models.ManyToManyField(Person, blank=True, null=True, related_name='article_authors')
     body = models.TextField()
     summary = models.TextField()
