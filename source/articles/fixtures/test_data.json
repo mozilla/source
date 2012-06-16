@@ -10,7 +10,6 @@
             "code": [
                 1
             ], 
-            "author": 1, 
             "pubdate": "2012-06-02T22:00:28", 
             "title": "This article has some article blocks", 
             "created": "2012-06-02T22:02:57.316", 
@@ -33,7 +32,6 @@
                 2
             ], 
             "code": [], 
-            "author": 1, 
             "pubdate": "2012-06-02T20:03:19", 
             "title": "Building awesome things on deadline", 
             "created": "2012-06-02T20:04:11.397", 
@@ -58,7 +56,6 @@
             "code": [
                 1
             ], 
-            "author": 1, 
             "pubdate": "2012-06-02T20:01:53", 
             "title": "An introduction to Simple Tiles Streets", 
             "created": "2012-06-02T20:03:02.618", 
