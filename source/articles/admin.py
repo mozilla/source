@@ -7,6 +7,9 @@ class ArticleBlockInline(admin.StackedInline):
     model = ArticleBlock
     extra = 1
     prepopulated_fields = {'slug': ('title',)}
+    fieldsets = (
+        ('', {'fields': (('order', 'title', 'slug'), 'body',)}),
+    )
 
 class ArticleAdmin(admin.ModelAdmin):
     save_on_top = True
