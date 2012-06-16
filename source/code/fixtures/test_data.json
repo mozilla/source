@@ -1,5 +1,29 @@
 [
     {
+        "pk": 2, 
+        "model": "code.code", 
+        "fields": {
+            "organizations": [
+                3
+            ], 
+            "name": "Fech", 
+            "created": "2012-06-16T16:27:56.266", 
+            "url": "http://nytimes.github.com/Fech/", 
+            "people": [
+                15, 
+                17, 
+                18, 
+                16, 
+                14
+            ], 
+            "is_active": true, 
+            "modified": "2012-06-16T16:29:39.976", 
+            "is_live": true, 
+            "slug": "fech", 
+            "description": "A Ruby parser for electronic candidate, PAC and party campaign filings from the Federal Election Commission.\r\n\r\nTags: campaign finance, data parsing, Ruby\r\n\r\nSeeking contributors: yes"
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "code.code", 
         "fields": {
@@ -20,6 +44,37 @@
         }
     }, 
     {
+        "pk": 3, 
+        "model": "code.code", 
+        "fields": {
+            "organizations": [
+                6
+            ], 
+            "name": "Who Voted What", 
+            "created": "2012-06-16T16:35:11.177", 
+            "url": "https://github.com/mattandrews/whovotedwhat", 
+            "people": [
+                19
+            ], 
+            "is_active": true, 
+            "modified": "2012-06-16T16:35:40.435", 
+            "is_live": true, 
+            "slug": "who-voted-what", 
+            "description": "Shows London (UK) Mayoral Election data organised by postcode so you can see how your street/area voted, and how this compares to the London-wide average.\r\n\r\nTags: elections, trends, data, search, PHP, MySQL, Google Charts API"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "code.codelink", 
+        "fields": {
+            "url": "http://comparinator.herokuapp.com/fec_filings", 
+            "code": 2, 
+            "modified": "2012-06-16T16:27:56.279", 
+            "name": "Demo site", 
+            "created": "2012-06-16T16:27:56.279"
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "code.codelink", 
         "fields": {
@@ -28,6 +83,17 @@
             "modified": "2012-06-02T22:37:30.758", 
             "name": "This is an arbitrary link added in the admin", 
             "created": "2012-06-02T22:37:30.758"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "code.codelink", 
+        "fields": {
+            "url": "http://www.whovotedwhat.co.uk/", 
+            "code": 3, 
+            "modified": "2012-06-16T16:35:11.188", 
+            "name": "Live site", 
+            "created": "2012-06-16T16:35:11.188"
         }
     }
 ]

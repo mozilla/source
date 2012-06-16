@@ -18,7 +18,7 @@
             {% with organization_link_list = article.organizations.all() %}
             {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         </ul>
-        <p>{{ article.summary }}</p>
+        <p>{{ article.summary|safe }}</p>
     </div>
 {% endfor %}
 {% endblock content %}

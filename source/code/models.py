@@ -8,6 +8,7 @@ class Code(models.Model):
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
     is_active = models.BooleanField('Active project', default=True)
+    seeking_contributors = models.BooleanField('Seeking contributors', default=False)
     name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     url = models.URLField(verify_exists=False)
