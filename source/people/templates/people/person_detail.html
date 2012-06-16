@@ -28,7 +28,7 @@
     {% with article_link_list = person.article_set.all(), show_article_summary = True %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = person.article_author.all(), show_article_summary = True, override_list_title = 'Articles written by %s' % person.first_name %}
+    {% with article_link_list = person.article_authors.all(), show_article_summary = True, override_list_title = 'Articles written by %s' % person.first_name %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}

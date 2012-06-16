@@ -12,7 +12,7 @@
     <div class="page-block">
         <h2><span class="category"><a href="{{ url('article_list_by_category', article.article_type) }}">{{ article.get_article_type_display() }}</a></span> <a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
         <ul class="link-list link-list-inline">
-            {% if article.author %}<li>By <a href="{{ article.author.get_absolute_url() }}">{{ article.author.name() }}</a></li>{% endif %}            
+            {% if article.authors.all().exists() %}<li>{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
             {% with person_link_list = article.people.all() %}
             {% include "people/_person_link_list_inline.html" %}{% endwith %}
             {% with organization_link_list = article.organizations.all() %}

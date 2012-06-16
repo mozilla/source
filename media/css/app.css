@@ -240,9 +240,9 @@ aside #library{
 }
 
 aside #library ul {
-list-style-type: square;
-padding: 0;
-margin-left: 20px;
+    list-style-type: square;
+    padding: 0;
+    margin-left: 20px;
 }
 
 aside #library li {
@@ -253,6 +253,7 @@ aside #library li {
 }
 
 .byline-name {
+    line-height: 1.2;
 }
 .byline-organization {
 }

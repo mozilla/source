@@ -14,9 +14,9 @@
     <aside>
         <div class="byline">
             <h6 class="date">{{ article.pretty_pubdate }}</h6>
-            {% if article.author %}<h6 class="byline-name">By <a href="{{ article.author.get_absolute_url() }}">{{ article.author.name() }}</a></h6>{% endif %}
+            {% if article.authors.all().exists() %}<h6 class="byline-name">{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
         </div>
-            
+
         {% with code_link_list = article.code.all() %}
         {% include "code/_code_link_list.html" %}{% endwith %}
 
