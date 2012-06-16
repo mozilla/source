@@ -8,7 +8,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
-    email = models.EmailField(blank=True)
+    email = models.EmailField('Email address', blank=True)
     twitter_username = models.CharField(max_length=32, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)

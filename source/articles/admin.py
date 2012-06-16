@@ -15,6 +15,12 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ('is_live', 'article_type',)
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
+    raw_id_fields = ('author',)
+    fieldsets = (
+        ('', {'fields': (('title', 'slug'), ('pubdate', 'is_live'),)}),
+        ('Article relationships', {'fields': ('author', 'people', 'organizations', 'code',)}),
+        ('Article body', {'fields': ('article_type', 'summary', 'body',)}),
+    )
     inlines = [ArticleBlockInline,]
 
 admin.site.register(Article, ArticleAdmin)
