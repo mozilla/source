@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="page-block">
-    <h1 class="maintopic">People</h1>
+    <h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
 </div>
 
 {% for person in object_list %}
