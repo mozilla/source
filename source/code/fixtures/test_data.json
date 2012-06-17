@@ -17,10 +17,11 @@
                 14
             ], 
             "is_active": true, 
-            "modified": "2012-06-16T16:29:39.976", 
+            "modified": "2012-06-16T16:54:27.521", 
             "is_live": true, 
+            "seeking_contributors": true, 
             "slug": "fech", 
-            "description": "A Ruby parser for electronic candidate, PAC and party campaign filings from the Federal Election Commission.\r\n\r\nTags: campaign finance, data parsing, Ruby\r\n\r\nSeeking contributors: yes"
+            "description": "A Ruby parser for electronic candidate, PAC and party campaign filings from the Federal Election Commission.\r\n\r\nTags: campaign finance, data parsing, Ruby"
         }
     }, 
     {
@@ -39,6 +40,7 @@
             "is_active": true, 
             "modified": "2012-06-12T20:53:12.912", 
             "is_live": true, 
+            "seeking_contributors": false, 
             "slug": "simple-tiles-streets", 
             "description": "Generating all the roads for you since 2012"
         }
@@ -59,6 +61,7 @@
             "is_active": true, 
             "modified": "2012-06-16T16:35:40.435", 
             "is_live": true, 
+            "seeking_contributors": false, 
             "slug": "who-voted-what", 
             "description": "Shows London (UK) Mayoral Election data organised by postcode so you can see how your street/area voted, and how this compares to the London-wide average.\r\n\r\nTags: elections, trends, data, search, PHP, MySQL, Google Charts API"
         }

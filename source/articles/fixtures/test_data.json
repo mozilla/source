@@ -49,8 +49,8 @@
                 8, 
                 6
             ], 
-            "modified": "2012-06-16T16:08:52.480", 
-            "summary": "<p>The New York Times and WNYC have joined forces on a new site dedicated to news, data and conversation about schools in New York City.</p>", 
+            "modified": "2012-06-16T17:34:44.792", 
+            "summary": "<p>The New York Times and WNYC have joined forces on a new site dedicated to news, data and conversation about schools in New York City.</p><p>SchoolBook is now the main place to find coverage of schools in New York by The Times and WNYC. SchoolBook\u2019s home page will mix those news, feature and multimedia stories with essays by members of the education community, as well as photos, videos, queries, comments and more.</p>", 
             "article_type": "project", 
             "is_live": true, 
             "code": [], 
@@ -75,10 +75,10 @@
             "people": [
                 2
             ], 
-            "modified": "2012-06-16T14:44:53.540", 
+            "modified": "2012-06-16T17:34:08.677", 
             "summary": "The ProPublica News Apps Team explains how they built a 'Tangled Web' of election contribution data", 
             "article_type": "how-to", 
-            "is_live": true, 
+            "is_live": false, 
             "code": [
                 1
             ], 
