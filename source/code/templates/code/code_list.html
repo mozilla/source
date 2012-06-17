@@ -3,10 +3,17 @@
 
 {% block content %}
 <div class="page-block">
-    <h1 class="maintopics">Code</h1>
+    <h1 class="maintopic">Code</h1>
 </div>
 
 {% for code in object_list %}
-    <h4><a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h4>
+<div class="page-block">
+    <h2><a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h2>
+    <ul class="link-list link-list-inline">
+        {% with organization_link_list = code.organizations.all() %}
+        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+    </ul>
+    {% if code.description %}<p>{{ code.description }}</p>{% endif %}
+</div>
 {% endfor %}
 {% endblock content %}
