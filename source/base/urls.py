@@ -16,7 +16,7 @@ urlpatterns = patterns('',
         name = 'homepage',
     ),
     url(
-        regex = '^(?P<section>projects|community)/$',
+        regex = '^(?P<section>articles|community)/$',
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_section',

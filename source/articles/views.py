@@ -3,9 +3,9 @@ from django.views.generic import ListView, DetailView
 from .models import Article
 
 SECTION_MAP = {
-    'projects': {
-        'name': 'Projects', 
-        'slug': 'projects',
+    'articles': {
+        'name': 'Articles', 
+        'slug': 'articles',
         'article_types': ['project', 'tool', 'how-to',],
     },
     'community': {
@@ -18,18 +18,18 @@ SECTION_MAP = {
 CATEGORY_MAP = {
     'project': {
         'name': 'Project',
-        'parent_name': 'Projects',
-        'parent_slug': 'projects',
+        'parent_name': 'Articles',
+        'parent_slug': 'articles',
     },
     'tool': {
         'name': 'Tool',
-        'parent_name': 'Projects',
-        'parent_slug': 'projects',
+        'parent_name': 'Articles',
+        'parent_slug': 'articles',
     },
     'how-to': {
         'name': 'How-to',
-        'parent_name': 'Projects',
-        'parent_slug': 'projects',
+        'parent_name': 'Articles',
+        'parent_slug': 'articles',
     },
     'interview': {
         'name': 'Interview',
