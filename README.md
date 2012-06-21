@@ -28,9 +28,13 @@ Then:
 1. Fork and/or clone this Source repository from GitHub
 2. Set up a virtual environment for your new project
 3. Activate your virtualenv and cd into the project directory
-4. Make sure you have all the development requirements
+4. Fetch the submodule dependancies
 
-`pip install -r /requirements/dev.txt`
+`git submodule update --init --recursive`
+
+5. Make sure you have all the development requirements
+
+`pip install -r requirements/dev.txt`
 
 ### Configuration
 
