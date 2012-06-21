@@ -38,6 +38,12 @@ Then:
 
 ### Configuration
 
+The app has a base settings file that can be found at source/settings/base.py, you can override any of the values there inside a local.py file. 
+
+`cp source/settings/local.py-dist source/settings/local.py`
+
+Please ensure that you create your own SECRET_KEY and HMAC_KEY
+
 The existing database config points to sqlite for quick testing. If you'd rather switch to MySQL, you'll need to create a new database, adjust the DATABASES dict in source/settings/local.py accordingly, and then
 
 `python manage.py syncdb`
