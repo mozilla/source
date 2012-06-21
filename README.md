@@ -28,11 +28,21 @@ Then:
 1. Fork and/or clone this Source repository from GitHub
 2. Set up a virtual environment for your new project
 3. Activate your virtualenv and cd into the project directory
-4. Make sure you have all the development requirements
+4. Fetch the submodule dependancies
 
-`pip install -r /requirements/dev.txt`
+`git submodule update --init --recursive`
+
+5. Make sure you have all the development requirements
+
+`pip install -r requirements/dev.txt`
 
 ### Configuration
+
+The app has a base settings file that can be found at source/settings/base.py, you can override any of the values there inside a local.py file. 
+
+`cp source/settings/local.py-dist source/settings/local.py`
+
+Please ensure that you create your own SECRET_KEY and HMAC_KEY
 
 The existing database config points to sqlite for quick testing. If you'd rather switch to MySQL, you'll need to create a new database, adjust the DATABASES dict in source/settings/local.py accordingly, and then
 
