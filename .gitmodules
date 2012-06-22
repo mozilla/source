@@ -7,3 +7,6 @@
 [submodule "vendor-local/src/requests"]
 	path = vendor-local/src/requests
 	url = https://github.com/kennethreitz/requests.git
+[submodule "vendor-local/src/django-south"]
+	path = vendor-local/src/django-south
+	url = git://github.com/lambdafu/django-south.git
