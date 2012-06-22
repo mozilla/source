@@ -32,7 +32,7 @@ Then:
 
 `git submodule update --init --recursive`
 
-5. Make sure you have all the development requirements
+And make sure you have all the development requirements
 
 `pip install -r requirements/dev.txt`
 
@@ -44,13 +44,20 @@ The app has a base settings file that can be found at source/settings/base.py, y
 
 Please ensure that you create your own SECRET_KEY and HMAC_KEY
 
-The existing database config points to sqlite for quick testing. If you'd rather switch to MySQL, you'll need to create a new database, adjust the DATABASES dict in source/settings/local.py accordingly, and then
+You can point your database config to sqlite for quick testing, or if you'd rather use MySQL, you'll need to create a new database. Adjust the DATABASES dict in source/settings/local.py accordingly, and then
 
 `python manage.py syncdb`
+
+The primary content apps are managed by django-south, so next run
+
+`python manage.py migrate articles`
+`python manage.py migrate code`
+`python manage.py migrate people`
 
 This repository includes a few fixtures with test articles, people, organizations and code records for you to play with. If you'd like to add them, next run
 
 `python manage.py loaddata test_data`
+`python manage.py loaddata taggit_test_data`
 
 And then it's time to fire it up!
 
