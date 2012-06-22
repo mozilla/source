@@ -36,6 +36,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.code' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
     'south',
+    'taggit',
 ]
 
 SUPPORTED_NONLOCALES = ['media', 'admin',]

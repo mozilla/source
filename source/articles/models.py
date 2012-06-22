@@ -5,6 +5,7 @@ from django.template.defaultfilters import date as dj_date, linebreaks
 
 from source.people.models import Person, Organization
 from source.code.models import Code
+from taggit.managers import TaggableManager
 
 
 ARTICLE_TYPE_CHOICES = (
@@ -33,7 +34,7 @@ class Article(models.Model):
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
-    #tags
+    tags = TaggableManager(blank=True)
     
     class Meta:
         ordering = ('-pubdate','title',)

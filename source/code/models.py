@@ -1,6 +1,7 @@
 from django.db import models
 
 from source.people.models import Person, Organization
+from taggit.managers import TaggableManager
 
 
 class Code(models.Model):
@@ -15,7 +16,7 @@ class Code(models.Model):
     description = models.TextField('Description', blank=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
-    #tags
+    tags = TaggableManager(blank=True)
     
     class Meta:
         ordering = ('name',)

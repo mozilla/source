@@ -21,7 +21,7 @@ class ArticleAdmin(admin.ModelAdmin):
     fieldsets = (
         ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
-        ('Article body', {'fields': ('article_type', 'summary', 'body',)}),
+        ('Article body', {'fields': ('article_type', 'tags', 'summary', 'body',)}),
     )
     inlines = [ArticleBlockInline,]
 
