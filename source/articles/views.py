@@ -104,3 +104,9 @@ class ArticleList(ListView):
 
 class ArticleDetail(DetailView):
     model = Article
+
+    def get_queryset(self):
+        queryset = Article.live_objects.all()
+        
+        return queryset
+

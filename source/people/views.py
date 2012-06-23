@@ -15,6 +15,11 @@ class PersonList(ListView):
 class PersonDetail(DetailView):
     model = Person
 
+    def get_queryset(self):
+        queryset = Person.live_objects.all()
+        
+        return queryset
+
 
 
 
@@ -29,3 +34,8 @@ class OrganizationList(ListView):
 
 class OrganizationDetail(DetailView):
     model = Organization
+
+    def get_queryset(self):
+        queryset = Organization.live_objects.all()
+        
+        return queryset

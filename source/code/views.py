@@ -35,3 +35,8 @@ class CodeList(ListView):
 
 class CodeDetail(DetailView):
     model = Code
+
+    def get_queryset(self):
+        queryset = Code.live_objects.all()
+        
+        return queryset
