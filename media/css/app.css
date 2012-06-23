@@ -166,14 +166,15 @@ h1 {
 
 h2 {
     font-weight: 400;
-    font-size:1.1em;
+    font-size: 1.1em;
     margin-bottom: 10px;
     line-height: 1.3em;
     margin-bottom: 15px;
-
-
 }
-
+.article-detail h2 {
+    font-size: 1.5em;
+    line-height: 1.6em;
+}
 
 h3 {
     font-size: 24px;
@@ -311,11 +312,33 @@ span.category, span.category a {
     color: rgb(252, 110, 31);
 }
 
+span.tags {
+    color: #ebebeb;
+}
+
+span.tags:before {
+    content: " /"
+}
+
+span.tags a {
+    color: #bebebe;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+span.tags a:hover {
+    color: #999999;
+}
+
 h2 span.category {
     font-size: .6em;
     font-weight: 300;
     padding-bottom: 0px;
     display: block;
+}
+.article-detail h2 span.category {
+    font-size: .45em;
+    line-height: 1.3em;
 }
 
 a {

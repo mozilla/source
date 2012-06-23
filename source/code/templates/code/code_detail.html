@@ -7,7 +7,7 @@
 </div>
 
 <div class="page-block">
-    <h2>{{ code.name }}</h2>
+    <h2>{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
     {% if code.description %}<p>{{ code.description|nl2br }}</p>{% endif %}
     <ul class="link-list">
         <li>
@@ -16,7 +16,6 @@
             {% if code.seeking_contributors %}<i class="icon-ok" style="margin-left: 1em;"></i>Seeking contributors{% endif %}
         </li>
     </ul>
-    {% if code.tags.all().exists() %}<p><b>Tags:</b> {% for tag in code.tags.all() %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
 </div>
 
 <div class="page-block">

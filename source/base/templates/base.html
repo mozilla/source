@@ -35,7 +35,7 @@
             </div>
         
             <div class="container">
-                <article>{% block content %}{% endblock %}</article>
+                <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
             </div>
         </div>
         <footer class="container">{% block footer %}

@@ -7,8 +7,9 @@
 </script>
 {% endblock %}
 
+{% block article_class %}article-detail{% endblock %}
 {% block content %}
-    <h2>{{ article.title }}</h2>
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
     <h4>{{ article.subhead }}</h4>
     
     <aside>
@@ -26,8 +27,6 @@
         {% with organization_link_list = article.organizations.all() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     </aside>
-    
-    {% if article.tags.all().exists() %}<p><b>Tags:</b> {% for tag in article.tags.all() %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
     
     <p>{{ article.body|safe|nl2br }}</p>
     
