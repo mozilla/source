@@ -62,9 +62,27 @@ CATEGORY_MAP = {
 
 class ArticleList(ListView):
     model = Article
+
+    def get_queryset(self):
+        queryset = Article.live_objects.all()
+        self.section = self.kwargs.get('section', None)
+        self.category = self.kwargs.get('category', None)
+        self.tag_slug = self.kwargs.get('tag_slug', None)
+        self.tag = None
+
+        if self.section:
+            queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
+        elif self.category:
+            queryset = queryset.filter(article_type=self.category)
+        elif self.tag_slug:
+            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+            queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
+            
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super(ArticleList, self).get_context_data(**kwargs)
+
         if self.section:
             context['section'] = SECTION_MAP[self.section]
             context['active_nav'] = SECTION_MAP[self.section]['slug']
@@ -76,24 +94,8 @@ class ArticleList(ListView):
             context['section'] = SECTION_MAP['articles']
             context['active_nav'] = SECTION_MAP['articles']['slug']
             context['tag'] = self.tag
-        return context
-    
-    def get_queryset(self):
-        # TODO add future date filters
-        queryset = Article.objects.filter(is_live=True)
-        self.section = self.kwargs.get('section', None)
-        self.category = self.kwargs.get('category', None)
-        self.tag_slug = self.kwargs.get('tag_slug', None)
 
-        if self.section:
-            queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
-        elif self.category:
-            queryset = queryset.filter(article_type=self.category)
-        elif self.tag_slug:
-            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
-            queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
-            
-        return queryset
+        return context
 
 
 class ArticleDetail(DetailView):

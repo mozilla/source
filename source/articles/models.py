@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 from django.template.defaultfilters import date as dj_date, linebreaks
 
+from datetime import datetime
+
 from source.people.models import Person, Organization
 from source.code.models import Code
 from taggit.managers import TaggableManager
@@ -18,6 +20,10 @@ ARTICLE_TYPE_CHOICES = (
     ('event', 'Event'),
     ('update', 'Community Update'),
 )
+
+class LiveArticleManager(models.Manager):
+    def get_query_set(self):
+        return super(LiveArticleManager, self).get_query_set().filter(is_live=True, pubdate__lte=datetime.now())
 
 class Article(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -35,6 +41,7 @@ class Article(models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
     tags = TaggableManager(blank=True)
+    live_objects = LiveArticleManager()
     
     class Meta:
         ordering = ('-pubdate','title',)
