@@ -4,6 +4,10 @@ from source.people.models import Person, Organization
 from taggit.managers import TaggableManager
 
 
+class LiveCodeManager(models.Manager):
+    def get_query_set(self):
+        return super(LiveCodeManager, self).get_query_set().filter(is_live=True)
+
 class Code(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -17,6 +21,8 @@ class Code(models.Model):
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     tags = TaggableManager(blank=True)
+    objects = models.Manager()
+    live_objects = LiveCodeManager()
     
     class Meta:
         ordering = ('name',)

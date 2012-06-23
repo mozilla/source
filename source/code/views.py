@@ -9,7 +9,7 @@ class CodeList(ListView):
     model = Code
 
     def get_queryset(self):
-        queryset = Code.objects.filter(is_live=True)
+        queryset = Code.live_objects.all()
         self.tag_slug = self.kwargs.get('tag_slug', None)
         self.tag = None
 
