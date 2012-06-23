@@ -1,5 +1,33 @@
 [
     {
+        "pk": 3, 
+        "model": "articles.article", 
+        "fields": {
+            "body": "<p>If you have previously worked with Django templates, you should find Jinja2 very familiar. In fact, most of the syntax elements look and work the same.</p><p>However, Jinja2 provides some more syntax elements covered in the documentation and some work a bit different.</p><p>This section covers the template changes. As the API is fundamentally different we won\u2019t cover it here.</p>", 
+            "organizations": [
+                1
+            ], 
+            "subhead": "An article subhead appears just below the headline", 
+            "pubdate": "2012-06-23T22:00:28", 
+            "title": "This is a test article with some article blocks", 
+            "created": "2012-06-02T22:02:57.316", 
+            "people": [
+                2
+            ], 
+            "modified": "2012-06-22T22:36:54.262", 
+            "summary": "The ProPublica News Apps Team explains how they built a 'Tangled Web' of election contribution data", 
+            "article_type": "how-to", 
+            "is_live": false, 
+            "code": [
+                1
+            ], 
+            "authors": [
+                1
+            ], 
+            "slug": "article-has-some-article-blocks"
+        }
+    }, 
+    {
         "pk": 5, 
         "model": "articles.article", 
         "fields": {
@@ -15,7 +43,7 @@
                 13, 
                 12
             ], 
-            "modified": "2012-06-16T16:08:34.919", 
+            "modified": "2012-06-22T21:07:26.766", 
             "summary": "We assembled a <a href=\"www.tampabay.com/stand-your-ground-law/fatal-cases\">database of stand your ground cases</a> in Florida to encourage people to explore the cases to see how the law was being applied. We did this because no government entity was tracking such cases.", 
             "article_type": "project", 
             "is_live": true, 
@@ -49,7 +77,7 @@
                 8, 
                 6
             ], 
-            "modified": "2012-06-16T17:34:44.792", 
+            "modified": "2012-06-22T22:33:53.921", 
             "summary": "<p>The New York Times and WNYC have joined forces on a new site dedicated to news, data and conversation about schools in New York City.</p><p>SchoolBook is now the main place to find coverage of schools in New York by The Times and WNYC. SchoolBook\u2019s home page will mix those news, feature and multimedia stories with essays by members of the education community, as well as photos, videos, queries, comments and more.</p>", 
             "article_type": "project", 
             "is_live": true, 
@@ -58,60 +86,6 @@
                 4
             ], 
             "slug": "schoolbook"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "articles.article", 
-        "fields": {
-            "body": "<p>If you have previously worked with Django templates, you should find Jinja2 very familiar. In fact, most of the syntax elements look and work the same.</p><p>However, Jinja2 provides some more syntax elements covered in the documentation and some work a bit different.</p><p>This section covers the template changes. As the API is fundamentally different we won\u2019t cover it here.</p>", 
-            "organizations": [
-                1
-            ], 
-            "subhead": "An article subhead appears just below the headline", 
-            "pubdate": "2012-06-02T22:00:28", 
-            "title": "This is a test article with some article blocks", 
-            "created": "2012-06-02T22:02:57.316", 
-            "people": [
-                2
-            ], 
-            "modified": "2012-06-16T17:34:08.677", 
-            "summary": "The ProPublica News Apps Team explains how they built a 'Tangled Web' of election contribution data", 
-            "article_type": "how-to", 
-            "is_live": false, 
-            "code": [
-                1
-            ], 
-            "authors": [
-                1
-            ], 
-            "slug": "article-has-some-article-blocks"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "articles.articleblock", 
-        "fields": {
-            "body": "criminal law, case exploration, Django, Python, S3, HTML5", 
-            "title": "Tags (TK)", 
-            "created": "2012-06-16T16:08:34.936", 
-            "modified": "2012-06-16T16:08:34.936", 
-            "slug": "stand-your-ground-tags", 
-            "article": 5, 
-            "order": 1
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "articles.articleblock", 
-        "fields": {
-            "body": "education, data, community, Ruby on Rails, Solr, WordPress, Varnish, MySQL, Nokogiri", 
-            "title": "Tags (TK)", 
-            "created": "2012-06-16T15:52:57.791", 
-            "modified": "2012-06-16T16:08:52.517", 
-            "slug": "schoolbook-tags", 
-            "article": 4, 
-            "order": 1
         }
     }, 
     {

@@ -17,11 +17,11 @@
                 14
             ], 
             "is_active": true, 
-            "modified": "2012-06-16T16:54:27.521", 
+            "modified": "2012-06-22T22:56:36.598", 
             "is_live": true, 
             "seeking_contributors": true, 
             "slug": "fech", 
-            "description": "A Ruby parser for electronic candidate, PAC and party campaign filings from the Federal Election Commission.\r\n\r\nTags: campaign finance, data parsing, Ruby"
+            "description": "A Ruby parser for electronic candidate, PAC and party campaign filings from the Federal Election Commission."
         }
     }, 
     {
@@ -59,11 +59,11 @@
                 19
             ], 
             "is_active": true, 
-            "modified": "2012-06-16T16:35:40.435", 
+            "modified": "2012-06-22T21:08:04.359", 
             "is_live": true, 
             "seeking_contributors": false, 
             "slug": "who-voted-what", 
-            "description": "Shows London (UK) Mayoral Election data organised by postcode so you can see how your street/area voted, and how this compares to the London-wide average.\r\n\r\nTags: elections, trends, data, search, PHP, MySQL, Google Charts API"
+            "description": "Shows London (UK) Mayoral Election data organised by postcode so you can see how your street/area voted, and how this compares to the London-wide average."
         }
     }, 
     {
