@@ -1,5 +1,11 @@
 from django.db import models
 
+
+class LivePersonManager(models.Manager):
+    def get_query_set(self):
+        return super(LivePersonManager, self).get_query_set().filter(is_live=True)
+
+
 class Person(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -13,6 +19,8 @@ class Person(models.Model):
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
+    objects = models.Manager()
+    live_objects = LivePersonManager()
     
     class Meta:
         ordering = ('last_name', 'first_name',)
@@ -45,6 +53,13 @@ class PersonLink(models.Model):
         return '%s: %s' % (self.person.name, self.name)
 
 
+
+
+class LiveOrganizationManager(models.Manager):
+    def get_query_set(self):
+        return super(LiveOrganizationManager, self).get_query_set().filter(is_live=True)
+
+
 class Organization(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -52,6 +67,8 @@ class Organization(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
+    objects = models.Manager()
+    live_objects = LiveOrganizationManager()
     
     class Meta:
         ordering = ('name',)
