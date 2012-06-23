@@ -41,6 +41,7 @@ class Article(models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
     tags = TaggableManager(blank=True)
+    objects = models.Manager()
     live_objects = LiveArticleManager()
     
     class Meta:
