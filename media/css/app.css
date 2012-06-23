@@ -171,10 +171,6 @@ h2 {
     line-height: 1.3em;
     margin-bottom: 15px;
 }
-.article-detail h2 {
-    font-size: 1.5em;
-    line-height: 1.6em;
-}
 
 h3 {
     font-size: 24px;
@@ -335,10 +331,6 @@ h2 span.category {
     font-weight: 300;
     padding-bottom: 0px;
     display: block;
-}
-.article-detail h2 span.category {
-    font-size: .45em;
-    line-height: 1.3em;
 }
 
 a {

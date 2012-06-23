@@ -1,6 +1,8 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Article
+from taggit.models import Tag
 
 SECTION_MAP = {
     'articles': {
@@ -70,18 +72,28 @@ class ArticleList(ListView):
             context['category'] = CATEGORY_MAP[self.category]['name']
             context['section'] = SECTION_MAP[CATEGORY_MAP[self.category]['parent_slug']]
             context['active_nav'] = CATEGORY_MAP[self.category]['parent_slug']
+        elif self.tag:
+            context['section'] = SECTION_MAP['articles']
+            context['active_nav'] = SECTION_MAP['articles']['slug']
+            context['tag'] = self.tag
         return context
     
     def get_queryset(self):
         # TODO add future date filters
-        qs = Article.objects.filter(is_live=True)
+        queryset = Article.objects.filter(is_live=True)
         self.section = self.kwargs.get('section', None)
         self.category = self.kwargs.get('category', None)
+        self.tag_slug = self.kwargs.get('tag_slug', None)
+
         if self.section:
-            qs = qs.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
+            queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
         elif self.category:
-            qs = qs.filter(article_type=self.category)
-        return qs
+            queryset = queryset.filter(article_type=self.category)
+        elif self.tag_slug:
+            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+            queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
+            
+        return queryset
 
 
 class ArticleDetail(DetailView):
