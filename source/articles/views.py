@@ -63,12 +63,16 @@ CATEGORY_MAP = {
 class ArticleList(ListView):
     model = Article
 
+    def dispatch(self, *args, **kwargs):
+        self.section = kwargs.get('section', None)
+        self.category = kwargs.get('category', None)
+        self.tag_slug = kwargs.get('tag_slug', None)
+        self.tag = None
+
+        return super(ArticleList, self).dispatch(*args, **kwargs)
+
     def get_queryset(self):
         queryset = Article.live_objects.all()
-        self.section = self.kwargs.get('section', None)
-        self.category = self.kwargs.get('category', None)
-        self.tag_slug = self.kwargs.get('tag_slug', None)
-        self.tag = None
 
         if self.section:
             queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
@@ -100,4 +104,3 @@ class ArticleList(ListView):
 
 class ArticleDetail(DetailView):
     model = Article
-

@@ -7,14 +7,20 @@ from taggit.models import Tag
 
 class CodeList(ListView):
     model = Code
-
-    def get_queryset(self):
-        queryset = Code.live_objects.all()
-        self.tag_slug = self.kwargs.get('tag_slug', None)
+    
+    def dispatch(self, *args, **kwargs):
+        self.tag_slug = kwargs.get('tag_slug', None)
         self.tag = None
 
         if self.tag_slug:
-            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+            self.tag = get_object_or_404(Tag, slug=self.tag_slug)
+
+        return super(CodeList, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        queryset = Code.live_objects.all()
+
+        if self.tag_slug:
             queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
 
         return queryset
