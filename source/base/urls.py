@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from .views import HomepageView
+#from .views import HomepageView
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
 article_category_options = "|".join(CATEGORY_MAP.keys())
@@ -11,7 +11,7 @@ article_category_options = "|".join(CATEGORY_MAP.keys())
 urlpatterns = patterns('',
     url(
         regex = '^$',
-        view = HomepageView.as_view(),
+        view = ArticleList.as_view(),
         kwargs = {},
         name = 'homepage',
     ),

@@ -1,7 +1,8 @@
 from django.views.generic import ListView
 
-from source.articles.models import Article
-
 
 class HomepageView(ListView):
-    model = Article
+    '''
+    For now, this request runs through articles.views.ArticleList
+    '''
+    pass
