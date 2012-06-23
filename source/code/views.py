@@ -10,15 +10,20 @@ class CodeList(ListView):
 
     def get_queryset(self):
         queryset = Code.objects.filter(is_live=True)
-        if 'tag_slug' in self.kwargs:
+        self.tag_slug = self.kwargs.get('tag_slug', None)
+        self.tag = None
+
+        if self.tag_slug:
+            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
             queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(CodeList, self).get_context_data(**kwargs)
         context['active_nav'] = 'Code'
-        if 'tag_slug' in self.kwargs:
-            context['tag'] = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+        context['tag'] = self.tag
+
         return context
 
 
