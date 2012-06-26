@@ -1,4 +1,5 @@
 *.log
 *.pot
 *.pyc
-local_settings.py
+source/settings/local.py
+source_demo_db

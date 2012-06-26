@@ -1,0 +1,5 @@
+{% for person in person_link_list %}
+    {% if loop.first %}{% if not hide_link_list_title %}<h5 class="list-header">People</h5>{% endif %}
+    <ul class="link-list">{% endif %}
+        <li><i class="icon-user"></i><a href="{{ person.get_absolute_url() }}">{{ person.name() }}</a></li>
+    {% if loop.last %}</ul>{% endif %}{% endfor %}

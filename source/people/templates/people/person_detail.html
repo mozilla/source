@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% set active_nav = "people" %}
+
+{% block content %}
+<div class="page-block">
+    <h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
+</div>
+
+<div class="page-block">
+    <h2>{{ person.name() }}</h2>
+    {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
+
+    <ul class="link-list">
+        {% with organization_link_list = person.organizations.all() %}
+        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+        
+        {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
+        {% if person.twitter_username %}<li><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
+        {% if person.github_username %}<li><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
+        {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}
+    </ul>
+</div>
+
+<div class="page-block">
+    {% with code_link_list = person.code_set.all() %}
+    {% include "code/_code_link_list.html" %}{% endwith %}
+
+    {% with article_link_list = person.article_set.all(), override_list_title = 'Projects' %}
+    {% include "articles/_article_link_list.html" %}{% endwith %}
+
+    {% with article_link_list = person.article_authors.all(), override_list_title = 'Articles by %s' % person.first_name %}
+    {% include "articles/_article_link_list.html" %}{% endwith %}
+</div>
+{% endblock content %}

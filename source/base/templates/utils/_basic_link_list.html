@@ -1,0 +1,5 @@
+{% for link in basic_link_list %}
+    {% if loop.first %}{% if not hide_link_list_title %}<h5 class="list-header">Links</h5>{% endif %}
+    <ul class="link-list">{% endif %}
+        <li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>
+    {% if loop.last %}</ul>{% endif %}{% endfor %}

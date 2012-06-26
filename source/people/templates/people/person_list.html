@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% set active_nav = "people" %}
+
+{% block content %}
+<div class="page-block">
+    <h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
+</div>
+
+{% for person in object_list %}
+    <div class="page-block">
+        <h3><a href="{{ person.get_absolute_url() }}">{{ person.name() }}</a></h3>
+        {% if person.organizations.all() %}<ul class="link-list">
+            <li><i class="icon-group"></i>{% for organization in person.organizations.all() %}<a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+        </ul>{% endif %}
+    </div>
+{% endfor %}
+{% endblock content %}

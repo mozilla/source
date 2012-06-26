@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% set active_nav = "code" %}
+
+{% block content %}
+<div class="page-block">
+    <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a></h1>
+</div>
+
+<div class="page-block">
+    <h2>{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
+    {% if code.description %}<p>{{ code.description|nl2br }}</p>{% endif %}
+    <ul class="link-list">
+        <li>
+            <i class="icon-home"></i><a href="{{ code.url }}">Project home</a>
+            {% if code.is_active %}<i class="icon-ok" style="margin-left: 1em;"></i>Active project{% endif %}
+            {% if code.seeking_contributors %}<i class="icon-ok" style="margin-left: 1em;"></i>Seeking contributors{% endif %}
+        </li>
+    </ul>
+</div>
+
+<div class="page-block">
+    {% with person_link_list = code.people.all() %}
+    {% include "people/_person_link_list.html" %}{% endwith %}
+    
+    {% with organization_link_list = code.organizations.all() %}
+    {% include "people/_organization_link_list.html" %}{% endwith %}
+    
+    {% with article_link_list = code.article_set.all() %}
+    {% include "articles/_article_link_list.html" %}{% endwith %}
+    
+    {% with basic_link_list = code.codelink_set.all() %}
+    {% include "utils/_basic_link_list.html" %}{% endwith %}
+</div>
+{% endblock content %}

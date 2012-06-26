@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block site_js_extra %}
+<script src="{{ MEDIA_URL }}js/jquery.syntaxhighlighter.min.js"></script>
+<script type="text/javascript">
+    $.SyntaxHighlighter.init();
+</script>
+{% endblock %}
+
+{% block article_class %}article-detail{% endblock %}
+{% block content %}
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
+    <h4>{{ article.subhead }}</h4>
+    
+    <aside>
+        <div class="byline">
+            <h6 class="date">{{ article.pretty_pubdate }}</h6>
+            {% if article.authors.all().exists() %}<h6 class="byline-name">{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
+        </div>
+        
+        {% with code_link_list = article.code.all() %}
+        {% include "code/_code_link_list.html" %}{% endwith %}
+
+        {% with person_link_list = article.people.all() %}
+        {% include "people/_person_link_list.html" %}{% endwith %}
+
+        {% with organization_link_list = article.organizations.all() %}
+        {% include "people/_organization_link_list.html" %}{% endwith %}
+    </aside>
+    
+    <p>{{ article.body|safe|nl2br }}</p>
+    
+    {% for articleblock in article.articleblock_set.all() %}
+    <div class="page-block">
+        <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
+        <p>{{ articleblock.body|safe|nl2br }}</p>
+    </div>
+    {% endfor %}
+{% endblock content %}
