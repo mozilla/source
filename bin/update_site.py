@@ -89,6 +89,7 @@ def update_site(env, debug):
         (CHDIR, os.path.join(here)),
         (EXEC, 'python2.6 manage.py migrate'),
         (EXEC, 'python2.6 manage.py collectstatic --noinput'),
+        (EXEC, '/etc/init.d/apache2 restart'),
         #(EXEC, 'python2.6 manage.py compress_assets'),
     ]
 
