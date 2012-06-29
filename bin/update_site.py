@@ -85,8 +85,8 @@ def update_site(env, debug):
     commands += [
         #(CHDIR, os.path.join(here, 'vendor')),
         #(EXEC,  GIT_PULL % vendor_branch),
-        (CHDIR, os.path.join(here)),
-        (EXEC,  GIT_SUBMODULE),
+        #(CHDIR, os.path.join(here)),
+        #(EXEC,  GIT_SUBMODULE),
         (EXEC, 'python2.6 manage.py migrate'),
         (EXEC, 'python2.6 manage.py collectstatic --noinput'),
         (EXEC, '/etc/init.d/httpd restart'),
