@@ -1,12 +1,13 @@
 from django.db import models
 
+import caching.base
 
-class LivePersonManager(models.Manager):
+class LivePersonManager(caching.base.CachingManager):
     def get_query_set(self):
         return super(LivePersonManager, self).get_query_set().filter(is_live=True)
 
 
-class Person(models.Model):
+class Person(caching.base.CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -19,7 +20,7 @@ class Person(models.Model):
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
-    objects = models.Manager()
+    objects = caching.base.CachingManager()
     live_objects = LivePersonManager()
     
     class Meta:
@@ -59,12 +60,12 @@ class PersonLink(models.Model):
 
 
 
-class LiveOrganizationManager(models.Manager):
+class LiveOrganizationManager(caching.base.CachingManager):
     def get_query_set(self):
         return super(LiveOrganizationManager, self).get_query_set().filter(is_live=True)
 
 
-class Organization(models.Model):
+class Organization(caching.base.CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -81,7 +82,7 @@ class Organization(models.Model):
     country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
     # Images - TODO once we figure out static media storage
     #logo = models.ImageField(upload_to='', blank=True, null=True)
-    objects = models.Manager()
+    objects = caching.base.CachingManager()
     live_objects = LiveOrganizationManager()
     
     class Meta:

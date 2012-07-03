@@ -2,3 +2,4 @@ src/django-browserid
 src/requests
 src/django-south
 src/django-taggit
+src/django-cache-machine
