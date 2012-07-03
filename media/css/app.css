@@ -360,6 +360,9 @@ h1.maintopic {
     margin-left: -42px;
     float: left;
 }
+.github-stats {
+    margin-left: .5em;
+}
 
 @media screen and (max-width: 640px) {
     #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}

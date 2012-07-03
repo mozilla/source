@@ -15,8 +15,8 @@
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         
         {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
-        {% if person.twitter_username %}<li><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
-        {% if person.github_username %}<li><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
+        {% if person.twitter_username %}<li id="person-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
+        {% if person.github_username %}<li id="person-github"><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
         {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}
     </ul>
 </div>
@@ -37,12 +37,19 @@
 {% if person.twitter_username %}
 <script type="text/javascript">
 $(document).ready(function(){
-    var url='http://api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
-    $.getJSON(url, function(data) {
+    var twitter_api_url='http://api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    $.getJSON(twitter_api_url, function(data) {
         var twitter_bio = data['description'];
         var twitter_avatar = data['profile_image_url'];
         var twitter_line = '<p class="twitter-bio"><img src="' + twitter_avatar + '">' + twitter_bio + '</p>';
-        $('h2#person-name').after(twitter_line);
+        $('#person-name').after(twitter_line);
+    });
+    var github_api_url='https://api.github.com/users/{{ person.github_username }}';
+    $.getJSON(github_api_url, function(data) {
+        var github_repos = data['public_repos'];
+        var github_gists = data['public_gists'];
+        var github_line = '<span class="github-stats">(' + github_repos + ' repos, ' + github_gists + ' gists)</span>';
+        $('#person-github').append(github_line);
     });
 });
 </script>
