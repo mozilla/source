@@ -19,6 +19,12 @@
 </div>
 
 <div class="page-block">
+    <div style="width: 520px; float: left; margin-right: 30px;">
+        <h5 class="list-header" style="margin-bottom: 2em;">Browse this repo / <a href="{{ code.url }}">Fork this repo</a></h5>
+        <div id="repo"></div>
+    </div>
+    
+    <div style="width: 250px; float: left;">
     {% with person_link_list = code.people.all() %}
     {% include "people/_person_link_list.html" %}{% endwith %}
     
@@ -30,16 +36,21 @@
     
     {% with basic_link_list = code.codelink_set.all() %}
     {% include "utils/_basic_link_list.html" %}{% endwith %}
+    </div>
 </div>
 {% endblock content %}
 
 {% block site_js_extra %}
 {% if 'github' in code.url %}
 <script src="{{ MEDIA_URL }}js/date.js"></script>
+<script src="{{ MEDIA_URL }}js/repo.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    var github_location = '{{ code.url }}'.split('github.com')[1];
-    var github_api_url='https://api.github.com/repos' + github_location;
+    var github_location = '{{ code.url }}'.split('github.com/')[1];
+    var github_user = github_location.split('/')[0];
+    var github_repo = github_location.split('/')[1];
+    $('#repo').repo({ user: github_user, name: github_repo });
+    var github_api_url='https://api.github.com/repos/' + github_location;
     $.getJSON(github_api_url, function(data) {
         var github_description = data['description'];
         var github_last_push = new Date(data['pushed_at']).toString('dddd, MMM d, yyyy');
@@ -48,7 +59,7 @@ $(document).ready(function(){
         var github_watchers = data['watchers'];
         //var watcher_word = (github_watchers == 1 ? 'watcher' : 'watchers')
         //var github_line = '<span class="github-stats">(' + github_forks + ' ' + fork_word + ' / ' + github_watchers + ' ' + watcher_word + ')</span>';
-        var github_details = '<li class="spacers"><span>Forks: ' + github_forks + '</span><span>Watchers: ' + github_watchers + '</span><span>Last push: ' + github_last_push + '</span></li>'
+        var github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + github_forks + '</span><span>Watchers: ' + github_watchers + '</span><span>Last push: ' + github_last_push + '</span></li>'
         //$('#code-url').after(github_line);
         if (github_description.length > 1) {
             $('#code-description').html(github_description);
