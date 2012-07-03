@@ -18,7 +18,7 @@ class CodeList(ListView):
         return super(CodeList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = Code.live_objects.all()
+        queryset = Code.live_objects.prefetch_related('organizations')
 
         if self.tag_slug:
             queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
@@ -37,6 +37,6 @@ class CodeDetail(DetailView):
     model = Code
 
     def get_queryset(self):
-        queryset = Code.live_objects.all()
+        queryset = Code.live_objects.prefetch_related('codelink_set', 'people', 'organizations', 'article_set')
         
         return queryset
