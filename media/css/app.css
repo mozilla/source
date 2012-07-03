@@ -288,6 +288,9 @@ aside ul.link-list {
 .link-list a {
     font-weight: 400;
 }
+.link-list li.spacers span {
+    margin-right: 1em;
+}
 
 
 h1 a, h2 a, .link-list a {

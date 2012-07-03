@@ -8,10 +8,10 @@
 
 <div class="page-block">
     <h2>{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
-    {% if code.description %}<p>{{ code.description|nl2br }}</p>{% endif %}
-    <ul class="link-list">
+    {% if code.description %}<p id="code-description">{{ code.description|nl2br }}</p>{% endif %}
+    <ul class="link-list" id="code-details">
         <li>
-            <i class="icon-home"></i><a href="{{ code.url }}">Project home</a>
+            <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Project home</a>
             {% if code.is_active %}<i class="icon-ok" style="margin-left: 1em;"></i>Active project{% endif %}
             {% if code.seeking_contributors %}<i class="icon-ok" style="margin-left: 1em;"></i>Seeking contributors{% endif %}
         </li>
@@ -32,3 +32,30 @@
     {% include "utils/_basic_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if 'github' in code.url %}
+<script src="{{ MEDIA_URL }}js/date.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var github_location = '{{ code.url }}'.split('github.com')[1];
+    var github_api_url='https://api.github.com/repos' + github_location;
+    $.getJSON(github_api_url, function(data) {
+        var github_description = data['description'];
+        var github_last_push = new Date(data['pushed_at']).toString('dddd, MMM d, yyyy');
+        var github_forks = data['forks'];
+        //var fork_word = (github_forks == 1 ? 'fork' : 'forks')
+        var github_watchers = data['watchers'];
+        //var watcher_word = (github_watchers == 1 ? 'watcher' : 'watchers')
+        //var github_line = '<span class="github-stats">(' + github_forks + ' ' + fork_word + ' / ' + github_watchers + ' ' + watcher_word + ')</span>';
+        var github_details = '<li class="spacers"><span>Forks: ' + github_forks + '</span><span>Watchers: ' + github_watchers + '</span><span>Last push: ' + github_last_push + '</span></li>'
+        //$('#code-url').after(github_line);
+        if (github_description.length > 1) {
+            $('#code-description').html(github_description);
+        }
+        $('#code-details').append(github_details);
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

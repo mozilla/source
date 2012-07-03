@@ -34,9 +34,10 @@
 {% endblock content %}
 
 {% block site_js_extra %}
-{% if person.twitter_username %}
+{% if person.twitter_username or person.github_username %}
 <script type="text/javascript">
 $(document).ready(function(){
+    {% if person.twitter_username %}
     var twitter_api_url='http://api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
     $.getJSON(twitter_api_url, function(data) {
         var twitter_bio = data['description'];
@@ -44,13 +45,18 @@ $(document).ready(function(){
         var twitter_line = '<p class="twitter-bio"><img src="' + twitter_avatar + '">' + twitter_bio + '</p>';
         $('#person-name').after(twitter_line);
     });
+    {% endif %}
+    {% if person.github_username %}
     var github_api_url='https://api.github.com/users/{{ person.github_username }}';
     $.getJSON(github_api_url, function(data) {
         var github_repos = data['public_repos'];
+        var repo_word = (github_repos == 1 ? 'repo' : 'repos')
         var github_gists = data['public_gists'];
-        var github_line = '<span class="github-stats">(' + github_repos + ' repos, ' + github_gists + ' gists)</span>';
+        var gist_word = (github_gists == 1 ? 'gist' : 'gists')
+        var github_line = '<span class="github-stats">(' + github_repos + ' ' + repo_word + ' / ' + github_gists + ' ' + gist_word + ')</span>';
         $('#person-github').append(github_line);
     });
+    {% endif %}
 });
 </script>
 {% endif %}
