@@ -350,6 +350,17 @@ h1.maintopic {
 }
 /* DAN ADDITIONS STOP HERE */
 
+.twitter-bio {
+    margin-bottom: 1em;
+    padding-left: 42px;
+}
+.twitter-bio img {
+    vertical-align: top;
+    width: 30px;
+    margin-left: -42px;
+    float: left;
+}
+
 @media screen and (max-width: 640px) {
     #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}
     #navigation {float: left; font-size: 12px; width: auto; padding-top: 5px;}

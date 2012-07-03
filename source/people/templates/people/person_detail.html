@@ -7,7 +7,7 @@
 </div>
 
 <div class="page-block">
-    <h2>{{ person.name() }}</h2>
+    <h2 id="person-name">{{ person.name() }}</h2>
     {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
 
     <ul class="link-list">
@@ -32,3 +32,19 @@
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if person.twitter_username %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var url='http://api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    $.getJSON(url, function(data) {
+        var twitter_bio = data['description'];
+        var twitter_avatar = data['profile_image_url'];
+        var twitter_line = '<p class="twitter-bio"><img src="' + twitter_avatar + '">' + twitter_bio + '</p>';
+        $('h2#person-name').after(twitter_line);
+    });
+});
+</script>
+{% endif %}
+{% endblock %}
