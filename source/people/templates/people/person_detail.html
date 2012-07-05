@@ -38,7 +38,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     {% if person.twitter_username %}
-    var twitter_api_url='http://api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    var twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
     $.getJSON(twitter_api_url, function(data) {
         var twitter_bio = data['description'];
         var twitter_avatar = data['profile_image_url'];
