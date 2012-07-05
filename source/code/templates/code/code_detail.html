@@ -46,25 +46,26 @@
 <script src="{{ MEDIA_URL }}js/repo.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-    var github_location = '{{ code.url }}'.split('github.com/')[1];
-    var github_user = github_location.split('/')[0];
-    var github_repo = github_location.split('/')[1];
-    $('#repo').repo({ user: github_user, name: github_repo });
-    var github_api_url='https://api.github.com/repos/' + github_location;
-    $.getJSON(github_api_url, function(data) {
-        var github_description = data['description'];
-        var github_last_push = new Date(data['pushed_at']).toString('dddd, MMM d, yyyy');
-        var github_forks = data['forks'];
-        //var fork_word = (github_forks == 1 ? 'fork' : 'forks')
-        var github_watchers = data['watchers'];
-        //var watcher_word = (github_watchers == 1 ? 'watcher' : 'watchers')
-        //var github_line = '<span class="github-stats">(' + github_forks + ' ' + fork_word + ' / ' + github_watchers + ' ' + watcher_word + ')</span>';
-        var github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + github_forks + '</span><span>Watchers: ' + github_watchers + '</span><span>Last push: ' + github_last_push + '</span></li>'
-        //$('#code-url').after(github_line);
-        if (github_description.length > 1) {
-            $('#code-description').html(github_description);
+    var sourceData = {};
+    sourceData.github_location = '{{ code.url }}'.split('github.com/')[1];
+    sourceData.github_user = sourceData.github_location.split('/')[0];
+    sourceData.github_repo = sourceData.github_location.split('/')[1];
+    $('#repo').repo({ user: sourceData.github_user, name: sourceData.github_repo });
+    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_location;
+    $.getJSON(sourceData.github_api_url, function(data) {
+        sourceData.github_description = data['description'];
+        sourceData.github_last_push = new Date(data['pushed_at']).toString('dddd, MMM d, yyyy');
+        sourceData.github_forks = data['forks'];
+        //sourceData.fork_word = (sourceData.github_forks == 1 ? 'fork' : 'forks')
+        sourceData.github_watchers = data['watchers'];
+        //sourceData.watcher_word = (sourceData.github_watchers == 1 ? 'watcher' : 'watchers')
+        //sourceData.github_line = '<span class="github-stats">(' + sourceData.github_forks + ' ' + sourceData.fork_word + ' / ' + sourceData.github_watchers + ' ' + sourceData.watcher_word + ')</span>';
+        sourceData.github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + sourceData.github_forks + '</span><span>Watchers: ' + sourceData.github_watchers + '</span><span>Last push: ' + sourceData.github_last_push + '</span></li>'
+        //$('#code-url').after(sourceData.github_line);
+        if (sourceData.github_description.length > 1) {
+            $('#code-description').html(sourceData.github_description);
         }
-        $('#code-details').append(github_details);
+        $('#code-details').append(sourceData.github_details);
     });
 });
 </script>

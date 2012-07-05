@@ -37,24 +37,25 @@
 {% if person.twitter_username or person.github_username %}
 <script type="text/javascript">
 $(document).ready(function(){
+    var sourceData = {};
     {% if person.twitter_username %}
-    var twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
-    $.getJSON(twitter_api_url, function(data) {
-        var twitter_bio = data['description'];
-        var twitter_avatar = data['profile_image_url'];
-        var twitter_line = '<p class="twitter-bio"><img src="' + twitter_avatar + '">' + twitter_bio + '</p>';
-        $('#person-name').after(twitter_line);
+    sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    $.getJSON(sourceData.twitter_api_url, function(data) {
+        sourceData.twitter_bio = data['description'];
+        sourceData.twitter_avatar = data['profile_image_url'];
+        sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
+        $('#person-name').after(sourceData.twitter_line);
     });
     {% endif %}
     {% if person.github_username %}
-    var github_api_url='https://api.github.com/users/{{ person.github_username }}';
-    $.getJSON(github_api_url, function(data) {
-        var github_repos = data['public_repos'];
-        var repo_word = (github_repos == 1 ? 'repo' : 'repos')
-        var github_gists = data['public_gists'];
-        var gist_word = (github_gists == 1 ? 'gist' : 'gists')
-        var github_line = '<span class="github-stats">(' + github_repos + ' ' + repo_word + ' / ' + github_gists + ' ' + gist_word + ')</span>';
-        $('#person-github').append(github_line);
+    sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}';
+    $.getJSON(sourceData.github_api_url, function(data) {
+        sourceData.github_repos = data['public_repos'];
+        sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+        sourceData.github_gists = data['public_gists'];
+        sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+        sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+        $('#person-github').append(sourceData.github_line);
     });
     {% endif %}
 });
