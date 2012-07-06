@@ -35,6 +35,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
+    'caching',
     'south',
     'taggit',
 ]
@@ -49,6 +50,16 @@ JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
+
+# Override from funfactory.settings_base to add caching template ext
+def JINJA_CONFIG():
+    import jinja2
+    from django.conf import settings
+    config = {'extensions': ['tower.template.i18n', 'jinja2.ext.do',
+                             'jinja2.ext.with_', 'jinja2.ext.loopcontrols',
+                             'caching.ext.cache'],
+              'finalize': lambda x: x if x is not None else ''}
+    return config
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.
