@@ -288,6 +288,9 @@ aside ul.link-list {
 .link-list a {
     font-weight: 400;
 }
+.link-list li.spacers span {
+    margin-right: 1em;
+}
 
 
 h1 a, h2 a, .link-list a {
@@ -349,6 +352,20 @@ h1.maintopic {
     margin-top: -20px;
 }
 /* DAN ADDITIONS STOP HERE */
+
+.twitter-bio {
+    margin-bottom: 1em;
+    padding-left: 42px;
+}
+.twitter-bio img {
+    vertical-align: top;
+    width: 30px;
+    margin-left: -42px;
+    float: left;
+}
+.github-stats {
+    margin-left: .5em;
+}
 
 @media screen and (max-width: 640px) {
     #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}

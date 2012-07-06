@@ -7,7 +7,7 @@
 </div>
 
 <div class="page-block">
-    <h2>{{ person.name() }}</h2>
+    <h2 id="person-name">{{ person.name() }}</h2>
     {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
 
     <ul class="link-list">
@@ -15,8 +15,8 @@
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         
         {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
-        {% if person.twitter_username %}<li><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
-        {% if person.github_username %}<li><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
+        {% if person.twitter_username %}<li id="person-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
+        {% if person.github_username %}<li id="person-github"><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
         {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}
     </ul>
 </div>
@@ -32,3 +32,33 @@
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if person.twitter_username or person.github_username %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var sourceData = {};
+    {% if person.twitter_username %}
+    sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    $.getJSON(sourceData.twitter_api_url, function(data) {
+        sourceData.twitter_bio = data['description'];
+        sourceData.twitter_avatar = data['profile_image_url'];
+        sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
+        $('#person-name').after(sourceData.twitter_line);
+    });
+    {% endif %}
+    {% if person.github_username %}
+    sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}';
+    $.getJSON(sourceData.github_api_url, function(data) {
+        sourceData.github_repos = data['public_repos'];
+        sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+        sourceData.github_gists = data['public_gists'];
+        sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+        sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+        $('#person-github').append(sourceData.github_line);
+    });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}
