@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.template.defaultfilters import date as dj_date, linebreaks
 
-import caching.base
+from caching.base import CachingManager, CachingMixin
 from source.people.models import Person, Organization
 from source.code.models import Code
 from taggit.managers import TaggableManager
@@ -20,11 +20,11 @@ ARTICLE_TYPE_CHOICES = (
     ('update', 'Community Update'),
 )
 
-class LiveArticleManager(caching.base.CachingManager):
+class LiveArticleManager(CachingManager):
     def get_query_set(self):
         return super(LiveArticleManager, self).get_query_set().filter(is_live=True, pubdate__lte=datetime.now())
 
-class Article(caching.base.CachingMixin, models.Model):
+class Article(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -40,7 +40,7 @@ class Article(caching.base.CachingMixin, models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    objects = caching.base.CachingManager()
+    objects = CachingManager()
     live_objects = LiveArticleManager()
     
     class Meta:
@@ -59,7 +59,7 @@ class Article(caching.base.CachingMixin, models.Model):
         return dj_date(self.pubdate,"F j, Y")
         
 
-class ArticleBlock(models.Model):
+class ArticleBlock(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article)
@@ -67,6 +67,7 @@ class ArticleBlock(models.Model):
     slug = models.SlugField(unique=True)
     order = models.PositiveIntegerField(default=1)
     body = models.TextField()
+    objects = CachingManager()
     
     class Meta:
         ordering = ('article', 'order', 'title',)

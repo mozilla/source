@@ -1,15 +1,15 @@
 from django.db import models
 
-import caching.base
+from caching.base import CachingManager, CachingMixin
 from source.people.models import Person, Organization
 from taggit.managers import TaggableManager
 
 
-class LiveCodeManager(caching.base.CachingManager):
+class LiveCodeManager(CachingManager):
     def get_query_set(self):
         return super(LiveCodeManager, self).get_query_set().filter(is_live=True)
 
-class Code(caching.base.CachingMixin, models.Model):
+class Code(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -22,7 +22,7 @@ class Code(caching.base.CachingMixin, models.Model):
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    objects = caching.base.CachingManager()
+    objects = CachingManager()
     live_objects = LiveCodeManager()
     
     class Meta:
@@ -37,12 +37,13 @@ class Code(caching.base.CachingMixin, models.Model):
             'slug': self.slug })
 
 
-class CodeLink(models.Model):
+class CodeLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     code = models.ForeignKey(Code)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
+    objects = CachingManager()
 
     class Meta:
         ordering = ('code', 'name',)
