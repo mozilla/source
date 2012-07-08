@@ -216,10 +216,11 @@ h6 a {
     color: #2e2e2d;
 }
 
+.inset-right {width: 30%; float: right; border-left: 1px solid #ccc; padding-left: 1em; margin-left: 1em;}
 .list-header {margin-bottom: .5em;}
 .grouper-header {border-bottom: 1px solid #e3e3e3; margin: 0 0 .67em;}
-.grouper-block {margin-bottom: 1.5em;}
-.inset-right {width: 30%; float: right; border-left: 1px solid #ccc; padding-left: 1em; margin-left: 1em;}
+.grouper-block {margin-bottom: 1.5em; clear: both; overflow: hidden;}
+.column-third {float: left; width: 30%; margin-right: 3%;}
 
 aside  {
     font-family: 'Open Sans', sans-serif;
@@ -378,6 +379,7 @@ h1.maintopic {
     #navigation {float: left; font-size: 12px; width: auto; padding-top: 5px;}
     #navigation li a {border: none; padding: 10px;}
     #navigation li a:hover {border: none;}
+    .column-third {width: auto; float: none;}
 }
 
 @media screen and (max-width: 480px) {
