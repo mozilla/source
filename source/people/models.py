@@ -36,6 +36,10 @@ class Person(models.Model):
     def get_absolute_url(self):
         return ('person_detail', (), {
             'slug': self.slug })
+    
+    @property
+    def sort_letter(self):
+        return self.last_name[:1]
 
 
 class PersonLink(models.Model):
@@ -104,6 +108,10 @@ class Organization(models.Model):
         for _loc in [self.city, self.state, self.country]:
             if _loc: _locs.append(_loc)
         return ", ".join(_locs)
+        
+    @property
+    def sort_letter(self):
+        return self.name.replace('The ', '')[:1]
 
 
 class OrganizationLink(models.Model):

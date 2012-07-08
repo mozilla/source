@@ -36,12 +36,13 @@ ul.errorlist li {
 
 .divider {padding-bottom: 4px; border-bottom: 1px solid #ddd; margin-bottom: 18px;}
 
-ul.link-list {list-style: none; margin: 0; padding: 0; font-size: inherit; margin-bottom: 2em;}
-ul.link-list li {line-height: 1.2; margin-bottom: .67em;}
-ul.link-list li i {margin-right: .25em; font-size: 16px;}
-ul.link-list li p {padding: .5em 24px;}
-ul.link-list-inline {margin-bottom: 0; overflow: hidden;}
-ul.link-list-inline li {float: left; margin-right: 1em;}
+.link-list {list-style: none; margin: 0; padding: 0; font-size: inherit; margin-bottom: 2em;}
+.grouper-block > .link-list {margin-bottom: 1.5em;}
+.link-list li {line-height: 1.2; margin-bottom: .67em;}
+.link-list li i {margin-right: .25em; font-size: 16px;}
+.link-list li p {padding: .5em 24px;}
+.link-list-inline {margin-bottom: 0; overflow: hidden;}
+.link-list-inline li {float: left; margin-right: 1em;}
 
 #topbar {
     position: fixed;
@@ -216,6 +217,8 @@ h6 a {
 }
 
 .list-header {margin-bottom: .5em;}
+.grouper-header {border-bottom: 1px solid #e3e3e3; margin: 0 0 .67em;}
+.grouper-block {margin-bottom: 1.5em;}
 .inset-right {width: 30%; float: right; border-left: 1px solid #ccc; padding-left: 1em; margin-left: 1em;}
 
 aside  {
@@ -367,6 +370,8 @@ h1.maintopic {
 .github-stats {
     margin-left: .5em;
 }
+
+.small, .link-list li i.small {font-size: 0.8em;}
 
 @media screen and (max-width: 640px) {
     #topbar img.opennews {float: left; padding-left: 10px; margin-right: 10px;}
