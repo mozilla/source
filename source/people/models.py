@@ -68,6 +68,7 @@ class Organization(models.Model):
     slug = models.SlugField(unique=True)
     twitter_username = models.CharField(max_length=32, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
+    homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
     # Location
     address = models.CharField(max_length=255, blank=True)

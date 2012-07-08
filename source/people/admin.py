@@ -34,7 +34,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_filter = ('is_live',)
     search_fields = ('name', 'description',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), 'is_live', 'twitter_username', 'github_username', 'description',)}),
+        ('', {'fields': (('name', 'slug'), 'is_live', 'twitter_username', 'github_username', 'homepage', 'description',)}),
         ('Location', {'fields': ('address', ('city', 'state',), 'country',)}),
     )
     inlines = [OrganizationLinkInline,]

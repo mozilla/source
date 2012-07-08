@@ -13,6 +13,8 @@
     <ul class="link-list">        
         {% if organization.twitter_username %}<li id="organization-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a></li>{% endif %}
         {% if organization.github_username %}<li id="organization-github"><i class="icon-github"></i><a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a></li>{% endif %}
+        {% if organization.homepage %}<li id="organization-homepage"><i class="icon-home"></i><a href="{{ organization.homepage }}">{{ organization.homepage }}</a></li>{% endif %}
+        
     </ul>
 </div>
 
