@@ -74,7 +74,7 @@ class Organization(models.Model):
     address = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=64, blank=True)
     state = models.CharField(max_length=32, blank=True)
-    country = models.CharField(max_length=32, blank=True)
+    country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
     # Images - TODO once we figure out static media storage
     #logo = models.ImageField(upload_to='', blank=True, null=True)
     objects = models.Manager()
@@ -90,6 +90,20 @@ class Organization(models.Model):
     def get_absolute_url(self):
         return ('organization_detail', (), {
             'slug': self.slug })
+            
+    @property
+    def location_string_for_static_map(self):
+        _locs = []
+        for _loc in [self.address, self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ",".join(_locs).replace(' ','+')
+
+    @property
+    def location_string_city(self):
+        _locs = []
+        for _loc in [self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ", ".join(_locs)
 
 
 class OrganizationLink(models.Model):
