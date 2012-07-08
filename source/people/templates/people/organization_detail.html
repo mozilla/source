@@ -26,7 +26,8 @@
 
 <div class="page-block">
     {% with person_link_list = organization.person_set.all() %}
-    {% include "people/_person_link_list.html" %}{% endwith %}
+    <h5 class="list-header">People</h5>
+    <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endwith %}
 
     {% with code_link_list = organization.code_set.all() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
