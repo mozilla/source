@@ -66,7 +66,16 @@ class Organization(models.Model):
     is_live = models.BooleanField('Display on site', default=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
+    twitter_username = models.CharField(max_length=32, blank=True)
+    github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField(blank=True)
+    # Location
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=64, blank=True)
+    state = models.CharField(max_length=32, blank=True)
+    country = models.CharField(max_length=32, blank=True)
+    # Images - TODO once we figure out static media storage
+    #logo = models.ImageField(upload_to='', blank=True, null=True)
     objects = models.Manager()
     live_objects = LiveOrganizationManager()
     
