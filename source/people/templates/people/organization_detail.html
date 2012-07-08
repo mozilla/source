@@ -9,6 +9,11 @@
 <div class="page-block">
     <h2>{{ organization.name }}</h2>
     {% if organization.description %}<p>{{ organization.description|nl2br }}</p>{% endif %}
+    
+    <ul class="link-list">        
+        {% if organization.twitter_username %}<li id="organization-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a></li>{% endif %}
+        {% if organization.github_username %}<li id="organization-github"><i class="icon-github"></i><a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a></li>{% endif %}
+    </ul>
 </div>
 
 <div class="page-block">
@@ -25,3 +30,22 @@
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if organization.github_username %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var sourceData = {};
+    sourceData.github_api_url='https://api.github.com/orgs/{{ organization.github_username }}?callback=?';
+    $.getJSON(sourceData.github_api_url, function(data) {
+        sourceData.github_repos = data.data['public_repos'];
+        sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+        sourceData.github_gists = data.data['public_gists'];
+        sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+        sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+        $('#organization-github').append(sourceData.github_line);
+    });
+});
+</script>
+{% endif %}
+{% endblock %}
