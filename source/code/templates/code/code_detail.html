@@ -51,13 +51,13 @@ $(document).ready(function(){
     sourceData.github_user = sourceData.github_location.split('/')[0];
     sourceData.github_repo = sourceData.github_location.split('/')[1];
     $('#repo').repo({ user: sourceData.github_user, name: sourceData.github_repo });
-    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_location;
+    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_location + '?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
-        sourceData.github_description = data['description'];
-        sourceData.github_last_push = new Date(data['pushed_at']).toString('dddd, MMM d, yyyy');
-        sourceData.github_forks = data['forks'];
+        sourceData.github_description = data.data['description'];
+        sourceData.github_last_push = new Date(data.data['pushed_at']).toString('dddd, MMM d, yyyy');
+        sourceData.github_forks = data.data['forks'];
         //sourceData.fork_word = (sourceData.github_forks == 1 ? 'fork' : 'forks')
-        sourceData.github_watchers = data['watchers'];
+        sourceData.github_watchers = data.data['watchers'];
         //sourceData.watcher_word = (sourceData.github_watchers == 1 ? 'watcher' : 'watchers')
         //sourceData.github_line = '<span class="github-stats">(' + sourceData.github_forks + ' ' + sourceData.fork_word + ' / ' + sourceData.github_watchers + ' ' + sourceData.watcher_word + ')</span>';
         sourceData.github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + sourceData.github_forks + '</span><span>Watchers: ' + sourceData.github_watchers + '</span><span>Last push: ' + sourceData.github_last_push + '</span></li>'
