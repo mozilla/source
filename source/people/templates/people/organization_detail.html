@@ -12,7 +12,7 @@
     <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=350x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
     {% endif %}
     
-    {% if organization.address or organization.location_string_city %}<h5>{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}<br>{% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</h5>{% endif %}
+    {% if organization.address or organization.location_string_city %}<h3 class="subhead">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}<br>{% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</h3>{% endif %}
     
     {% if organization.description %}<p>{{ organization.description|nl2br }}</p>{% endif %}
     
@@ -26,7 +26,7 @@
 
 <div class="page-block">
     {% with person_link_list = organization.person_set.all() %}
-    <h5 class="list-header">People</h5>
+    <h3 class="subhead list-header">People</h3>
     <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endwith %}
 
     {% with code_link_list = organization.code_set.all() %}

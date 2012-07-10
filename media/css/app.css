@@ -236,10 +236,11 @@ h4 {
     color: rgba(250,121,7,0.94);
 }
 
-h5 {
+h5, h3.subhead {
+    color: inherit;
     font-size: 18px;
     line-height: 24px;
-    margin-bottom: 12px;
+    margin: 0 0 .5em;
     font-weight: 300;
 }
 
