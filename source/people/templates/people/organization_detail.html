@@ -9,7 +9,7 @@
 <div class="page-block">
     <h2>{{ organization.name }}</h2>
     {% if organization.location_string_for_static_map %}
-    <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=350x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" style="width: 350px; height: 250px; float: right; margin: 0 0 1.5em 1.5em;"></a>
+    <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=350x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
     {% endif %}
     
     {% if organization.address or organization.location_string_city %}<h5>{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}<br>{% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</h5>{% endif %}
