@@ -36,6 +36,10 @@ class Person(models.Model):
     def get_absolute_url(self):
         return ('person_detail', (), {
             'slug': self.slug })
+    
+    @property
+    def sort_letter(self):
+        return self.last_name[:1]
 
 
 class PersonLink(models.Model):
@@ -66,7 +70,17 @@ class Organization(models.Model):
     is_live = models.BooleanField('Display on site', default=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
+    twitter_username = models.CharField(max_length=32, blank=True)
+    github_username = models.CharField(max_length=32, blank=True)
+    homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
+    # Location
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=64, blank=True)
+    state = models.CharField(max_length=32, blank=True)
+    country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
+    # Images - TODO once we figure out static media storage
+    #logo = models.ImageField(upload_to='', blank=True, null=True)
     objects = models.Manager()
     live_objects = LiveOrganizationManager()
     
@@ -80,6 +94,24 @@ class Organization(models.Model):
     def get_absolute_url(self):
         return ('organization_detail', (), {
             'slug': self.slug })
+            
+    @property
+    def location_string_for_static_map(self):
+        _locs = []
+        for _loc in [self.address, self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ",".join(_locs).replace(' ','+')
+
+    @property
+    def location_string_city(self):
+        _locs = []
+        for _loc in [self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ", ".join(_locs)
+        
+    @property
+    def sort_letter(self):
+        return self.name.replace('The ', '')[:1]
 
 
 class OrganizationLink(models.Model):

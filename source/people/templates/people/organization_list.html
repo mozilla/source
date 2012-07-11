@@ -4,7 +4,16 @@
 {% block content %}
 <h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
 
-{% for organization in object_list %}
-    <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
+{% for alpha in object_list|groupby('sort_letter') %}
+    <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
+    <div class="grouper-block">
+        {% for row in alpha.list|slice(3) %}
+        <ul class="link-list column-third">
+            {% for organization in row %}
+            <li><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
 {% endfor %}
 {% endblock content %}
