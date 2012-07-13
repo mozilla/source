@@ -44,6 +44,24 @@ SUPPORTED_NONLOCALES = ['media', 'admin',]
 
 STATIC_URL = '/static/'
 
+MIDDLEWARE_CLASSES = (
+    'funfactory.middleware.LocaleURLMiddleware',
+    'multidb.middleware.PinningRouterMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'session_csrf.CsrfMiddleware',  # Must be after auth middleware.
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'commonware.middleware.FrameOptionsHeader',
+    'mobility.middleware.DetectMobileMiddleware',
+    'mobility.middleware.XMobileMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+CACHE_MIDDLEWARE_SECONDS = 60
+
+
 # Because Jinja2 is the default template loader, add any non-Jinja templated
 # apps here:
 JINGO_EXCLUDE_APPS = [
@@ -51,15 +69,6 @@ JINGO_EXCLUDE_APPS = [
     'registration',
 ]
 
-# Override from funfactory.settings_base to add caching template ext
-def JINJA_CONFIG():
-    import jinja2
-    from django.conf import settings
-    config = {'extensions': ['tower.template.i18n', 'jinja2.ext.do',
-                             'jinja2.ext.with_', 'jinja2.ext.loopcontrols',
-                             'caching.ext.cache'],
-              'finalize': lambda x: x if x is not None else ''}
-    return config
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.
