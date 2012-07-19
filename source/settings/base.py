@@ -44,22 +44,13 @@ SUPPORTED_NONLOCALES = ['media', 'admin',]
 
 STATIC_URL = '/static/'
 
-MIDDLEWARE_CLASSES = (
-    'funfactory.middleware.LocaleURLMiddleware',
-    'multidb.middleware.PinningRouterMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'session_csrf.CsrfMiddleware',  # Must be after auth middleware.
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'commonware.middleware.FrameOptionsHeader',
-    'mobility.middleware.DetectMobileMiddleware',
-    'mobility.middleware.XMobileMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
-)
-CACHE_MIDDLEWARE_SECONDS = 60
+# Adding to standard funfactory middleware classes. Need to insert the
+# UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
+MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+MIDDLEWARE_CLASSES.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
+MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
+
+CACHE_MIDDLEWARE_SECONDS = 120
 
 
 # Because Jinja2 is the default template loader, add any non-Jinja templated
