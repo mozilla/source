@@ -72,7 +72,7 @@ class ArticleList(ListView):
         return super(ArticleList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = Article.live_objects.all()
+        queryset = Article.live_objects.prefetch_related('authors', 'people', 'organizations')
 
         if self.section:
             queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
@@ -106,7 +106,7 @@ class ArticleDetail(DetailView):
     model = Article
 
     def get_queryset(self):
-        queryset = Article.live_objects.all()
+        queryset = Article.live_objects.prefetch_related('articleblock_set', 'authors', 'people', 'organizations', 'code')
         
         return queryset
 

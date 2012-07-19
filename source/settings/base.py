@@ -35,6 +35,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
+    'caching',
     'south',
     'taggit',
 ]
@@ -43,12 +44,22 @@ SUPPORTED_NONLOCALES = ['media', 'admin',]
 
 STATIC_URL = '/static/'
 
+# Adding to standard funfactory middleware classes. Need to insert the
+# UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
+MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+MIDDLEWARE_CLASSES.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
+MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
+
+CACHE_MIDDLEWARE_SECONDS = 120
+
+
 # Because Jinja2 is the default template loader, add any non-Jinja templated
 # apps here:
 JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
+
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.

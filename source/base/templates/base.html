@@ -10,6 +10,7 @@
         {% endblock %}
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.6.min.js"></script>
+        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
     </head>
     <body>
         <header id="topbar">
@@ -43,11 +44,20 @@
             <p>Source is a project of Knight-Mozilla OpenNews.
         {% endblock footer %}</footer>
 
-        {% block site_js %}
+{% block site_js %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ MEDIA_URL }}js/libs/jquery-1.7.2.min.js"><\/script>')</script>
         {{ js('sourceapp_js') }}
         {% endblock %}{% block site_js_extra %}{% endblock %}
+        
+{% block google_analytics %}
+        <script>
+            window._gaq = [['_setAccount','UA-33507926-1'],['_trackPageview'],['_trackPageLoadTime']];
+            Modernizr.load({
+                load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+            });
+        </script>{% endblock google_analytics %}
+        
     </body>
 </html>
 

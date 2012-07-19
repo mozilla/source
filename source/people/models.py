@@ -1,12 +1,13 @@
 from django.db import models
 
+from caching.base import CachingManager, CachingMixin
 
-class LivePersonManager(models.Manager):
+class LivePersonManager(CachingManager):
     def get_query_set(self):
         return super(LivePersonManager, self).get_query_set().filter(is_live=True)
 
 
-class Person(models.Model):
+class Person(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -19,7 +20,7 @@ class Person(models.Model):
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
-    objects = models.Manager()
+    objects = CachingManager()
     live_objects = LivePersonManager()
     
     class Meta:
@@ -42,12 +43,13 @@ class Person(models.Model):
         return self.last_name[:1]
 
 
-class PersonLink(models.Model):
+class PersonLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
+    objects = CachingManager()
 
     class Meta:
         ordering = ('person', 'name',)
@@ -59,12 +61,12 @@ class PersonLink(models.Model):
 
 
 
-class LiveOrganizationManager(models.Manager):
+class LiveOrganizationManager(CachingManager):
     def get_query_set(self):
         return super(LiveOrganizationManager, self).get_query_set().filter(is_live=True)
 
 
-class Organization(models.Model):
+class Organization(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -81,7 +83,7 @@ class Organization(models.Model):
     country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
     # Images - TODO once we figure out static media storage
     #logo = models.ImageField(upload_to='', blank=True, null=True)
-    objects = models.Manager()
+    objects = CachingManager()
     live_objects = LiveOrganizationManager()
     
     class Meta:
@@ -114,12 +116,13 @@ class Organization(models.Model):
         return self.name.replace('The ', '')[:1]
 
 
-class OrganizationLink(models.Model):
+class OrganizationLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey(Organization)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
+    objects = CachingManager()
 
     class Meta:
         ordering = ('organization', 'name',)
