@@ -31,4 +31,5 @@ urlpatterns = patterns('',
     (r'^code/', include('source.code.urls')),
     (r'^people/', include('source.people.urls.people')),
     (r'^organizations/', include('source.people.urls.organizations')),
+    (r'^search/', include('haystack.urls')),
 )
