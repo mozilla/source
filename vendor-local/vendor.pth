@@ -3,3 +3,4 @@ src/requests
 src/django-south
 src/django-taggit
 src/django-cache-machine
+src/django-haystack
