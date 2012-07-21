@@ -1,0 +1,5 @@
+{# slim presentation block for an article item in search results #}
+<div class="page-block">
+    <h3><span class="category">Article:</span> <a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h3>
+    <p>{{ article.summary|truncate(150)|safe }}</p>
+</div>
