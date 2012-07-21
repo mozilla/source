@@ -1,10 +1,5 @@
-{{ object.title }}
-{{ object.subhead }}
-{{ object.body }}
-
-{% for author in object.authors.all() %}
-    {{ author.name }}
-{% endfor %}
+{{ object.name }}
+{{ object.description }}
 
 {% for person in object.people.all() %}
     {{ person.name }}
@@ -12,10 +7,6 @@
 
 {% for organization in object.organizations.all() %}
     {{ organization.name }}
-{% endfor %}
-
-{% for code in object.code.all() %}
-    {{ code.name }}
 {% endfor %}
 
 {% for tag in object.tags.all() %}
