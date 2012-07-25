@@ -348,6 +348,46 @@ h1.maintopic {
     margin-right: 218px;
     margin-top: -20px;
 }
+
+.col {
+    float: left;
+    padding: 0px;
+    margin-right: 25px;
+    width: 241px;
+}
+
+
+.external h2 {
+    padding-top: 40px;
+    font-family: 'Open Sans', sans-serif;
+    background: transparent url(../img/css/icons.png) no-repeat top left;
+    color: #2e2e2d;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.external p {
+	font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.6em;
+    color: #454545;
+}
+.external ul {
+    padding-left: 0;
+}
+.external li {
+    list-style-type: none;
+    border-top: 1px solid #D8DADC;
+    padding: 0.5em 0;
+    font-size: 14px;
+    margin-left: -25px;
+}
+.external li:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
 /* DAN ADDITIONS STOP HERE */
 
 @media screen and (max-width: 640px) {
