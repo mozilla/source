@@ -365,6 +365,10 @@ h1.name {
     margin-left: -10px; 
 }
 
+.link-list-inline li a:not(:first-of-type) {
+    margin-left .2em;
+}
+
 span.category, span.category a {
     color: rgb(252, 110, 31);
 }
