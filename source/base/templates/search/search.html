@@ -12,27 +12,27 @@
         <input class="btn" type="submit" value="Search">
     </form>
 
-        {% if query %}
-            <h2>Results</h2>
+    {% if query %}
+        <h2>Results</h2>
 
-            {% for result in page.object_list %}
-                {% set result_type = result.content_type().split('.')[1] %}
-                {% with object = result.object  %}
-                    {% include "search/includes/_%s_list_item.html" % result_type %}
-                {% endwith %}
-            {% else %}
-                <p>No matching results found.</p>
-            {% endfor %}
-
-            {% if page.has_previous() or page.has_next() %}
-                <div>
-                    {% if page.has_previous() %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous() %}</a>{% endif %}
-                    |
-                    {% if page.has_next() %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next() %}</a>{% endif %}
-                </div>
-            {% endif %}
+        {% for result in page.object_list %}
+            {% set result_type = result.content_type().split('.')[1] %}
+            {% with object = result.object  %}
+                {% include "search/includes/_%s_list_item.html" % result_type %}
+            {% endwith %}
         {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
+            <p>No matching results found.</p>
+        {% endfor %}
+
+        {% if page.has_previous() or page.has_next() %}
+            <p>
+                {% if page.has_previous() %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number() }}">{% endif %}&laquo; Previous{% if page.has_previous() %}</a>{% endif %}
+                |
+                {% if page.has_next() %}<a href="?q={{ query }}&amp;page={{ page.next_page_number() }}">{% endif %}Next &raquo;{% if page.has_next() %}</a>{% endif %}
+            </p>
         {% endif %}
+    {% else %}
+        <p>Search Source&rsquo;s articles, code, people and organizations.</p>
+    {% endif %}
 </div>
 {% endblock content %}
