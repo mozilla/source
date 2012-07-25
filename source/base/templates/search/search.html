@@ -16,12 +16,10 @@
             <h2>Results</h2>
 
             {% for result in page.object_list %}
-                {% if result.content_type() == "articles.article" %}
-                    {% with article = result.object %}{% include "search/includes/_article_list_item.html" %}{% endwith %}
-                {% endif %}
-                {% if result.content_type() == "code.code" %}
-                    {% with code = result.object %}{% include "search/includes/_code_list_item.html" %}{% endwith %}
-                {% endif %}
+                {% set result_type = result.content_type().split('.')[1] %}
+                {% with object = result.object  %}
+                    {% include "search/includes/_%s_list_item.html" % result_type %}
+                {% endwith %}
             {% else %}
                 <p>No matching results found.</p>
             {% endfor %}
