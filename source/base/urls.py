@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from haystack.forms import HighlightedModelSearchForm
+from haystack.forms import SearchForm
 from haystack.views import SearchView, search_view_factory
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^search/$',
-        view = search_view_factory(view_class=SearchView, form_class=HighlightedModelSearchForm),
+        view = search_view_factory(view_class=SearchView, form_class=SearchForm),
         kwargs = {},
         name = 'haystack_search',
     ),
