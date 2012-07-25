@@ -39,8 +39,28 @@
             </div>
         </div>
         <footer class="container">{% block footer %}
-            <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br />
-            <p>Source is a project of Knight-Mozilla OpenNews.
+            <section class="external">
+             <div class="col">
+                <h2>Connect with Source</h2>
+                <ul>
+                <li>Get the latest by <a href="http://planet.drumbeat.org/mojo/">subscribing to our news feed</a></li>        
+                <li>Connect on Twitter <a href="http://twitter.com/opennews" class="twitter-follow-button" data-show-count="false">@opennews</a></li>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                <li><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
+                <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
+                <li>Source is a project of <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h2>About OpenNews</h2>
+ <p>A mult-year partnership between Mozilla and the Knight-Foundation, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web.<p>For more information, visit <a href="http://www.mozillaopennews.org" target="_blank">mozillaopennews.org</a> </p>            </div>
+            <div class="col">
+                <h2>About Mozilla</h2>
+                <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.
+<p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please<a href="http://donate.mozilla.org/join"> join Mozilla.</a>
+            </div>
+       </div>
+       </section>
         {% endblock footer %}</footer>
 
         {% block site_js %}
