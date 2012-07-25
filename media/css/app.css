@@ -186,14 +186,14 @@ h3 a {
 article h3 {margin-top: 1em;}
 
 h4 {
-    font-family: Georgia;
+	font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
     margin-top: 0px;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     line-height: 1.3em;
     width: 800px;
-    color: rgba(250,121,7,0.94);
+    color: rgba(163,163,163,1);
 }
 
 h5 {
