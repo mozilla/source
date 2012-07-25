@@ -3,7 +3,7 @@ from .models import Article
 
 
 class ArticleIndex(indexes.SearchIndex, indexes.Indexable):
-    title = indexes.CharField(model_attr='title', boost=1.3)
+    title = indexes.CharField(model_attr='title', boost=1.2)
     text = indexes.CharField(document=True, use_template=True)
     pubdate = indexes.DateTimeField(model_attr='pubdate')
 

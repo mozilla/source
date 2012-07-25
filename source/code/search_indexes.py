@@ -3,7 +3,7 @@ from .models import Code
 
 
 class CodeIndex(indexes.SearchIndex, indexes.Indexable):
-    name = indexes.CharField(model_attr='name', boost=1.3)
+    name = indexes.CharField(model_attr='name', boost=1.2)
     text = indexes.CharField(document=True, use_template=True)
 
     def get_model(self):
