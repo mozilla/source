@@ -226,14 +226,14 @@ article h3 {
 }
 
 h4 {
-    font-family: Georgia;
+	font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
     margin-top: 0px;
-    margin-bottom: 45px;
+    margin-bottom: 30px;
     line-height: 1.3em;
     width: 800px;
-    color: rgba(250,121,7,0.94);
+    color: rgba(163,163,163,1);
 }
 
 h5, h3.subhead {
@@ -406,7 +406,7 @@ a:hover {
 
 h1.maintopic {
     text-align: right;
-    margin-right: 218px;
+    margin-right: 185px;
     margin-top: -20px;
 }
 
@@ -436,6 +436,46 @@ h1.maintopic {
 .small, .link-list li i.small {
     font-size: 0.8em;
 }
+.col {
+    float: left;
+    padding: 0 25px 0 0;
+    width: 33%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.external h2 {
+    padding-top: 40px;
+    font-family: 'Open Sans', sans-serif;
+    background: transparent url(../img/css/icons.png) no-repeat top left;
+    color: #2e2e2d;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.external p {
+	font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.6em;
+    color: #454545;
+}
+.external ul {
+    padding-left: 0;
+}
+.external li {
+    list-style-type: none;
+    border-top: 1px solid #D8DADC;
+    padding: 0.5em 0;
+    font-size: 14px;
+    margin-left: -25px;
+}
+.external li:first-child {
+    border-top: none;
+    padding-top: 0;
+}
 
 @media screen and (max-width: 640px) {
     #topbar img.opennews {
@@ -456,6 +496,10 @@ h1.maintopic {
     #navigation li a:hover {
         border: none;
     }
+    .col {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     .column-third {
         width: auto;
         float: none;
@@ -468,6 +512,12 @@ h1.maintopic {
     }
     .content {
         margin-top: 20px;
+    }
+    .col {
+        float: none;
+        width: auto;
+        padding-left: 15px;
+        padding-right: 15px;
     }
     aside {
         float: none;
