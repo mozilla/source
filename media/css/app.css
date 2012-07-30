@@ -366,7 +366,7 @@ h1.name {
 }
 
 .link-list-inline li a:not(:first-of-type) {
-    margin-left .2em;
+    margin-left: .2em;
 }
 
 span.category, span.category a {
