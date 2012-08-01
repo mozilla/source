@@ -17,8 +17,22 @@
             {% include "people/_person_link_list_inline.html" %}{% endwith %}
             {% with organization_link_list = article.organizations.all() %}
             {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+            <li><i class="icon-comments"></i><a href="{{ article.get_absolute_url() }}#disqus_thread">Comments</a></li>
         </ul>
         <p>{{ article.summary|safe }}</p>
     </div>
 {% endfor %}
 {% endblock content %}
+
+{% block site_js_extra %}
+<script type="text/javascript">
+var disqus_shortname = 'source-opennews';
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+{% endblock %}
