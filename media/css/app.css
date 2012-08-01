@@ -449,6 +449,10 @@ h1.maintopic {
     box-sizing: border-box;
 }
 
+#disqus_thread {
+    clear: both;
+    margin-bottom: 2em;
+}
 
 .external h2 {
     padding-top: 40px;
@@ -461,7 +465,7 @@ h1.maintopic {
 }
 
 .external p {
-	font-family: sans-serif;
+    font-family: sans-serif;
     font-size: 14px;
     line-height: 1.6em;
     color: #454545;
