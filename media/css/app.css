@@ -58,6 +58,10 @@ ul.errorlist li {
     margin-bottom: 2em;
 }
 
+aside .byline .link-list {
+    margin-bottom: 0;
+}
+
 .grouper-block > .link-list {
     margin-bottom: 1.5em;
 }
