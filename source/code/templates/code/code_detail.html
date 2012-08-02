@@ -19,12 +19,25 @@
 </div>
 
 <div class="page-block">
-    <div style="width: 520px; float: left; margin-right: 30px;">
+    {% if not '//github.com/' in code.url %}
+        {% with person_link_list = code.people.all() %}
+        {% include "people/_person_link_list.html" %}{% endwith %}
+
+        {% with organization_link_list = code.organizations.all() %}
+        {% include "people/_organization_link_list.html" %}{% endwith %}
+    
+        {% with article_link_list = code.article_set.all() %}
+        {% include "articles/_article_link_list.html" %}{% endwith %}
+    
+        {% with basic_link_list = code.codelink_set.all() %}
+        {% include "utils/_basic_link_list.html" %}{% endwith %}
+    {% else %}
+    <div class="code-repo-browse">
         <h5 class="list-header" style="margin-bottom: 2em;">Browse this repo / <a href="{{ code.url }}">Fork this repo</a></h5>
         <div id="repo"></div>
     </div>
     
-    <div style="width: 250px; float: left;">
+    <div class="code-repo-meta">
     {% with person_link_list = code.people.all() %}
     {% include "people/_person_link_list.html" %}{% endwith %}
     
@@ -37,11 +50,12 @@
     {% with basic_link_list = code.codelink_set.all() %}
     {% include "utils/_basic_link_list.html" %}{% endwith %}
     </div>
+    {% endif %}
 </div>
 {% endblock content %}
 
 {% block site_js_extra %}
-{% if 'github' in code.url %}
+{% if '//github.com/' in code.url %}
 <script src="{{ MEDIA_URL }}js/date.js"></script>
 <script src="{{ MEDIA_URL }}js/repo.min.js"></script>
 <script type="text/javascript">

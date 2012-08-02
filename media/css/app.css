@@ -493,6 +493,17 @@ h1.maintopic {
     vertical-align: text-top;
 }
 
+.code-repo-browse {
+    float: left;
+    width: 520px;
+    margin-right: 30px;
+}
+
+.code-repo-meta {
+    float: left;
+    width: 250px;
+}
+
 @media screen and (max-width: 640px) {
     #topbar img.opennews {
         float: left;
