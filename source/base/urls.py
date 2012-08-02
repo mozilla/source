@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.decorators.cache import cache_page
 
 from .feeds import ArticleFeed
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
@@ -14,7 +15,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^rss/$',
-        view = ArticleFeed(),
+        view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'homepage_feed',
     ),
@@ -26,7 +27,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^(?P<section>articles|community)/rss/$',
-        view = ArticleFeed(),
+        view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_section_feed',
     ),
@@ -38,7 +39,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^category/(?P<category>%s)/rss/$' % article_category_options,
-        view = ArticleFeed(),
+        view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_category_feed',
     ),

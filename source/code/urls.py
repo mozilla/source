@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.decorators.cache import cache_page
 from django.views.generic.simple import redirect_to
 
 from .views import CodeList, CodeDetail
@@ -14,7 +15,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^rss/$',
-        view = CodeFeed(),
+        view = cache_page(CodeFeed(), 60*15),
         kwargs = {},
         name = 'code_list_feed',
     ),
@@ -26,7 +27,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^tags/(?P<tag_slug>[-\w]+)/rss/$',
-        view = CodeFeed(),
+        view = cache_page(CodeFeed(), 60*15),
         kwargs = {},
         name = 'code_list_by_tag_feed',
     ),

@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.decorators.cache import cache_page
 from django.views.generic.simple import redirect_to
 
 from .views import ArticleList, ArticleDetail
@@ -21,7 +22,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^tags/(?P<tag_slug>[-\w]+)/rss/$',
-        view = ArticleFeed(),
+        view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_tag_feed',
     ),
