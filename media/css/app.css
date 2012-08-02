@@ -71,7 +71,7 @@ aside .byline .link-list {
     margin-bottom: .67em;
 }
 
-.link-list li i {
+.link-list li i, footer li i {
     margin-right: .25em;
     font-size: 16px;
 }
@@ -487,6 +487,10 @@ h1.maintopic {
 .external li:first-child {
     border-top: none;
     padding-top: 0;
+}
+
+.twitter-follow-button {
+    vertical-align: text-top;
 }
 
 @media screen and (max-width: 640px) {
