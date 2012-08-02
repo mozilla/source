@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% if section %}{% set active_nav = section.slug %}{% endif %}
 
-{% block head_extra %}
-<link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
-{% endblock %}
-
 {% block content %}
 {% if section %}
 <div class="page-block">

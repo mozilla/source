@@ -10,8 +10,11 @@
         {% endblock %}
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.6.min.js"></script>
-        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
         {% block head_extra %}{% endblock %}
+        {% if rss_link %}
+        <link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
+        {% endif %}
+        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
     </head>
     <body>
         <header id="topbar">
