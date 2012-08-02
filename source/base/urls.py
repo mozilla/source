@@ -1,12 +1,9 @@
 from django.conf.urls.defaults import *
 
-#from .views import HomepageView
+from .feeds import ArticleFeed
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
 article_category_options = "|".join(CATEGORY_MAP.keys())
-#article_category_options = "|".join(
-#    [item for article_types in [SECTION_MAP[s]['article_types'] for s in SECTION_MAP] #for item in article_types]
-#)
 
 urlpatterns = patterns('',
     url(
@@ -16,16 +13,34 @@ urlpatterns = patterns('',
         name = 'homepage',
     ),
     url(
+        regex = '^rss/$',
+        view = ArticleFeed(),
+        kwargs = {},
+        name = 'homepage_feed',
+    ),
+    url(
         regex = '^(?P<section>articles|community)/$',
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_section',
     ),
     url(
+        regex = '^(?P<section>articles|community)/rss/$',
+        view = ArticleFeed(),
+        kwargs = {},
+        name = 'article_list_by_section_feed',
+    ),
+    url(
         regex = '^category/(?P<category>%s)/$' % article_category_options,
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_category',
+    ),
+    url(
+        regex = '^category/(?P<category>%s)/rss/$' % article_category_options,
+        view = ArticleFeed(),
+        kwargs = {},
+        name = 'article_list_by_category_feed',
     ),
     (r'^articles/', include('source.articles.urls')),
     (r'^code/', include('source.code.urls')),

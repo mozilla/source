@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
@@ -90,15 +91,20 @@ class ArticleList(ListView):
         if self.section:
             context['section'] = SECTION_MAP[self.section]
             context['active_nav'] = SECTION_MAP[self.section]['slug']
+            context['rss_link'] = reverse('article_list_by_section_feed', kwargs={'section': self.section})
         elif self.category:
             context['category'] = CATEGORY_MAP[self.category]['name']
             context['section'] = SECTION_MAP[CATEGORY_MAP[self.category]['parent_slug']]
             context['active_nav'] = CATEGORY_MAP[self.category]['parent_slug']
+            context['rss_link'] = reverse('article_list_by_category_feed', kwargs={'category': self.category})
         elif self.tag:
             context['section'] = SECTION_MAP['articles']
             context['active_nav'] = SECTION_MAP['articles']['slug']
             context['tag'] = self.tag
-
+            context['rss_link'] = reverse('article_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
+        else:
+            context['rss_link'] = reverse('homepage_feed')
+            
         return context
 
 

@@ -11,6 +11,7 @@
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.6.min.js"></script>
         <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
+        {% block head_extra %}{% endblock %}
     </head>
     <body>
         <header id="topbar">
