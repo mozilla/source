@@ -1,0 +1,6 @@
+{{ object.name }}
+{{ object.description }}
+{{ object.homepage }}
+{{ object.twitter_username }}
+{{ object.github_username }}
+{{ object.address }}, {{ object.city }} {{ object.state }}{% if object.country %}, {{ object.country }}{% endif %}

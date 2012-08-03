@@ -477,6 +477,11 @@ h1.maintopic {
     padding-top: 0;
 }
 
+.search-form input {
+    vertical-align: text-top;
+    height: auto;
+}
+
 @media screen and (max-width: 640px) {
     #topbar img.opennews {
         float: left;

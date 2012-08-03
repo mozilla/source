@@ -36,6 +36,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.code' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
     'caching',
+    'haystack',
     'south',
     'taggit',
 ]
@@ -52,6 +53,14 @@ MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
 
 CACHE_MIDDLEWARE_SECONDS = 120
 
+# Search with django-haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
 
 # Because Jinja2 is the default template loader, add any non-Jinja templated
 # apps here:
@@ -59,7 +68,6 @@ JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
-
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.

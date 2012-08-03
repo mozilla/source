@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
-#from .views import HomepageView
+from haystack.forms import SearchForm
+from haystack.views import SearchView, search_view_factory
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
 article_category_options = "|".join(CATEGORY_MAP.keys())
@@ -27,8 +28,15 @@ urlpatterns = patterns('',
         kwargs = {},
         name = 'article_list_by_category',
     ),
+    url(
+        regex = '^search/$',
+        view = search_view_factory(view_class=SearchView, form_class=SearchForm),
+        kwargs = {},
+        name = 'haystack_search',
+    ),
     (r'^articles/', include('source.articles.urls')),
     (r'^code/', include('source.code.urls')),
     (r'^people/', include('source.people.urls.people')),
     (r'^organizations/', include('source.people.urls.organizations')),
+#    (r'^search/', include('haystack.urls')),
 )

@@ -1,0 +1,9 @@
+{{ object.first_name }} {{ object.last_name }}
+{{ object.description }}
+{{ object.email }}
+{{ object.twitter_username }}
+{{ object.github_username }}
+
+{% for organization in object.organizations.all() %}
+    {{ organization.name }}
+{% endfor %}
