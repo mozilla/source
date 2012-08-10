@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Article
+from source.base.utils import paginate
 from taggit.models import Tag
 
 SECTION_MAP = {
@@ -104,6 +105,12 @@ class ArticleList(ListView):
             context['rss_link'] = reverse('article_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
         else:
             context['rss_link'] = reverse('homepage_feed')
+            
+        page, paginator = paginate(self.request, self.object_list, 20)
+        context.update({
+            'page': page,
+            'paginator': paginator
+        })
             
         return context
 
