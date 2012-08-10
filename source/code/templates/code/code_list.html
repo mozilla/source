@@ -6,7 +6,7 @@
     <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 </div>
 
-{% for code in object_list %}
+{% for code in page.object_list %}
 <div class="page-block">
     <h2>{% include "code/_code_category_and_tags_overline.html" %}<a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h2>
     <ul class="link-list link-list-inline">
@@ -16,4 +16,6 @@
     {% if code.description %}<p>{{ code.description }}</p>{% endif %}
 </div>
 {% endfor %}
+
+{% include "utils/_paginate.html" %}
 {% endblock content %}

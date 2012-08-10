@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Code
+from source.base.utils import paginate
 from taggit.models import Tag
 
 
@@ -33,7 +34,13 @@ class CodeList(ListView):
             context['rss_link'] = reverse('code_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
         else:
             context['rss_link'] = reverse('code_list_feed')
-            
+        
+        page, paginator = paginate(self.request, self.object_list, 50)
+        context.update({
+            'page': page,
+            'paginator': paginator
+        })
+
         return context
 
 
