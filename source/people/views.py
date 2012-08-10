@@ -7,10 +7,9 @@ class PersonList(ListView):
     model = Person
 
     def get_queryset(self):
-        queryset = Person.live_objects.prefetch_related('organizations')
+        queryset = Person.live_objects.exclude(show_in_lists=False).prefetch_related('organizations')
         
         return queryset
-
 
 class PersonDetail(DetailView):
     model = Person
@@ -20,17 +19,13 @@ class PersonDetail(DetailView):
         
         return queryset
 
-
-
-
 class OrganizationList(ListView):
     model = Organization
 
     def get_queryset(self):
-        queryset = Organization.live_objects.all()
+        queryset = Organization.live_objects.exclude(show_in_lists=False).all()
         
         return queryset
-
 
 class OrganizationDetail(DetailView):
     model = Organization
