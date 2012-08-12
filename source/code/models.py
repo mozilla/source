@@ -35,6 +35,11 @@ class Code(CachingMixin, models.Model):
     def get_absolute_url(self):
         return ('code_detail', (), {
             'slug': self.slug })
+            
+    @property
+    def title(self):
+        '''alias for search results template'''
+        return self.name
 
 
 class CodeLink(CachingMixin, models.Model):

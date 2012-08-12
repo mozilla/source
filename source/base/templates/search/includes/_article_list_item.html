@@ -1,0 +1,5 @@
+{# slim presentation block for an article item in search results #}
+<div class="page-block">
+    <h3>{% if not hide_list_item_categories %}<span class="category">Article:</span> {% endif %}<a href="{{ object.get_absolute_url() }}">{{ object.title }}</a></h3>
+    <p>{{ object.summary|truncate(150)|safe }}</p>
+</div>

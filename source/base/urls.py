@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
 from .feeds import ArticleFeed
+from haystack.forms import SearchForm
+from haystack.views import SearchView, search_view_factory
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
 article_category_options = "|".join(CATEGORY_MAP.keys())
@@ -42,6 +44,12 @@ urlpatterns = patterns('',
         view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_category_feed',
+    ),
+    url(
+        regex = '^search/$',
+        view = search_view_factory(view_class=SearchView, form_class=SearchForm),
+        kwargs = {},
+        name = 'haystack_search',
     ),
     (r'^articles/', include('source.articles.urls')),
     (r'^code/', include('source.code.urls')),
