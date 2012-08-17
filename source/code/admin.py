@@ -8,6 +8,12 @@ class CodeLinkInline(admin.StackedInline):
     fieldsets = (
         ('', {'fields': (('name', 'url'),)}),
     )
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(CodeLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'name':
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
 
 class CodeAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -20,5 +26,13 @@ class CodeAdmin(admin.ModelAdmin):
         ('Related objects', {'fields': ('people', 'organizations',)}),
     )
     inlines = [CodeLinkInline,]
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(CodeAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ['url','tags']:
+            field.widget.attrs['style'] = 'width: 45em;'
+        if db_field.name in ['name','slug']:
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
 
 admin.site.register(Code, CodeAdmin)

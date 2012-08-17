@@ -8,6 +8,12 @@ class PersonLinkInline(admin.StackedInline):
     fieldsets = (
         ('', {'fields': (('name', 'url'),)}),
     )
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(PersonLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'name':
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
 
 class PersonAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -27,6 +33,12 @@ class OrganizationLinkInline(admin.StackedInline):
     fieldsets = (
         ('', {'fields': (('name', 'url'),)}),
     )
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(OrganizationLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'name':
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
 
 class OrganizationAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -34,7 +46,7 @@ class OrganizationAdmin(admin.ModelAdmin):
     list_filter = ('is_live',)
     search_fields = ('name', 'description',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), 'is_live', 'twitter_username', 'github_username', 'homepage', 'description',)}),
+        ('', {'fields': (('name', 'slug'), ('is_live', 'show_in_lists'), 'twitter_username', 'github_username', 'homepage', 'description',)}),
         ('Location', {'fields': ('address', ('city', 'state',), 'country',)}),
     )
     inlines = [OrganizationLinkInline,]

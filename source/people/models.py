@@ -11,7 +11,7 @@ class Person(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
-    show_in_lists = models.BooleanField(default=True)
+    show_in_lists = models.BooleanField('Show on People list page', default=True)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
@@ -30,6 +30,16 @@ class Person(CachingMixin, models.Model):
     def __unicode__(self):
         return '%s %s' % (self.first_name, self.last_name)
         
+    def save(self, *args, **kwargs):
+        # clean up our username fields, just in case
+        if self.twitter_username.startswith('@'):
+            self.twitter_username = self.twitter_username.strip('@')
+        if '/' in self.twitter_username:
+            self.twitter_username = self.twitter_username.split('/')[-1]
+        if '/' in self.github_username:
+            self.github_username = self.github_username.split('/')[-1]
+        super(Person, self).save(*args, **kwargs)
+
     def name(self):
         return '%s %s' % (self.first_name, self.last_name)
         
@@ -70,6 +80,7 @@ class Organization(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
+    show_in_lists = models.BooleanField('Show on Organization list page', default=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     twitter_username = models.CharField(max_length=32, blank=True)
@@ -92,6 +103,16 @@ class Organization(CachingMixin, models.Model):
     def __unicode__(self):
         return '%s' % self.name
         
+    def save(self, *args, **kwargs):
+        # clean up our username fields, just in case
+        if self.twitter_username.startswith('@'):
+            self.twitter_username = self.twitter_username.strip('@')
+        if '/' in self.twitter_username:
+            self.twitter_username = self.twitter_username.split('/')[-1]
+        if '/' in self.github_username:
+            self.github_username = self.github_username.split('/')[-1]
+        super(Organization, self).save(*args, **kwargs)
+
     @models.permalink
     def get_absolute_url(self):
         return ('organization_detail', (), {
