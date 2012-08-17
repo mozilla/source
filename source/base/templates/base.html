@@ -10,6 +10,10 @@
         {% endblock %}
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.6.min.js"></script>
+        {% block head_extra %}{% endblock %}
+        {% if rss_link %}
+        <link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
+        {% endif %}
         <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
     </head>
     <body>
@@ -44,21 +48,24 @@
              <div class="col">
                 <h2>Connect with Source</h2>
                 <ul>
-                <li>Get the latest by <a href="http://planet.drumbeat.org/mojo/">subscribing to our news feed</a></li>        
-                <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-                <li><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
-                <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
-                <li>Source is a project of <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a></li>
+                    {% if rss_link %}<li><i class="icon-rss"></i><a type="application/rss+xml" href="{{ rss_link }}">RSS for this page</a></li>{% endif %}
+                    <li><i class="icon-envelope-alt"></i><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
+                    <li>Get the latest by <a href="http://planet.drumbeat.org/mojo/">subscribing to our news feed</a></li>
+                    <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
+                    <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
+                    <li>Source is a project of <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a></li>
                 </ul>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
             <div class="col">
                 <h2>About OpenNews</h2>
- <p>A mult-year partnership between Mozilla and the Knight-Foundation, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web.<p>For more information, visit <a href="http://www.mozillaopennews.org" target="_blank">mozillaopennews.org</a> </p>            </div>
+                <p>A multi-year partnership between Mozilla and the Knight-Foundation, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web.</p>
+                <p>For more information, visit <a href="http://www.mozillaopennews.org" target="_blank">mozillaopennews.org</a></p>
+            </div>
             <div class="col">
                 <h2>About Mozilla</h2>
-                <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.
-<p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please<a href="http://donate.mozilla.org/join"> join Mozilla.</a>
+                <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.</p>
+                <p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please <a href="http://donate.mozilla.org/join">join Mozilla.</a></p>
             </div>
        </div>
        </section>

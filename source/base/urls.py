@@ -1,13 +1,12 @@
 from django.conf.urls.defaults import *
+from django.views.decorators.cache import cache_page
 
+from .feeds import ArticleFeed
 from haystack.forms import SearchForm
 from haystack.views import SearchView, search_view_factory
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
 article_category_options = "|".join(CATEGORY_MAP.keys())
-#article_category_options = "|".join(
-#    [item for article_types in [SECTION_MAP[s]['article_types'] for s in SECTION_MAP] #for item in article_types]
-#)
 
 urlpatterns = patterns('',
     url(
@@ -17,16 +16,34 @@ urlpatterns = patterns('',
         name = 'homepage',
     ),
     url(
+        regex = '^rss/$',
+        view = cache_page(ArticleFeed(), 60*15),
+        kwargs = {},
+        name = 'homepage_feed',
+    ),
+    url(
         regex = '^(?P<section>articles|community)/$',
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_section',
     ),
     url(
+        regex = '^(?P<section>articles|community)/rss/$',
+        view = cache_page(ArticleFeed(), 60*15),
+        kwargs = {},
+        name = 'article_list_by_section_feed',
+    ),
+    url(
         regex = '^category/(?P<category>%s)/$' % article_category_options,
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_category',
+    ),
+    url(
+        regex = '^category/(?P<category>%s)/rss/$' % article_category_options,
+        view = cache_page(ArticleFeed(), 60*15),
+        kwargs = {},
+        name = 'article_list_by_category_feed',
     ),
     url(
         regex = '^search/$',
@@ -38,5 +55,4 @@ urlpatterns = patterns('',
     (r'^code/', include('source.code.urls')),
     (r'^people/', include('source.people.urls.people')),
     (r'^organizations/', include('source.people.urls.organizations')),
-#    (r'^search/', include('haystack.urls')),
 )

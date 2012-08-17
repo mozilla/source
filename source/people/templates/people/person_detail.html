@@ -41,21 +41,27 @@ $(document).ready(function(){
     {% if person.twitter_username %}
     sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
     $.getJSON(sourceData.twitter_api_url, function(data) {
-        sourceData.twitter_bio = data['description'];
-        sourceData.twitter_avatar = data['profile_image_url'];
-        sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
-        $('#person-name').after(sourceData.twitter_line);
+        // returns 'success' even on 404, so ensure that data exists
+        if (data['description']) {
+            sourceData.twitter_bio = data['description'];
+            sourceData.twitter_avatar = data['profile_image_url'];
+            sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
+            $('#person-name').after(sourceData.twitter_line);
+        }
     });
     {% endif %}
     {% if person.github_username %}
     sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
-        sourceData.github_repos = data.data['public_repos'];
-        sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
-        sourceData.github_gists = data.data['public_gists'];
-        sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
-        sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
-        $('#person-github').append(sourceData.github_line);
+        // returns 'success' even on 404, so ensure that data exists
+        if (data.data['public_repos']) {
+            sourceData.github_repos = data.data['public_repos'];
+            sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+            sourceData.github_gists = data.data['public_gists'];
+            sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+            sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+            $('#person-github').append(sourceData.github_line);
+        }
     });
     {% endif %}
 });

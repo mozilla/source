@@ -58,6 +58,10 @@ ul.errorlist li {
     margin-bottom: 2em;
 }
 
+aside .byline .link-list {
+    margin-bottom: 0;
+}
+
 .grouper-block > .link-list {
     margin-bottom: 1.5em;
 }
@@ -67,7 +71,7 @@ ul.errorlist li {
     margin-bottom: .67em;
 }
 
-.link-list li i {
+.link-list li i, footer li i {
     margin-right: .25em;
     font-size: 16px;
 }
@@ -117,7 +121,7 @@ ul.errorlist li {
     display: none;
 }
 
-#navigation {
+#navigation, #pagination {
     float: right;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
@@ -126,6 +130,10 @@ ul.errorlist li {
     width: 300px;
     text-shadow: 0px 1px 0px #f3f3f4;
     margin: 0 0 0 0;
+}
+
+#pagination {
+    width: auto;
 }
 
 #navigation li {
@@ -365,6 +373,10 @@ h1.name {
     margin-left: -10px; 
 }
 
+.link-list-inline li a:not(:first-of-type) {
+    margin-left: .2em;
+}
+
 span.category, span.category a {
     color: rgb(252, 110, 31);
 }
@@ -445,6 +457,10 @@ h1.maintopic {
     box-sizing: border-box;
 }
 
+#disqus_thread {
+    clear: both;
+    margin-bottom: 2em;
+}
 
 .external h2 {
     padding-top: 40px;
@@ -457,7 +473,7 @@ h1.maintopic {
 }
 
 .external p {
-	font-family: sans-serif;
+    font-family: sans-serif;
     font-size: 14px;
     line-height: 1.6em;
     color: #454545;
@@ -475,6 +491,21 @@ h1.maintopic {
 .external li:first-child {
     border-top: none;
     padding-top: 0;
+}
+
+.twitter-follow-button {
+    vertical-align: text-top;
+}
+
+.code-repo-browse {
+    float: left;
+    width: 520px;
+    margin-right: 30px;
+}
+
+.code-repo-meta {
+    float: left;
+    width: 250px;
 }
 
 .search-form input {

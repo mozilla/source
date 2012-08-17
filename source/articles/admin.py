@@ -8,7 +8,7 @@ class ArticleBlockInline(admin.StackedInline):
     extra = 1
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
-        ('', {'fields': (('order', 'title', 'slug'), 'body',)}),
+        ('', {'fields': ('order', ('title', 'slug'), 'body',)}),
     )
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -24,5 +24,13 @@ class ArticleAdmin(admin.ModelAdmin):
         ('Article body', {'fields': ('article_type', 'tags', 'summary', 'body',)}),
     )
     inlines = [ArticleBlockInline,]
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        field = super(ArticleAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ['subhead','tags']:
+            field.widget.attrs['style'] = 'width: 45em;'
+        if db_field.name in ['title','slug']:
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
 
 admin.site.register(Article, ArticleAdmin)
