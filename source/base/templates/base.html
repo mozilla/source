@@ -22,8 +22,8 @@
                 <a href="http://www.mozillaopennews.org"><img src="{{ MEDIA_URL }}img/opennewsmini.png" class="opennews"></a>
                 <img src="{{ MEDIA_URL }}img/sourcemin.png" class="sourcelogomin">
                 {% set navigation_links = [
-                    ('/articles/', 'articles', 'Articles'),
-                    ('/community/', 'community', 'Community'),
+                    ('/', 'features', 'Features'),
+                    ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
                 ] -%}
                 {% set active_nav = active_nav|default('home') -%}
