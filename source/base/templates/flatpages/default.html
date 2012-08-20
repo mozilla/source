@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ flatpage.title }} - Source{% endblock %}
+
+{% block content %}
+<h2>{{ flatpage.title }}</h2>
+<p>{{ flatpage.content|nl2br }}</p>
+{% endblock content %}
