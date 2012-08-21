@@ -47,7 +47,7 @@ class Article(CachingMixin, models.Model):
         ordering = ('-pubdate','title',)
         
     def __unicode__(self):
-        return '%s' % self.title
+        return u'%s' % self.title
         
     @models.permalink
     def get_absolute_url(self):
@@ -74,6 +74,6 @@ class ArticleBlock(CachingMixin, models.Model):
         verbose_name = 'Article Block'
 
     def __unicode__(self):
-        return '%s: %s' % (self.article.title, self.title)
+        return u'%s: %s' % (self.article.title, self.title)
 
 

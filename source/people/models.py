@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.encoding import force_unicode
 
 from caching.base import CachingManager, CachingMixin
 
@@ -28,7 +29,7 @@ class Person(CachingMixin, models.Model):
         verbose_name_plural = 'People'
         
     def __unicode__(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return u'%s %s' % (self.first_name, self.last_name)
         
     def save(self, *args, **kwargs):
         # clean up our username fields, just in case
@@ -41,7 +42,7 @@ class Person(CachingMixin, models.Model):
         super(Person, self).save(*args, **kwargs)
 
     def name(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return u'%s %s' % (self.first_name, self.last_name)
         
     @models.permalink
     def get_absolute_url(self):
@@ -66,7 +67,7 @@ class PersonLink(CachingMixin, models.Model):
         verbose_name = 'Person Link'
 
     def __unicode__(self):
-        return '%s: %s' % (self.person.name, self.name)
+        return u'%s: %s' % (self.person.name, self.name)
 
 
 
@@ -101,7 +102,7 @@ class Organization(CachingMixin, models.Model):
         ordering = ('name',)
         
     def __unicode__(self):
-        return '%s' % self.name
+        return u'%s' % self.name
         
     def save(self, *args, **kwargs):
         # clean up our username fields, just in case
@@ -150,5 +151,5 @@ class OrganizationLink(CachingMixin, models.Model):
         verbose_name = 'Organization Link'
 
     def __unicode__(self):
-        return '%s: %s' % (self.organization.name, self.name)
+        return u'%s: %s' % (self.organization.name, self.name)
 
