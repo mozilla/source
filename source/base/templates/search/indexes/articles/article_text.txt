@@ -3,11 +3,11 @@
 {{ object.body }}
 
 {% for author in object.authors.all() %}
-    {{ author.name }}
+    {{ author.first_name }} {{ author.last_name }}
 {% endfor %}
 
 {% for person in object.people.all() %}
-    {{ person.name }}
+    {{ person.first_name }} {{ person.last_name }}
 {% endfor %}
 
 {% for organization in object.organizations.all() %}

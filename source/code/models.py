@@ -29,7 +29,7 @@ class Code(CachingMixin, models.Model):
         ordering = ('name',)
         
     def __unicode__(self):
-        return '%s' % self.name
+        return u'%s' % self.name
         
     @models.permalink
     def get_absolute_url(self):
@@ -55,5 +55,5 @@ class CodeLink(CachingMixin, models.Model):
         verbose_name = 'Code Link'
 
     def __unicode__(self):
-        return '%s: %s' % (self.code.name, self.name)
+        return u'%s: %s' % (self.code.name, self.name)
 

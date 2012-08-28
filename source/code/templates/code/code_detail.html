@@ -8,7 +8,7 @@
 
 <div class="page-block">
     <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
-    {% if code.description %}<p id="code-description">{{ code.description|nl2br }}</p>{% endif %}
+    {% if code.description %}<p id="code-description">{{ code.description|safe|nl2br }}</p>{% endif %}
     <ul class="link-list" id="code-details">
         <li>
             <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Project home</a>
