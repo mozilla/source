@@ -6,6 +6,8 @@ from .models import Article
 from source.base.utils import paginate
 from taggit.models import Tag
 
+# Current iteration does not use this in nav, but leaving dict
+# in place for feed, url imports until we make a permanent call
 SECTION_MAP = {
     'articles': {
         'name': 'Articles', 

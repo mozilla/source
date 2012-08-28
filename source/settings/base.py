@@ -31,6 +31,8 @@ ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
 INSTALLED_APPS = list(INSTALLED_APPS) + [
     'django.contrib.admin',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
@@ -49,6 +51,7 @@ STATIC_URL = '/static/'
 # UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
 MIDDLEWARE_CLASSES.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
+MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackMiddleware')
 MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
 
 CACHE_MIDDLEWARE_SECONDS = 120
