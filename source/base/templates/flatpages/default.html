@@ -4,5 +4,5 @@
 
 {% block content %}
 <h2>{{ flatpage.title }}</h2>
-<p>{{ flatpage.content|nl2br }}</p>
+{{ flatpage.content|linebreaks|safe }}
 {% endblock content %}

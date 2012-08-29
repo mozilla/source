@@ -8,7 +8,7 @@
 
 <div class="page-block">
     <h2 id="person-name">{{ person.name() }}</h2>
-    {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
+    {% if person.description %}{{ person.description|linebreaks|safe }}{% endif %}
 
     <ul class="link-list">
         {% with organization_link_list = person.organizations.all() %}
