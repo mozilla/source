@@ -67,14 +67,13 @@ $(document).ready(function(){
     $('#repo').repo({ user: sourceData.github_user, name: sourceData.github_repo });
     sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_location + '?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
-        sourceData.github_description = '<p>' + data.data['description'] + '</p>';
         sourceData.github_last_push = new Date(data.data['pushed_at']).toString('dddd, MMM d, yyyy');
         sourceData.github_forks = data.data['forks'];
         sourceData.github_watchers = data.data['watchers'];
         sourceData.github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + sourceData.github_forks + '</span><span>Watchers: ' + sourceData.github_watchers + '</span><span>Last push: ' + sourceData.github_last_push + '</span></li>'
         {% if not code.description %}
-        if (sourceData.github_description.length > 7) {
-            $('#code-name').after(sourceData.github_description);
+        if (data.data['description']) {
+            $('#code-name').after('<p>' + data.data['description'] + '</p>');
         }
         {% endif %}
         $('#code-details').append(sourceData.github_details);
