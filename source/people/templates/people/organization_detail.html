@@ -10,7 +10,7 @@
     <h2>{{ organization.name }}</h2>
     
     {% if organization.logo %}
-        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200") }}" alt="{{ organization.name }}">
+        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x75") }}" alt="{{ organization.name }}">
     {% endif %}
     
     {% if organization.location_string_for_static_map %}
