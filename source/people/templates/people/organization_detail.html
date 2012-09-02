@@ -9,12 +9,12 @@
 <div class="page-block item-detail">
     <h2>{{ organization.name }}</h2>
     
-    {% if organization.logo %}
-        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x75") }}" alt="{{ organization.name }}">
-    {% endif %}
-    
     {% if organization.location_string_for_static_map %}
     <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=350x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+    {% endif %}
+    
+    {% if organization.logo %}
+        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x50") }}" alt="{{ organization.name }}">
     {% endif %}
     
     {% if organization.address or organization.location_string_city %}<h3 class="subhead">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}<br>{% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</h3>{% endif %}

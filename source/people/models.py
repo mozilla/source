@@ -94,7 +94,7 @@ class Organization(CachingMixin, models.Model):
     city = models.CharField(max_length=64, blank=True)
     state = models.CharField(max_length=32, blank=True)
     country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
-    logo = ImageField(upload_to='img/uploads/org_logos', blank=True, null=True)
+    logo = ImageField(upload_to='img/uploads/org_logos', help_text="Resized to fit 200x50 box in template", blank=True, null=True)
     objects = CachingManager()
     live_objects = LiveOrganizationManager()
     

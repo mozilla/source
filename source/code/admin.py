@@ -22,7 +22,7 @@ class CodeAdmin(admin.ModelAdmin):
     list_filter = ('is_live', 'is_active',)
     search_fields = ('name', 'description',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'description',)}),
+        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'screenshot', 'description',)}),
         ('Related objects', {'fields': ('people', 'organizations',)}),
     )
     inlines = [CodeLinkInline,]
