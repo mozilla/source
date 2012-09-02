@@ -438,6 +438,11 @@ h1.maintopic {
     margin-left: .5em;
 }
 
+.item-detail .logo {
+    width: 200px;
+    margin-bottom: 1em;
+}
+
 .map-inset-right {
     width: 350px;
     height: 250px;

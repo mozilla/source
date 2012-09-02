@@ -6,8 +6,13 @@
     <h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
 </div>
 
-<div class="page-block">
+<div class="page-block item-detail">
     <h2>{{ organization.name }}</h2>
+    
+    {% if organization.logo %}
+        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200") }}" alt="{{ organization.name }}">
+    {% endif %}
+    
     {% if organization.location_string_for_static_map %}
     <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=350x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
     {% endif %}
@@ -16,12 +21,12 @@
     
     {% if organization.description %}{{ organization.description|linebreaks|safe }}{% endif %}
     
+    {% if organization.twitter_username or organization.github_username or organization.homepage %}
     <ul class="link-list">        
         {% if organization.twitter_username %}<li id="organization-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a></li>{% endif %}
         {% if organization.github_username %}<li id="organization-github"><i class="icon-github"></i><a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a></li>{% endif %}
         {% if organization.homepage %}<li id="organization-homepage"><i class="icon-home"></i><a href="{{ organization.homepage }}">{{ organization.homepage }}</a></li>{% endif %}
-        
-    </ul>
+    </ul>{% endif %}
 </div>
 
 <div class="page-block">

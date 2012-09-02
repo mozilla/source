@@ -73,6 +73,9 @@ JINGO_EXCLUDE_APPS = [
     'registration',
 ]
 
+# sorl-thumbnail settings
+DEFAULT_IMAGE_SRC = '/img/uploads/missing.png'
+
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.
 DOMAIN_METHODS['messages'] = [
