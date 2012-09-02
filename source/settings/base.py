@@ -39,6 +39,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.people' % PROJECT_MODULE,
     'caching',
     'haystack',
+    'sorl.thumbnail',
     'south',
     'taggit',
 ]
