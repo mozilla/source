@@ -10,6 +10,9 @@
 {% block article_class %}article-detail{% endblock %}
 {% block content %}
     <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
+    {% if article.image %}
+        <img class="image-full-width" src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
+    {% endif %}
     <h4>{{ article.subhead }}</h4>
     
     <aside>

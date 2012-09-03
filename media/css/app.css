@@ -442,6 +442,11 @@ h1.maintopic {
     margin-bottom: 1em;
 }
 
+.image-full-width {
+    width: 100%;
+    margin-bottom: 1em;
+}
+
 .map-inset-right, .image-inset-right {
     float: right;
     margin: 0 0 1.5em 1.5em;
