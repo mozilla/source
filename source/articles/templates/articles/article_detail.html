@@ -31,12 +31,12 @@
         {% include "people/_organization_link_list.html" %}{% endwith %}
     </aside>
     
-    <p>{{ article.body|safe|nl2br }}</p>
+    {{ article.body|linebreaks|safe }}
     
     {% for articleblock in article.articleblock_set.all() %}
     <div class="page-block">
         <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
-        <p>{{ articleblock.body|safe|nl2br }}</p>
+        {{ articleblock.body|linebreaks|safe }}
     </div>
     {% endfor %}
     
