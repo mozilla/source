@@ -8,6 +8,11 @@
 
 <div class="page-block">
     <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
+
+    {% if code.screenshot %}
+        <img class="image-inset-right" src="{{ MEDIA_URL }}{{ thumbnail(code.screenshot, "350x250") }}" alt="{{ code.name }}">
+    {% endif %}
+
     {% if code.description %}{{ code.description|linebreaks|safe }}{% endif %}
     <ul class="link-list" id="code-details">
         <li>
@@ -73,7 +78,7 @@ $(document).ready(function(){
         sourceData.github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + sourceData.github_forks + '</span><span>Watchers: ' + sourceData.github_watchers + '</span><span>Last push: ' + sourceData.github_last_push + '</span></li>'
         {% if not code.description %}
         if (data.data['description']) {
-            $('#code-name').after('<p>' + data.data['description'] + '</p>');
+            $('#code-details').before('<p>' + data.data['description'] + '</p>');
         }
         {% endif %}
         $('#code-details').append(sourceData.github_details);

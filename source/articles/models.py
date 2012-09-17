@@ -4,6 +4,7 @@ from django.db import models
 from django.template.defaultfilters import date as dj_date, linebreaks
 
 from caching.base import CachingManager, CachingMixin
+from sorl.thumbnail import ImageField
 from source.people.models import Person, Organization
 from source.code.models import Code
 from taggit.managers import TaggableManager
@@ -33,6 +34,7 @@ class Article(CachingMixin, models.Model):
     pubdate = models.DateTimeField(default=datetime.now)
     subhead = models.CharField(max_length=128)
     authors = models.ManyToManyField(Person, blank=True, null=True, related_name='article_authors')
+    image = ImageField(upload_to='img/uploads/article_images', help_text="Resized to fit 100% column width in template", blank=True, null=True)
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)

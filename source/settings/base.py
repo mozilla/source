@@ -39,6 +39,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.people' % PROJECT_MODULE,
     'caching',
     'haystack',
+    'sorl.thumbnail',
     'south',
     'taggit',
 ]
@@ -71,6 +72,9 @@ JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
+
+# sorl-thumbnail settings
+DEFAULT_IMAGE_SRC = '/img/uploads/missing.png'
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.

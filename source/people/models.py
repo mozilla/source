@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import force_unicode
 
 from caching.base import CachingManager, CachingMixin
+from sorl.thumbnail import ImageField
 
 class LivePersonManager(CachingManager):
     def get_query_set(self):
@@ -93,8 +94,7 @@ class Organization(CachingMixin, models.Model):
     city = models.CharField(max_length=64, blank=True)
     state = models.CharField(max_length=32, blank=True)
     country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
-    # Images - TODO once we figure out static media storage
-    #logo = models.ImageField(upload_to='', blank=True, null=True)
+    logo = ImageField(upload_to='img/uploads/org_logos', help_text="Resized to fit 200x50 box in template", blank=True, null=True)
     objects = CachingManager()
     live_objects = LiveOrganizationManager()
     

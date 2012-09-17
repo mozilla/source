@@ -1,6 +1,7 @@
 from django.db import models
 
 from caching.base import CachingManager, CachingMixin
+from sorl.thumbnail import ImageField
 from source.people.models import Person, Organization
 from taggit.managers import TaggableManager
 
@@ -19,6 +20,7 @@ class Code(CachingMixin, models.Model):
     slug = models.SlugField(unique=True)
     url = models.URLField(verify_exists=False)
     description = models.TextField('Description', blank=True)
+    screenshot = ImageField(upload_to='img/uploads/code_screenshots', help_text="Resized to fit 350x250 box in template", blank=True, null=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     tags = TaggableManager(blank=True)

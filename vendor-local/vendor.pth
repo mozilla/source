@@ -5,3 +5,4 @@ src/django-taggit
 src/django-cache-machine
 src/django-haystack
 src/pyelasticsearch
+src/sorl-thumbnail
