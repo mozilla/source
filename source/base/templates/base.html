@@ -27,7 +27,7 @@
                     ('/code/', 'code', 'Code'),
                     ('/search/', 'search', 'Search'),
                 ] -%}
-                {% set active_nav = active_nav|default('home') -%}
+                {% set active_nav = active_nav|default('features') -%}
                 <ul id="navigation">
                 {% for url, id, name in navigation_links %}
                     <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>
