@@ -10,14 +10,9 @@ from taggit.models import Tag
 # in place for feed, url imports until we make a permanent call
 SECTION_MAP = {
     'articles': {
-        'name': 'Articles', 
+        'name': 'Features', 
         'slug': 'articles',
-        'article_types': ['project', 'tool', 'how-to',],
-    },
-    'community': {
-        'name': 'Community', 
-        'slug': 'community',
-        'article_types': ['interview', 'roundtable', 'roundup', 'event', 'update'],
+        'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
     },
 }
 

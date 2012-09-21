@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% set active_nav = "code" %}
+{% extends "code/_base_code.html" %}
+
+{% block page_title %}{{ code.name }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <div class="page-block">

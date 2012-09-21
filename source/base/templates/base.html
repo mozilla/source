@@ -2,7 +2,7 @@
 <html LANG="{{ LANG }}" dir="{{ DIR }}">
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-        <title>{% block page_title %}Source - Journalism Code, Context & Community - A project by Knight-Mozilla OpenNews{% endblock %}</title>
+        <title>{% block page_title %}Source: An OpenNews project{% endblock %}</title>
         <meta name="description" content="Source - Journalism Code, Context & Community">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         {% block site_css %}
@@ -27,7 +27,7 @@
                     ('/code/', 'code', 'Code'),
                     ('/search/', 'search', 'Search'),
                 ] -%}
-                {% set active_nav = active_nav|default('features') -%}
+                {% set active_nav = active_nav %}
                 <ul id="navigation">
                 {% for url, id, name in navigation_links %}
                     <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>

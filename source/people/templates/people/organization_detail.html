@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% set active_nav = "community" %}
+{% extends "people/_base_organizations.html" %}
+
+{% block page_title %}{{ organization.name }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <div class="page-block">
