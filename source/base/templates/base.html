@@ -19,8 +19,8 @@
     <body>
         <header id="topbar">
             <div class="container">
-                <a href="http://www.mozillaopennews.org"><img src="{{ MEDIA_URL }}img/opennewsmini.png" class="opennews"></a>
-                <img src="{{ MEDIA_URL }}img/sourcemin.png" class="sourcelogomin">
+                <a href="http://www.mozillaopennews.org"><img src="{{ MEDIA_URL }}img/opennewsmini.png" alt="Knight-Mozilla OpenNews" class="opennews"></a>
+                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
                 {% set navigation_links = [
                     ('/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
@@ -37,7 +37,7 @@
         </header>
         <div class="content">
             <div class="container page-block">
-                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png"></a>
+                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png" alt="Source"></a>
             </div>
         
             <div class="container">
@@ -69,7 +69,6 @@
                 <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.</p>
                 <p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please <a href="http://donate.mozilla.org/join">join Mozilla.</a></p>
             </div>
-       </div>
        </section>
         {% endblock footer %}</footer>
 
