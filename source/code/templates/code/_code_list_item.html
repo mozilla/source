@@ -5,5 +5,5 @@
         {% with organization_link_list = code.organizations.all() %}
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
     </ul>
-    {% if code.description %}<p>{{ code.description }}</p>{% endif %}
+    {% if code.description %}{{ code.description|linebreaks|safe }}{% endif %}
 </div>
