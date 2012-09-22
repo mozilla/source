@@ -2,7 +2,7 @@
 <html LANG="{{ LANG }}" dir="{{ DIR }}">
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-        <title>{% block page_title %}Source - Journalism Code, Context & Community - A project by Knight-Mozilla OpenNews{% endblock %}</title>
+        <title>{% block page_title %}Source: An OpenNews project{% endblock %}</title>
         <meta name="description" content="Source - Journalism Code, Context & Community">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         {% block site_css %}
@@ -19,15 +19,15 @@
     <body>
         <header id="topbar">
             <div class="container">
-                <a href="http://www.mozillaopennews.org"><img src="{{ MEDIA_URL }}img/opennewsmini.png" class="opennews"></a>
-                <img src="{{ MEDIA_URL }}img/sourcemin.png" class="sourcelogomin">
+                <a href="http://www.mozillaopennews.org"><img src="{{ MEDIA_URL }}img/opennewsmini.png" alt="Knight-Mozilla OpenNews" class="opennews"></a>
+                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
                 {% set navigation_links = [
                     ('/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
                     ('/search/', 'search', 'Search'),
                 ] -%}
-                {% set active_nav = active_nav|default('home') -%}
+                {% set active_nav = active_nav %}
                 <ul id="navigation">
                 {% for url, id, name in navigation_links %}
                     <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>
@@ -37,7 +37,7 @@
         </header>
         <div class="content">
             <div class="container page-block">
-                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png"></a>
+                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png" alt="Source"></a>
             </div>
         
             <div class="container">
@@ -54,7 +54,7 @@
                     <li><i class="icon-bookmark"></i><a href="/about/">About us</a></li>
                     <li>Get the latest by <a href="http://planet.drumbeat.org/mojo/">subscribing to our news feed</a></li>
                     <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
-                    <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
+                    <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
                     <li>Source is a project of <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a></li>
                 </ul>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -69,7 +69,6 @@
                 <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.</p>
                 <p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please <a href="http://donate.mozilla.org/join">join Mozilla.</a></p>
             </div>
-       </div>
        </section>
         {% endblock footer %}</footer>
 

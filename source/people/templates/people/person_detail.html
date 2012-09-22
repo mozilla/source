@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% set active_nav = "people" %}
+{% extends "people/_base_people.html" %}
+
+{% block page_title %}{{ person.name() }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <div class="page-block">

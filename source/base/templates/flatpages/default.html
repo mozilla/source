@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-
-{% block page_title %}{{ flatpage.title }} - Source{% endblock %}
+{% block page_title %}{{ flatpage.title }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <h2>{{ flatpage.title }}</h2>

@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% extends "articles/_base_articles.html" %}
+
+{% block page_title %} {{ article.title }} - {{ super() }}{% endblock %}
 
 {% block site_js_extra %}
 <script src="{{ MEDIA_URL }}js/jquery.syntaxhighlighter.min.js"></script>

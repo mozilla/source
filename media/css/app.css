@@ -1,12 +1,6 @@
 /*  Override bootstrap.css defaults here, 
     until all the styles are belong to us */
 
-/*
-ul#navigation {list-style: none; margin: 0; padding: 0; overflow: hidden; display: inline-block; border-right: 2px solid #111; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.35); -moz-box-shadow: 0 1px 2px rgba(0,0,0,.35); box-shadow: 0 1px 2px rgba(0,0,0,.35);}
-ul#navigation li {float: left; border: 2px solid #111; border-right: none;}
-ul#navigation li a {display: block; padding: 5px 12px; text-decoration: none; color: #444;}
-ul#navigation li.active a, ul#navigation li a:hover {background-color: #e3e3e3}
-*/
 .container {
     width: auto;
     max-width: 800px;
@@ -151,7 +145,7 @@ aside .byline .link-list {
     display: inline-block;
 }
 
-#navigation li a:hover {
+#navigation li a:hover, #navigation li.active a {
     border-right: 1px solid #dfdfdf;
     border-left: 1px solid #dfdfdf;
     background-color: #d8d8d8;
