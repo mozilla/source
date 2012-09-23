@@ -32,8 +32,8 @@
 
 <div class="page-block">
     {% with person_link_list = organization.person_set.all() %}
-    <h3 class="subhead list-header">People</h3>
-    <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endwith %}
+    {% if person_link_list %}<h3 class="subhead list-header">People</h3>
+    <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endwith %}{% endif %}
 
     {% with code_link_list = organization.code_set.all() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
