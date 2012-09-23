@@ -71,7 +71,7 @@ $(document).ready(function(){
     sourceData.github_user = sourceData.github_location.split('/')[0];
     sourceData.github_repo = sourceData.github_location.split('/')[1];
     $('#repo').repo({ user: sourceData.github_user, name: sourceData.github_repo });
-    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_location + '?callback=?';
+    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_user + '/' + sourceData.github_repo + '?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
         sourceData.github_last_push = new Date(data.data['pushed_at']).toString('dddd, MMM d, yyyy');
         sourceData.github_forks = data.data['forks'];
