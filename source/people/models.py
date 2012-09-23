@@ -34,12 +34,16 @@ class Person(CachingMixin, models.Model):
         
     def save(self, *args, **kwargs):
         # clean up our username fields, just in case
-        if self.twitter_username.startswith('@'):
-            self.twitter_username = self.twitter_username.strip('@')
-        if '/' in self.twitter_username:
-            self.twitter_username = self.twitter_username.split('/')[-1]
-        if '/' in self.github_username:
-            self.github_username = self.github_username.split('/')[-1]
+        if self.twitter_username:
+            self.twitter_username = self.twitter_username.strip()
+            if self.twitter_username.startswith('@'):
+                self.twitter_username = self.twitter_username.strip('@')
+            if '/' in self.twitter_username:
+                self.twitter_username = self.twitter_username.split('/')[-1]
+        if self.github_username:
+            self.github_username = self.github_username.strip()
+            if '/' in self.github_username:
+                self.github_username = self.github_username.split('/')[-1]
         super(Person, self).save(*args, **kwargs)
 
     def name(self):
