@@ -39,7 +39,7 @@
         {% include "utils/_basic_link_list.html" %}{% endwith %}
     {% else %}
     <div class="code-repo-browse">
-        <h5 class="list-header" style="margin-bottom: 2em;">Browse this repo / <a href="{{ code.url }}">Fork this repo</a></h5>
+        <h5 class="list-header">Browse this repo / <a href="{{ code.url }}">Fork this repo</a></h5>
         <div id="repo"></div>
     </div>
     
@@ -63,7 +63,7 @@
 {% block site_js_extra %}
 {% if '//github.com/' in code.url %}
 <script src="{{ MEDIA_URL }}js/date.js"></script>
-<script src="{{ MEDIA_URL }}js/repo.min.js"></script>
+<script src="{{ MEDIA_URL }}js/repo.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     var sourceData = {};

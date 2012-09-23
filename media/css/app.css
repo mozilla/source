@@ -510,6 +510,10 @@ h1.maintopic {
     margin-right: 30px;
 }
 
+.code-repo-browse .list-header {
+    margin-bottom: 2em;
+}
+
 .code-repo-meta {
     float: left;
     width: 250px;
