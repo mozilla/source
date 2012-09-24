@@ -16,46 +16,48 @@ SECTION_MAP = {
     },
 }
 
+# Current iteration only has *one* articles section, but this map is in place
+# in case we split out into multiple sections that need parent categories
 CATEGORY_MAP = {
     'project': {
         'name': 'Project',
-        'parent_name': 'Articles',
+        'parent_name': 'Features',
         'parent_slug': 'articles',
     },
     'tool': {
         'name': 'Tool',
-        'parent_name': 'Articles',
+        'parent_name': 'Features',
         'parent_slug': 'articles',
     },
     'how-to': {
         'name': 'How-to',
-        'parent_name': 'Articles',
+        'parent_name': 'Features',
         'parent_slug': 'articles',
     },
     'interview': {
         'name': 'Interview',
-        'parent_name': 'Community',
-        'parent_slug': 'community',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
     },
     'roundtable': {
         'name': 'Roundtable',
-        'parent_name': 'Community',
-        'parent_slug': 'community',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
     },
     'roundup': {
         'name': 'Roundup',
-        'parent_name': 'Community',
-        'parent_slug': 'community',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
     },
     'event': {
         'name': 'Event',
-        'parent_name': 'Community',
-        'parent_slug': 'community',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
     },
     'update': {
         'name': 'Update',
-        'parent_name': 'Community',
-        'parent_slug': 'community',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
     },
 }
 
