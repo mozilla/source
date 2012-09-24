@@ -10,7 +10,7 @@ $(document).ready(function () {
             $('.sourcelogomin').fadeIn('fast');
         } else {
             // otherwise remove it
-            $('.sourcelogomin').hide();
+            $('.sourcelogomin').fadeOut('fast');
         }
     });
 });

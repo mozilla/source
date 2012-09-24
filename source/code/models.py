@@ -32,7 +32,14 @@ class Code(CachingMixin, models.Model):
         
     def __unicode__(self):
         return u'%s' % self.name
-        
+    
+    def save(self, *args, **kwargs):
+        # GitHub API does not like trailing slashes on repo links
+        # so clean things up just in case
+        if self.url and 'github.com' in self.url:
+            self.url = self.url.rstrip('/')
+        super(Code, self).save(*args, **kwargs)
+
     @models.permalink
     def get_absolute_url(self):
         return ('code_detail', (), {
