@@ -94,6 +94,7 @@ aside .byline .link-list {
     -webkit-box-shadow: 0px 2px 4px #767676;
     box-shadow: 0px 2px 4px #767676;
     overflow: hidden;
+    z-index: 999;
 }
 
 #topbar .container {
@@ -507,6 +508,10 @@ h1.maintopic {
     float: left;
     width: 520px;
     margin-right: 30px;
+}
+
+.code-repo-browse .list-header {
+    margin-bottom: 2em;
 }
 
 .code-repo-meta {
