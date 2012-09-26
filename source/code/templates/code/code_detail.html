@@ -11,7 +11,7 @@
     <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
 
     {% if code.screenshot %}
-        <img class="image-inset-right" src="{{ MEDIA_URL }}{{ thumbnail(code.screenshot, "350x250") }}" alt="{{ code.name }}">
+        <img class="image-inset-right" src="{{ MEDIA_URL }}{{ thumbnail(code.screenshot, "300") }}" alt="{{ code.name }}">
     {% endif %}
 
     {% if code.description %}{{ code.description|linebreaks|safe }}{% endif %}

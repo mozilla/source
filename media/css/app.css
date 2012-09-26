@@ -442,13 +442,19 @@ h1.maintopic {
     margin-bottom: 1em;
 }
 
+.image-inset-left {
+    float: left;
+    width: 300px;
+    margin: 0 1.5em 1.5em 0;
+}
+
 .map-inset-right, .image-inset-right {
     float: right;
+    width: 300px;
     margin: 0 0 1.5em 1.5em;
 }
 
 .map-inset-right {
-    width: 350px;
     height: 250px;
 }
 

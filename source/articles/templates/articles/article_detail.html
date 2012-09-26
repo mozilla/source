@@ -41,7 +41,21 @@
     {% for articleblock in article.articleblock_set.all() %}
     <div class="page-block">
         <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
+        {% if articleblock.image and articleblock.image_presentation in ['full-width','inset-left','inset-right'] %}
+            {% set _image_width_options = {
+                'full-width':'800',
+                'inset-left':'300',
+                'inset-right':'300',
+            } -%}
+            {% set _this_image_width = _image_width_options[articleblock.image_presentation] %}
+            <img class="image-{{ articleblock.image_presentation }}" src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}">
+        {% endif %}
+        
         {{ articleblock.body|linebreaks|safe }}
+        
+        {% if articleblock.image and articleblock.image_presentation == 'full-width-below' %}
+            <img class="image-full-width" src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}">
+        {% endif %}
     </div>
     {% endfor %}
     
