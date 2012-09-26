@@ -59,7 +59,14 @@ class Article(CachingMixin, models.Model):
     @property
     def pretty_pubdate(self):
         return dj_date(self.pubdate,"F j, Y")
-        
+
+
+IMAGE_PRESENTATION_CHOICES = (
+    ('full-width', 'Full-Width Above Text'),
+    ('full-width-below', 'Full-Width Below Text'),
+    ('inset-left', 'Inset Left'),
+    ('inset-right', 'Inset Right'),
+)
 
 class ArticleBlock(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -68,6 +75,8 @@ class ArticleBlock(CachingMixin, models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     order = models.PositiveIntegerField(default=1)
+    image = ImageField(upload_to='img/uploads/article_images', blank=True, null=True)
+    image_presentation = models.CharField(max_length=24, choices=IMAGE_PRESENTATION_CHOICES, blank=True)
     body = models.TextField()
     objects = CachingManager()
     
