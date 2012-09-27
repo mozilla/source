@@ -8,7 +8,7 @@ class ArticleBlockInline(admin.StackedInline):
     extra = 1
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
-        ('', {'fields': ('order', ('title', 'slug'), 'body', ('image', 'image_presentation'),)}),
+        ('', {'fields': ('order', ('title', 'slug'), 'body', ('image', 'image_presentation'), 'image_caption', 'image_credit',)}),
     )
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -21,7 +21,7 @@ class ArticleAdmin(admin.ModelAdmin):
     fieldsets = (
         ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
-        ('Article body', {'fields': ('article_type', 'tags', 'image', 'summary', 'body',)}),
+        ('Article body', {'fields': ('article_type', 'tags', 'image', 'image_caption', 'image_credit', 'summary', 'body',)}),
     )
     inlines = [ArticleBlockInline,]
     
