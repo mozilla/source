@@ -62,6 +62,14 @@ class Article(CachingMixin, models.Model):
     def pretty_pubdate(self):
         return dj_date(self.pubdate,"F j, Y")
 
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
+
 
 IMAGE_PRESENTATION_CHOICES = (
     ('full-width', 'Full-Width Above Text'),
@@ -91,4 +99,11 @@ class ArticleBlock(CachingMixin, models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.article.title, self.title)
 
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
 
