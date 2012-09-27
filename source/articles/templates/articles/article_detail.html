@@ -13,7 +13,10 @@
 {% block content %}
     <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
     {% if article.image %}
-        <img class="image-full-width" src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
+        <div class="image-full-width-wrapper">
+            <img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
+            {% if article.pretty_caption %}<p class="caption">{{ article.pretty_caption }}</p>{% endif %}
+        </div>
     {% endif %}
     <h4>{{ article.subhead }}</h4>
     
@@ -48,13 +51,19 @@
                 'inset-right':'300',
             } -%}
             {% set _this_image_width = _image_width_options[articleblock.image_presentation] %}
-            <img class="image-{{ articleblock.image_presentation }}" src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}">
+            <div class="image-{{ articleblock.image_presentation }}-wrapper">
+                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}">
+                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption }}</p>{% endif %}
+            </div>
         {% endif %}
         
         {{ articleblock.body|linebreaks|safe }}
         
         {% if articleblock.image and articleblock.image_presentation == 'full-width-below' %}
-            <img class="image-full-width" src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}">
+            <div class="image-full-width-wrapper">
+                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}">
+                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption }}</p>{% endif %}
+            </div>
         {% endif %}
     </div>
     {% endfor %}
