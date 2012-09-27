@@ -11,7 +11,7 @@
     <h2>{{ organization.name }}</h2>
     
     {% if organization.location_string_for_static_map %}
-    <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="http://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+    <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
     {% endif %}
     
     {% if organization.logo %}
