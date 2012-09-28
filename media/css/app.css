@@ -122,7 +122,7 @@ aside .byline .link-list {
     font-weight: 300;
     font-size: 16px;
     text-transform: uppercase;
-    width: 400px;
+    width: 300px;
     text-shadow: 0px 1px 0px #f3f3f4;
     margin: 0 0 0 0;
 }
@@ -542,6 +542,24 @@ h1.maintopic {
 .search-form input {
     vertical-align: text-top;
     height: auto;
+    font-size: 16px;
+}
+
+.search-form input[type="text"] {
+    width: 300px;
+}
+
+#topbar .search-form {
+    float: right;
+    margin: 6px 0 0;
+}
+
+#topbar .search-form input {
+    font-size: 13px;
+}
+
+#topbar .search-form input[type="text"] {
+    width: 120px;
 }
 
 @media screen and (max-width: 640px) {
