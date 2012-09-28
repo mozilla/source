@@ -122,7 +122,7 @@ aside .byline .link-list {
     font-weight: 300;
     font-size: 16px;
     text-transform: uppercase;
-    width: 400px;
+    width: 300px;
     text-shadow: 0px 1px 0px #f3f3f4;
     margin: 0 0 0 0;
 }
@@ -188,7 +188,7 @@ article, .container {
     line-height: 1.8em;
 }
 
-h1, h2, h3, h5, h6, ul {
+h1, h2, h3, h5, h6, ul, .caption {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
     text-align: left;
@@ -437,18 +437,38 @@ h1.maintopic {
     margin-bottom: 1em;
 }
 
-.image-full-width {
+.caption {
+    font-size: 14px;
+    line-height: 21px;
+    margin: .25em 0 0;
+}
+
+.image-full-width-wrapper {
     width: 100%;
     margin-bottom: 1em;
 }
 
-.map-inset-right, .image-inset-right {
+.image-full-width-wrapper img {
+    width: 100%;
+}
+
+.image-inset-left-wrapper {
+    float: left;
+    width: 300px;
+    margin: .33em 1em 1em 0;
+}
+
+.map-inset-right, .image-inset-right-wrapper {
     float: right;
-    margin: 0 0 1.5em 1.5em;
+    width: 300px;
+    margin: .33em 0 1em 1em;
+}
+
+.image-inset-left-wrapper img, .image-inset-right-wrapper img {
+    width: 300px;
 }
 
 .map-inset-right {
-    width: 350px;
     height: 250px;
 }
 
@@ -522,6 +542,24 @@ h1.maintopic {
 .search-form input {
     vertical-align: text-top;
     height: auto;
+    font-size: 16px;
+}
+
+.search-form input[type="text"] {
+    width: 300px;
+}
+
+#topbar .search-form {
+    float: right;
+    margin: 6px 0 0;
+}
+
+#topbar .search-form input {
+    font-size: 13px;
+}
+
+#topbar .search-form input[type="text"] {
+    width: 120px;
 }
 
 @media screen and (max-width: 640px) {

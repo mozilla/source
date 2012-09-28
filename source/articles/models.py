@@ -34,7 +34,9 @@ class Article(CachingMixin, models.Model):
     pubdate = models.DateTimeField(default=datetime.now)
     subhead = models.CharField(max_length=128)
     authors = models.ManyToManyField(Person, blank=True, null=True, related_name='article_authors')
-    image = ImageField(upload_to='img/uploads/article_images', help_text="Resized to fit 100% column width in template", blank=True, null=True)
+    image = ImageField(upload_to='img/uploads/article_images', help_text='Resized to fit 100% column width in template', blank=True, null=True)
+    image_caption = models.TextField(blank=True)
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
@@ -59,7 +61,22 @@ class Article(CachingMixin, models.Model):
     @property
     def pretty_pubdate(self):
         return dj_date(self.pubdate,"F j, Y")
-        
+
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
+
+
+IMAGE_PRESENTATION_CHOICES = (
+    ('full-width', 'Full-Width Above Text'),
+    ('full-width-below', 'Full-Width Below Text'),
+    ('inset-left', 'Inset Left'),
+    ('inset-right', 'Inset Right'),
+)
 
 class ArticleBlock(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -68,6 +85,10 @@ class ArticleBlock(CachingMixin, models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     order = models.PositiveIntegerField(default=1)
+    image = ImageField(upload_to='img/uploads/article_images', blank=True, null=True)
+    image_presentation = models.CharField(max_length=24, choices=IMAGE_PRESENTATION_CHOICES, blank=True)
+    image_caption = models.TextField(blank=True)
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
     body = models.TextField()
     objects = CachingManager()
     
@@ -78,4 +99,11 @@ class ArticleBlock(CachingMixin, models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.article.title, self.title)
 
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
 
