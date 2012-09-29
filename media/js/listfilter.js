@@ -10,6 +10,8 @@ $(document).ready(function() {
         if (filterVal) {
             $(filteredList).find('li:not(:icontains(' + filterVal + '))').hide();
             $(filteredList).find('.filter-block:not(:has(li:visible))').hide();
+            $(filteredList).find('.link-list:not(:has(li:visible))').hide();
+            $(filteredList).find('.link-list:has(li:icontains(' + filterVal + '))').show();
             $(filteredList).find('.filter-block:has(li:icontains(' + filterVal + '))').show();
             $(filteredList).find('li:icontains(' + filterVal + ')').show();
         } else {
