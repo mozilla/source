@@ -271,12 +271,12 @@ h6 a {
     margin-bottom: .5em;
 }
 
-.js-filter-form {
+#js-filter-form {
     display: none;
     margin-bottom: 1em;
 }
 
-.js-filter-form label {
+#js-filter-form label {
     display: inline-block;
     font-size: .67em;
     vertical-align: middle;

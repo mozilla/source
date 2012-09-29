@@ -7,7 +7,7 @@
     </h1>
 </div>
 
-<div class="js-filter-form">
+<div id="js-filter-form">
     <label>Start typing to filter list</label>
     <input class="filter" type="text" id="list-filter" />
 </div>
@@ -17,7 +17,7 @@
     <div class="grouper-block filter-block">
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
         {% for row in alpha.list|slice(3) %}
-        <ul class="link-list column-third">
+        <ul class="link-list filter-list column-third">
             {% for organization in row %}
             <li><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></li>
             {% endfor %}
