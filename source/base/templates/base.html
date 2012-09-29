@@ -19,12 +19,11 @@
     <body>
         <header id="topbar">
             <div class="container">
-                {% if not hide_topbar_search %}
                 <form class="search-form" method="get" action="{{ url('haystack_search') }}">
                     <input type="text" name="q" id="id_q" />
                     <input class="btn" type="submit" value="Search">
-                </form>{% endif %}
-
+                </form>
+                
                 <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
                 {% set navigation_links = [
                     ('/', 'features', 'Features'),

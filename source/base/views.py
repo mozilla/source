@@ -11,7 +11,8 @@ class HomepageView(ListView):
 
 class SourceSearchView(SearchView):
     def extra_context(self):
-        return {
-            'hide_topbar_search': True
-        }
+        '''
+        Add extra context for search results page here.
+        '''
+        return {}
     
