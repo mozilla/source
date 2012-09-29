@@ -1,11 +1,21 @@
 {% extends "people/_base_organizations.html" %}
 
 {% block content %}
-<h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
+<div class="page-block">
+    <h1 class="maintopic">
+         <a href="{{ url('person_list') }}">People</a> / <span class="category">Organizations</span>
+    </h1>
+</div>
 
+<div class="js-filter-form">
+    <label>Start typing to filter list</label>
+    <input class="filter" type="text" id="list-filter" />
+</div>
+
+<div id="filterable-list">
 {% for alpha in object_list|groupby('sort_letter') %}
-    <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
-    <div class="grouper-block">
+    <div class="grouper-block filter-block">
+        <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
         {% for row in alpha.list|slice(3) %}
         <ul class="link-list column-third">
             {% for organization in row %}
@@ -15,4 +25,9 @@
         {% endfor %}
     </div>
 {% endfor %}
+</div>
 {% endblock content %}
+
+{% block site_js_extra %}
+<script src="{{ MEDIA_URL }}js/listfilter.js"></script>
+{% endblock %}
