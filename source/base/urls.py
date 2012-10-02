@@ -4,6 +4,7 @@ from django.views.decorators.cache import cache_page
 from .feeds import ArticleFeed
 from .views import SourceSearchView
 from haystack.forms import SearchForm
+from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
 from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
 
@@ -48,7 +49,7 @@ urlpatterns = patterns('',
     ),
     url(
         regex = '^search/$',
-        view = search_view_factory(view_class=SourceSearchView, form_class=SearchForm),
+        view = search_view_factory(view_class=SourceSearchView, form_class=SearchForm, searchqueryset=SearchQuerySet().order_by('django_ct')),
         kwargs = {},
         name = 'haystack_search',
     ),
