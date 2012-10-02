@@ -188,7 +188,7 @@ article, .container {
     line-height: 1.8em;
 }
 
-h1, h2, h3, h5, h6, ul, .caption {
+h1, h2, h3, h5, h6, ul, .caption, label {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
     text-align: left;
@@ -266,18 +266,33 @@ h6 a {
     padding-left: 1em;
     margin-left: 1em;
 }
+
 .list-header {
     margin-bottom: .5em;
 }
+
+#js-filter-form {
+    display: none;
+    margin-bottom: 1em;
+}
+
+#js-filter-form label {
+    display: inline-block;
+    font-size: .67em;
+    vertical-align: middle;
+}
+
 .grouper-header {
     border-bottom: 1px solid #e3e3e3;
     margin: 0 0 .67em;
 }
+
 .grouper-block {
     margin-bottom: 1.5em;
     clear: both;
     overflow: hidden;
 }
+
 .column-third {
     float: left;
     width: 30%;
