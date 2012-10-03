@@ -15,11 +15,22 @@
     </form>
 
     {% if query %}
-        <h2>Results</h2>
-
+        {#}
+        Yes, setting last_result_type_seen/result_type in the loop is a pretty
+        ghetto way of doing `ifchanged`. Unfortunately there's no `ifchanged`
+        support in jinja2. https://github.com/mitsuhiko/jinja2/issues/133
+        
+        This is essentially how the standard Django {% ifchanged %} tag
+        operates, though.
+        {#}
+        {% set last_result_type_seen = '' %}
         {% for result in page.object_list %}
             {% set result_type = result.content_type().split('.')[1] %}
-            {% with object = result.object  %}
+            {% if result_type != last_result_type_seen %}
+                <h2><span class="category">{{ content_type_map[result_type] }}</span></h2>
+                {% set last_result_type_seen = result_type %}
+            {% endif %}
+            {% with object = result.object, hide_list_item_categories=True %}
                 {% include "search/includes/_%s_list_item.html" % result_type %}
             {% endwith %}
         {% else %}

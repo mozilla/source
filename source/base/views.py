@@ -14,5 +14,13 @@ class SourceSearchView(SearchView):
         '''
         Add extra context for search results page here.
         '''
-        return {}
+        page_context = {
+            'content_type_map': {
+                'article': 'Articles',
+                'code': 'Code',
+                'organization': 'Organizations',
+                'person': 'People',
+            }
+        }
+        return page_context
     
