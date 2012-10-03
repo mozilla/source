@@ -1,6 +1,7 @@
-// icontains for text matching
-$.expr[':'].icontains = function(a, i, m) {
-    return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+// custom jQuery filter selector `icontains` for text matching
+// http://answers.oreilly.com/topic/1055-creating-a-custom-filter-selector-with-jquery/
+$.expr[':'].icontains = function(element, index, match) {
+    return (element.textContent || element.innerText || "").toUpperCase().indexOf(match[3].toUpperCase()) >= 0;
 };
 
 $(document).ready(function() {
@@ -8,6 +9,9 @@ $(document).ready(function() {
     $('#js-filter-form').show();
     var listFilter = $('#list-filter');
     var filteredList = $('#filterable-list');
+    
+    // after each keystroke in #list-filter input, do a case-insensitive
+    // search against all the `li` elements inside #filterable-list
     $(listFilter).change(function() {
         var filterVal = $(this).val();
         if (filterVal) {
