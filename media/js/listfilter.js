@@ -5,18 +5,23 @@ $.expr[':'].icontains = function(element, index, match) {
 };
 
 $(document).ready(function() {
-    // only provide filter form if js is enabled
-    $('#js-filter-form').show();
-    var listFilter = $('#list-filter');
+    // set up initial vars
+    var filterForm = '<div id="js-filter-form">\
+        <label>Start typing to filter list</label>\
+        <input class="filter" type="text" id="list-filter" />\
+    </div>';
     var filteredList = $('#filterable-list');
+    
+    // insert filter form because we know we have js
+    $(filterForm).insertBefore(filteredList);
     
     // after each keystroke in #list-filter input, do a case-insensitive
     // search against all the `li` elements inside #filterable-list
-    $(listFilter).change(function() {
+    $('#list-filter').change(function() {
         var filterVal = $(this).val();
         if (filterVal) {
             // hide the list container to avoid potential repaints
-            filteredList.css("display","none");
+            $(filteredList).css("display","none");
             // hide items that don't have matching text, lists that don't have
             // visible items, and blocks that don't have visible lists
             $(filteredList).find('li:not(:icontains(' + filterVal + '))').css("display","none");
@@ -27,7 +32,7 @@ $(document).ready(function() {
             $(filteredList).find('.filter-list:has(li:icontains(' + filterVal + '))').css("display","block");
             $(filteredList).find('li:icontains(' + filterVal + ')').css("display","list-item");
             // show the list container again
-            filteredList.css("display","block");
+            $(filteredList).css("display","block");
         } else {
             // nothing in filter form, so make sure everything is visible
             $(filteredList).find(".filter-block").css("display","block");
