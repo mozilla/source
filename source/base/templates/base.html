@@ -24,7 +24,6 @@
                     <input class="btn" type="submit" value="Search">
                 </form>
                 
-                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
                 {% set navigation_links = [
                     ('/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
@@ -36,6 +35,8 @@
                     <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>
                 {% endfor %}
                 </ul>
+
+                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
             </div>
         </header>
         <div class="content">
