@@ -486,6 +486,12 @@ h1.maintopic {
     width: 300px;
 }
 
+img.list-thumbnail {
+    float: left;
+    width: 150px;
+    margin: 0 .67em .5em 0;
+}
+
 .map-inset-right {
     height: 250px;
 }
@@ -629,5 +635,8 @@ h1.maintopic {
     }
     img#main-logo {
         width: 100%;
+    }
+    img.list-thumbnail {
+        width: 100px;
     }
 }

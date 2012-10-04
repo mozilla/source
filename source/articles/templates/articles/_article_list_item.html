@@ -1,6 +1,7 @@
 {# standard presentation block for an article in list and search results pages #}
 <div class="page-block">
     <h2>{% include "articles/_article_category_and_tags_overline.html" %}<a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
+    {% if article.image %}<img class="list-thumbnail" src="{{ MEDIA_URL }}{{ thumbnail(article.image, "300x200", crop="center") }}" alt="{{ article.title }}">{% endif %}
     <ul class="link-list link-list-inline">
         {% if article.authors.all().exists() %}<li>{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
         {% with person_link_list = article.people.all() %}
