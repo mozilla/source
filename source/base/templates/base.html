@@ -25,7 +25,7 @@
                 </form>
                 
                 {% set navigation_links = [
-                    ('/', 'features', 'Features'),
+                    ('/articles/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
                 ] -%}
@@ -36,16 +36,18 @@
                 {% endfor %}
                 </ul>
 
-                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
+                <a href="{{ url('homepage') }}"><img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin"></a>
             </div>
         </header>
         <div class="content">
             <div class="container page-block">
                 <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png" alt="Source"></a>
+                {% block base_tagline %}{% endblock %}
             </div>
         
             <div class="container">
                 <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
+                {% block base_aside %}{% endblock %}
             </div>
         </div>
         <footer class="container">{% block footer %}
