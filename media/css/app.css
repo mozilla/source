@@ -82,7 +82,6 @@ aside .byline .link-list {
 .link-list-inline li {
     float: left;
     margin-right: 1em;
-    line-height: 1.5em;
 }
 
 #topbar {
@@ -603,6 +602,7 @@ aside.homepage {
 }
 
 aside.homepage h2 {
+    line-height: 1.4em;
     color: rgb(252, 110, 31);
 }
 
@@ -610,7 +610,11 @@ aside.homepage ul {
     font-size: 1.2em;
 }
 
-aside ul.link-list li {
+ul.link-list.link-list-inline li {
+    line-height: 1.5em;
+}
+
+aside.homepage ul.link-list li {
     margin-bottom: 20px;
 }
 
@@ -655,10 +659,15 @@ ul.orderswitch li:first-child:after {
 span.whoswho {
     font-size: .7em;
     display: block;
+    margin-top: 3px;
 }
 
 span.whoswho a {
     color: #727272;
+}
+
+.link-list li span.whoswho i {
+    font-size: 1.2em;
 }
 
 @media screen and (max-width: 640px) {
