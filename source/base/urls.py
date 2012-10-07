@@ -23,6 +23,7 @@ urlpatterns = patterns('',
         kwargs = {},
         name = 'homepage_feed',
     ),
+    # matching /articles/ here to offer future support for multiple sections
     url(
         regex = '^(?P<section>articles)/$',
         view = ArticleList.as_view(),
