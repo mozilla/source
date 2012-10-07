@@ -1,9 +1,9 @@
 from django.views.generic import ListView
 
 from haystack.views import SearchView
+from source.articles.views import ArticleList
 
-
-class HomepageView(ListView):
+class HomepageView(ArticleList):
     '''
     For now, this request runs through articles.views.ArticleList
     '''
