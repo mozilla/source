@@ -670,6 +670,18 @@ span.whoswho a {
     font-size: 1.2em;
 }
 
+@media screen and (max-width: 840px) {
+    aside.homepage {
+        clear: both;
+        float: none;
+        display: block;
+        width: auto;
+        padding: 2em 0;
+        border-left: none;
+        border-top: 1px solid #cdcdcd;
+    }
+}
+
 @media screen and (max-width: 640px) {
     #topbar img.opennews {
         float: left;
