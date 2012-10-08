@@ -687,11 +687,16 @@ article.search-results-single-col {
 }
 
 aside.search-results {
-    font-size: 0.7em;
+    font-size: 0.8em;
     line-height: 1.5;
 }
 
+aside.homepage h2, aside.search-results h2 {
+    font-size: 1.1em;
+}
+
 aside.search-results ul.link-list li {
+    font-size: 0.8em;
     line-height: 1.5em;
 }
 

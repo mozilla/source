@@ -46,6 +46,7 @@
             </div>
         
             <div class="container">
+                {% block base_above_article %}{% endblock %}
                 <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
                 {% block base_aside %}{% endblock %}
             </div>
