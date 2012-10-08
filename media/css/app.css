@@ -587,26 +587,27 @@ img.list-thumbnail {
     margin-left: 15px;
 }
 
-article.homepage {
+article.homepage, article.search-results {
     max-width: 570px;
     margin-left: 0px;
     margin-right: 0px;
     float: left;
 }
 
-aside.homepage {
+aside.homepage, aside.search-results {
     padding: 5px 0 0 20px;
     width: 200px;
     float: right;
     border-left: 1px solid #cdcdcd;
 }
 
-aside.homepage h2 {
+aside.homepage h2, .search-results h2 {
+    font-weight: 300;
     line-height: 1.4em;
     color: rgb(252, 110, 31);
 }
 
-aside.homepage ul {
+aside.homepage ul, aside.search-results ul {
     font-size: 1.2em;
 }
 
@@ -614,7 +615,7 @@ ul.link-list.link-list-inline li {
     line-height: 1.5em;
 }
 
-aside.homepage ul.link-list li {
+aside.homepage ul.link-list li, aside.search-results ul.link-list li {
     margin-bottom: 20px;
 }
 
@@ -670,8 +671,42 @@ span.whoswho a {
     font-size: 1.2em;
 }
 
+article.search-results h2 {
+    margin-bottom: 5px;
+}
+
+article.search-results h3 {
+    margin-top: 0;
+}
+
+article.search-results-single-col {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    float: none;
+}
+
+aside.search-results {
+    font-size: 0.7em;
+    line-height: 1.5;
+}
+
+aside.search-results ul.link-list li {
+    line-height: 1.5em;
+}
+
+aside.search-results-single-col {
+    clear: both;
+    float: none;
+    display: block;
+    width: auto;
+    padding: 2em 0;
+    border-left: none;
+    border-top: 1px solid #cdcdcd;
+}
+
 @media screen and (max-width: 840px) {
-    aside.homepage {
+    aside.homepage, aside.search-results {
         clear: both;
         float: none;
         display: block;
