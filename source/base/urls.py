@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
 from .feeds import ArticleFeed
-from .views import SourceSearchView
+from .views import SourceSearchView, HomepageView
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
@@ -13,7 +13,7 @@ article_category_options = "|".join(CATEGORY_MAP.keys())
 urlpatterns = patterns('',
     url(
         regex = '^$',
-        view = ArticleList.as_view(template_name='homepage.html'),
+        view = HomepageView.as_view(template_name='homepage.html'),
         kwargs = {},
         name = 'homepage',
     ),
@@ -23,6 +23,7 @@ urlpatterns = patterns('',
         kwargs = {},
         name = 'homepage_feed',
     ),
+    # matching /articles/ here to offer future support for multiple sections
     url(
         regex = '^(?P<section>articles)/$',
         view = ArticleList.as_view(),

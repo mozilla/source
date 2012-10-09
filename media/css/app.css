@@ -229,7 +229,7 @@ article h3 {
 }
 
 h4 {
-	font-family: 'Open Sans', Helvetica, sans-serif;
+    font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
     margin-top: 0px;
@@ -272,7 +272,6 @@ h6 a {
 }
 
 #js-filter-form {
-    display: none;
     margin-bottom: 1em;
 }
 
@@ -280,6 +279,10 @@ h6 a {
     display: inline-block;
     font-size: .67em;
     vertical-align: middle;
+}
+
+#js-filter-form input {
+    vertical-align: text-top;
 }
 
 .grouper-header {
@@ -483,6 +486,12 @@ h1.maintopic {
     width: 300px;
 }
 
+img.list-thumbnail {
+    float: left;
+    width: 150px;
+    margin: 0 .67em .5em 0;
+}
+
 .map-inset-right {
     height: 250px;
 }
@@ -574,7 +583,143 @@ h1.maintopic {
 }
 
 #topbar .search-form input[type="text"] {
-    width: 120px;
+    width: 145px;
+    margin-left: 15px;
+}
+
+article.homepage, article.search-results {
+    max-width: 570px;
+    margin-left: 0px;
+    margin-right: 0px;
+    float: left;
+}
+
+aside.homepage, aside.search-results {
+    padding: 5px 0 0 20px;
+    width: 200px;
+    float: right;
+    border-left: 1px solid #cdcdcd;
+}
+
+aside.homepage h2, .search-results h2 {
+    font-weight: 300;
+    line-height: 1.4em;
+    color: rgb(252, 110, 31);
+}
+
+aside.homepage ul, aside.search-results ul {
+    font-size: 1.2em;
+}
+
+ul.link-list.link-list-inline li {
+    line-height: 1.5em;
+}
+
+aside.homepage ul.link-list li, aside.search-results ul.link-list li {
+    margin-bottom: 20px;
+}
+
+p.tagline {
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    font-weight: normal;
+    font-size: 1.2em;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    line-height: 1.3em;
+    width: 800px;
+    color: rgba(119,119,119,1);
+}
+
+ul.orderswitch {
+    margin: 0px 0px 15px;
+}
+
+ul.orderswitch li {
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: .7em;
+    padding: 0px;
+    text-indent: 0px;
+    margin-left: 0px;
+    list-style: none;
+    display: inline-block;
+    color: gray;
+}
+
+ul.orderswitch li.active {
+    color: black;
+}
+
+/* enable once we put homepage toggle in place
+ul.orderswitch li:first-child:after {
+    content: " / ";
+    color: #bfbebe;
+}*/
+
+span.whoswho {
+    font-size: .7em;
+    display: block;
+    margin-top: 3px;
+}
+
+span.whoswho a {
+    color: #727272;
+}
+
+.link-list li span.whoswho i {
+    font-size: 1.2em;
+}
+
+article.search-results h2 {
+    margin-bottom: 5px;
+}
+
+article.search-results h3 {
+    margin-top: 0;
+}
+
+article.search-results-single-col {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    float: none;
+}
+
+aside.search-results {
+    font-size: 0.8em;
+    line-height: 1.5;
+}
+
+aside.homepage h2, aside.search-results h2 {
+    font-size: 1.1em;
+}
+
+aside.search-results ul.link-list li {
+    font-size: 0.8em;
+    line-height: 1.5em;
+}
+
+aside.search-results-single-col {
+    clear: both;
+    float: none;
+    display: block;
+    width: auto;
+    padding: 2em 0;
+    border-left: none;
+    border-top: 1px solid #cdcdcd;
+}
+
+@media screen and (max-width: 840px) {
+    aside.homepage, aside.search-results {
+        clear: both;
+        float: none;
+        display: block;
+        width: auto;
+        padding: 2em 0;
+        border-left: none;
+        border-top: 1px solid #cdcdcd;
+    }
 }
 
 @media screen and (max-width: 640px) {
@@ -626,5 +771,8 @@ h1.maintopic {
     }
     img#main-logo {
         width: 100%;
+    }
+    img.list-thumbnail {
+        width: 100px;
     }
 }

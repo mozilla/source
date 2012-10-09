@@ -7,11 +7,6 @@
     </h1>
 </div>
 
-<div id="js-filter-form">
-    <label>Start typing to filter list</label>
-    <input class="filter" type="text" id="list-filter" />
-</div>
-
 <div id="filterable-list">
 {% for alpha in object_list|groupby('sort_letter') %}
     <div class="grouper-block filter-block">

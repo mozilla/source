@@ -1,30 +1,43 @@
-// icontains for text matching
-$.expr[':'].icontains = function(a, i, m) {
-    return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+// custom jQuery filter selector `icontains` for text matching
+// http://answers.oreilly.com/topic/1055-creating-a-custom-filter-selector-with-jquery/
+$.expr[':'].icontains = function(element, index, match) {
+    return (element.textContent || element.innerText || "").toUpperCase().indexOf(match[3].toUpperCase()) >= 0;
 };
 
 $(document).ready(function() {
-    // only provide filter form if js is enabled
-    $('#js-filter-form').show();
-    var listFilter = $('#list-filter');
+    // set up initial vars
+    var filterForm = '<div id="js-filter-form">\
+        <label>Start typing to filter list</label>\
+        <input class="filter" type="text" id="list-filter" />\
+    </div>';
     var filteredList = $('#filterable-list');
-    $(listFilter).change(function() {
+    
+    // insert filter form because we know we have js
+    $(filterForm).insertBefore(filteredList);
+    
+    // after each keystroke in #list-filter input, do a case-insensitive
+    // search against all the `li` elements inside #filterable-list
+    $('#list-filter').change(function() {
         var filterVal = $(this).val();
         if (filterVal) {
+            // hide the list container to avoid potential repaints
+            filteredList.css('display','none');
             // hide items that don't have matching text, lists that don't have
             // visible items, and blocks that don't have visible lists
-            $(filteredList).find('li:not(:icontains(' + filterVal + '))').hide();
-            $(filteredList).find('.filter-list:not(:has(li:visible))').hide();
-            $(filteredList).find('.filter-block:not(:has(li:visible))').hide();
+            filteredList.find('li:not(:icontains(' + filterVal + '))').css('display','none');
+            filteredList.find('.filter-list:not(:has(li:visible))').css('display','none');
+            filteredList.find('.filter-block:not(:has(li:visible))').css('display','none');
             // show blocks/lists/items that contain matching text
-            $(filteredList).find('.filter-block:has(li:icontains(' + filterVal + '))').show();
-            $(filteredList).find('.filter-list:has(li:icontains(' + filterVal + '))').show();
-            $(filteredList).find('li:icontains(' + filterVal + ')').show();
+            filteredList.find('.filter-block:has(li:icontains(' + filterVal + '))').css('display','block');
+            filteredList.find('.filter-list:has(li:icontains(' + filterVal + '))').css('display','block');
+            filteredList.find('li:icontains(' + filterVal + ')').css('display','block');
+            // show the list container again
+            filteredList.css('display','block');
         } else {
             // nothing in filter form, so make sure everything is visible
-            $(filteredList).find(".filter-block").show();
-            $(filteredList).find(".filter-list").show();
-            $(filteredList).find("li").show();
+            filteredList.find('.filter-block').css('display','block');
+            filteredList.find('.filter-list').css('display','block');
+            filteredList.find('li').css('display','block');
         }
         
         // show 'no results' message if we've removed all the items
