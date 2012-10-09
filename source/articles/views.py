@@ -85,32 +85,53 @@ class ArticleList(ListView):
             
         return queryset
     
-    def get_context_data(self, **kwargs):
-        context = super(ArticleList, self).get_context_data(**kwargs)
-
+    def get_section_links(self, context):
         if self.section:
-            context['section'] = SECTION_MAP[self.section]
-            context['active_nav'] = SECTION_MAP[self.section]['slug']
-            context['rss_link'] = reverse('article_list_by_section_feed', kwargs={'section': self.section})
+            context.update({
+                'section': SECTION_MAP[self.section],
+                'active_nav': SECTION_MAP[self.section]['slug'],
+                'rss_link': reverse('article_list_by_section_feed', kwargs={'section': self.section}),
+            })
         elif self.category:
-            context['category'] = CATEGORY_MAP[self.category]['name']
-            context['section'] = SECTION_MAP[CATEGORY_MAP[self.category]['parent_slug']]
-            context['active_nav'] = CATEGORY_MAP[self.category]['parent_slug']
-            context['rss_link'] = reverse('article_list_by_category_feed', kwargs={'category': self.category})
+            context.update({
+                'category': CATEGORY_MAP[self.category]['name'],
+                'section': SECTION_MAP[CATEGORY_MAP[self.category]['parent_slug']],
+                'active_nav': CATEGORY_MAP[self.category]['parent_slug'],
+                'rss_link': reverse('article_list_by_category_feed', kwargs={'category': self.category}),
+            })
         elif self.tag:
-            context['section'] = SECTION_MAP['articles']
-            context['active_nav'] = SECTION_MAP['articles']['slug']
-            context['tag'] = self.tag
-            context['rss_link'] = reverse('article_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
+            context.update({
+                'section': SECTION_MAP['articles'],
+                'active_nav': SECTION_MAP['articles']['slug'],
+                'tag':self.tag,
+                'rss_link': reverse('article_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug}),
+            })
         else:
-            context['rss_link'] = reverse('homepage_feed')
-            
+            context.update({
+                'rss_link': reverse('homepage_feed'),
+            })
+        
+        return ''
+
+    def paginate_list(self, context):
         page, paginator = paginate(self.request, self.object_list, 20)
         context.update({
             'page': page,
             'paginator': paginator
         })
-            
+        
+        return ''
+        
+    def get_standard_context(self, context):
+        self.get_section_links(context)
+        self.paginate_list(context)
+        
+        return ''
+        
+    def get_context_data(self, **kwargs):
+        context = super(ArticleList, self).get_context_data(**kwargs)
+        self.get_standard_context(context)
+        
         return context
 
 

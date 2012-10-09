@@ -19,15 +19,13 @@
     <body>
         <header id="topbar">
             <div class="container">
-                {% if not hide_topbar_search %}
                 <form class="search-form" method="get" action="{{ url('haystack_search') }}">
                     <input type="text" name="q" id="id_q" />
                     <input class="btn" type="submit" value="Search">
-                </form>{% endif %}
-
-                <img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin">
+                </form>
+                
                 {% set navigation_links = [
-                    ('/', 'features', 'Features'),
+                    ('/articles/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
                 ] -%}
@@ -37,15 +35,20 @@
                     <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>
                 {% endfor %}
                 </ul>
+
+                <a href="{{ url('homepage') }}"><img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin"></a>
             </div>
         </header>
         <div class="content">
             <div class="container page-block">
                 <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png" alt="Source"></a>
+                {% block base_tagline %}{% endblock %}
             </div>
         
             <div class="container">
+                {% block base_above_article %}{% endblock %}
                 <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
+                {% block base_aside %}{% endblock %}
             </div>
         </div>
         <footer class="container">{% block footer %}
