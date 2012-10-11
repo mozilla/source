@@ -730,9 +730,9 @@ aside.search-results-single-col {
 
 .grid-box h3 {
     font-weight: 400;
-    font-size: 18px;
-    line-height: 21px;
-    margin-top: 0;
+    font-size: .7em;
+    margin: 0 0 3px;
+    line-height: 1.5;
 }
 
 .grid-box p {
@@ -751,8 +751,8 @@ aside.search-results-single-col {
     overflow: hidden;
 }
 
-.space-below, .grouper-block .link-list.space-below {
-    margin-bottom: 1.5em;
+.space-below {
+    margin-bottom: 1em;
 }
 
 article.article-detail ul li {
@@ -944,16 +944,13 @@ h1.maintopic {
         padding-left: 15px;
         padding-right: 15px;
     }
-    
+
     .grid-box {
-        display: block;
-        width: auto;
-        margin-right: 0;
+        width: 46%;
     }
 }
 
 @media screen and (max-width: 480px) {
-
     h6.date {
         font-size: .8em;
     }
@@ -1029,5 +1026,11 @@ h1.maintopic {
     
     img.map-inset-right {
         display: none;
+    }
+    
+    .grid-box {
+        display: block;
+        width: auto;
+        margin-right: 0;
     }
 }
