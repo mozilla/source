@@ -332,18 +332,9 @@ aside {
 aside .byline {
     margin-bottom: 2em;
 }
-aside #library{
-    margin-top: 50px;
-}
 
-aside #library ul {
-    list-style-type: square;
-    padding: 0;
-    margin-left: 20px;
-}
-
-aside #library li {
-    margin-bottom: 10px;
+aside.article-people {
+    display: none;
 }
 
 .byline-date {
@@ -528,7 +519,7 @@ img.list-thumbnail {
 
 #disqus_thread {
     clear: both;
-    margin-bottom: 2em;
+    margin: 2em 0;
 }
 
 .external h2 {
@@ -988,6 +979,14 @@ h1.maintopic {
         float: none;
         display: block;
         padding: 8px 0;
+    }
+    
+    aside.article-people {
+        display: block;
+    }
+
+    div.article-people {
+        display: none;
     }
     
     img#main-logo {
