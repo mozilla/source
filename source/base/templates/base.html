@@ -59,6 +59,7 @@
                 <h2>Connect with Source</h2>
                 <ul>
                     {% if rss_link %}<li><i class="icon-rss"></i><a type="application/rss+xml" href="{{ rss_link }}">RSS for this page</a></li>{% endif %}
+                    {% if json_link %}<li><i class="icon-rss"></i><a type="application/json" href="{{ json_link }}">JSON for this page</a></li>{% endif %}
                     <li><i class="icon-envelope-alt"></i><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
                     <li><a href="/contribute/">Contribute code and articles</a></li>
                     <li><a href="/subscribe/">Subscribe to our email update</a></li>

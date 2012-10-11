@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
 from django.views.generic import ListView, DetailView
 
 from .models import Code
@@ -11,6 +12,7 @@ class CodeList(ListView):
     model = Code
 
     def dispatch(self, *args, **kwargs):
+        self.render_json = kwargs.get('render_json', False)
         self.tag_slug = kwargs.get('tag_slug', None)
         self.tag = None
 
@@ -32,8 +34,10 @@ class CodeList(ListView):
         if self.tag:
             context['tag'] = self.tag
             context['rss_link'] = reverse('code_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
+            context['json_link'] = reverse('code_list_by_tag_feed_json', kwargs={'tag_slug': self.tag_slug})
         else:
             context['rss_link'] = reverse('code_list_feed')
+            context['json_link'] = reverse('code_list_feed_json')
         
         # No pagination required for current alpha list display
         #page, paginator = paginate(self.request, self.object_list, 50)
@@ -43,6 +47,21 @@ class CodeList(ListView):
         #})
 
         return context
+
+    def render_to_response(self, context):
+        if self.render_json:
+            '''
+            JSON export runs through a hand-rolled template for now, so we can
+            attach things like related names and urls. If we start doing more
+            with providing JSON, we should definitly go full django-tastypie.
+            '''
+            return render_to_response(
+                'code/code_list.json',
+                context,
+                context_instance = RequestContext(self.request),
+                mimetype='application/json'
+            )
+        return super(CodeList, self).render_to_response(context)
 
 
 class CodeDetail(DetailView):
