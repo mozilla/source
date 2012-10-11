@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import striptags, truncatewords
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -59,6 +60,25 @@ class Code(CachingMixin, models.Model):
     @property
     def sort_letter(self):
         return self.slug[:1]
+        
+    @property
+    def summary_or_description(self):
+        '''for summary on list pages, with fallback to truncated description'''
+        if self.summary:
+            return self.summary.strip()
+        elif self.description:
+            _description = striptags(self.description.strip())
+            return truncatewords(_description, 25)
+        return ''
+
+    @property
+    def description_or_summary(self):
+        '''for description on detail pages, with fallback to summary'''
+        if self.description:
+            return self.description.strip()
+        elif self.summary:
+            return self.summary.strip()
+        return ''
 
 
 class CodeLink(CachingMixin, models.Model):

@@ -14,7 +14,7 @@
             {% for code in row %}
             <li class="column-third">
                 <a href="{{ code.get_absolute_url() }}">{{ code.name }}</a>
-                {% if code.description %}<p>{{ code.description|truncate(150)|safe }}</p>{% endif %}
+                {% if code.summary_or_description %}<p>{{ code.summary_or_description|safe }}</p>{% endif %}
                 {% if code.organizations.all().exists() %}<span class="trailer"><i class="icon-cogs small"></i>{% for organization in code.organizations.all() %}<a class="small" href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
                 {% if code.tags.all().exists() %}<span class="trailer"><i class="icon-tags small"></i>{% for tag in code.tags.all() %}<a class="small" href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}
             </li>
