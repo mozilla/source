@@ -91,7 +91,7 @@ class CodeFeed(Feed):
         return item.description
 
     def items(self, obj):
-        queryset = Code.live_objects.all()
+        queryset = Code.live_objects.order_by('-created')
         if self.tag_slug:
             queryset = queryset.filter(tags__slug=self.tag_slug)
         return queryset[:20]
