@@ -11,10 +11,10 @@
 {% for alpha in object_list|groupby('sort_letter') %}
     <div class="grouper-block filter-block">
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
-        {% for row in alpha.list|slice(3) %}
-        <ul class="link-list filter-list column-third">
+        {% for row in alpha.list|batch(3) %}
+        <ul class="link-list filter-list clear float-container">
             {% for organization in row %}
-            <li><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></li>
+            <li class="column-third"><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></li>
             {% endfor %}
         </ul>
         {% endfor %}

@@ -57,7 +57,7 @@ aside .byline .link-list {
 }
 
 .grouper-block > .link-list {
-    margin-bottom: 1.5em;
+    margin-bottom: .5em;
 }
 
 .link-list li {
@@ -72,6 +72,10 @@ aside .byline .link-list {
 
 .link-list li p {
     padding: .5em 24px;
+}
+
+.link-list li .trailer {
+    display: block;
 }
 
 .link-list-inline {
@@ -283,6 +287,12 @@ h6 a {
 
 #js-filter-form input {
     vertical-align: text-top;
+}
+
+#filterable-list ul.link-list li p {
+    margin: 0;
+    padding: .5em 0;
+    font-size: 14px;
 }
 
 .grouper-header {
@@ -708,6 +718,41 @@ aside.search-results-single-col {
     padding: 2em 0;
     border-left: none;
     border-top: 1px solid #cdcdcd;
+}
+
+.grid-box {
+    width: 235px;
+    margin-right: 30px;
+}
+
+.grid-box-two-col {
+    width: 500px;
+}
+
+.grid-box h3 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.grid-box p {
+    font-size: 15px;
+}
+
+.grid-box .link-list li {
+    margin-bottom: .25em;
+}
+
+.clear {
+    clear: both;
+}
+
+.float-container {
+    overflow: hidden;
+}
+
+.space-below {
+    margin-bottom: 1.5em;
 }
 
 @media screen and (max-width: 840px) {
