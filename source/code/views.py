@@ -9,7 +9,7 @@ from taggit.models import Tag
 
 class CodeList(ListView):
     model = Code
-    
+
     def dispatch(self, *args, **kwargs):
         self.tag_slug = kwargs.get('tag_slug', None)
         self.tag = None
@@ -35,11 +35,12 @@ class CodeList(ListView):
         else:
             context['rss_link'] = reverse('code_list_feed')
         
-        page, paginator = paginate(self.request, self.object_list, 50)
-        context.update({
-            'page': page,
-            'paginator': paginator
-        })
+        # No pagination required for current alpha list display
+        #page, paginator = paginate(self.request, self.object_list, 50)
+        #context.update({
+        #    'page': page,
+        #    'paginator': paginator
+        #})
 
         return context
 

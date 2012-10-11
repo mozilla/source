@@ -28,7 +28,7 @@ class Code(CachingMixin, models.Model):
     live_objects = LiveCodeManager()
     
     class Meta:
-        ordering = ('name',)
+        ordering = ('slug',)
         
     def __unicode__(self):
         return u'%s' % self.name
@@ -49,6 +49,10 @@ class Code(CachingMixin, models.Model):
     def title(self):
         '''alias for search results template'''
         return self.name
+
+    @property
+    def sort_letter(self):
+        return self.slug[:1]
 
 
 class CodeLink(CachingMixin, models.Model):
