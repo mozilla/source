@@ -492,7 +492,7 @@ h1.maintopic {
     margin: .33em 1em 1em 0;
 }
 
-.map-inset-right, .image-inset-right-wrapper {
+.image-inset-right-wrapper {
     float: right;
     width: 300px;
     margin: .33em 0 1em 1em;
@@ -509,6 +509,7 @@ img.list-thumbnail {
 }
 
 .map-inset-right {
+    width: 300px;
     height: 250px;
 }
 
