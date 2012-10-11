@@ -720,22 +720,23 @@ aside.search-results-single-col {
 }
 
 .grid-box {
-    width: 235px;
-    margin-right: 30px;
-}
-
-.grid-box-two-col {
-    width: 500px;
+    display: inline-block;
+    vertical-align: top;
+    width: 29%;
+    margin-right: 3%;
+    zoom: 1;
+    *display: inline;
 }
 
 .grid-box h3 {
     font-weight: 400;
     font-size: 18px;
     line-height: 21px;
+    margin-top: 0;
 }
 
 .grid-box p {
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .grid-box .link-list li {
@@ -833,6 +834,10 @@ h1.maintopic {
     
     footer {
         padding-left: 15px;
+    }
+    
+    .grid-box {
+        width: 46%;
     }
 }
 
@@ -938,6 +943,12 @@ h1.maintopic {
         width: auto;
         padding-left: 15px;
         padding-right: 15px;
+    }
+    
+    .grid-box {
+        display: block;
+        width: auto;
+        margin-right: 0;
     }
 }
 
