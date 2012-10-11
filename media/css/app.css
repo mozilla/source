@@ -876,7 +876,7 @@ h1.maintopic {
         padding-top: 5px;
     }
 
-    #navigation li a {
+    #navigation li a, #navigation li a:hover, #navigation li.active a {
         border: none;
         padding: 10px;
     }
