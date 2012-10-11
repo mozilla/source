@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import striptags, truncatewords
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -20,15 +21,21 @@ class Code(CachingMixin, models.Model):
     slug = models.SlugField(unique=True)
     url = models.URLField(verify_exists=False)
     description = models.TextField('Description', blank=True)
+    summary = models.TextField(blank=True, help_text='Short, one- or two-sentence version of description, used on list pages.')
     screenshot = ImageField(upload_to='img/uploads/code_screenshots', help_text="Resized to fit 350x250 box in template", blank=True, null=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
+    # adding repo_ fields for future local storage of github data
+    repo_last_push = models.DateTimeField(blank=True, null=True)
+    repo_forks = models.PositiveIntegerField(blank=True, null=True)
+    repo_watchers = models.PositiveIntegerField(blank=True, null=True)
+    repo_description = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
     objects = CachingManager()
     live_objects = LiveCodeManager()
     
     class Meta:
-        ordering = ('name',)
+        ordering = ('slug',)
         
     def __unicode__(self):
         return u'%s' % self.name
@@ -49,6 +56,29 @@ class Code(CachingMixin, models.Model):
     def title(self):
         '''alias for search results template'''
         return self.name
+
+    @property
+    def sort_letter(self):
+        return self.slug[:1]
+        
+    @property
+    def summary_or_description(self):
+        '''for summary on list pages, with fallback to truncated description'''
+        if self.summary:
+            return self.summary.strip()
+        elif self.description:
+            _description = striptags(self.description.strip())
+            return truncatewords(_description, 25)
+        return ''
+
+    @property
+    def description_or_summary(self):
+        '''for description on detail pages, with fallback to summary'''
+        if self.description:
+            return self.description.strip()
+        elif self.summary:
+            return self.summary.strip()
+        return ''
 
 
 class CodeLink(CachingMixin, models.Model):

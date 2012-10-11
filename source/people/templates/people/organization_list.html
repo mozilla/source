@@ -11,12 +11,10 @@
 {% for alpha in object_list|groupby('sort_letter') %}
     <div class="grouper-block filter-block">
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
-        {% for row in alpha.list|slice(3) %}
-        <ul class="link-list filter-list column-third">
-            {% for organization in row %}
-            <li><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></li>
-            {% endfor %}
-        </ul>
+        {% for organization in alpha.list %}
+        <div class="grid-box space-below">
+            <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
+        </div>
         {% endfor %}
     </div>
 {% endfor %}
@@ -24,5 +22,5 @@
 {% endblock content %}
 
 {% block site_js_extra %}
-<script src="{{ MEDIA_URL }}js/listfilter.js"></script>
+<script src="{{ MEDIA_URL }}js/gridfilter.js"></script>
 {% endblock %}
