@@ -116,8 +116,9 @@ aside .byline .link-list {
 }
 
 #topbar img.sourcelogomin {
-    padding-top: 5px;
+    padding-top: 6px;
     display: none;
+    width: 183px;
 }
 
 #navigation, #pagination {
@@ -753,7 +754,7 @@ aside.search-results-single-col {
     overflow: hidden;
 }
 
-.space-below {
+.space-below, .grouper-block .link-list.space-below {
     margin-bottom: 1.5em;
 }
 
