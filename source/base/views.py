@@ -17,7 +17,7 @@ class HomepageView(ArticleList):
         
         # wrap in try/except in case code_list is empty
         try:
-            code_list = code_list[:12]
+            code_list = code_list[:15]
         except:
             pass
         
