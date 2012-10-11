@@ -28,20 +28,21 @@
                     ('/articles/', 'features', 'Features'),
                     ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
+                    ('/search/', 'search', 'Search'),
                 ] -%}
                 {% set active_nav = active_nav %}
                 <ul id="navigation">
                 {% for url, id, name in navigation_links %}
-                    <li{% if id == active_nav %} class="active"{% endif %}><a href="{{ url|e }}">{{ name|e }}</a></li>
+                    <li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|e }}</a></li>
                 {% endfor %}
                 </ul>
 
-                <a href="{{ url('homepage') }}"><img src="{{ MEDIA_URL }}img/sourcemin.png" alt="Source" class="sourcelogomin"></a>
+                <a href="{{ url('homepage') }}"><img src="{{ MEDIA_URL }}img/source_retina_top.png" alt="Source" class="sourcelogomin"></a>
             </div>
         </header>
         <div class="content">
             <div class="container page-block">
-                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/logo.png" alt="Source"></a>
+                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/source_retina.png" alt="Source"></a>
                 {% block base_tagline %}{% endblock %}
             </div>
         
@@ -49,6 +50,7 @@
                 {% block base_above_article %}{% endblock %}
                 <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
                 {% block base_aside %}{% endblock %}
+                {% block base_below_article %}{% endblock %}
             </div>
         </div>
         <footer class="container">{% block footer %}
@@ -58,23 +60,20 @@
                 <ul>
                     {% if rss_link %}<li><i class="icon-rss"></i><a type="application/rss+xml" href="{{ rss_link }}">RSS for this page</a></li>{% endif %}
                     <li><i class="icon-envelope-alt"></i><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
-                    <li><i class="icon-bookmark"></i><a href="/about/">About us</a></li>
-                    <li>Get the latest by <a href="http://planet.drumbeat.org/mojo/">subscribing to our news feed</a></li>
+                    <li><a href="/contribute/">Contribute code and articles</a></li>
+                    <li><a href="/subscribe/">Subscribe to our email update</a></li>
                     <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
                     <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
-                    <li>Source is a project of <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a></li>
                 </ul>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
             <div class="col">
-                <h2>About OpenNews</h2>
-                <p>A multi-year partnership between Mozilla and the Knight-Foundation, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web.</p>
-                <p>For more information, visit <a href="http://www.mozillaopennews.org" target="_blank">mozillaopennews.org</a></p>
+                <h2>About Source</h2>
+                <p>Source is a <a href="http://www.mozillaopennews.org">Knight-Mozilla OpenNews</a> project designed to amplify the impact of journalism code and the community of developers, designers, journalists, and editors who make it. Learn more <a href="/about/">about the project</a> or <a href="/contribute/">contribute your work</a>.</p>
             </div>
             <div class="col">
-                <h2>About Mozilla</h2>
-                <p>Mozilla is a global non-profit dedicated to putting you in control of your online experience and shaping the future of the web for the public good&mdash;by creating great software and fostering communities that build and grow the open web.</p>
-                <p><a href="http://donate.mozilla.org/email">Sign up to hear more</a>, and, if you're willing, please <a href="http://donate.mozilla.org/join">join Mozilla.</a></p>
+                <h2>About OpenNews</h2>
+                <p>A multi-year partnership between <a href="http://www.mozilla.org/foundation/">Mozilla</a> and the <a href="http://www.knightfoundation.org/">Knight Foundation</a>, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web. More at <a href="http://mozillaopennews.org">mozillaopennews.org</a>.</p>
             </div>
        </section>
         {% endblock footer %}</footer>

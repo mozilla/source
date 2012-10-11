@@ -11,14 +11,15 @@
     <h2>{{ organization.name }}</h2>
     
     {% if organization.location_string_for_static_map %}
-    <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+    <div class="image-inset-right-wrapper">
+        <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+        {% if organization.address or organization.location_string_city %}<p class="caption">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}, {% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</p>{% endif %}
+    </div>
     {% endif %}
     
     {% if organization.logo %}
         <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x50") }}" alt="{{ organization.name }}">
     {% endif %}
-    
-    {% if organization.address or organization.location_string_city %}<h3 class="subhead">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}<br>{% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</h3>{% endif %}
     
     {% if organization.description %}{{ organization.description|linebreaks|safe }}{% endif %}
     

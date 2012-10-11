@@ -16,7 +16,7 @@
         </div>
     {% endif %}
 
-    {% if code.description %}{{ code.description|linebreaks|safe }}{% endif %}
+    {% if code.description_or_summary %}{{ code.description_or_summary|linebreaks|safe }}{% endif %}
     <ul class="link-list" id="code-details">
         <li>
             <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Project home</a>

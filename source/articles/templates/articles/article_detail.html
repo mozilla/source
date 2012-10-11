@@ -28,15 +28,16 @@
                 <li><i class="icon-comments"></i><a href="https://{{ request.get_host() }}{{ article.get_absolute_url() }}#disqus_thread" data-disqus-identifier="article_detail_{{ article.pk }}">Comments</a></li>
             </ul>
         </div>
-        
-        {% with code_link_list = article.code.all() %}
-        {% include "code/_code_link_list.html" %}{% endwith %}
+        <div class="article-people">
+            {% with code_link_list = article.code.all() %}
+            {% include "code/_code_link_list.html" %}{% endwith %}
 
-        {% with person_link_list = article.people.all() %}
-        {% include "people/_person_link_list.html" %}{% endwith %}
+            {% with person_link_list = article.people.all() %}
+            {% include "people/_person_link_list.html" %}{% endwith %}
 
-        {% with organization_link_list = article.organizations.all() %}
-        {% include "people/_organization_link_list.html" %}{% endwith %}
+            {% with organization_link_list = article.organizations.all() %}
+            {% include "people/_organization_link_list.html" %}{% endwith %}
+        </div>
     </aside>
     
     {{ article.body|linebreaks|safe }}
@@ -67,6 +68,17 @@
         {% endif %}
     </div>
     {% endfor %}
+    
+    <aside class="article-people">
+        {% with code_link_list = article.code.all() %}
+        {% include "code/_code_link_list.html" %}{% endwith %}
+
+        {% with person_link_list = article.people.all() %}
+        {% include "people/_person_link_list.html" %}{% endwith %}
+
+        {% with organization_link_list = article.organizations.all() %}
+        {% include "people/_organization_link_list.html" %}{% endwith %}
+    </aside>
     
     <div id="disqus_thread"></div>
     <script type="text/javascript">
