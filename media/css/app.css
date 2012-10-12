@@ -817,6 +817,12 @@ h1.maintopic {
         margin-right: 75px;
     }
     
+    aside.search-results {
+        columns:1;
+        -webkit-columns:1;
+        -moz-columns:1;
+    }
+    
     h2 {
         font-size: 1em;
     }
@@ -857,6 +863,7 @@ h1.maintopic {
     p.tagline {
         font-size: 1em;
         margin-bottom: 0;
+        line-height: 1.2em;
     }
     
     #topbar .container {
@@ -907,6 +914,13 @@ h1.maintopic {
         columns: 2;
         -webkit-columns: 2;
         -moz-columns: 2;
+        margin-right: 10px;
+    }
+    
+    aside.search-results {
+        columns:1;
+        -webkit-columns:1;
+        -moz-columns:1;
     }
     
     h1.maintopic {
@@ -924,6 +938,12 @@ h1.maintopic {
     .page-block p {
         font-size: 17px;
         line-height: 1.8em;
+    }
+    
+    p.tagline {
+        font-size: 1em;
+        margin-bottom: 0;
+        line-height: 1.2em;
     }
     
     ul.link-list {
@@ -963,10 +983,6 @@ h1.maintopic {
         font-size: .9em;
     }
     
-    p.tagline {
-        font-size: .8em;
-        margin-bottom: 0;
-    }
     
     #topbar {
         position: relative;
@@ -1018,6 +1034,12 @@ h1.maintopic {
     .page-block p {
         font-size: 15px;
         line-height: 1.6em;
+    }
+    
+    p.tagline {
+        font-size: .8em;
+        margin-bottom: 0;
+        line-height: 1.2em;
     }
     
     h2 {
