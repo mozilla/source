@@ -70,6 +70,18 @@ class Article(CachingMixin, models.Model):
             _caption = '%s (%s)' % (_caption, _credit)
         return _caption
 
+    def get_live_organization_set(self):
+        return self.organizations.filter(is_live=True)
+
+    def get_live_people_set(self):
+        return self.people.filter(is_live=True)
+
+    def get_live_author_set(self):
+        return self.authors.filter(is_live=True)
+
+    def get_live_code_set(self):
+        return self.code.filter(is_live=True)
+
 
 IMAGE_PRESENTATION_CHOICES = (
     ('full-width', 'Full-Width Above Text'),

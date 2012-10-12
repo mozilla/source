@@ -23,19 +23,19 @@
     <aside>
         <div class="byline">
             <h6 class="date">{{ article.pretty_pubdate }}</h6>
-            {% if article.authors.all().exists() %}<h6 class="byline-name">{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
+            {% if article.get_live_author_set().exists() %}<h6 class="byline-name">{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
             <ul class="link-list">
                 <li><i class="icon-comments"></i><a href="https://{{ request.get_host() }}{{ article.get_absolute_url() }}#disqus_thread" data-disqus-identifier="article_detail_{{ article.pk }}">Comments</a></li>
             </ul>
         </div>
         <div class="article-people">
-            {% with code_link_list = article.code.all() %}
+            {% with code_link_list = article.get_live_code_set() %}
             {% include "code/_code_link_list.html" %}{% endwith %}
 
-            {% with person_link_list = article.people.all() %}
+            {% with person_link_list = article.get_live_people_set() %}
             {% include "people/_person_link_list.html" %}{% endwith %}
 
-            {% with organization_link_list = article.organizations.all() %}
+            {% with organization_link_list = article.get_live_organization_set() %}
             {% include "people/_organization_link_list.html" %}{% endwith %}
         </div>
     </aside>
@@ -70,13 +70,13 @@
     {% endfor %}
     
     <aside class="article-people">
-        {% with code_link_list = article.code.all() %}
+        {% with code_link_list = article.get_live_code_set() %}
         {% include "code/_code_link_list.html" %}{% endwith %}
 
-        {% with person_link_list = article.people.all() %}
+        {% with person_link_list = article.get_live_people_set() %}
         {% include "people/_person_link_list.html" %}{% endwith %}
 
-        {% with organization_link_list = article.organizations.all() %}
+        {% with organization_link_list = article.get_live_organization_set() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     </aside>
     

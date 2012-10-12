@@ -12,7 +12,7 @@
     {% if person.description %}{{ person.description|linebreaks|safe }}{% endif %}
 
     <ul class="link-list">
-        {% with organization_link_list = person.organizations.all() %}
+        {% with organization_link_list = person.get_live_organization_set() %}
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         
         {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
@@ -23,7 +23,7 @@
 </div>
 
 <div class="page-block">
-    {% with code_link_list = person.code_set.all() %}
+    {% with code_link_list = person.get_live_code_set() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
 
     {% with article_link_list = person.get_live_article_set(), override_list_title = 'Projects' %}
