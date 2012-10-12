@@ -32,11 +32,11 @@
 </div>
 
 <div class="page-block">
-    {% with person_link_list = organization.person_set.all() %}
+    {% with person_link_list = organization.get_live_person_set() %}
     {% if person_link_list %}<h3 class="subhead list-header">People</h3>
     <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endif %}{% endwith %}
 
-    {% with code_link_list = organization.code_set.all() %}
+    {% with code_link_list = organization.get_live_code_set() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
 
     {% with basic_link_list = organization.organizationlink_set.all() %}

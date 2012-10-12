@@ -85,6 +85,12 @@ class Code(CachingMixin, models.Model):
     def get_live_article_set(self):
         return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
 
+    def get_live_organization_set(self):
+        return self.organizations.filter(is_live=True)
+
+    def get_live_people_set(self):
+        return self.people.filter(is_live=True)
+
 
 class CodeLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)

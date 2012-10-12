@@ -28,10 +28,10 @@
 
 <div class="page-block">
     {% if not '//github.com/' in code.url %}
-        {% with person_link_list = code.people.all() %}
+        {% with person_link_list = code.get_live_people_set() %}
         {% include "people/_person_link_list.html" %}{% endwith %}
 
-        {% with organization_link_list = code.organizations.all() %}
+        {% with organization_link_list = code.get_live_organization_set() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     
         {% with article_link_list = code.get_live_article_set() %}
@@ -46,10 +46,10 @@
     </div>
     
     <div class="code-repo-meta">
-        {% with person_link_list = code.people.all() %}
+        {% with person_link_list = code.get_live_people_set() %}
         {% include "people/_person_link_list.html" %}{% endwith %}
     
-        {% with organization_link_list = code.organizations.all() %}
+        {% with organization_link_list = code.get_live_organization_set() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     
         {% with article_link_list = code.get_live_article_set() %}

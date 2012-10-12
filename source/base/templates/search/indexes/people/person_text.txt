@@ -4,6 +4,6 @@
 {{ object.twitter_username }}
 {{ object.github_username }}
 
-{% for organization in object.organizations.all() %}
+{% for organization in object.get_live_organization_set() %}
     {{ organization.name }}
 {% endfor %}

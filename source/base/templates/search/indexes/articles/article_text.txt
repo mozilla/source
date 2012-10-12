@@ -2,19 +2,19 @@
 {{ object.subhead }}
 {{ object.body }}
 
-{% for author in object.authors.all() %}
+{% for author in object.get_live_author_set() %}
     {{ author.first_name }} {{ author.last_name }}
 {% endfor %}
 
-{% for person in object.people.all() %}
+{% for person in object.get_live_people_set() %}
     {{ person.first_name }} {{ person.last_name }}
 {% endfor %}
 
-{% for organization in object.organizations.all() %}
+{% for organization in object.get_live_organization_set() %}
     {{ organization.name }}
 {% endfor %}
 
-{% for code in object.code.all() %}
+{% for code in object.get_live_code_set() %}
     {{ code.name }}
 {% endfor %}
 
