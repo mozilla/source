@@ -26,10 +26,10 @@
     {% with code_link_list = person.code_set.all() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = person.article_set.all(), override_list_title = 'Projects' %}
+    {% with article_link_list = person.get_live_article_set(), override_list_title = 'Projects' %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = person.article_authors.all(), override_list_title = 'Articles by %s' % person.first_name %}
+    {% with article_link_list = person.get_live_article_authored_set(), override_list_title = 'Articles by %s' % person.first_name %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}

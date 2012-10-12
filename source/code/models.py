@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.template.defaultfilters import striptags, truncatewords
 
@@ -79,6 +81,9 @@ class Code(CachingMixin, models.Model):
         elif self.summary:
             return self.summary.strip()
         return ''
+
+    def get_live_article_set(self):
+        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
 
 
 class CodeLink(CachingMixin, models.Model):

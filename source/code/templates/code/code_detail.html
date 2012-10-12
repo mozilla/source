@@ -34,7 +34,7 @@
         {% with organization_link_list = code.organizations.all() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     
-        {% with article_link_list = code.article_set.all() %}
+        {% with article_link_list = code.get_live_article_set() %}
         {% include "articles/_article_link_list.html" %}{% endwith %}
     
         {% with basic_link_list = code.codelink_set.all() %}
@@ -52,7 +52,7 @@
         {% with organization_link_list = code.organizations.all() %}
         {% include "people/_organization_link_list.html" %}{% endwith %}
     
-        {% with article_link_list = code.article_set.all() %}
+        {% with article_link_list = code.get_live_article_set() %}
         {% include "articles/_article_link_list.html" %}{% endwith %}
     
         {% with basic_link_list = code.codelink_set.all() %}

@@ -42,7 +42,7 @@
     {% with basic_link_list = organization.organizationlink_set.all() %}
     {% include "utils/_basic_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = organization.article_set.all() %}
+    {% with article_link_list = organization.get_live_article_set() %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}

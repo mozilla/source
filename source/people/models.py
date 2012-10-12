@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils.encoding import force_unicode
 
@@ -57,6 +59,12 @@ class Person(CachingMixin, models.Model):
     @property
     def sort_letter(self):
         return self.last_name[:1]
+
+    def get_live_article_set(self):
+        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
+
+    def get_live_article_authored_set(self):
+        return self.article_authors.filter(is_live=True, pubdate__lte=datetime.now)
 
 
 class PersonLink(CachingMixin, models.Model):
@@ -140,6 +148,9 @@ class Organization(CachingMixin, models.Model):
     @property
     def sort_letter(self):
         return self.name.replace('The ', '')[:1]
+        
+    def get_live_article_set(self):
+        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
 
 
 class OrganizationLink(CachingMixin, models.Model):
