@@ -968,6 +968,10 @@ h1.maintopic {
     .grid-box {
         width: 46%;
     }
+    
+    .code-repo-browse {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 480px) {
