@@ -883,8 +883,9 @@ h1.maintopic {
     }
 
     #navigation li a, #navigation li a:hover, #navigation li.active a {
+        font-weight: 400;
         border: none;
-        padding: 10px 8px;
+        padding: 10px 7px;
     }
     
     #navigation li#nav-search {
