@@ -244,7 +244,6 @@ h4 {
     margin-top: 0px;
     margin-bottom: 30px;
     line-height: 1.3em;
-    width: 800px;
     color: rgba(163,163,163,1);
 }
 
@@ -817,6 +816,12 @@ h1.maintopic {
         margin-right: 75px;
     }
     
+    aside.search-results {
+        columns:1;
+        -webkit-columns:1;
+        -moz-columns:1;
+    }
+    
     h2 {
         font-size: 1em;
     }
@@ -857,6 +862,7 @@ h1.maintopic {
     p.tagline {
         font-size: 1em;
         margin-bottom: 0;
+        line-height: 1.2em;
     }
     
     #topbar .container {
@@ -878,7 +884,7 @@ h1.maintopic {
 
     #navigation li a, #navigation li a:hover, #navigation li.active a {
         border: none;
-        padding: 10px;
+        padding: 10px 8px;
     }
     
     #navigation li#nav-search {
@@ -907,6 +913,13 @@ h1.maintopic {
         columns: 2;
         -webkit-columns: 2;
         -moz-columns: 2;
+        margin-right: 10px;
+    }
+    
+    aside.search-results {
+        columns:1;
+        -webkit-columns:1;
+        -moz-columns:1;
     }
     
     h1.maintopic {
@@ -924,6 +937,12 @@ h1.maintopic {
     .page-block p {
         font-size: 17px;
         line-height: 1.8em;
+    }
+    
+    p.tagline {
+        font-size: 1em;
+        margin-bottom: 0;
+        line-height: 1.2em;
     }
     
     ul.link-list {
@@ -948,6 +967,10 @@ h1.maintopic {
     .grid-box {
         width: 46%;
     }
+    
+    .code-repo-browse {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -963,10 +986,6 @@ h1.maintopic {
         font-size: .9em;
     }
     
-    p.tagline {
-        font-size: .8em;
-        margin-bottom: 0;
-    }
     
     #topbar {
         position: relative;
@@ -1020,6 +1039,12 @@ h1.maintopic {
         line-height: 1.6em;
     }
     
+    p.tagline {
+        font-size: .8em;
+        margin-bottom: 0;
+        line-height: 1.2em;
+    }
+    
     h2 {
         font-size: .9em;
     }
@@ -1033,4 +1058,9 @@ h1.maintopic {
         width: auto;
         margin-right: 0;
     }
+    
+    .search-form input[type="text"] {
+        width: auto;
+    }
+    
 }

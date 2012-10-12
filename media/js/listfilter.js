@@ -7,7 +7,7 @@ $.expr[':'].icontains = function(element, index, match) {
 $(document).ready(function() {
     // set up initial vars
     var filterForm = '<div id="js-filter-form">\
-        <label>Start typing to filter list</label>\
+        <label for="list-filter">Start typing to filter list</label>\
         <input class="filter" type="text" id="list-filter" />\
     </div>';
     var filteredList = $('#filterable-list');
