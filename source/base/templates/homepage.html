@@ -1,0 +1,39 @@
+{% extends "articles/article_list.html" %}
+{% block page_title %}Source - Journalism Code, Context & Community - A project by Knight-Mozilla OpenNews{% endblock %}
+
+{% block article_class %}homepage{% endblock %}
+
+{% block base_tagline %}
+<p class="tagline">Journalism code and the people who make it</p>
+{% endblock %}
+
+{% block base_aside %}
+<aside class="homepage">
+    <h2>Journalism Code</h2>
+    <ul class="orderswitch">
+        <li>Recently added</li>
+        {# for toggle switch once we being storing github data in db #}{#}
+        <li class="active">New</li>
+        <li>Updated</li>{#}
+    </ul>
+    <ul class="link-list">
+        {% for code in homepage_code_list %}
+        <li>
+            <a href="{{ code.get_absolute_url() }}">{{ code.name }}</a>
+            {% with person_link_list = code.get_live_people_set() %}
+            {% if person_link_list %}
+            <span class="whoswho">
+                <i class="icon-user"></i>{% for person in person_link_list %}<a href="{{ person.get_absolute_url() }}">{{ person.name() }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+            </span>{% endif %}
+            {% endwith %}
+            {% with organization_link_list = code.get_live_organization_set() %}
+            {% if organization_link_list %}
+            <span class="whoswho">
+                <i class="icon-cogs"></i>{% for organization in organization_link_list %}<a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+            </span>{% endif %}
+            {% endwith %}
+        </li>
+        {% endfor %}
+    </ul>
+</aside>
+{% endblock %}

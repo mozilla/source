@@ -346,7 +346,7 @@ h6 {
   font-family: inherit;
   font-weight: bold;
   color: inherit;
-  text-rendering: optimizelegibility;
+/*  text-rendering: optimizelegibility;*/
 }
 h1 small,
 h2 small,

@@ -1,5 +1,6 @@
-{% extends "base.html" %}
-{% set active_nav = "people" %}
+{% extends "people/_base_people.html" %}
+
+{% block page_title %}{{ person.name() }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <div class="page-block">
@@ -7,28 +8,64 @@
 </div>
 
 <div class="page-block">
-    <h2>{{ person.name() }}</h2>
-    {% if person.description %}<p>{{ person.description|nl2br }}</p>{% endif %}
+    <h2 id="person-name">{{ person.name() }}</h2>
+    {% if person.description %}{{ person.description|linebreaks|safe }}{% endif %}
 
     <ul class="link-list">
-        {% with organization_link_list = person.organizations.all() %}
+        {% with organization_link_list = person.get_live_organization_set() %}
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         
         {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
-        {% if person.twitter_username %}<li><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
-        {% if person.github_username %}<li><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
+        {% if person.twitter_username %}<li id="person-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
+        {% if person.github_username %}<li id="person-github"><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
         {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}
     </ul>
 </div>
 
 <div class="page-block">
-    {% with code_link_list = person.code_set.all() %}
+    {% with code_link_list = person.get_live_code_set() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = person.article_set.all(), override_list_title = 'Projects' %}
+    {% with article_link_list = person.get_live_article_set(), override_list_title = 'Projects' %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = person.article_authors.all(), override_list_title = 'Articles by %s' % person.first_name %}
+    {% with article_link_list = person.get_live_article_authored_set(), override_list_title = 'Articles by %s' % person.first_name %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if person.twitter_username or person.github_username %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var sourceData = {};
+    {% if person.twitter_username %}
+    sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
+    $.getJSON(sourceData.twitter_api_url, function(data) {
+        // returns 'success' even on 404, so ensure that data exists
+        if (data['description']) {
+            sourceData.twitter_bio = data['description'];
+            sourceData.twitter_avatar = data['profile_image_url'];
+            sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
+            $('#person-name').after(sourceData.twitter_line);
+        }
+    });
+    {% endif %}
+    {% if person.github_username %}
+    sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}?callback=?';
+    $.getJSON(sourceData.github_api_url, function(data) {
+        // returns 'success' even on 404, so ensure that data exists
+        if (data.data['public_repos']) {
+            sourceData.github_repos = data.data['public_repos'];
+            sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+            sourceData.github_gists = data.data['public_gists'];
+            sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+            sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+            $('#person-github').append(sourceData.github_line);
+        }
+    });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

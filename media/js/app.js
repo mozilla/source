@@ -7,10 +7,10 @@ $(document).ready(function () {
         // whether that's below the form
         if (y >= top) {
             // if so, add the fixed class
-            $('.sourcelogomin').fadeIn('fast');
+            $('.sourcelogomin').fadeIn(100);
         } else {
             // otherwise remove it
-            $('.sourcelogomin').hide();
+            $('.sourcelogomin').fadeOut(100);
         }
     });
 });

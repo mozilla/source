@@ -13,3 +13,15 @@
 [submodule "vendor-local/src/django-taggit"]
 	path = vendor-local/src/django-taggit
 	url = git://github.com/alex/django-taggit.git
+[submodule "vendor-local/src/django-cache-machine"]
+	path = vendor-local/src/django-cache-machine
+	url = git://github.com/jbalogh/django-cache-machine.git
+[submodule "vendor-local/src/django-haystack"]
+	path = vendor-local/src/django-haystack
+	url = git://github.com/toastdriven/django-haystack.git
+[submodule "vendor-local/src/pyelasticsearch"]
+	path = vendor-local/src/pyelasticsearch
+	url = git://github.com/toastdriven/pyelasticsearch.git
+[submodule "vendor-local/src/sorl-thumbnail"]
+	path = vendor-local/src/sorl-thumbnail
+	url = git://github.com/sorl/sorl-thumbnail.git

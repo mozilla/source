@@ -1,27 +1,70 @@
-{% extends "base.html" %}
-{% set active_nav = "people" %}
+{% extends "people/_base_organizations.html" %}
+
+{% block page_title %}{{ organization.name }} - {{ super() }}{% endblock %}
 
 {% block content %}
 <div class="page-block">
     <h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
 </div>
 
-<div class="page-block">
+<div class="page-block item-detail">
     <h2>{{ organization.name }}</h2>
-    {% if organization.description %}<p>{{ organization.description|nl2br }}</p>{% endif %}
+    
+    {% if organization.location_string_for_static_map %}
+    <div class="image-inset-right-wrapper">
+        <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+        {% if organization.address or organization.location_string_city %}<p class="caption">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}, {% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</p>{% endif %}
+    </div>
+    {% endif %}
+    
+    {% if organization.logo %}
+        <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x50") }}" alt="{{ organization.name }}">
+    {% endif %}
+    
+    {% if organization.description %}{{ organization.description|linebreaks|safe }}{% endif %}
+    
+    {% if organization.twitter_username or organization.github_username or organization.homepage %}
+    <ul class="link-list">        
+        {% if organization.twitter_username %}<li id="organization-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a></li>{% endif %}
+        {% if organization.github_username %}<li id="organization-github"><i class="icon-github"></i><a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a></li>{% endif %}
+        {% if organization.homepage %}<li id="organization-homepage"><i class="icon-home"></i><a href="{{ organization.homepage }}">{{ organization.homepage }}</a></li>{% endif %}
+    </ul>{% endif %}
 </div>
 
 <div class="page-block">
-    {% with person_link_list = organization.person_set.all() %}
-    {% include "people/_person_link_list.html" %}{% endwith %}
+    {% with person_link_list = organization.get_live_person_set() %}
+    {% if person_link_list %}<h3 class="subhead list-header">People</h3>
+    <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endif %}{% endwith %}
 
-    {% with code_link_list = organization.code_set.all() %}
+    {% with code_link_list = organization.get_live_code_set() %}
     {% include "code/_code_link_list.html" %}{% endwith %}
 
     {% with basic_link_list = organization.organizationlink_set.all() %}
     {% include "utils/_basic_link_list.html" %}{% endwith %}
 
-    {% with article_link_list = organization.article_set.all() %}
+    {% with article_link_list = organization.get_live_article_set() %}
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
+
+{% block site_js_extra %}
+{% if organization.github_username %}
+<script type="text/javascript">
+$(document).ready(function(){
+    var sourceData = {};
+    sourceData.github_api_url='https://api.github.com/orgs/{{ organization.github_username }}?callback=?';
+    $.getJSON(sourceData.github_api_url, function(data) {
+        // returns 'success' even on 404, so ensure that data exists
+        if (data.data['public_repos']) {
+            sourceData.github_repos = data.data['public_repos'];
+            sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
+            sourceData.github_gists = data.data['public_gists'];
+            sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
+            sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
+            $('#organization-github').append(sourceData.github_line);
+        }
+    });
+});
+</script>
+{% endif %}
+{% endblock %}

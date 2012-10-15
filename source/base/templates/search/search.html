@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% set active_nav = "search" %}
+{% block page_title %}Search - {{ super() }}{% endblock %}
+
+{% block article_class %}search-results{% if page.object_list|length <= 2 or not (person_results or organization_results) %} search-results-single-col{% endif %}{% endblock %}
+
+{% block base_above_article %}
+<div class="page-block">
+    <h1 class="maintopic"><a href="{{ url('haystack_search') }}">Search</a></h1>
+</div>
+
+<form class="search-form" method="get" action=".">
+    {{ form.q }}
+    <input class="btn" type="submit" value="Search">
+</form>
+{% endblock %}
+
+{% block content %}
+    {% if query %}
+        {#}
+        Yes, setting last_result_type_seen/result_type in the loop is a pretty
+        ghetto way of doing `ifchanged`. Unfortunately there's no `ifchanged`
+        support in jinja2. https://github.com/mitsuhiko/jinja2/issues/133
+        
+        This is essentially how the standard Django {% ifchanged %} tag
+        operates, though.
+        {#}
+        {% set last_result_type_seen = '' %}
+        {% for result in page.object_list %}
+            {% set result_type = result.content_type().split('.')[1] %}
+            {% if result_type != last_result_type_seen %}
+                <h2><span class="category">{{ content_type_map[result_type] }}</span></h2>
+                {% set last_result_type_seen = result_type %}
+            {% endif %}
+            {% with object = result.object, hide_list_item_categories=True %}
+                {% include "search/includes/_%s_list_item.html" % result_type %}
+            {% endwith %}
+        {% else %}
+            <p>No matching articles or code index entries found.</p>
+        {% endfor %}
+
+        {% include "utils/_paginate.html" %}
+    {% else %}
+        <p>Search Source&rsquo;s articles, code, people and organizations.</p>
+    {% endif %}
+{% endblock content %}
+
+{% block base_aside %}
+{# display secondary Person, Organization results #}
+{# on first page of Article, Code search results #}
+{% if page.number == 1 and (person_results or organization_results) %}
+    <aside class="search-results{% if page.object_list|length <= 2 %} search-results-single-col{% endif %}">
+    {# People #}
+    {% if person_results %}
+        <h2>People</h2>
+        <ul class="link-list">
+            <li><i class="icon-user"></i>{% for result in person_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name() }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+        </ul>
+    {% endif %}
+
+    {# Organizations #}
+    {% if organization_results %}
+        <h2>Organizations</h2>
+        <ul class="link-list">
+            <li><i class="icon-cogs"></i>{% for result in organization_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+        </ul>
+    {% endif %}
+    </aside>
+{% endif %}
+{% endblock %}

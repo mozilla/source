@@ -3,3 +3,7 @@
 *.pyc
 source/settings/local.py
 source_demo_db
+venv/*
+static/*
+media/cache
+media/img/uploads

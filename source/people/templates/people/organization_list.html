@@ -1,10 +1,26 @@
-{% extends "base.html" %}
-{% set active_nav = "people" %}
+{% extends "people/_base_organizations.html" %}
 
 {% block content %}
-<h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
+<div class="page-block">
+    <h1 class="maintopic">
+         <a href="{{ url('person_list') }}">People</a> / <span class="category">Organizations</span>
+    </h1>
+</div>
 
-{% for organization in object_list %}
-    <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
+<div id="filterable-list">
+{% for alpha in object_list|groupby('sort_letter') %}
+    <div class="grouper-block filter-block">
+        <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
+        {% for organization in alpha.list %}
+        <div class="grid-box space-below">
+            <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
+        </div>
+        {% endfor %}
+    </div>
 {% endfor %}
+</div>
 {% endblock content %}
+
+{% block site_js_extra %}
+<script src="{{ MEDIA_URL }}js/gridfilter.js"></script>
+{% endblock %}

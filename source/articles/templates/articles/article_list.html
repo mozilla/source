@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% if section %}{% set active_nav = section.slug %}{% endif %}
+{% extends "articles/_base_articles.html" %}
 
 {% block content %}
 {% if section %}
@@ -8,17 +7,21 @@
 </div>
 {% endif %}
 
-{% for article in object_list %}
-    <div class="page-block">
-        <h2>{% include "articles/_article_category_and_tags_overline.html" %}<a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
-        <ul class="link-list link-list-inline">
-            {% if article.authors.all().exists() %}<li>{% with author_list = article.authors.all() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
-            {% with person_link_list = article.people.all() %}
-            {% include "people/_person_link_list_inline.html" %}{% endwith %}
-            {% with organization_link_list = article.organizations.all() %}
-            {% include "people/_organization_link_list_inline.html" %}{% endwith %}
-        </ul>
-        <p>{{ article.summary|safe }}</p>
-    </div>
+{% for article in page.object_list %}
+    {% include "articles/_article_list_item.html" %}
 {% endfor %}
+
+{% include "utils/_paginate.html" %}
 {% endblock content %}
+
+{% block site_js_extra %}
+<script type="text/javascript">
+var disqus_shortname = 'source-opennews';
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+{% endblock %}

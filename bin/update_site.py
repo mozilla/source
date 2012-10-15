@@ -16,30 +16,30 @@ import os
 import sys
 from textwrap import dedent
 from optparse import  OptionParser
-from hashlib import md5
+#from hashlib import md5
 
 # Constants
 PROJECT = 0
-VENDOR  = 1
+VENDOR = 1
 
 ENV_BRANCH = {
     # 'environment': [PROJECT_BRANCH, VENDOR_BRANCH],
-    'dev':   ['base',   'master'],
-    'stage': ['master', 'master'],
-    'prod':  ['prod',   'master'],
+    'dev':   ['development',   'master'],
+    'stage': ['staging', 'master'],
+    'prod':  ['master',   'master'],
 }
 
-# The URL of the SVN repository with the localization files (*.po). If you set 
-# it to a non-empty value, remember to `git rm --cached -r locale` in the root 
+# The URL of the SVN repository with the localization files (*.po). If you set
+# it to a non-empty value, remember to `git rm --cached -r locale` in the root
 # of the project.  Example:
 # LOCALE_REPO_URL = 'https://svn.mozilla.org/projects/l10n-misc/trunk/playdoh/locale'
-LOCALE_REPO_URL = ''
+# LOCALE_REPO_URL = ''
 
 GIT_PULL = "git pull -q origin %(branch)s"
-GIT_SUBMODULE = "git submodule update --init"
-SVN_CO = "svn checkout --force %(url)s locale"
-SVN_UP = "svn update"
-COMPILE_MO = "./bin/compile-mo.sh %(localedir)s %(unique)s"
+GIT_SUBMODULE = "git submodule update --init --recursive"
+#SVN_CO = "svn checkout --force %(url)s locale"
+#SVN_UP = "svn update"
+#COMPILE_MO = "./bin/compile-mo.sh %(localedir)s %(unique)s"
 
 EXEC = 'exec'
 CHDIR = 'chdir'
@@ -49,10 +49,10 @@ def update_site(env, debug):
     """Run through commands to update this site."""
     error_updating = False
     here = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    locale = os.path.join(here, 'locale')
-    unique = md5(locale).hexdigest()
+    #locale = os.path.join(here, 'locale')
+    #unique = md5(locale).hexdigest()
     project_branch = {'branch': ENV_BRANCH[env][PROJECT]}
-    vendor_branch = {'branch': ENV_BRANCH[env][VENDOR]}
+    #vendor_branch = {'branch': ENV_BRANCH[env][VENDOR]}
 
     commands = [
         (CHDIR, here),
@@ -61,35 +61,36 @@ def update_site(env, debug):
     ]
 
     # Checkout the locale repo into locale/ if the URL is known
-    if LOCALE_REPO_URL and not os.path.exists(os.path.join(locale, '.svn')):
-        commands += [
-            (EXEC, SVN_CO % {'url': LOCALE_REPO_URL}),
-            (EXEC, COMPILE_MO % {'localedir': locale, 'unique': unique}),
-        ]
+    #if LOCALE_REPO_URL and not os.path.exists(os.path.join(locale, '.svn')):
+    #    commands += [
+    #        (EXEC, SVN_CO % {'url': LOCALE_REPO_URL}),
+    #        (EXEC, COMPILE_MO % {'localedir': locale, 'unique': unique}),
+    #    ]
 
     # Update locale dir if applicable
-    if os.path.exists(os.path.join(locale, '.svn')):
-        commands += [
-            (CHDIR, locale),
-            (EXEC, SVN_UP),
-            (CHDIR, here),
-            (EXEC, COMPILE_MO % {'localedir': locale, 'unique': unique}),
-        ]
-    elif os.path.exists(os.path.join(locale, '.git')):
-        commands += [
-            (CHDIR, locale),
-            (EXEC, GIT_PULL % 'master'),
-            (CHDIR, here),
-        ]
+    #if os.path.exists(os.path.join(locale, '.svn')):
+    #    commands += [
+    #        (CHDIR, locale),
+    #        (EXEC, SVN_UP),
+    #        (CHDIR, here),
+    #        (EXEC, COMPILE_MO % {'localedir': locale, 'unique': unique}),
+    #    ]
+    #elif os.path.exists(os.path.join(locale, '.git')):
+    #    commands += [
+    #        (CHDIR, locale),
+    #        (EXEC, GIT_PULL % 'master'),
+    #        (CHDIR, here),
+    #    ]
 
     commands += [
-        (CHDIR, os.path.join(here, 'vendor')),
-        (EXEC,  GIT_PULL % vendor_branch),
-        (EXEC,  GIT_SUBMODULE),
-        (CHDIR, os.path.join(here)),
-        (EXEC, 'python2.6 vendor/src/schematic/schematic migrations/'),
+        #(CHDIR, os.path.join(here, 'vendor')),
+        #(EXEC,  GIT_PULL % vendor_branch),
+        #(CHDIR, os.path.join(here)),
+        #(EXEC,  GIT_SUBMODULE),
+        (EXEC, 'python2.6 manage.py migrate'),
         (EXEC, 'python2.6 manage.py collectstatic --noinput'),
-        (EXEC, 'python2.6 manage.py compress_assets'),
+        (EXEC, '/etc/init.d/httpd restart'),
+        #(EXEC, 'python2.6 manage.py compress_assets'),
     ]
 
     for cmd, cmd_args in commands:

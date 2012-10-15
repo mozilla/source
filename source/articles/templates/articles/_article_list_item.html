@@ -1,0 +1,13 @@
+{# standard presentation block for an article in list and search results pages #}
+<div class="page-block">
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}<a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
+    {% if article.image %}<img class="list-thumbnail" src="{{ MEDIA_URL }}{{ thumbnail(article.image, "300x200", crop="center") }}" alt="{{ article.title }}">{% endif %}
+    <ul class="link-list link-list-inline">
+        {% if article.get_live_author_set().exists() %}<li>{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
+        {% with person_link_list = article.get_live_people_set() %}
+        {% include "people/_person_link_list_inline.html" %}{% endwith %}
+        {% with organization_link_list = article.get_live_organization_set() %}
+        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+    </ul>
+    <p>{{ article.summary|safe }}</p>
+</div>

@@ -3,8 +3,8 @@ from datetime import datetime
 from django.db import models
 from django.template.defaultfilters import date as dj_date, linebreaks
 
-from datetime import datetime
-
+from caching.base import CachingManager, CachingMixin
+from sorl.thumbnail import ImageField
 from source.people.models import Person, Organization
 from source.code.models import Code
 from taggit.managers import TaggableManager
@@ -21,11 +21,11 @@ ARTICLE_TYPE_CHOICES = (
     ('update', 'Community Update'),
 )
 
-class LiveArticleManager(models.Manager):
+class LiveArticleManager(CachingManager):
     def get_query_set(self):
         return super(LiveArticleManager, self).get_query_set().filter(is_live=True, pubdate__lte=datetime.now())
 
-class Article(models.Model):
+class Article(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
@@ -34,6 +34,9 @@ class Article(models.Model):
     pubdate = models.DateTimeField(default=datetime.now)
     subhead = models.CharField(max_length=128)
     authors = models.ManyToManyField(Person, blank=True, null=True, related_name='article_authors')
+    image = ImageField(upload_to='img/uploads/article_images', help_text='Resized to fit 100% column width in template', blank=True, null=True)
+    image_caption = models.TextField(blank=True)
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
@@ -41,14 +44,14 @@ class Article(models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    objects = models.Manager()
+    objects = CachingManager()
     live_objects = LiveArticleManager()
     
     class Meta:
         ordering = ('-pubdate','title',)
         
     def __unicode__(self):
-        return '%s' % self.title
+        return u'%s' % self.title
         
     @models.permalink
     def get_absolute_url(self):
@@ -58,22 +61,61 @@ class Article(models.Model):
     @property
     def pretty_pubdate(self):
         return dj_date(self.pubdate,"F j, Y")
-        
 
-class ArticleBlock(models.Model):
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
+
+    def get_live_organization_set(self):
+        return self.organizations.filter(is_live=True)
+
+    def get_live_people_set(self):
+        return self.people.filter(is_live=True)
+
+    def get_live_author_set(self):
+        return self.authors.filter(is_live=True)
+
+    def get_live_code_set(self):
+        return self.code.filter(is_live=True)
+
+
+IMAGE_PRESENTATION_CHOICES = (
+    ('full-width', 'Full-Width Above Text'),
+    ('full-width-below', 'Full-Width Below Text'),
+    ('inset-left', 'Inset Left'),
+    ('inset-right', 'Inset Right'),
+)
+
+class ArticleBlock(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article)
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     order = models.PositiveIntegerField(default=1)
+    image = ImageField(upload_to='img/uploads/article_images', blank=True, null=True)
+    image_presentation = models.CharField(max_length=24, choices=IMAGE_PRESENTATION_CHOICES, blank=True)
+    image_caption = models.TextField(blank=True)
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
     body = models.TextField()
+    objects = CachingManager()
     
     class Meta:
         ordering = ('article', 'order', 'title',)
         verbose_name = 'Article Block'
 
     def __unicode__(self):
-        return '%s: %s' % (self.article.title, self.title)
+        return u'%s: %s' % (self.article.title, self.title)
 
+    @property
+    def pretty_caption(self):
+        _caption = self.image_caption or ''
+        _credit = self.image_credit
+        if _credit:
+            _caption = '%s (%s)' % (_caption, _credit)
+        return _caption
 

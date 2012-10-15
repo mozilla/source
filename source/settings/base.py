@@ -31,10 +31,15 @@ ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
 INSTALLED_APPS = list(INSTALLED_APPS) + [
     'django.contrib.admin',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
+    'caching',
+    'haystack',
+    'sorl.thumbnail',
     'south',
     'taggit',
 ]
@@ -43,12 +48,33 @@ SUPPORTED_NONLOCALES = ['media', 'admin',]
 
 STATIC_URL = '/static/'
 
+# Adding to standard funfactory middleware classes. Need to insert the
+# UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
+MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+MIDDLEWARE_CLASSES.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
+MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackMiddleware')
+MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
+
+CACHE_MIDDLEWARE_SECONDS = 120
+
+# Search with django-haystack
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
 # Because Jinja2 is the default template loader, add any non-Jinja templated
 # apps here:
 JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
+
+# sorl-thumbnail settings
+DEFAULT_IMAGE_SRC = 'img/missing.png'
 
 # Tells the extract script what files to look for L10n in and what function
 # handles the extraction. The Tower library expects this.

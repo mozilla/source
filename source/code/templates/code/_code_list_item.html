@@ -1,0 +1,9 @@
+{# standard presentation block for a code item in list and search results pages #}
+<div class="page-block">
+    <h2>{% include "code/_code_category_and_tags_overline.html" %}<a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h2>
+    <ul class="link-list link-list-inline">
+        {% with organization_link_list = code.get_live_organization_set() %}
+        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+    </ul>
+    {% if code.description %}{{ code.description|linebreaks|safe }}{% endif %}
+</div>

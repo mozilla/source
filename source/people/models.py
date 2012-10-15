@@ -1,16 +1,21 @@
+from datetime import datetime
+
 from django.db import models
+from django.utils.encoding import force_unicode
 
+from caching.base import CachingManager, CachingMixin
+from sorl.thumbnail import ImageField
 
-class LivePersonManager(models.Manager):
+class LivePersonManager(CachingManager):
     def get_query_set(self):
         return super(LivePersonManager, self).get_query_set().filter(is_live=True)
 
 
-class Person(models.Model):
+class Person(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
-    show_in_lists = models.BooleanField(default=True)
+    show_in_lists = models.BooleanField('Show on People list page', default=True)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
@@ -19,7 +24,7 @@ class Person(models.Model):
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
-    objects = models.Manager()
+    objects = CachingManager()
     live_objects = LivePersonManager()
     
     class Meta:
@@ -27,72 +32,151 @@ class Person(models.Model):
         verbose_name_plural = 'People'
         
     def __unicode__(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return u'%s %s' % (self.first_name, self.last_name)
         
+    def save(self, *args, **kwargs):
+        # clean up our username fields, just in case
+        if self.twitter_username:
+            self.twitter_username = self.twitter_username.strip()
+            if self.twitter_username.startswith('@'):
+                self.twitter_username = self.twitter_username.strip('@')
+            if '/' in self.twitter_username:
+                self.twitter_username = self.twitter_username.split('/')[-1]
+        if self.github_username:
+            self.github_username = self.github_username.strip()
+            if '/' in self.github_username:
+                self.github_username = self.github_username.split('/')[-1]
+        super(Person, self).save(*args, **kwargs)
+
     def name(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return u'%s %s' % (self.first_name, self.last_name)
         
     @models.permalink
     def get_absolute_url(self):
         return ('person_detail', (), {
             'slug': self.slug })
+    
+    @property
+    def sort_letter(self):
+        return self.last_name[:1]
+
+    def get_live_article_set(self):
+        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
+
+    def get_live_article_authored_set(self):
+        return self.article_authors.filter(is_live=True, pubdate__lte=datetime.now)
+
+    def get_live_organization_set(self):
+        return self.organizations.filter(is_live=True)
+
+    def get_live_code_set(self):
+        return self.code_set.filter(is_live=True)
 
 
-class PersonLink(models.Model):
+class PersonLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
+    objects = CachingManager()
 
     class Meta:
         ordering = ('person', 'name',)
         verbose_name = 'Person Link'
 
     def __unicode__(self):
-        return '%s: %s' % (self.person.name, self.name)
+        return u'%s: %s' % (self.person.name, self.name)
 
 
 
 
-class LiveOrganizationManager(models.Manager):
+class LiveOrganizationManager(CachingManager):
     def get_query_set(self):
         return super(LiveOrganizationManager, self).get_query_set().filter(is_live=True)
 
 
-class Organization(models.Model):
+class Organization(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
+    show_in_lists = models.BooleanField('Show on Organization list page', default=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
+    twitter_username = models.CharField(max_length=32, blank=True)
+    github_username = models.CharField(max_length=32, blank=True)
+    homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
-    objects = models.Manager()
+    # Location
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=64, blank=True)
+    state = models.CharField(max_length=32, blank=True)
+    country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
+    logo = ImageField(upload_to='img/uploads/org_logos', help_text="Resized to fit 200x50 box in template", blank=True, null=True)
+    objects = CachingManager()
     live_objects = LiveOrganizationManager()
     
     class Meta:
         ordering = ('name',)
         
     def __unicode__(self):
-        return '%s' % self.name
+        return u'%s' % self.name
         
+    def save(self, *args, **kwargs):
+        # clean up our username fields, just in case
+        if self.twitter_username.startswith('@'):
+            self.twitter_username = self.twitter_username.strip('@')
+        if '/' in self.twitter_username:
+            self.twitter_username = self.twitter_username.split('/')[-1]
+        if '/' in self.github_username:
+            self.github_username = self.github_username.split('/')[-1]
+        super(Organization, self).save(*args, **kwargs)
+
     @models.permalink
     def get_absolute_url(self):
         return ('organization_detail', (), {
             'slug': self.slug })
+            
+    @property
+    def location_string_for_static_map(self):
+        _locs = []
+        for _loc in [self.address, self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ",".join(_locs).replace(' ','+')
+
+    @property
+    def location_string_city(self):
+        _locs = []
+        for _loc in [self.city, self.state, self.country]:
+            if _loc: _locs.append(_loc)
+        return ", ".join(_locs)
+        
+    @property
+    def sort_letter(self):
+        return self.name.replace('The ', '')[:1]
+        
+    def get_live_article_set(self):
+        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
+        
+    def get_live_person_set(self):
+        return self.person_set.filter(is_live=True)
+
+    def get_live_code_set(self):
+        return self.code_set.filter(is_live=True)
 
 
-class OrganizationLink(models.Model):
+class OrganizationLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     organization = models.ForeignKey(Organization)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
+    objects = CachingManager()
 
     class Meta:
         ordering = ('organization', 'name',)
         verbose_name = 'Organization Link'
 
     def __unicode__(self):
-        return '%s: %s' % (self.organization.name, self.name)
+        return u'%s: %s' % (self.organization.name, self.name)
 
