@@ -44,7 +44,11 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'taggit',
 ]
 
-SUPPORTED_NONLOCALES = ['media', 'admin',]
+TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
+    'source.base.context_processors.http_protocol',
+]
+
+SUPPORTED_NONLOCALES = ['media', 'admin', ]
 
 STATIC_URL = '/static/'
 
@@ -73,6 +77,10 @@ JINGO_EXCLUDE_APPS = [
     'registration',
 ]
 
+# dev is under https and live is (currently) only on http - quick hack to ensure
+# we embed the disqus code from the right protocol
+HTTP_PROTOCOL = 'http'
+
 # sorl-thumbnail settings
 DEFAULT_IMAGE_SRC = 'img/missing.png'
 
@@ -100,4 +108,4 @@ DOMAIN_METHODS['messages'] = [
 #    ('media/js/**.js', 'javascript'),
 # ]
 
-LOGGING = dict(loggers=dict(playdoh = {'level': logging.DEBUG}))
+LOGGING = dict(loggers=dict(playdoh={'level': logging.DEBUG}))
