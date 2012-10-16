@@ -197,7 +197,7 @@ article, .container {
     line-height: 1.8em;
 }
 
-h1, h2, h3, h5, h6, ul, .caption, label {
+h1, h2, h3, h5, h6, ul, ol, .caption, label {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
     text-align: left;
@@ -762,7 +762,7 @@ aside.search-results-single-col {
     margin-bottom: 1em;
 }
 
-article.article-detail ul li {
+article.article-detail ul li, article.article-detail ol li {
     font-family: Georgia;
     font-size: 18px;
     line-height: 1.6em;
