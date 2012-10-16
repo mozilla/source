@@ -33,7 +33,7 @@ class Code(CachingMixin, models.Model):
     repo_watchers = models.PositiveIntegerField(blank=True, null=True)
     repo_description = models.TextField(blank=True)
     tags = TaggableManager(blank=True)
-    objects = CachingManager()
+    objects = models.Manager()
     live_objects = LiveCodeManager()
     
     class Meta:
@@ -98,7 +98,7 @@ class CodeLink(CachingMixin, models.Model):
     code = models.ForeignKey(Code)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
-    objects = CachingManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('code', 'name',)

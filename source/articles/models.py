@@ -44,7 +44,7 @@ class Article(CachingMixin, models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
     tags = TaggableManager(blank=True)
-    objects = CachingManager()
+    objects = models.Manager()
     live_objects = LiveArticleManager()
     
     class Meta:
@@ -102,7 +102,7 @@ class ArticleBlock(CachingMixin, models.Model):
     image_caption = models.TextField(blank=True)
     image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
     body = models.TextField()
-    objects = CachingManager()
+    objects = models.Manager()
     
     class Meta:
         ordering = ('article', 'order', 'title',)
