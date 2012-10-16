@@ -774,6 +774,7 @@ blockquote {
     line-height: 1.6em;
     background-color: #f8f8f8;
     padding: 10px 15px;
+    overflow: hidden;
 }
 
 span.category {
