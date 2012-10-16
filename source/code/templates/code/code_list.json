@@ -3,7 +3,7 @@
     {
         "name": "{{ code.name|e }}",
         "slug": "{{ code.slug }}",
-        "source_url": "https://{{ request.get_host() }}{{ code.get_absolute_url() }}",
+        "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ code.get_absolute_url() }}",
         "project_url": "{{ code.url }}",
         "active_project": {{ code.is_active|lower }},
         "seeking_contributors": {{ code.seeking_contributors|lower }},
@@ -13,7 +13,7 @@
         
             "tag": {
                 "name": "{{ tag|e }}",
-                "source_url": "https://{{ request.get_host() }}{{ url('code_list_by_tag', tag.slug) }}"
+                "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ url('code_list_by_tag', tag.slug) }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
         
@@ -22,7 +22,7 @@
 
             "person": {
                 "name": "{{ person.name()|e }}",
-                "source_url": "https://{{ request.get_host() }}{{ person.get_absolute_url() }}"
+                "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ person.get_absolute_url() }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
 
@@ -31,7 +31,7 @@
 
             "organization": {
                 "name": "{{ organization.name|e }}",
-                "source_url": "https://{{ request.get_host() }}{{ organization.get_absolute_url() }}"
+                "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ organization.get_absolute_url() }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
 
