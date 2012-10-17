@@ -24,7 +24,7 @@ class Person(CachingMixin, models.Model):
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
-    objects = CachingManager()
+    objects = models.Manager()
     live_objects = LivePersonManager()
     
     class Meta:
@@ -79,7 +79,7 @@ class PersonLink(CachingMixin, models.Model):
     person = models.ForeignKey(Person)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
-    objects = CachingManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('person', 'name',)
@@ -113,7 +113,7 @@ class Organization(CachingMixin, models.Model):
     state = models.CharField(max_length=32, blank=True)
     country = models.CharField(max_length=32, blank=True, help_text="Only necessary if outside the U.S.")
     logo = ImageField(upload_to='img/uploads/org_logos', help_text="Resized to fit 200x50 box in template", blank=True, null=True)
-    objects = CachingManager()
+    objects = models.Manager()
     live_objects = LiveOrganizationManager()
     
     class Meta:
@@ -171,7 +171,7 @@ class OrganizationLink(CachingMixin, models.Model):
     organization = models.ForeignKey(Organization)
     name = models.CharField(max_length=128)
     url = models.URLField(verify_exists=False)
-    objects = CachingManager()
+    objects = models.Manager()
 
     class Meta:
         ordering = ('organization', 'name',)
