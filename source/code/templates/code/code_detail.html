@@ -19,7 +19,7 @@
     {% if code.description_or_summary %}{{ code.description_or_summary|linebreaks|safe }}{% endif %}
     <ul class="link-list" id="code-details">
         <li>
-            <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Project home</a>
+            <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Code repo</a>
             {% if code.is_active %}<i class="icon-ok" style="margin-left: 1em;"></i>Active project{% endif %}
             {% if code.seeking_contributors %}<i class="icon-ok" style="margin-left: 1em;"></i>Seeking contributors{% endif %}
         </li>
@@ -41,7 +41,7 @@
         {% include "utils/_basic_link_list.html" %}{% endwith %}
     {% else %}
     <div class="code-repo-browse">
-        <h5 class="list-header">Browse this repo / <a href="{{ code.url }}">Fork this repo</a></h5>
+        <h5>Browse this repo</h5>
         <div id="repo"></div>
     </div>
     
