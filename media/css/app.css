@@ -570,9 +570,9 @@ img.list-thumbnail {
     margin-right: 30px;
 }
 
-.code-repo-browse .list-header {
-    margin-bottom: 2em;
-}
+#repo h1:first-child {
+    display: none;
+} 
 
 .code-repo-meta {
     float: left;
