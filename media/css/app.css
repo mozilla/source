@@ -492,6 +492,14 @@ h1.maintopic {
     width: 300px;
 }
 
+img.map-inset-right,
+img.list-thumbnail,
+.image-full-width-wrapper img,
+.image-inset-left-wrapper img,
+.image-inset-right-wrapper img {
+    border: 1px solid black;
+}
+
 img.list-thumbnail {
     float: left;
     width: 150px;
@@ -771,10 +779,6 @@ blockquote {
 span.category {
     line-height: 1.5em;
     margin-bottom: 10px;
-}
-
-img.map-inset-right {
-    border: 1px solid black;
 }
 
 img#main-logo {
