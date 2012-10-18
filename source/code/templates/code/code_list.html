@@ -1,9 +1,7 @@
 {% extends "code/_base_code.html" %}
 
 {% block content %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 
 <div id="filterable-list">
 {% for alpha in object_list|groupby('sort_letter') %}

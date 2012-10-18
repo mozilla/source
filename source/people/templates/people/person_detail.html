@@ -3,9 +3,7 @@
 {% block page_title %}{{ person.name() }} - {{ super() }}{% endblock %}
 
 {% block content %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
 
 <div class="page-block">
     <h2 id="person-name">{{ person.name() }}</h2>

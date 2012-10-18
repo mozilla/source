@@ -2,9 +2,7 @@
 
 {% block content %}
 {% if section %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('article_list_by_section', section.slug) }}">{{ section.name }}</a>{% if category %} / <span class="category">{{ category }}</span>{% endif %}{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('article_list_by_section', section.slug) }}">{{ section.name }}</a>{% if category %} / <span class="category">{{ category }}</span>{% endif %}{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 {% endif %}
 
 {% for article in page.object_list %}

@@ -3,9 +3,7 @@
 {% block page_title %}{{ organization.name }} - {{ super() }}{% endblock %}
 
 {% block content %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
 
 <div class="page-block item-detail">
     <h2>{{ organization.name }}</h2>
