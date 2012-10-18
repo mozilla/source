@@ -11,13 +11,14 @@
 
 {% block article_class %}article-detail{% endblock %}
 {% block content %}
-    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
     {% if article.image %}
         <div class="image-full-width-wrapper">
             <img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
             {% if article.pretty_caption %}<p class="caption">{{ article.pretty_caption }}</p>{% endif %}
         </div>
     {% endif %}
+
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
     <h4>{{ article.subhead }}</h4>
     
     <aside>
