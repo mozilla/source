@@ -5,9 +5,7 @@
 {% block article_class %}search-results{% if page.object_list|length <= 2 or not (person_results or organization_results) %} search-results-single-col{% endif %}{% endblock %}
 
 {% block base_above_article %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('haystack_search') }}">Search</a></h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('haystack_search') }}">Search</a></h1>
 
 <form class="search-form" method="get" action=".">
     {{ form.q }}

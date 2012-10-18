@@ -1,11 +1,9 @@
 {% extends "people/_base_people.html" %}
 
 {% block content %}
-<div class="page-block">
-    <h1 class="maintopic">
-        <span class="category">People</span> / <a href="{{ url('organization_list') }}">Organizations</a>
-    </h1>
-</div>
+<h1 class="maintopic">
+    <span class="category">People</span> / <a href="{{ url('organization_list') }}">Organizations</a>
+</h1>
 
 <div id="filterable-list">
 {% for alpha in object_list|groupby('sort_letter') %}

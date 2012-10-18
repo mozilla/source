@@ -12,6 +12,7 @@
 
 .page-block {
     margin-bottom: 2em;
+    overflow: hidden;
 }
 
 footer {
@@ -437,8 +438,10 @@ a:hover {
 
 h1.maintopic {
     text-align: right;
-    margin-right: 185px;
+    width: 550px;
+    margin-right: 0;
     margin-top: -20px;
+    margin-bottom: 2em;
 }
 
 .twitter-bio {
@@ -782,12 +785,11 @@ span.category {
     margin-bottom: 10px;
 }
 
-img#main-logo {
-    width: 550px;
+h1 span.category {
+    line-height: inherit;
 }
 
-h1.maintopic {
-    margin-right: 0px;
+img#main-logo {
     width: 550px;
 }
 
@@ -862,6 +864,8 @@ h1.maintopic {
     
     h1.maintopic {
         width: 100%;
+        margin-right: 0px;
+        margin-bottom: 1.5em;
     }
     
     p.tagline {
@@ -928,10 +932,6 @@ h1.maintopic {
         -moz-columns:1;
     }
     
-    h1.maintopic {
-        margin-right: 0px;
-    }
-    
     h2 {
         font-size: .9em;
     }
@@ -990,8 +990,8 @@ h1.maintopic {
 
     h1.maintopic {
         font-size: .9em;
+        margin-bottom: 1em;
     }
-    
     
     #topbar {
         position: relative;
