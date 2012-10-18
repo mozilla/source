@@ -614,7 +614,7 @@ article.homepage, article.search-results {
 }
 
 aside.homepage, aside.search-results {
-    padding: 5px 0 0 20px;
+    padding: 0 0 0 20px;
     width: 200px;
     float: right;
     border-left: 1px solid #cdcdcd;
