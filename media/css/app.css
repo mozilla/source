@@ -503,7 +503,8 @@ img.list-thumbnail,
 img.list-thumbnail {
     float: left;
     width: 150px;
-    margin: 0 .67em .5em 0;
+    height: 120px;
+    margin: 0 .67em .25em 0;
 }
 
 .map-inset-right {
