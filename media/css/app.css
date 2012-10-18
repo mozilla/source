@@ -12,6 +12,7 @@
 
 .page-block {
     margin-bottom: 2em;
+    overflow: hidden;
 }
 
 footer {
