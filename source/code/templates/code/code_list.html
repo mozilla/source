@@ -4,7 +4,22 @@
 <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 
 <div id="filterable-list">
-{% for alpha in object_list|groupby('sort_letter') %}
+{% if tag %}
+    <div class="grouper-block filter-block">
+        <h2 class="grouper-header"><span class="category">Code index entries tagged: {{ tag.name }}</span></h2>
+        {% for code in object_list %}
+        <div class="grid-box">
+            <h3><a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h3>
+            {% if code.summary_or_description %}<p>{{ code.summary_or_description|safe }}</p>{% endif %}
+            <ul class="link-list">
+                {% if code.get_live_organization_set().exists() %}<li><i class="icon-cogs small"></i>{% for organization in code.get_live_organization_set() %}<a class="small" href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endif %}
+                {% if code.tags.all().exists() %}<li><i class="icon-tags small"></i>{% for tag in code.tags.all() %}<a class="small" href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endif %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {% for alpha in object_list|groupby('sort_letter') %}
     <div class="grouper-block filter-block">
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
         {% for code in alpha.list %}
@@ -18,7 +33,9 @@
         </div>
         {% endfor %}
     </div>
-{% endfor %}
+    {% endfor %}
+
+{% endif %}
 </div>
 {% endblock content %}
 
