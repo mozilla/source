@@ -3,9 +3,7 @@
 {% block page_title %}{{ code.name }} - {{ super() }}{% endblock %}
 
 {% block content %}
-<div class="page-block">
-    <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a></h1>
-</div>
+<h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a></h1>
 
 <div class="page-block">
     <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
