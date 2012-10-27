@@ -492,10 +492,9 @@ h1.maintopic {
 }
 
 .image-inset-left-wrapper img, .image-inset-right-wrapper img {
-    width: 300px;
+    width: 298px;
 }
 
-img.map-inset-right,
 img.list-thumbnail,
 .image-full-width-wrapper img,
 .image-inset-left-wrapper img,
@@ -507,11 +506,6 @@ img.list-thumbnail {
     float: left;
     width: 150px;
     margin: 0 .67em .25em 0;
-}
-
-.map-inset-right {
-    width: 300px;
-    height: 250px;
 }
 
 .small, .link-list li i.small {
@@ -1055,7 +1049,7 @@ img#main-logo {
         font-size: .9em;
     }
     
-    img.map-inset-right {
+    img.map-inset {
         display: none;
     }
     
@@ -1068,5 +1062,4 @@ img#main-logo {
     .search-form input[type="text"] {
         width: auto;
     }
-    
 }
