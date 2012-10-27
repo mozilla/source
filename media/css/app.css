@@ -198,6 +198,11 @@ article, .container {
     line-height: 1.8em;
 }
 
+article .article-block {
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
 h1, h2, h3, h5, h6, ul, ol, .caption, label {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
