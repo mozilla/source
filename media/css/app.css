@@ -1062,4 +1062,19 @@ img#main-logo {
     .search-form input[type="text"] {
         width: auto;
     }
+
+    .image-inset-left-wrapper,
+    .image-inset-right-wrapper {
+        float: none;
+        width: auto;
+        margin: .33em 0 1em;
+    }
+    
+}
+
+@media screen and (max-width: 480px) {
+    .image-inset-left-wrapper img,
+    .image-inset-right-wrapper img {
+        width: 98%;
+    }
 }
