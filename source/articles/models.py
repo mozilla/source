@@ -95,7 +95,7 @@ class ArticleBlock(CachingMixin, models.Model):
     modified = models.DateTimeField(auto_now=True)
     article = models.ForeignKey(Article)
     title = models.CharField(max_length=128)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
     order = models.PositiveIntegerField(default=1)
     image = ImageField(upload_to='img/uploads/article_images', blank=True, null=True)
     image_presentation = models.CharField(max_length=24, choices=IMAGE_PRESENTATION_CHOICES, blank=True)
