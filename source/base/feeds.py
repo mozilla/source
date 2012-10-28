@@ -62,26 +62,30 @@ class ArticleFeed(Feed):
 
 class CodeFeed(Feed):
     def get_object(self, request, *args, **kwargs):
-        self.tag_slug = kwargs.get('tag_slug', None)
-        if self.tag_slug:
-            self.tag = get_object_or_404(Tag, slug=self.tag_slug)
+        self.tags = None
+        self.tag_slugs = kwargs.get('tag_slugs', None)
+        self.tag_slug_list = []
+        if self.tag_slugs:
+            self.tag_slug_list = self.tag_slugs.split('+')
+            # need to fail if any item in slug list references nonexistent tag
+            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
         return ''
 
     def title(self, obj):
         identifier = ""
-        if self.tag_slug:
-            identifier = " tagged with '%s'" % self.tag.name
+        if self.tags:
+            identifier = " tagged '%s'" % "+".join([tag.name for tag in self.tags])
         return "Source: Code%s" % identifier
 
     def link(self, obj):
-        if self.tag_slug:
-            return reverse('code_list_by_tag', kwargs={'tag_slug': self.tag_slug})
+        if self.tag_slugs:
+            return reverse('code_list_by_tag', kwargs={'tag_slugs': self.tag_slugs})
         return reverse('code_list')
 
     def description(self, obj):
         identifier = " from Source"
-        if self.tag_slug:
-            identifier = " tagged with '%s'" % self.tag.name
+        if self.tag_slugs:
+            identifier = " tagged '%s'" % "+".join([tag.name for tag in self.tags])
         return "Recent code index pages%s" % identifier
 
     def item_title(self, item):
@@ -92,7 +96,7 @@ class CodeFeed(Feed):
 
     def items(self, obj):
         queryset = Code.live_objects.order_by('-created')
-        if self.tag_slug:
-            queryset = queryset.filter(tags__slug=self.tag_slug)
+        for tag_slug in self.tag_slug_list:
+            queryset = queryset.filter(tags__slug=tag_slug)
         return queryset[:20]
 
