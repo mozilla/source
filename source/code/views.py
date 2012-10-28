@@ -13,17 +13,20 @@ class CodeList(ListView):
 
     def dispatch(self, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        self.tag_slug = kwargs.get('tag_slug', None)
-        self.tag = None
-
+        self.tags = None
+        self.tag_slugs = kwargs.get('tag_slugs', None)
+        self.tag_slug_list = []
         return super(CodeList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = Code.live_objects.prefetch_related('organizations')
 
-        if self.tag_slug:
-            self.tag = get_object_or_404(Tag, slug=self.tag_slug)
-            queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
+        if self.tag_slugs:
+            self.tag_slug_list = self.tag_slugs.split('+')
+            # need to fail if any item in slug list references nonexistent tag
+            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
+            for tag_slug in self.tag_slug_list:
+                queryset = queryset.filter(tags__slug=tag_slug)
 
         return queryset
 
@@ -31,10 +34,11 @@ class CodeList(ListView):
         context = super(CodeList, self).get_context_data(**kwargs)
         context['active_nav'] = 'Code'
 
-        if self.tag:
-            context['tag'] = self.tag
-            context['rss_link'] = reverse('code_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug})
-            context['json_link'] = reverse('code_list_by_tag_feed_json', kwargs={'tag_slug': self.tag_slug})
+        if self.tags:
+            pass
+            context['tags'] = self.tags
+            context['rss_link'] = reverse('code_list_by_tag_feed', kwargs={'tag_slugs': self.tag_slugs})
+            context['json_link'] = reverse('code_list_by_tag_feed_json', kwargs={'tag_slugs': self.tag_slugs})
         else:
             context['rss_link'] = reverse('code_list_feed')
             context['json_link'] = reverse('code_list_feed_json')

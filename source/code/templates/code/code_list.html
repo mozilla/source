@@ -1,12 +1,14 @@
 {% extends "code/_base_code.html" %}
 
+{% block page_title %}{% if tags %}Entries tagged: {% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %} - {{ super() }}{% endblock %}
+
 {% block content %}
 <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 
 <div id="filterable-list">
-{% if tag %}
+{% if tags %}
     <div class="grouper-block filter-block">
-        <h2 class="grouper-header"><span class="category">Code index entries tagged: {{ tag.name }}</span></h2>
+        <h2 class="grouper-header"><span class="category">Code index entries tagged: {% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}</span></h2>
         {% for code in object_list %}
         <div class="grid-box">
             <h3><a href="{{ code.get_absolute_url() }}">{{ code.name }}</a></h3>
