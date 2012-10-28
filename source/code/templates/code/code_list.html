@@ -1,7 +1,5 @@
 {% extends "code/_base_code.html" %}
 
-{% block page_title %}{% if tags %}Entries tagged: {% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %} - {% endif %}{{ super() }}{% endblock %}
-
 {% block content %}
 <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a>{% if tag %} / <span class="category">{{ tag.name }}</span>{% endif %}</h1>
 
