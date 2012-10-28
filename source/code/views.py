@@ -35,7 +35,6 @@ class CodeList(ListView):
         context['active_nav'] = 'Code'
 
         if self.tags:
-            pass
             context['tags'] = self.tags
             context['rss_link'] = reverse('code_list_by_tag_feed', kwargs={'tag_slugs': self.tag_slugs})
             context['json_link'] = reverse('code_list_by_tag_feed_json', kwargs={'tag_slugs': self.tag_slugs})
