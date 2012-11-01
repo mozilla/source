@@ -67,9 +67,9 @@ class ArticleList(ListView):
     def dispatch(self, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tag_slug = kwargs.get('tag_slug', None)
-        self.tag = None
-
+        self.tags = None
+        self.tag_slugs = kwargs.get('tag_slugs', None)
+        self.tag_slug_list = []
         return super(ArticleList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
@@ -79,9 +79,12 @@ class ArticleList(ListView):
             queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
         elif self.category:
             queryset = queryset.filter(article_type=self.category)
-        elif self.tag_slug:
-            self.tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
-            queryset = queryset.filter(tags__slug=self.kwargs['tag_slug'])
+        elif self.tag_slugs:
+            self.tag_slug_list = self.tag_slugs.split('+')
+            # need to fail if any item in slug list references nonexistent tag
+            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
+            for tag_slug in self.tag_slug_list:
+                queryset = queryset.filter(tags__slug=tag_slug)
             
         return queryset
     
@@ -99,12 +102,12 @@ class ArticleList(ListView):
                 'active_nav': CATEGORY_MAP[self.category]['parent_slug'],
                 'rss_link': reverse('article_list_by_category_feed', kwargs={'category': self.category}),
             })
-        elif self.tag:
+        elif self.tags:
             context.update({
                 'section': SECTION_MAP['articles'],
                 'active_nav': SECTION_MAP['articles']['slug'],
-                'tag':self.tag,
-                'rss_link': reverse('article_list_by_tag_feed', kwargs={'tag_slug': self.tag_slug}),
+                'tags':self.tags,
+                'rss_link': reverse('article_list_by_tag_feed', kwargs={'tag_slugs': self.tag_slugs}),
             })
         else:
             context.update({

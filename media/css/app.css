@@ -198,6 +198,11 @@ article, .container {
     line-height: 1.8em;
 }
 
+article .article-block {
+    margin-bottom: 0;
+    overflow: hidden;
+}
+
 h1, h2, h3, h5, h6, ul, ol, .caption, label {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
@@ -471,7 +476,7 @@ h1.maintopic {
 }
 
 .image-full-width-wrapper {
-    width: 100%;
+    width: 99%;
     margin-bottom: 1em;
 }
 
@@ -492,10 +497,9 @@ h1.maintopic {
 }
 
 .image-inset-left-wrapper img, .image-inset-right-wrapper img {
-    width: 300px;
+    width: 298px;
 }
 
-img.map-inset-right,
 img.list-thumbnail,
 .image-full-width-wrapper img,
 .image-inset-left-wrapper img,
@@ -507,11 +511,6 @@ img.list-thumbnail {
     float: left;
     width: 150px;
     margin: 0 .67em .25em 0;
-}
-
-.map-inset-right {
-    width: 300px;
-    height: 250px;
 }
 
 .small, .link-list li i.small {
@@ -1055,7 +1054,7 @@ img#main-logo {
         font-size: .9em;
     }
     
-    img.map-inset-right {
+    img.map-inset {
         display: none;
     }
     
@@ -1068,5 +1067,19 @@ img#main-logo {
     .search-form input[type="text"] {
         width: auto;
     }
+
+    .image-inset-left-wrapper,
+    .image-inset-right-wrapper {
+        float: none;
+        width: auto;
+        margin: .33em 0 1em;
+    }
     
+}
+
+@media screen and (max-width: 480px) {
+    .image-inset-left-wrapper img,
+    .image-inset-right-wrapper img {
+        width: 98%;
+    }
 }

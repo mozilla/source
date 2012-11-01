@@ -10,7 +10,7 @@
     
     {% if organization.location_string_for_static_map %}
     <div class="image-inset-right-wrapper">
-        <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" class="map-inset-right"></a>
+        <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" alt="{{ organization.name }} location" class="map-inset"></a>
         {% if organization.address or organization.location_string_city %}<p class="caption">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}, {% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</p>{% endif %}
     </div>
     {% endif %}
