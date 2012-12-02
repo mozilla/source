@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Person, PersonLink, Organization, OrganizationLink
+from source.base.widgets import AdminImageMixin
 
 class PersonLinkInline(admin.StackedInline):
     model = PersonLink
@@ -40,7 +41,7 @@ class OrganizationLinkInline(admin.StackedInline):
             field.widget.attrs['style'] = 'width: 30em;'
         return field
 
-class OrganizationAdmin(admin.ModelAdmin):
+class OrganizationAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('is_live',)

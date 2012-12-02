@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Code, CodeLink
+from source.base.widgets import AdminImageMixin
 
 class CodeLinkInline(admin.StackedInline):
     model = CodeLink
@@ -15,7 +16,7 @@ class CodeLinkInline(admin.StackedInline):
             field.widget.attrs['style'] = 'width: 30em;'
         return field
 
-class CodeAdmin(admin.ModelAdmin):
+class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ('people', 'organizations',)
