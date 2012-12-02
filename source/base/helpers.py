@@ -30,7 +30,7 @@ def thumbnail(source, *args, **kwargs):
         if not 'format' in kwargs:
             filetype = source.path.split('.')[-1]
             # If we have a PNG, don't default convert to JPG
-            if filetype == 'png':
+            if filetype.lower() == 'png':
                 kwargs['format'] = 'PNG'
         
         return get_thumbnail(source, *args, **kwargs)
