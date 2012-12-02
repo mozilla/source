@@ -764,7 +764,7 @@ aside.search-results-single-col {
     margin-bottom: 1em;
 }
 
-article.article-detail ul li, article.article-detail ol li {
+article ul li, article ol li {
     font-family: Georgia;
     font-size: 18px;
     line-height: 1.6em;
@@ -939,7 +939,7 @@ img#main-logo {
         font-size: .7em;
     }
     
-    .page-block p {
+    article p, .page-block p, article ul li, article ol li {
         font-size: 17px;
         line-height: 1.8em;
     }
@@ -979,7 +979,7 @@ img#main-logo {
 }
 
 @media screen and (max-width: 480px) {
-    h6.date {
+    h6.date, h6.byline-name {
         font-size: .8em;
     }
     
@@ -1013,6 +1013,10 @@ img#main-logo {
         padding: 8px 0;
     }
     
+    aside .byline {
+        margin-bottom: 1em;
+    }
+    
     aside.article-people {
         display: block;
     }
@@ -1039,7 +1043,7 @@ img#main-logo {
        margin-bottom: 1em;
     }
     
-    .page-block p {
+    article p, .page-block p, article ul li, article ol li {
         font-size: 15px;
         line-height: 1.6em;
     }

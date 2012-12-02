@@ -24,6 +24,15 @@ def thumbnail(source, *args, **kwargs):
     try:
         if not source.path:
             source = kwargs.get('default')
+
+        # Handle PNG images a little more gracefully
+        # Make sure thumbnail call doesn't specifically set format
+        if not 'format' in kwargs:
+            filetype = source.path.split('.')[-1]
+            # If we have a PNG, don't default convert to JPG
+            if filetype == 'png':
+                kwargs['format'] = 'PNG'
+        
         return get_thumbnail(source, *args, **kwargs)
     except Exception as e:
         logger.error('Thumbnail had Exception: %s' % (e,))
