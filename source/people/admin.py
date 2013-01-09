@@ -11,6 +11,7 @@ class PersonLinkInline(admin.StackedInline):
     )
     
     def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable width in admin form field for names
         field = super(PersonLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name':
             field.widget.attrs['style'] = 'width: 30em;'
@@ -36,6 +37,7 @@ class OrganizationLinkInline(admin.StackedInline):
     )
     
     def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable width in admin form field for names
         field = super(OrganizationLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name':
             field.widget.attrs['style'] = 'width: 30em;'
