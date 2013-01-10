@@ -142,7 +142,16 @@ class ArticleDetail(DetailView):
     model = Article
 
     def get_queryset(self):
-        queryset = Article.live_objects.prefetch_related('articleblock_set', 'authors', 'people', 'organizations', 'code')
+        if self.request.user.is_staff:
+            # simple method for allowing article preview for editors,
+            # bypassing `live_objects` check on detail view. List pages
+            # populate with public articles only, but admin user can hit
+            # "view on site" button to see article even if it's not live yet
+            queryset = Article.objects.all()
+        else:
+            queryset = Article.live_objects.all()
+            
+        queryset = queryset.prefetch_related('articleblock_set', 'authors', 'people', 'organizations', 'code')
         
         return queryset
 

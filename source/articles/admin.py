@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 from .models import Article, ArticleBlock
+from source.base.widgets import AdminImageMixin
 
-
-class ArticleBlockInline(admin.StackedInline):
+class ArticleBlockInline(AdminImageMixin, admin.StackedInline):
     model = ArticleBlock
     extra = 1
     prepopulated_fields = {'slug': ('title',)}
@@ -11,7 +11,14 @@ class ArticleBlockInline(admin.StackedInline):
         ('', {'fields': ('order', ('title', 'slug'), 'body', ('image', 'image_presentation'), 'image_caption', 'image_credit',)}),
     )
 
-class ArticleAdmin(admin.ModelAdmin):
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable height in admin form fields for captions
+        field = super(ArticleBlockInline, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'image_caption':
+            field.widget.attrs['style'] = 'height: 5em;'
+        return field
+
+class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
@@ -26,11 +33,14 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [ArticleBlockInline,]
     
     def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable heights and widths in admin form fields
         field = super(ArticleAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ['subhead','tags']:
             field.widget.attrs['style'] = 'width: 45em;'
         if db_field.name in ['title','slug']:
             field.widget.attrs['style'] = 'width: 30em;'
+        if db_field.name == 'image_caption':
+            field.widget.attrs['style'] = 'height: 5em;'
         return field
 
 admin.site.register(Article, ArticleAdmin)

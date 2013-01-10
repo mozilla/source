@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import Code, CodeLink
+from source.base.widgets import AdminImageMixin
 
 class CodeLinkInline(admin.StackedInline):
     model = CodeLink
@@ -10,12 +11,13 @@ class CodeLinkInline(admin.StackedInline):
     )
     
     def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable width in admin form field for names
         field = super(CodeLinkInline, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'name':
             field.widget.attrs['style'] = 'width: 30em;'
         return field
 
-class CodeAdmin(admin.ModelAdmin):
+class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('name',)}
     filter_horizontal = ('people', 'organizations',)
@@ -28,6 +30,7 @@ class CodeAdmin(admin.ModelAdmin):
     inlines = [CodeLinkInline,]
     
     def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable heights and widths in admin form fields
         field = super(CodeAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ['url','tags']:
             field.widget.attrs['style'] = 'width: 45em;'
