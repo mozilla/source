@@ -7,3 +7,4 @@ venv/*
 static/*
 media/cache
 media/img/uploads
+.DS_Store

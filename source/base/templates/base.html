@@ -5,33 +5,47 @@
         <title>{% block page_title %}Source: An OpenNews project{% endblock %}</title>
         <meta name="description" content="Source - Journalism Code, Context & Community">
         <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;">
-{% block site_css %}
-        {{ css('sourceapp_css') }}
-{% endblock %}
+        {% compress css %}
+            <link href="{{ static('base/css/bootstrap.css') }}" rel="stylesheet">
+            <link href="{{ static('base/css/font-awesome.css') }}" rel="stylesheet">
+            <link href="{{ static('base/css/app.css') }}" rel="stylesheet">
+        {% endcompress %}
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-        <script src="{{ MEDIA_URL }}js/libs/modernizr-2.0.6.min.js"></script>
-{% block head_extra %}{% endblock %}
-{% if rss_link %}
+        {% if APP_MSG %}
+            <link rel="stylesheet" href="{{ static('base/css/warnr.css') }}">
+        {% endif %}
+        {% if rss_link %}
         <link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
-{% endif %}
-        <link rel="shortcut icon" href="{{ MEDIA_URL }}img/favicon.ico" />
-{% block google_analytics %}
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-35433268-15']);
-            _gaq.push(['_setDomainName', 'mozillaopennews.org']);
-            _gaq.push(['_trackPageview']);
+        {% endif %}
+        <link rel="shortcut icon" href="{{ static('base/img/favicon.ico') }}" />
+        {% compress js %}
+            <script src="{{ static('base/js/libs/modernizr-2.0.6.min.js') }}"></script>
+        {% endcompress %}
+        {% if not settings.DEBUG %}
+            {% block google_analytics %}
+                <script type="text/javascript">
+                    var _gaq = _gaq || [];
+                    _gaq.push(['_setAccount', 'UA-35433268-15']);
+                    _gaq.push(['_setDomainName', 'mozillaopennews.org']);
+                    _gaq.push(['_trackPageview']);
 
-            (function() {
-                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-{% endblock %}
+                    (function() {
+                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                    })();
+                </script>
+            {% endblock %}
+        {% endif %}
+        {% block head_extra %}{% endblock %}
     </head>
     <body>
         <header id="topbar">
+            {% if APP_MSG %}
+                <div id="app_stage_box" class="whimper">
+                    <div class="busta">{{ APP_MSG|safe }}</div>
+                </div>
+            {% endif %}
             <div class="container">
                 <form class="search-form" method="get" action="{{ url('haystack_search') }}">
                     <input type="text" name="q" id="id_q" />
@@ -51,12 +65,12 @@
                 {% endfor %}
                 </ul>
 
-                <a href="{{ url('homepage') }}"><img src="{{ MEDIA_URL }}img/source_retina_top.png" alt="Source" class="sourcelogomin"></a>
+                <a href="{{ url('homepage') }}"><img src="{{ static('base/img/source_retina_top.png') }}" alt="Source" class="sourcelogomin"></a>
             </div>
         </header>
         <div class="content">
             <div class="container page-block">
-                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ MEDIA_URL }}img/source_retina.png" alt="Source"></a>
+                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ static('base/img/source_retina.png') }}" alt="Source"></a>
                 {% block base_tagline %}{% endblock %}
             </div>
         
@@ -93,11 +107,14 @@
        </section>
         {% endblock footer %}</footer>
 
-{% block site_js %}
+        {% block site_js %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ MEDIA_URL }}js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-        {{ js('sourceapp_js') }}
-        {% endblock %}{% block site_js_extra %}{% endblock %}
+        {% compress js %}
+            <script src="{{ static('base/js/app.js') }}"></script>
+        {% endcompress %}
+        {% endblock %}
+        {% block site_js_extra %}{% endblock %}
     </body>
 </html>
 
