@@ -75,17 +75,9 @@ DOMAIN_METHODS['messages'] = [
         'tower.management.commands.extract.extract_tower_template'),
 ],
 
-# # Use this if you have localizable HTML files:
-# DOMAIN_METHODS['lhtml'] = [
-#    ('**/templates/**.lhtml',
-#        'tower.management.commands.extract.extract_tower_template'),
-# ]
-
-# # Use this if you have localizable JS files:
-# DOMAIN_METHODS['javascript'] = [
-#    # Make sure that this won't pull in strings from external libraries you
-#    # may use.
-#    ('media/js/**.js', 'javascript'),
-# ]
+# Should robots.txt deny everything or disallow a calculated list of URLs we
+# don't want to be crawled?  Default is false, disallow everything.
+# Also see http://www.google.com/support/webmasters/bin/answer.py?answer=93710
+ENGAGE_ROBOTS = False
 
 LOGGING = dict(loggers=dict(playdoh={'level': logging.DEBUG}))
