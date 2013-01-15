@@ -9,33 +9,33 @@
         "seeking_contributors": {{ code.seeking_contributors|lower }},
         "summary": {% if not code.summary %}null{% else %}"{{ code.summary|trim|striptags|e }}"{% endif %},
         "description": {% if not code.description %}null{% else %}"{{ code.description|trim|striptags|e }}"{% endif %},
-        "tags": {% if code.tags.all().exists() %}{ {% for tag in code.tags.all() %}
+        "tags": {% if code.tags.all().exists() %}[ {% for tag in code.tags.all() %}
         
-            "tag": {
+            {
                 "name": "{{ tag|e }}",
                 "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ url('code_list_by_tag', tag.slug) }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
         
-        }{% else %}null{% endif %},
-        "people": {% if code.people.all().exists() %}{ {% for person in code.people.all() %}
+        ]{% else %}null{% endif %},
+        "people": {% if code.people.all().exists() %}[ {% for person in code.people.all() %}
 
-            "person": {
+            {
                 "name": "{{ person.name()|e }}",
                 "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ person.get_absolute_url() }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
 
-        }{% else %}null{% endif %},
-        "organizations": {% if code.organizations.all().exists() %}{ {% for organization in code.organizations.all() %}
+        ]{% else %}null{% endif %},
+        "organizations": {% if code.organizations.all().exists() %}[ {% for organization in code.organizations.all() %}
 
-            "organization": {
+            {
                 "name": "{{ organization.name|e }}",
                 "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ organization.get_absolute_url() }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
 
-        }
+        ]
 {% else %}null
 {% endif %}
     }{% if not loop.last %},{% endif %}
