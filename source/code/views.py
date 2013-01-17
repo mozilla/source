@@ -58,6 +58,10 @@ class CodeList(ListView):
             attach things like related names and urls. If we start doing more
             with providing JSON, we should definitly go full django-tastypie.
             '''
+            if 'callback' in self.request.GET:
+                # provide jsonp support for requests
+                # with ?callback=foo paramater
+                context['jsonp_callback'] = self.request.GET['callback']
             return render_to_response(
                 'code/code_list.json',
                 context,

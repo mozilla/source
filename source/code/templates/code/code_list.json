@@ -1,4 +1,4 @@
-{ "objects": [
+{% if jsonp_callback %}{{ jsonp_callback|escapejs }}({% endif %}{ "objects": [
 {% for code in object_list %}
     {
         "name": "{{ code.name|e }}",
@@ -41,4 +41,4 @@
     }{% if not loop.last %},{% endif %}
 
 {% endfor %}
-]}
+]}{% if jsonp_callback %});{% endif %}
