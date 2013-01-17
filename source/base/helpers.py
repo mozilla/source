@@ -2,7 +2,8 @@ import logging
 import os
 
 from django.conf import settings
-from django.template.defaultfilters import linebreaks as django_linebreaks
+from django.template.defaultfilters import linebreaks as django_linebreaks,\
+    escapejs as django_escapejs
 
 from jingo import register
 from sorl.thumbnail import get_thumbnail
@@ -12,6 +13,10 @@ logger = logging.getLogger('base.helpers')
 @register.filter
 def linebreaks(string):
     return django_linebreaks(string)
+
+@register.filter
+def escapejs(string):
+    return django_escapejs(string)
 
 @register.function
 def thumbnail(source, *args, **kwargs):
