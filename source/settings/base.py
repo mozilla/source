@@ -9,23 +9,6 @@ from funfactory.settings_base import *
 # clone.
 PROJECT_MODULE = 'source'
 
-# Bundles is a dictionary of two dictionaries, css and js, which list css files
-# and js files that can be bundled together by the minify app.
-MINIFY_BUNDLES = {
-    'css': {
-        'sourceapp_css': (
-            'css/bootstrap.css',
-            'css/font-awesome.css',
-            'css/app.css',
-        ),
-    },
-    'js': {
-        'sourceapp_js': (
-            'js/app.js',
-        ),
-    }
-}
-
 # Defines the views served for root URLs.
 ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
@@ -46,11 +29,8 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
     'source.base.context_processors.http_protocol',
+    'source.base.context_processors.warnr',
 ]
-
-SUPPORTED_NONLOCALES = ['media', 'admin', ]
-
-STATIC_URL = '/static/'
 
 # Adding to standard funfactory middleware classes. Need to insert the
 # UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
@@ -95,17 +75,9 @@ DOMAIN_METHODS['messages'] = [
         'tower.management.commands.extract.extract_tower_template'),
 ],
 
-# # Use this if you have localizable HTML files:
-# DOMAIN_METHODS['lhtml'] = [
-#    ('**/templates/**.lhtml',
-#        'tower.management.commands.extract.extract_tower_template'),
-# ]
-
-# # Use this if you have localizable JS files:
-# DOMAIN_METHODS['javascript'] = [
-#    # Make sure that this won't pull in strings from external libraries you
-#    # may use.
-#    ('media/js/**.js', 'javascript'),
-# ]
+# Should robots.txt deny everything or disallow a calculated list of URLs we
+# don't want to be crawled?  Default is false, disallow everything.
+# Also see http://www.google.com/support/webmasters/bin/answer.py?answer=93710
+ENGAGE_ROBOTS = False
 
 LOGGING = dict(loggers=dict(playdoh={'level': logging.DEBUG}))

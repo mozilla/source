@@ -1,0 +1,16 @@
+{% if obj.get_live_author_set().exists() %}<p><strong>{% for author in obj.get_live_author_set() %}{% if loop.first %}By {% endif %}{{ author.name() }}{% if not loop.last %}, {% endif %}{% endfor %}</strong></p>{% endif %}
+
+{% if obj.image %}
+    <img src="{{ MEDIA_URL }}{{ thumbnail(obj.image, "800") }}" alt="{{ obj.title }}">
+    {% if obj.pretty_caption %}<p><strong>{{ obj.pretty_caption }}</strong></p>{% endif %}
+{% endif %}
+
+{{ obj.body|linebreaks|safe }}
+
+{% for articleblock in obj.articleblock_set.all() %}
+    <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
+    {% if articleblock.image %}
+        <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "300") }}" alt="{{ articleblock.title }}" align="right">
+    {% endif %}
+    {{ articleblock.body|linebreaks|safe }}
+{% endfor %}

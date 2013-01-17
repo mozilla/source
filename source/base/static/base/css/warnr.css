@@ -1,0 +1,9 @@
+#app_stage_box {
+    background: #FFFF00;
+    padding: 0.5em 20px;
+    color: 827600;
+}
+#app_stage_box a {
+    font-weight: bold;
+    text-decoration: underline;
+}

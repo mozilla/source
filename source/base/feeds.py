@@ -8,6 +8,8 @@ from source.code.models import Code
 from taggit.models import Tag
 
 class ArticleFeed(Feed):
+    description_template = "feeds/article_description.html"
+    
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
@@ -50,9 +52,19 @@ class ArticleFeed(Feed):
 
     def item_title(self, item):
         return item.title
-
-    def item_description(self, item):
-        return item.summary
+        
+    def item_pubdate(self, item):
+        return item.pubdate
+        
+    def item_author_name(self, item):
+        if item.get_live_author_set().exists():
+            return ','.join([author.name() for author in item.get_live_author_set()])
+        return ''
+        
+    def item_categories(self, item):
+        if item.article_type:
+            return item.get_article_type_display()
+        return ''
         
     def items(self, obj):
         queryset = Article.live_objects.all()
