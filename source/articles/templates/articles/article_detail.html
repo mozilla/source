@@ -3,7 +3,7 @@
 {% block page_title %} {{ article.title }} - {{ super() }}{% endblock %}
 
 {% block site_js_extra %}
-<script src="{{ MEDIA_URL }}js/jquery.syntaxhighlighter.min.js"></script>
+<script src="{{ static('articles/js/jquery.syntaxhighlighter.min.js') }}"></script>
 <script type="text/javascript">
     $.SyntaxHighlighter.init();
 </script>
