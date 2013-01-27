@@ -41,7 +41,7 @@
         </div>
     </aside>
     
-    {{ article.body|linebreaks|safe }}
+    {{ article.pretty_body_text|safe }}
     
     {% for articleblock in article.articleblock_set.all() %}
     <div class="page-block article-block">
@@ -59,7 +59,7 @@
             </div>
         {% endif %}
         
-        {{ articleblock.body|linebreaks|safe }}
+        {{ articleblock.pretty_body_text|safe }}
         
         {% if articleblock.image and articleblock.image_presentation == 'full-width-below' %}
             <div class="image-full-width-wrapper">

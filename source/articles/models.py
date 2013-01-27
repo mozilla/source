@@ -46,6 +46,7 @@ class Article(CachingMixin, models.Model):
     tags = TaggableManager(blank=True)
     objects = models.Manager()
     live_objects = LiveArticleManager()
+    disable_auto_linebreaks = models.BooleanField(default=False, help_text='Check this if body and article blocks already have HTML paragraph tags.')
     
     class Meta:
         ordering = ('-pubdate','title',)
@@ -69,6 +70,17 @@ class Article(CachingMixin, models.Model):
         if _credit:
             _caption = '%s (%s)' % (_caption, _credit)
         return _caption
+        
+    @property
+    def pretty_body_text(self):
+        '''pre-process for simpler template logic'''
+        _body = self.body
+        if not self.disable_auto_linebreaks:
+            # allow admin users to provide text
+            # that already contains <p> tags
+            _body = linebreaks(_body)
+        return _body
+            
 
     def get_live_organization_set(self):
         return self.organizations.filter(is_live=True)
@@ -118,4 +130,15 @@ class ArticleBlock(CachingMixin, models.Model):
         if _credit:
             _caption = '%s (%s)' % (_caption, _credit)
         return _caption
+        
+    @property
+    def pretty_body_text(self):
+        '''pre-process for simpler template logic'''
+        _body = self.body
+        if not self.article.disable_auto_linebreaks:
+            # allow admin users to provide text
+            # that already contains <p> tags
+            _body = linebreaks(_body)
+        return _body
+
 
