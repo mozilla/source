@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage
-from django.http import Http404, HttpResponseForbidden
+from django.http import Http404
 
 
 def paginate(request, queryset, results_per_page=20):
