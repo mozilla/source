@@ -791,6 +791,10 @@ img#main-logo {
     width: 550px;
 }
 
+pre.prettyprint {
+    width: auto;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;
