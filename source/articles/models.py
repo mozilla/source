@@ -61,10 +61,12 @@ class Article(CachingMixin, models.Model):
             
     @property
     def pretty_pubdate(self):
+        '''pre-process for simpler template logic'''
         return dj_date(self.pubdate,"F j, Y")
 
     @property
     def pretty_caption(self):
+        '''pre-process for simpler template logic'''
         _caption = self.image_caption or ''
         _credit = self.image_credit
         if _credit:
@@ -125,6 +127,7 @@ class ArticleBlock(CachingMixin, models.Model):
 
     @property
     def pretty_caption(self):
+        '''pre-process for simpler template logic'''
         _caption = self.image_caption or ''
         _credit = self.image_credit
         if _credit:
