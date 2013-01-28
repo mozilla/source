@@ -46,6 +46,7 @@ class Article(CachingMixin, models.Model):
     tags = TaggableManager(blank=True)
     objects = models.Manager()
     live_objects = LiveArticleManager()
+    disable_auto_linebreaks = models.BooleanField(default=False, help_text='Check this if body and article blocks already have HTML paragraph tags.')
     
     class Meta:
         ordering = ('-pubdate','title',)
@@ -60,15 +61,28 @@ class Article(CachingMixin, models.Model):
             
     @property
     def pretty_pubdate(self):
+        '''pre-process for simpler template logic'''
         return dj_date(self.pubdate,"F j, Y")
 
     @property
     def pretty_caption(self):
+        '''pre-process for simpler template logic'''
         _caption = self.image_caption or ''
         _credit = self.image_credit
         if _credit:
             _caption = '%s (%s)' % (_caption, _credit)
         return _caption
+        
+    @property
+    def pretty_body_text(self):
+        '''pre-process for simpler template logic'''
+        _body = self.body
+        if not self.disable_auto_linebreaks:
+            # allow admin users to provide text
+            # that already contains <p> tags
+            _body = linebreaks(_body)
+        return _body
+            
 
     def get_live_organization_set(self):
         return self.organizations.filter(is_live=True)
@@ -113,9 +127,21 @@ class ArticleBlock(CachingMixin, models.Model):
 
     @property
     def pretty_caption(self):
+        '''pre-process for simpler template logic'''
         _caption = self.image_caption or ''
         _credit = self.image_credit
         if _credit:
             _caption = '%s (%s)' % (_caption, _credit)
         return _caption
+        
+    @property
+    def pretty_body_text(self):
+        '''pre-process for simpler template logic'''
+        _body = self.body
+        if not self.article.disable_auto_linebreaks:
+            # allow admin users to provide text
+            # that already contains <p> tags
+            _body = linebreaks(_body)
+        return _body
+
 

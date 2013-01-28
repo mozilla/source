@@ -5,12 +5,12 @@
     {% if obj.pretty_caption %}<p><strong>{{ obj.pretty_caption }}</strong></p>{% endif %}
 {% endif %}
 
-{{ obj.body|linebreaks|safe }}
+{{ obj.pretty_body_text|safe }}
 
 {% for articleblock in obj.articleblock_set.all() %}
     <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
     {% if articleblock.image %}
         <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "300") }}" alt="{{ articleblock.title }}" align="right">
     {% endif %}
-    {{ articleblock.body|linebreaks|safe }}
+    {{ articleblock.pretty_body_text|safe }}
 {% endfor %}

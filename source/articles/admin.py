@@ -28,7 +28,7 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
-        ('Article body', {'fields': ('article_type', 'tags', 'image', 'image_caption', 'image_credit', 'summary', 'body',)}),
+        ('Article body', {'fields': ('article_type', 'tags', 'image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
     inlines = [ArticleBlockInline,]
     
