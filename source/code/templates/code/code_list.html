@@ -34,7 +34,7 @@
         {% endfor %}
     </div>
     {% endfor %}
-
+    {% if not object_list %}<p>No matching code index entries found.</p>{% endif %}
 {% endif %}
 </div>
 {% endblock content %}

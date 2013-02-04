@@ -1,1 +1,7 @@
 {% if code.tags.all().exists() %}<span class="category">Tags <span class="tags">{% for tag in code.tags.all() %}<a href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span></span> {% endif %}
+
+{# TODO: enable support for split tag fields by switching to list code below
+    
+{% if code.merged_tag_list %}<span class="category">Tags <span class="tags">{% for tag in code.merged_tag_list %}<a href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span></span> {% endif %}
+
+#}
