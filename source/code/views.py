@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.generic import ListView, DetailView
@@ -24,9 +25,15 @@ class CodeList(ListView):
         if self.tag_slugs:
             self.tag_slug_list = self.tag_slugs.split('+')
             # need to fail if any item in slug list references nonexistent tag
-            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
+            # this check will have to be redone for split tagfields
+            # self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
             for tag_slug in self.tag_slug_list:
-                queryset = queryset.filter(tags__slug=tag_slug)
+                # Look for matches in both types of tagfields
+                # TODO: Remove original `tags` query once content migrates
+                # to new split tagfields
+                queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
+                # A record might match multiple tags, but we only want it once
+                queryset = queryset.distinct()
 
         return queryset
 
