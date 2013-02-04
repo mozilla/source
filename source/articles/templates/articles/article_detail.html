@@ -29,6 +29,18 @@
                 <li><i class="icon-comments"></i><a href="{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ article.get_absolute_url() }}#disqus_thread" data-disqus-identifier="article_detail_{{ article.pk }}">Comments</a></li>
             </ul>
         </div>
+
+        {% if article.article_type == "learning" %}
+        <div class="article-toc">
+            {% for article_block in article.articleblock_set.all() %}
+                {% if loop.first %}<h3 class="subhead list-header">Contents</h3>
+                <ul class="link-list">{% endif %}
+                    <li><i class="icon-circle-arrow-right"></i><a href="#{{ article_block.slug }}">{{ article_block.title }}</a></li>
+                {% if loop.last %}</ul>{% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="article-people">
             {% with code_link_list = article.get_live_code_set() %}
             {% include "code/_code_link_list.html" %}{% endwith %}
