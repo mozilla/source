@@ -24,7 +24,7 @@ class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     list_filter = ('is_live', 'is_active',)
     search_fields = ('name', 'description',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'screenshot', 'description', 'summary',)}),
+        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'technology_tags', 'concept_tags', 'screenshot', 'description', 'summary',)}),
         ('Related objects', {'fields': ('people', 'organizations',)}),
     )
     inlines = [CodeLinkInline,]
@@ -32,7 +32,7 @@ class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         # More usable heights and widths in admin form fields
         field = super(CodeAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name in ['url','tags']:
+        if db_field.name in ['url','tags','technology_tags','concept_tags']:
             field.widget.attrs['style'] = 'width: 45em;'
         if db_field.name in ['name','slug']:
             field.widget.attrs['style'] = 'width: 30em;'
