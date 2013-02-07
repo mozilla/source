@@ -62,8 +62,8 @@
 
 {% block site_js_extra %}
 {% if '//github.com/' in code.url %}
-<script src="{{ MEDIA_URL }}js/date.js"></script>
-<script src="{{ MEDIA_URL }}js/repo.js"></script>
+<script src="{{ static('code/js/date.js') }}"></script>
+<script src="{{ static('code/js/repo.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     var sourceData = {};
