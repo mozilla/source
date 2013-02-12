@@ -25,13 +25,13 @@ urlpatterns = patterns('',
     ),
     # matching /articles/ here to offer future support for multiple sections
     url(
-        regex = '^(?P<section>articles)/$',
+        regex = '^(?P<section>articles|learning)/$',
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_section',
     ),
     url(
-        regex = '^(?P<section>articles)/rss/$',
+        regex = '^(?P<section>articles|learning)/rss/$',
         view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_section_feed',

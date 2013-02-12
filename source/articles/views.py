@@ -14,6 +14,11 @@ SECTION_MAP = {
         'slug': 'articles',
         'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
     },
+    'learning': {
+        'name': 'Learning', 
+        'slug': 'learning',
+        'article_types': ['learning',],
+    },
 }
 
 # Current iteration only has *one* articles section, but this map is in place
@@ -58,6 +63,11 @@ CATEGORY_MAP = {
         'name': 'Update',
         'parent_name': 'Features',
         'parent_slug': 'articles',
+    },
+    'learning': {
+        'name': 'Learning',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
     },
 }
 

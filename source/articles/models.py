@@ -19,6 +19,7 @@ ARTICLE_TYPE_CHOICES = (
     ('roundup', 'Roundup'),
     ('event', 'Event'),
     ('update', 'Community Update'),
+    ('learning', 'Learning'),
 )
 
 class LiveArticleManager(CachingManager):
