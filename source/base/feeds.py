@@ -10,9 +10,8 @@ from source.code.models import Code
 from source.tags.models import TechnologyTag, ConceptTag
 from taggit.models import Tag
 
-class ArticleFeed(Feed):
-    description_template = "feeds/article_description.html"
-    
+class ObjectWithTagsFeed(Feed):
+    '''common get_object for Article and Code feeds to handle tag queries'''
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
@@ -47,6 +46,9 @@ class ArticleFeed(Feed):
                 raise Http404
         return ''
 
+class ArticleFeed(ObjectWithTagsFeed):
+    description_template = "feeds/article_description.html"
+    
     def title(self, obj):
         if self.section:
             return "Source: %s" % SECTION_MAP[self.section]['name']
@@ -103,17 +105,7 @@ class ArticleFeed(Feed):
                 queryset = queryset.distinct()
         return queryset[:20]
 
-class CodeFeed(Feed):
-    def get_object(self, request, *args, **kwargs):
-        self.tags = None
-        self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
-        if self.tag_slugs:
-            self.tag_slug_list = self.tag_slugs.split('+')
-            # need to fail if any item in slug list references nonexistent tag
-            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
-        return ''
-
+class CodeFeed(ObjectWithTagsFeed):
     def title(self, obj):
         identifier = ""
         if self.tags:
@@ -140,6 +132,7 @@ class CodeFeed(Feed):
     def items(self, obj):
         queryset = Code.live_objects.order_by('-created')
         for tag_slug in self.tag_slug_list:
-            queryset = queryset.filter(tags__slug=tag_slug)
+            queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
+            queryset = queryset.distinct()
         return queryset[:20]
 
