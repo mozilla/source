@@ -28,14 +28,14 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     fieldsets = (
         ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
-        ('Article body', {'fields': ('article_type', 'tags', 'image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
+        ('Article body', {'fields': ('article_type', 'tags', 'technology_tags', 'concept_tags', 'image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
     inlines = [ArticleBlockInline,]
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         # More usable heights and widths in admin form fields
         field = super(ArticleAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name in ['subhead','tags']:
+        if db_field.name in ['subhead','tags','technology_tags','concept_tags']:
             field.widget.attrs['style'] = 'width: 45em;'
         if db_field.name in ['title','slug']:
             field.widget.attrs['style'] = 'width: 30em;'
