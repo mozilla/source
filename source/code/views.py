@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 
 from .models import Code
 from source.base.utils import paginate
+from source.tags.models import TechnologyTag, ConceptTag
 from taggit.models import Tag
 
 
@@ -24,9 +25,31 @@ class CodeList(ListView):
 
         if self.tag_slugs:
             self.tag_slug_list = self.tag_slugs.split('+')
-            # need to fail if any item in slug list references nonexistent tag
-            # this check will have to be redone for split tagfields
-            # self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
+            # need to get actual tag instances, and fail
+            # if any item in slug list references nonexistent tag
+            self.tags = []
+            slugs_checked = []
+            slugs_to_check = self.tag_slug_list
+            # this isn't pretty, but we need to match multiple tag models
+            # so each slug has to be tested against each tag model
+            # this is why we cache
+            for slug in slugs_to_check:
+                for model in [Tag, TechnologyTag, ConceptTag]:
+                    try:
+                        # see if we have a matching tag
+                        found_tag = model.objects.get(slug=slug)
+                        # add it to list for page context
+                        self.tags.append(found_tag)
+                        # remember that we've checked it
+                        slugs_checked.append(slug)
+                        break
+                    except:
+                        pass
+
+            # make sure that we found everything we checked for
+            if slugs_checked != slugs_to_check:
+                raise Http404
+
             for tag_slug in self.tag_slug_list:
                 # Look for matches in both types of tagfields
                 # TODO: Remove original `tags` query once content migrates
