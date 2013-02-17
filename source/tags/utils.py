@@ -38,7 +38,6 @@ def filter_queryset_by_tags(queryset, tag_slugs, tags=[]):
 
     # make sure that we found everything we checked for
     if _slugs_checked != _tag_slug_list:
-        print _slugs_checked, _tag_slug_list
         raise Http404
     
     for tag_slug in _tag_slug_list:
