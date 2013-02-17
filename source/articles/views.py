@@ -1,13 +1,10 @@
 from django.core.urlresolvers import reverse
-from django.db.models import Q
-from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Article
 from source.base.utils import paginate
-from source.tags.models import TechnologyTag, ConceptTag
-from taggit.models import Tag
+from source.tags.utils import filter_queryset_by_tags
 
 # Current iteration does not use this in nav, but leaving dict
 # in place for feed, url imports until we make a permanent call
@@ -80,9 +77,8 @@ class ArticleList(ListView):
     def dispatch(self, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tags = None
+        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
         return super(ArticleList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
@@ -93,43 +89,7 @@ class ArticleList(ListView):
         elif self.category:
             queryset = queryset.filter(article_type=self.category)
         elif self.tag_slugs:
-            self.tag_slug_list = self.tag_slugs.split('+')
-            # need to get actual tag instances, and fail
-            # if any item in slug list references nonexistent tag
-            self.tags = []
-            slugs_checked = []
-            slugs_to_check = self.tag_slug_list
-            # this isn't pretty, but we need to match multiple tag models
-            # so each slug has to be tested against each tag model
-            # this is why we cache
-            for slug in slugs_to_check:
-                for model in [Tag, TechnologyTag, ConceptTag]:
-                    try:
-                        # see if we have a matching tag
-                        found_tag = model.objects.get(slug=slug)
-                        # add it to list for page context
-                        self.tags.append(found_tag)
-                        # remember that we've checked it
-                        slugs_checked.append(slug)
-                        break
-                    except:
-                        pass
-
-            # make sure that we found everything we checked for
-            if slugs_checked != slugs_to_check:
-                raise Http404
-                
-            for tag_slug in self.tag_slug_list:
-                # Look for matches in both types of tagfields
-                # TODO: Remove original `tags` query once content migrates
-                # to new split tagfields
-                queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
-                # A record might match multiple tags, but we only want it once
-                queryset = queryset.distinct()
-
-            # make sure we actually have matches for this intersection of tags
-            if not queryset:
-                raise Http404
+            queryset, self.tags = filter_queryset_by_tags(queryset, self.tag_slugs, self.tags)
             
         return queryset
     
@@ -151,7 +111,7 @@ class ArticleList(ListView):
             context.update({
                 'section': SECTION_MAP['articles'],
                 'active_nav': SECTION_MAP['articles']['slug'],
-                'tags':self.tags,
+                'tags': self.tags,
                 'rss_link': reverse('article_list_by_tag_feed', kwargs={'tag_slugs': self.tag_slugs}),
             })
         else:

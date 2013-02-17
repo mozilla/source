@@ -1,13 +1,11 @@
 from django.core.urlresolvers import reverse
-from django.db.models import Q
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.views.generic import ListView, DetailView
 
 from .models import Code
 from source.base.utils import paginate
-from source.tags.models import TechnologyTag, ConceptTag
-from taggit.models import Tag
+from source.tags.utils import filter_queryset_by_tags
 
 
 class CodeList(ListView):
@@ -15,7 +13,7 @@ class CodeList(ListView):
 
     def dispatch(self, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        self.tags = None
+        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
         self.tag_slug_list = []
         return super(CodeList, self).dispatch(*args, **kwargs)
@@ -24,39 +22,7 @@ class CodeList(ListView):
         queryset = Code.live_objects.prefetch_related('organizations')
 
         if self.tag_slugs:
-            self.tag_slug_list = self.tag_slugs.split('+')
-            # need to get actual tag instances, and fail
-            # if any item in slug list references nonexistent tag
-            self.tags = []
-            slugs_checked = []
-            slugs_to_check = self.tag_slug_list
-            # this isn't pretty, but we need to match multiple tag models
-            # so each slug has to be tested against each tag model
-            # this is why we cache
-            for slug in slugs_to_check:
-                for model in [Tag, TechnologyTag, ConceptTag]:
-                    try:
-                        # see if we have a matching tag
-                        found_tag = model.objects.get(slug=slug)
-                        # add it to list for page context
-                        self.tags.append(found_tag)
-                        # remember that we've checked it
-                        slugs_checked.append(slug)
-                        break
-                    except:
-                        pass
-
-            # make sure that we found everything we checked for
-            if slugs_checked != slugs_to_check:
-                raise Http404
-
-            for tag_slug in self.tag_slug_list:
-                # Look for matches in both types of tagfields
-                # TODO: Remove original `tags` query once content migrates
-                # to new split tagfields
-                queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
-                # A record might match multiple tags, but we only want it once
-                queryset = queryset.distinct()
+            queryset, self.tags = filter_queryset_by_tags(queryset, self.tag_slugs, self.tags)
 
         return queryset
 
