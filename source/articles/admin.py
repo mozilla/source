@@ -26,11 +26,21 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'),)}),
+        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
-        ('Article body', {'fields': ('article_type', 'tags', 'technology_tags', 'concept_tags', 'image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
+        ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
     inlines = [ArticleBlockInline,]
+    readonly_fields = ('tags',)
+
+    def save_model(self, request, obj, form, change):
+        technology_tags_list = form.cleaned_data['technology_tags']
+        concept_tags_list = form.cleaned_data['concept_tags']
+        merged_tags = technology_tags_list + concept_tags_list
+        if merged_tags:
+            form.cleaned_data['tags'] = merged_tags
+
+        super(ArticleAdmin, self).save_model(request, obj, form, change)
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         # More usable heights and widths in admin form fields

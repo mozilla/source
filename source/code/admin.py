@@ -28,6 +28,16 @@ class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
         ('Related objects', {'fields': ('people', 'organizations',)}),
     )
     inlines = [CodeLinkInline,]
+    readonly_fields = ('tags',)
+    
+    def save_model(self, request, obj, form, change):
+        technology_tags_list = form.cleaned_data['technology_tags']
+        concept_tags_list = form.cleaned_data['concept_tags']
+        merged_tags = technology_tags_list + concept_tags_list
+        if merged_tags:
+            form.cleaned_data['tags'] = merged_tags
+
+        super(CodeAdmin, self).save_model(request, obj, form, change)
     
     def formfield_for_dbfield(self, db_field, **kwargs):
         # More usable heights and widths in admin form fields
