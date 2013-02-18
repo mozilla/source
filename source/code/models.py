@@ -34,9 +34,9 @@ class Code(CachingMixin, models.Model):
     repo_forks = models.PositiveIntegerField(blank=True, null=True)
     repo_watchers = models.PositiveIntegerField(blank=True, null=True)
     repo_description = models.TextField(blank=True)
-    tags = TaggableManager(blank=True)
-    technology_tags = TaggableManager(verbose_name='Technology Tags', through=TechnologyTaggedItem, blank=True)
-    concept_tags = TaggableManager(verbose_name='Concept Tags', through=ConceptTaggedItem, blank=True)
+    tags = TaggableManager(blank=True, help_text='Automatic combined list of Technology Tags and Concept Tags, for easy searching')
+    technology_tags = TaggableManager(verbose_name='Technology Tags', help_text='A comma-separated list of tags describing relevant technologies', through=TechnologyTaggedItem, blank=True)
+    concept_tags = TaggableManager(verbose_name='Concept Tags', help_text='A comma-separated list of tags describing relevant concepts', through=ConceptTaggedItem, blank=True)
     objects = models.Manager()
     live_objects = LiveCodeManager()
     
