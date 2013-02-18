@@ -8,6 +8,7 @@ from source.articles.models import Article
 from source.articles.views import CATEGORY_MAP, SECTION_MAP
 from source.code.models import Code
 from source.tags.models import TechnologyTag, ConceptTag
+from source.tags.utils import get_validated_tag_list, get_tag_filtered_queryset
 from taggit.models import Tag
 
 class ObjectWithTagsFeed(Feed):
@@ -15,35 +16,10 @@ class ObjectWithTagsFeed(Feed):
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
         if self.tag_slugs:
             self.tag_slug_list = self.tag_slugs.split('+')
-            # need to get actual tag instances, and fail
-            # if any item in slug list references nonexistent tag
-            self.tags = []
-            slugs_checked = []
-            slugs_to_check = self.tag_slug_list
-            # this isn't pretty, but we need to match multiple tag models
-            # so each slug has to be tested against each tag model
-            # this is why we cache
-            for slug in slugs_to_check:
-                for model in [Tag, TechnologyTag, ConceptTag]:
-                    try:
-                        # see if we have a matching tag
-                        found_tag = model.objects.get(slug=slug)
-                        # add it to list for page context
-                        self.tags.append(found_tag)
-                        # remember that we've checked it
-                        slugs_checked.append(slug)
-                        break
-                    except:
-                        pass
-
-            # make sure that we found everything we checked for
-            if slugs_checked != slugs_to_check:
-                raise Http404
+            self.tags = get_validated_tag_list(self.tag_slug_list, tags=[])
         return ''
 
 class ArticleFeed(ObjectWithTagsFeed):
@@ -100,9 +76,7 @@ class ArticleFeed(ObjectWithTagsFeed):
         elif self.category:
             queryset = queryset.filter(article_type=self.category)
         elif self.tag_slugs:
-            for tag_slug in self.tag_slug_list:
-                queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
-                queryset = queryset.distinct()
+            queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
 
 class CodeFeed(ObjectWithTagsFeed):
@@ -131,8 +105,6 @@ class CodeFeed(ObjectWithTagsFeed):
 
     def items(self, obj):
         queryset = Code.live_objects.order_by('-created')
-        for tag_slug in self.tag_slug_list:
-            queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
-            queryset = queryset.distinct()
+        queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
 
