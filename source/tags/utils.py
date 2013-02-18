@@ -37,7 +37,7 @@ def filter_queryset_by_tags(queryset, tag_slugs, tags=[]):
     return queryset, tags
 
 
-def get_validated_tag_list(tag_slug_list, tags):
+def get_validated_tag_list(tag_slug_list, tags=[]):
     _slugs_checked = []
     for slug in tag_slug_list:
         for model in [Tag, TechnologyTag, ConceptTag]:
@@ -67,6 +67,5 @@ def get_tag_filtered_queryset(queryset, tag_slug_list=[]):
         queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
         # A record might match multiple tags, but we only want it once
         queryset = queryset.distinct()
-        print queryset.query
 
     return queryset
