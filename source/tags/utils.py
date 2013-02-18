@@ -23,6 +23,10 @@ def filter_queryset_by_tags(queryset, tag_slugs, tags=[]):
     This assumes the model for the queryset includes `tags`, `technology_tags`
     and `concept_tags` fields.
     
+    The `get_validated_tag_list` and `get_tag_filtered_queryset` functions
+    are split into separate pieces so they can be used independently. By the
+    feeds framework, for example.
+    
     TODO: remove support for original `tags` field
     '''
 
