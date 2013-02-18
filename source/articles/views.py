@@ -77,8 +77,8 @@ class ArticleList(ListView):
     def dispatch(self, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
+        self.tags = []
         return super(ArticleList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):

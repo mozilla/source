@@ -15,7 +15,7 @@ class ObjectWithTagsFeed(Feed):
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tags = None
+        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
         self.tag_slug_list = []
         if self.tag_slugs:

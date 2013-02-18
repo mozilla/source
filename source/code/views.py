@@ -13,9 +13,8 @@ class CodeList(ListView):
 
     def dispatch(self, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        self.tags = []
         self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
+        self.tags = []
         return super(CodeList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
