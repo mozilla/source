@@ -44,7 +44,7 @@ def filter_queryset_by_tags(queryset, tag_slugs, tags=[]):
 def get_validated_tag_list(tag_slug_list, tags=[]):
     _slugs_checked = []
     for slug in tag_slug_list:
-        for model in [Tag, TechnologyTag, ConceptTag]:
+        for model in [TechnologyTag, ConceptTag, Tag]:
             try:
                 # see if we have a matching tag
                 found_tag = model.objects.get(slug=slug)
