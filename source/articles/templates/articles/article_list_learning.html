@@ -1,0 +1,56 @@
+{% extends "articles/_base_articles.html" %}
+
+{% block article_class %}learning{% endblock %}
+
+{% block content %}
+{% if section %}
+    {% include "articles/_article_list_section_overline.html" %}
+{% endif %}
+
+<p class="intro">In-depth case studies by the best journalist-developers in the field. <span class="tinyhide">Get schooled on how journalist-developers find and build web-native stories, what kinds of questions they ask of data, how choices in presenting the news affects how it’s interpreted, and the ethics they encounter along the way.</span></p>
+
+<div class="page-block lead promo">
+    {% with article=lead_promo %}
+    {# lead promo item goes in here #}
+    {% if article.image %}<a href="{{ article.get_absolute_url() }}"><img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "525x400", crop="center") }}" alt="{{ article.title }}"></a>{% endif %}
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}<a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
+    <p>{{ article.summary|safe }}</p>
+    {% endwith %}
+</div>
+
+<div class="secondary-promo-wrap">
+    {# two secondary promo items go in here #}
+    {% for article in secondary_promos %}
+        <div class="page-block promo secondary-promo{% if not loop.first %} second-promo{% endif %}">
+            {% if article.image %}<a href="{{ article.get_absolute_url() }}"><img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "200x90", crop="center") }}" alt="{{ article.title }}"></a>{% endif %}
+            <h2>{% include "articles/_article_category_and_tags_overline.html" %}<a href="{{ article.get_absolute_url() }}">{{ article.title }}</a></h2>
+            <p>{{ article.summary|safe }}</p>
+            
+        </div>
+    {% endfor %}
+</div>
+
+
+<p class="intro"><b>More case studies:</b></p>
+
+{% for article in page.object_list %}
+    {# if we have promos on this page, don't include those articles in list #}
+    {% if article.pk not in articles_to_exclude_from_list %}
+        {% include "articles/_article_list_item.html" %}
+    {% endif %}
+{% endfor %}
+
+{% include "utils/_paginate.html" %}
+{% endblock content %}
+
+{% block site_js_extra %}
+<script type="text/javascript">
+var disqus_shortname = 'source-opennews';
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = '{{ HTTP_PROTOCOL }}://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
+{% endblock %}

@@ -45,7 +45,7 @@ ul.errorlist li {
     padding-bottom: 4px; border-bottom: 1px solid #ddd; margin-bottom: 18px;
 }
 
-.link-list {
+.link-list, .toc {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -187,6 +187,10 @@ p, li p {
     font-family: Georgia;
 }
 
+p {
+    margin-bottom: 1em;
+}
+
 article {
     margin-right: auto;
     margin-left: auto;
@@ -243,7 +247,7 @@ article h3 {
     margin-top: 1em;
 }
 
-h4 {
+h4, .toc li {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
@@ -795,6 +799,91 @@ pre.prettyprint {
     width: auto;
 }
 
+
+/* Learning section */
+
+.article-toc {
+    margin-bottom: 2em;
+}
+
+.learning p.intro {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    margin-bottom: 25px;
+    clear: both;
+}
+
+.learning h2 span.category {
+    color: #6ca25f
+}
+
+.promo.lead {
+    width: 525px;
+    height: 580px;
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 25px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 2px 2px #ccc;
+
+}
+
+.promo span.byline, .promo b, .promo strong {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.promo img {
+    margin-bottom: 10px;
+}
+
+.promo.lead p {
+    font-size: .8em;
+    line-height: 1.4em;
+}
+
+.promo.lead span.category {
+    margin-bottom: 20px;
+}
+
+.secondary-promo-wrap {
+    width: 205px;
+    height: auto;
+    float: left;
+}
+
+.promo.secondary-promo {
+    font-size: .8em;
+    width: 95%;
+    height: auto;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 2px 2px #ccc;
+    margin-bottom: 25px;
+}
+
+.promo.secondary-promo h2 {
+    font-size: .8em;
+    margin-bottom: 10px;
+}
+
+.promo.secondary-promo h2 span.category {
+    font-size: .7em;
+} 
+
+.promo.secondary-promo p {
+    font-size: .75em;
+    line-height: 1.3em;
+}
+
+.promo.secondary-promo img {
+    width: 100%;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;
@@ -853,10 +942,62 @@ pre.prettyprint {
     .grid-box {
         width: 46%;
     }
+    
+    .promo.lead {
+        width: 65%;
+        margin-right: 10px;
+        height: auto;
+    }
+    
+    .promo.lead img {
+        width: 100%;
+    }
+    
+    p.intro {
+        font-size: .7em;
+    }
+    
+    .secondary-promo-wrap {
+        width: 30%;
+    }
+    
+    .promo.secondary-promo {
+        margin-right: 0px;
+        margin-bottom: 10px;
+    }
 }
 
+@media screen and (max-width: 690px) {
+    .promo.lead {
+        width: 94%;
+        margin-right: 0;
+        height: auto;
+    }
+    
+    .promo.lead img {
+        width: 100%;
+    }
+    
+    .secondary-promo-wrap {
+        width: 97%;
+        margin-right: 0;
+        height: auto;
+    }
+    
+    .promo.secondary-promo {
+        float: left;
+        width: 45%;
+        height: auto;
+    }
+    
+    .promo.second-promo {
+        float: right;
+    }
+}
+
+
 @media screen and (max-width: 640px) {
-    aside ul.link-list li {
+    aside ul.link-list li, aside ul.toc li {
         font-size: 1em;
     }
 
@@ -953,7 +1094,7 @@ pre.prettyprint {
         line-height: 1.2em;
     }
     
-    ul.link-list {
+    ul.link-list, ul.toc {
         font-size: 0.6em;
     }
     
@@ -978,6 +1119,36 @@ pre.prettyprint {
     
     .code-repo-browse {
         display: none;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    
+    .secondary-promo-wrap {
+        width: 94%;
+        height: auto;
+    }
+    
+    .promo.secondary-promo {
+        width: 100%;
+        margin-right: 20px;
+    }
+    
+    .promo.second-promo {
+        float: left;
+    }
+
+    span.tinyhide {
+        display: none;
+    }
+    
+    ul#navigation {
+        margin-left: -10px;
+        margin-right: -10px;
+    }    
+    #navigation li a, #navigation li a:hover, #navigation li.active a {
+        padding-right: 4px;
+        padding-left: 4px;
     }
 }
 
