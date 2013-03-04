@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView
 
 from .models import Code
 from source.base.utils import paginate
-from taggit.models import Tag
+from source.tags.utils import filter_queryset_by_tags
 
 
 class CodeList(ListView):
@@ -13,20 +13,15 @@ class CodeList(ListView):
 
     def dispatch(self, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        self.tags = None
         self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
+        self.tags = []
         return super(CodeList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = Code.live_objects.prefetch_related('organizations')
 
         if self.tag_slugs:
-            self.tag_slug_list = self.tag_slugs.split('+')
-            # need to fail if any item in slug list references nonexistent tag
-            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
-            for tag_slug in self.tag_slug_list:
-                queryset = queryset.filter(tags__slug=tag_slug)
+            queryset, self.tags = filter_queryset_by_tags(queryset, self.tag_slugs, self.tags)
 
         return queryset
 

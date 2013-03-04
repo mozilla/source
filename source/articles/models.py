@@ -1,12 +1,14 @@
 from datetime import datetime
+import itertools
 
 from django.db import models
 from django.template.defaultfilters import date as dj_date, linebreaks
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
-from source.people.models import Person, Organization
 from source.code.models import Code
+from source.people.models import Person, Organization
+from source.tags.models import TechnologyTaggedItem, ConceptTaggedItem
 from taggit.managers import TaggableManager
 
 
@@ -44,7 +46,9 @@ class Article(CachingMixin, models.Model):
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
-    tags = TaggableManager(blank=True)
+    tags = TaggableManager(blank=True, help_text='Automatic combined list of Technology Tags and Concept Tags, for easy searching')
+    technology_tags = TaggableManager(verbose_name='Technology Tags', help_text='A comma-separated list of tags describing relevant technologies', through=TechnologyTaggedItem, blank=True)
+    concept_tags = TaggableManager(verbose_name='Concept Tags', help_text='A comma-separated list of tags describing relevant concepts', through=ConceptTaggedItem, blank=True)
     objects = models.Manager()
     live_objects = LiveArticleManager()
     disable_auto_linebreaks = models.BooleanField(default=False, help_text='Check this if body and article blocks already have HTML paragraph tags.')
@@ -83,7 +87,11 @@ class Article(CachingMixin, models.Model):
             # that already contains <p> tags
             _body = linebreaks(_body)
         return _body
-            
+
+    @property
+    def merged_tag_list(self):
+        '''return a combined list of technology_tags and concept_tags'''
+        return [item for item in itertools.chain(self.technology_tags.all(), self.concept_tags.all())]
 
     def get_live_organization_set(self):
         return self.organizations.filter(is_live=True)
