@@ -36,6 +36,7 @@ ENV_BRANCH = {
 # LOCALE_REPO_URL = ''
 
 GIT_PULL = "git pull -q origin %(branch)s"
+GIT_SYNC = "git submodule sync"
 GIT_SUBMODULE = "git submodule update --init --recursive"
 #SVN_CO = "svn checkout --force %(url)s locale"
 #SVN_UP = "svn update"
@@ -57,6 +58,7 @@ def update_site(env, debug):
     commands = [
         (CHDIR, here),
         (EXEC,  GIT_PULL % project_branch),
+        (EXEC,  GIT_SYNC % project_branch),
         (EXEC,  GIT_SUBMODULE),
     ]
 
@@ -87,8 +89,9 @@ def update_site(env, debug):
         #(EXEC,  GIT_PULL % vendor_branch),
         #(CHDIR, os.path.join(here)),
         #(EXEC,  GIT_SUBMODULE),
-        (EXEC, 'python2.6 manage.py migrate'),
         (EXEC, 'python2.6 manage.py collectstatic --noinput'),
+        (EXEC, 'python2.6 manage.py syncdb'),
+        (EXEC, 'python2.6 manage.py migrate'),
         (EXEC, '/etc/init.d/httpd restart'),
         #(EXEC, 'python2.6 manage.py compress_assets'),
     ]
