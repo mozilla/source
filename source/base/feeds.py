@@ -82,7 +82,7 @@ class ArticleFeed(ObjectWithTagsFeed):
 class CodeFeed(ObjectWithTagsFeed):
     def title(self, obj):
         identifier = ""
-        if self.tags:
+        if self.tag_slugs:
             identifier = " tagged '%s'" % "+".join([tag.name for tag in self.tags])
         return "Source: Code%s" % identifier
 
@@ -105,6 +105,7 @@ class CodeFeed(ObjectWithTagsFeed):
 
     def items(self, obj):
         queryset = Code.live_objects.order_by('-created')
-        queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
+        if self.tag_slugs:
+            queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
 
