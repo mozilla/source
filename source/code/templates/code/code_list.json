@@ -9,7 +9,25 @@
         "seeking_contributors": {{ code.seeking_contributors|lower }},
         "summary": {% if not code.summary %}null{% else %}"{{ code.summary|trim|striptags|e }}"{% endif %},
         "description": {% if not code.description %}null{% else %}"{{ code.description|trim|striptags|e }}"{% endif %},
-        "tags": {% if code.tags.all().exists() %}[ {% for tag in code.tags.all() %}
+        "tags": {% if code.tags.all().exists() %}[ {% for tag in code.tags.all() %}{# TODO: remove `tags` #}
+        
+            {
+                "name": "{{ tag|e }}",
+                "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ url('code_list_by_tag', tag.slug) }}"
+            }{% if not loop.last %},{% endif %}
+        {% endfor %}
+        
+        ]{% else %}null{% endif %},
+        "technology_tags": {% if code.technology_tags.all().exists() %}[ {% for tag in code.technology_tags.all() %}
+        
+            {
+                "name": "{{ tag|e }}",
+                "source_url": "{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ url('code_list_by_tag', tag.slug) }}"
+            }{% if not loop.last %},{% endif %}
+        {% endfor %}
+        
+        ]{% else %}null{% endif %},
+        "concept_tags": {% if code.concept_tags.all().exists() %}[ {% for tag in code.concept_tags.all() %}
         
             {
                 "name": "{{ tag|e }}",

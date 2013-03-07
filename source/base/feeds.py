@@ -1,27 +1,30 @@
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import get_object_or_404
 
 from source.articles.models import Article
 from source.articles.views import CATEGORY_MAP, SECTION_MAP
 from source.code.models import Code
+from source.tags.models import TechnologyTag, ConceptTag
+from source.tags.utils import get_validated_tag_list, get_tag_filtered_queryset
 from taggit.models import Tag
 
-class ArticleFeed(Feed):
-    description_template = "feeds/article_description.html"
-    
+class ObjectWithTagsFeed(Feed):
+    '''common get_object for Article and Code feeds to handle tag queries'''
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
-        self.tags = None
         self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
         if self.tag_slugs:
             self.tag_slug_list = self.tag_slugs.split('+')
-            # need to fail if any item in slug list references nonexistent tag
-            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
+            self.tags = get_validated_tag_list(self.tag_slug_list, tags=[])
         return ''
 
+class ArticleFeed(ObjectWithTagsFeed):
+    description_template = "feeds/article_description.html"
+    
     def title(self, obj):
         if self.section:
             return "Source: %s" % SECTION_MAP[self.section]['name']
@@ -73,24 +76,13 @@ class ArticleFeed(Feed):
         elif self.category:
             queryset = queryset.filter(article_type=self.category)
         elif self.tag_slugs:
-            for tag_slug in self.tag_slug_list:
-                queryset = queryset.filter(tags__slug=tag_slug)
+            queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
 
-class CodeFeed(Feed):
-    def get_object(self, request, *args, **kwargs):
-        self.tags = None
-        self.tag_slugs = kwargs.get('tag_slugs', None)
-        self.tag_slug_list = []
-        if self.tag_slugs:
-            self.tag_slug_list = self.tag_slugs.split('+')
-            # need to fail if any item in slug list references nonexistent tag
-            self.tags = [get_object_or_404(Tag, slug=tag_slug) for tag_slug in self.tag_slug_list]
-        return ''
-
+class CodeFeed(ObjectWithTagsFeed):
     def title(self, obj):
         identifier = ""
-        if self.tags:
+        if self.tag_slugs:
             identifier = " tagged '%s'" % "+".join([tag.name for tag in self.tags])
         return "Source: Code%s" % identifier
 
@@ -113,7 +105,7 @@ class CodeFeed(Feed):
 
     def items(self, obj):
         queryset = Code.live_objects.order_by('-created')
-        for tag_slug in self.tag_slug_list:
-            queryset = queryset.filter(tags__slug=tag_slug)
+        if self.tag_slugs:
+            queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
 

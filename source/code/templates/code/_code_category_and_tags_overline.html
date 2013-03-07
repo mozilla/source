@@ -1,1 +1,10 @@
 {% if code.tags.all().exists() %}<span class="category">Tags <span class="tags">{% for tag in code.tags.all() %}<a href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span></span> {% endif %}
+
+{#
+    
+    If we ever completely drop the original `tags` field, the code below will
+    generate the proper list of tags for a code object
+    
+{% if code.merged_tag_list %}<span class="category">Tags <span class="tags">{% for tag in code.merged_tag_list %}<a href="{{ url('code_list_by_tag', tag.slug) }}">{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span></span> {% endif %}
+
+#}
