@@ -58,7 +58,7 @@ def update_site(env, debug):
     commands = [
         (CHDIR, here),
         (EXEC,  GIT_PULL % project_branch),
-        (EXEC,  GIT_SYNC % project_branch),
+        (EXEC,  GIT_SYNC),
         (EXEC,  GIT_SUBMODULE),
     ]
 
