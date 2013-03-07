@@ -21,8 +21,93 @@ ARTICLE_TYPE_CHOICES = (
     ('roundup', 'Roundup'),
     ('event', 'Event'),
     ('update', 'Community Update'),
-    ('learning', 'Learning'),
+    ('ethics', 'Ethics'),
+    ('data', 'Data'),
+    ('data-viz', 'Data Visualization'),
+    ('mapping', 'Mapping'),
 )
+
+# Current iteration does not use this in nav, but leaving dict
+# in place for feed, url imports until we make a permanent call
+SECTION_MAP = {
+    'articles': {
+        'name': 'Features', 
+        'slug': 'articles',
+        'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
+        'gets_promo_items': False,
+    },
+    'learning': {
+        'name': 'Learning', 
+        'slug': 'learning',
+        'article_types': ['ethics', 'data', 'data-viz', 'mapping',],
+        'gets_promo_items': True,
+    },
+}
+
+# Current iteration only has *one* articles section, but this map is in place
+# in case we split out into multiple sections that need parent categories
+CATEGORY_MAP = {
+    'project': {
+        'name': 'Project',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'tool': {
+        'name': 'Tool',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'how-to': {
+        'name': 'How-to',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'interview': {
+        'name': 'Interview',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'roundtable': {
+        'name': 'Roundtable',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'roundup': {
+        'name': 'Roundup',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'event': {
+        'name': 'Event',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'update': {
+        'name': 'Update',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'ethics': {
+        'name': 'Ethics',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
+    },
+    'data': {
+        'name': 'Data',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
+    },
+    'data-viz': {
+        'name': 'Data Visualization',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
+    },
+    'mapping': {
+        'name': 'Mapping',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
+    },
+}
 
 class LiveArticleManager(CachingManager):
     def get_query_set(self):
@@ -62,7 +147,17 @@ class Article(CachingMixin, models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('article_detail', (), {
-            'slug': self.slug })
+            'section': self.section['slug'],
+            'slug': self.slug
+        })
+        
+    @property
+    def section(self):
+        '''determine whether article matches specific section'''
+        for section in SECTION_MAP:
+            if self.article_type in SECTION_MAP[section]['article_types']:
+                return SECTION_MAP[section]
+        return SECTION_MAP['articles']
             
     @property
     def pretty_pubdate(self):
