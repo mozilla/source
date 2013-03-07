@@ -9,6 +9,7 @@
 
 <p class="intro">In-depth case studies by the best journalist-developers in the field. <span class="tinyhide">Get schooled on how journalist-developers find and build web-native stories, what kinds of questions they ask of data, how choices in presenting the news affects how it’s interpreted, and the ethics they encounter along the way.</span></p>
 
+{% if lead_promo %}
 <div class="page-block lead promo">
     {% with article=lead_promo %}
     {# lead promo item goes in here #}
@@ -29,9 +30,11 @@
         </div>
     {% endfor %}
 </div>
+{% endif %}
 
-
-<p class="intro"><b>More case studies:</b></p>
+{% if lead_promo and page.object_list|length > 3 %}
+    <p class="intro"><b>More case studies:</b></p>
+{% endif %}
 
 {% for article in page.object_list %}
     {# if we have promos on this page, don't include those articles in list #}
