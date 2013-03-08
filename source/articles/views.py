@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
@@ -16,6 +16,11 @@ class ArticleList(ListView):
         self.category = kwargs.get('category', None)
         self.tag_slugs = kwargs.get('tag_slugs', None)
         self.tags = []
+        
+        if self.category == 'learning' and not self.section:
+            # redirecting this to our "Section" page for Learning
+            # until we refactor Sections into database models
+            return HttpResponseRedirect(reverse('article_list_by_section', args=('learning',)))
         
         if self.section:
             # check for template override based on section name

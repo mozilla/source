@@ -23,6 +23,7 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
     list_filter = ('is_live', 'article_type',)
+    list_display = ('title', 'pubdate', 'article_type', 'is_live')
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (

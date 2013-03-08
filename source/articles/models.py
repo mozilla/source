@@ -2,7 +2,7 @@ from datetime import datetime
 import itertools
 
 from django.db import models
-from django.template.defaultfilters import date as dj_date, linebreaks
+from django.template.defaultfilters import date as dj_date, linebreaks, removetags
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -21,10 +21,7 @@ ARTICLE_TYPE_CHOICES = (
     ('roundup', 'Roundup'),
     ('event', 'Event'),
     ('update', 'Community Update'),
-    ('ethics', 'Ethics'),
-    ('data', 'Data'),
-    ('data-viz', 'Data Visualization'),
-    ('mapping', 'Mapping'),
+    ('learning', 'Learning'),
 )
 
 # Current iteration does not use this in nav, but leaving dict
@@ -39,7 +36,7 @@ SECTION_MAP = {
     'learning': {
         'name': 'Learning', 
         'slug': 'learning',
-        'article_types': ['ethics', 'data', 'data-viz', 'mapping',],
+        'article_types': ['learning',],
         'gets_promo_items': True,
     },
 }
@@ -87,23 +84,8 @@ CATEGORY_MAP = {
         'parent_name': 'Features',
         'parent_slug': 'articles',
     },
-    'ethics': {
-        'name': 'Ethics',
-        'parent_name': 'Learning',
-        'parent_slug': 'learning',
-    },
-    'data': {
-        'name': 'Data',
-        'parent_name': 'Learning',
-        'parent_slug': 'learning',
-    },
-    'data-viz': {
-        'name': 'Data Visualization',
-        'parent_name': 'Learning',
-        'parent_slug': 'learning',
-    },
-    'mapping': {
-        'name': 'Mapping',
+    'learning': {
+        'name': 'Learning',
         'parent_name': 'Learning',
         'parent_slug': 'learning',
     },
@@ -182,6 +164,11 @@ class Article(CachingMixin, models.Model):
             # that already contains <p> tags
             _body = linebreaks(_body)
         return _body
+        
+    @property
+    def safe_summary(self):
+        '''suitable for use in places that must avoid nested anchor tags'''
+        return removetags(self.summary, 'a')
 
     @property
     def merged_tag_list(self):
