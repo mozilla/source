@@ -813,8 +813,29 @@ pre.prettyprint {
     clear: both;
 }
 
-.learning h2 span.category {
-    color: #6ca25f
+a.promo {
+    display: block;
+}
+
+a.promo:hover {
+    text-decoration: none;
+}
+
+a.promo span.category {
+    color: #fc6e1f;
+}
+
+a.promo span.tags {
+    color: #bebebe;
+}
+
+a.promo span.tags:before {
+    content: "";
+}
+
+a.promo p {
+    color: #333;
+    margin-bottom: .25em;
 }
 
 .promo.lead {
@@ -1132,6 +1153,7 @@ pre.prettyprint {
     .promo.secondary-promo {
         width: 100%;
         margin-right: 20px;
+        margin-bottom: 1.5em;
     }
     
     .promo.second-promo {
