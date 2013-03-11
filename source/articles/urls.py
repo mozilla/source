@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 from django.views.generic.simple import redirect_to
 
-from .views import ArticleList, ArticleDetail
+from .views import ArticleList
 from source.base.feeds import ArticleFeed
 
 
@@ -31,11 +31,5 @@ urlpatterns = patterns('',
         view = redirect_to,
         kwargs  = {'url': '/articles/'},
         name = 'article_list_tags',
-    ),
-    url(
-        regex = '^(?P<slug>[-\w]+)/$',
-        view = ArticleDetail.as_view(),
-        kwargs = {},
-        name = 'article_detail',
     ),
 )

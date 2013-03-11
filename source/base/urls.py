@@ -6,8 +6,10 @@ from .views import SourceSearchView, HomepageView
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
-from source.articles.views import ArticleList, CATEGORY_MAP, SECTION_MAP
+from source.articles.models import CATEGORY_MAP, SECTION_MAP
+from source.articles.views import ArticleList, ArticleDetail
 
+article_section_options = "|".join(SECTION_MAP.keys())
 article_category_options = "|".join(CATEGORY_MAP.keys())
 
 urlpatterns = patterns('',
@@ -25,16 +27,22 @@ urlpatterns = patterns('',
     ),
     # matching /articles/ here to offer future support for multiple sections
     url(
-        regex = '^(?P<section>articles|learning)/$',
+        regex = '^(?P<section>%s)/$' % article_section_options,
         view = ArticleList.as_view(),
         kwargs = {},
         name = 'article_list_by_section',
     ),
     url(
-        regex = '^(?P<section>articles|learning)/rss/$',
+        regex = '^(?P<section>%s)/rss/$' % article_section_options,
         view = cache_page(ArticleFeed(), 60*15),
         kwargs = {},
         name = 'article_list_by_section_feed',
+    ),
+    url(
+        regex = '^(?P<section>%s)/(?P<slug>[-\w]+)/$' % article_section_options,
+        view = ArticleDetail.as_view(),
+        kwargs = {},
+        name = 'article_detail',
     ),
     url(
         regex = '^category/(?P<category>%s)/$' % article_category_options,

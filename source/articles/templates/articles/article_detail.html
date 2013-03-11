@@ -3,9 +3,21 @@
 {% block page_title %} {{ article.title }} - {{ super() }}{% endblock %}
 
 {% block site_js_extra %}
-<script src="{{ static('articles/js/jquery.syntaxhighlighter.min.js') }}"></script>
+{% compress js %}
+    {% if article.section.slug == "learning" %}
+        <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
+        <script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
+    {% endif %}
+    <script src="{{ static('articles/js/jquery.syntaxhighlighter.min.js') }}"></script>
+{% endcompress %}
 <script type="text/javascript">
     $.SyntaxHighlighter.init();
+    {% if article.section.slug == "learning" %}
+    $('.article-toc').localScroll({
+        offset: -80,
+        hash: true
+    });
+    {% endif %}
 </script>
 {% endblock %}
 
@@ -23,23 +35,23 @@
     
     <aside>
         <div class="byline">
+            {% if article.section.slug == "learning" %}
+            <div class="article-toc">
+                {% for article_block in article.articleblock_set.all() %}
+                    {% if loop.first %}<h3 class="subhead list-header">In this case study</h3>
+                        <ul class="toc">{% endif %}
+                            <li><i class="icon-circle-arrow-right"></i> <a href="#{{ article_block.slug }}">{{ article_block.title }}</a></li>
+                    {% if loop.last %}</ul>{% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
             <h6 class="date">{{ article.pretty_pubdate }}</h6>
             {% if article.get_live_author_set().exists() %}<h6 class="byline-name">{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
             <ul class="link-list">
                 <li><i class="icon-comments"></i><a href="{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ article.get_absolute_url() }}#disqus_thread" data-disqus-identifier="article_detail_{{ article.pk }}">Comments</a></li>
             </ul>
         </div>
-
-        {% if article.article_type == "learning" %}
-        <div class="article-toc">
-            {% for article_block in article.articleblock_set.all() %}
-                {% if loop.first %}<h3 class="subhead list-header">Contents</h3>
-                <ul class="link-list">{% endif %}
-                    <li><i class="icon-circle-arrow-right"></i><a href="#{{ article_block.slug }}">{{ article_block.title }}</a></li>
-                {% if loop.last %}</ul>{% endif %}
-            {% endfor %}
-        </div>
-        {% endif %}
 
         <div class="article-people">
             {% with code_link_list = article.get_live_code_set() %}
