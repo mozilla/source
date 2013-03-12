@@ -1,0 +1,1 @@
+<h1 class="maintopic"><a href="{{ url('article_list_by_section', section.slug) }}">{{ section.name }}</a>{% if category %} / <span class="category">{{ category }}</span>{% endif %}{% if tags %} / <span class="category">{% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}</span>{% endif %}</h1>

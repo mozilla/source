@@ -56,7 +56,8 @@
                 </form>
                 
                 {% set navigation_links = [
-                    ('/articles/', 'features', 'Features'),
+                    ('/articles/', 'articles', 'Features'),
+                    ('/learning/', 'learning', 'Learn<span class="tinyhide">ing</span>'),
                     ('/people/', 'community', 'Community'),
                     ('/code/', 'code', 'Code'),
                     ('/search/', 'search', 'Search'),
@@ -64,7 +65,7 @@
                 {% set active_nav = active_nav %}
                 <ul id="navigation">
                 {% for url, id, name in navigation_links %}
-                    <li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|e }}</a></li>
+                    <li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
                 {% endfor %}
                 </ul>
 

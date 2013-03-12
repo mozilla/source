@@ -1,11 +1,11 @@
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
-from source.articles.models import Article
-from source.articles.views import CATEGORY_MAP, SECTION_MAP
+from source.articles.models import Article, CATEGORY_MAP, SECTION_MAP
 from source.code.models import Code
 from source.tags.models import TechnologyTag, ConceptTag
 from source.tags.utils import get_validated_tag_list, get_tag_filtered_queryset
@@ -54,7 +54,12 @@ class ArticleFeed(ObjectWithTagsFeed):
         return "Recent articles %s" % identifier
 
     def item_title(self, item):
-        return item.title
+        _title = item.title
+        # Alert anyone using an RSS feed on staging
+        if settings.DEBUG:
+            _title = "THIS IS A TEST ARTICLE ON THE STAGING SITE: " + _title
+
+        return _title
         
     def item_pubdate(self, item):
         return item.pubdate
@@ -98,7 +103,12 @@ class CodeFeed(ObjectWithTagsFeed):
         return "Recent code index pages%s" % identifier
 
     def item_title(self, item):
-        return item.name
+        _name = item.name
+        # Alert anyone using an RSS feed on staging
+        if settings.DEBUG:
+            _name = "THIS IS A TEST ENTRY ON THE STAGING SITE: " + _name
+
+        return _name
 
     def item_description(self, item):
         return item.description

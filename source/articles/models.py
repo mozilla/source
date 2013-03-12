@@ -2,7 +2,7 @@ from datetime import datetime
 import itertools
 
 from django.db import models
-from django.template.defaultfilters import date as dj_date, linebreaks
+from django.template.defaultfilters import date as dj_date, linebreaks, removetags
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -23,6 +23,73 @@ ARTICLE_TYPE_CHOICES = (
     ('update', 'Community Update'),
     ('learning', 'Learning'),
 )
+
+# Current iteration does not use this in nav, but leaving dict
+# in place for feed, url imports until we make a permanent call
+SECTION_MAP = {
+    'articles': {
+        'name': 'Features', 
+        'slug': 'articles',
+        'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
+        'gets_promo_items': False,
+    },
+    'learning': {
+        'name': 'Learning', 
+        'slug': 'learning',
+        'article_types': ['learning',],
+        'gets_promo_items': True,
+    },
+}
+
+# Current iteration only has *one* articles section, but this map is in place
+# in case we split out into multiple sections that need parent categories
+CATEGORY_MAP = {
+    'project': {
+        'name': 'Project',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'tool': {
+        'name': 'Tool',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'how-to': {
+        'name': 'How-to',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'interview': {
+        'name': 'Interview',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'roundtable': {
+        'name': 'Roundtable',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'roundup': {
+        'name': 'Roundup',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'event': {
+        'name': 'Event',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'update': {
+        'name': 'Update',
+        'parent_name': 'Features',
+        'parent_slug': 'articles',
+    },
+    'learning': {
+        'name': 'Learning',
+        'parent_name': 'Learning',
+        'parent_slug': 'learning',
+    },
+}
 
 class LiveArticleManager(CachingManager):
     def get_query_set(self):
@@ -62,7 +129,17 @@ class Article(CachingMixin, models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('article_detail', (), {
-            'slug': self.slug })
+            'section': self.section['slug'],
+            'slug': self.slug
+        })
+        
+    @property
+    def section(self):
+        '''determine whether article matches specific section'''
+        for section in SECTION_MAP:
+            if self.article_type in SECTION_MAP[section]['article_types']:
+                return SECTION_MAP[section]
+        return SECTION_MAP['articles']
             
     @property
     def pretty_pubdate(self):
@@ -87,6 +164,11 @@ class Article(CachingMixin, models.Model):
             # that already contains <p> tags
             _body = linebreaks(_body)
         return _body
+        
+    @property
+    def safe_summary(self):
+        '''suitable for use in places that must avoid nested anchor tags'''
+        return removetags(self.summary, 'a')
 
     @property
     def merged_tag_list(self):

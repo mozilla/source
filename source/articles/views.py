@@ -1,84 +1,37 @@
 from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
-from .models import Article
+from .models import Article, SECTION_MAP, CATEGORY_MAP
 from source.base.utils import paginate
 from source.tags.utils import filter_queryset_by_tags
 
-# Current iteration does not use this in nav, but leaving dict
-# in place for feed, url imports until we make a permanent call
-SECTION_MAP = {
-    'articles': {
-        'name': 'Features', 
-        'slug': 'articles',
-        'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
-    },
-    'learning': {
-        'name': 'Learning', 
-        'slug': 'learning',
-        'article_types': ['learning',],
-    },
-}
-
-# Current iteration only has *one* articles section, but this map is in place
-# in case we split out into multiple sections that need parent categories
-CATEGORY_MAP = {
-    'project': {
-        'name': 'Project',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'tool': {
-        'name': 'Tool',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'how-to': {
-        'name': 'How-to',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'interview': {
-        'name': 'Interview',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'roundtable': {
-        'name': 'Roundtable',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'roundup': {
-        'name': 'Roundup',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'event': {
-        'name': 'Event',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'update': {
-        'name': 'Update',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'learning': {
-        'name': 'Learning',
-        'parent_name': 'Learning',
-        'parent_slug': 'learning',
-    },
-}
-
 class ArticleList(ListView):
     model = Article
-
+    template_name = 'articles/article_list.html'
+    
     def dispatch(self, *args, **kwargs):
         self.section = kwargs.get('section', None)
         self.category = kwargs.get('category', None)
         self.tag_slugs = kwargs.get('tag_slugs', None)
         self.tags = []
+        
+        if self.category == 'learning' and not self.section:
+            # redirecting this to our "Section" page for Learning
+            # until we refactor Sections into database models
+            return HttpResponseRedirect(reverse('article_list_by_section', args=('learning',)))
+        
+        if self.section:
+            # check for template override based on section name
+            self.template_list = [
+                'articles/article_list_%s.html' % self.section,
+                self.template_name,
+            ]
+            
+        if self.section == 'learning':
+            self.template_name = 'articles/article_list_learning.html'
+            
         return super(ArticleList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
@@ -130,9 +83,36 @@ class ArticleList(ListView):
         
         return ''
         
+    def get_promo_items(self, context, num_items):
+        _page = context.get('page', None)
+        
+        # Only get promo items for the first page of a paginated section
+        if _page and _page.number == 1:
+            '''
+            Take the most recent three items from this section's list
+            of articles. Pop the first item for a `lead_promo` object.
+            Stash the rest in a `secondary_promos` list. Also generate
+            a set of pks to ignore when we iterate through the main
+            headline list.
+            '''
+            promo_list = self.get_queryset()[:num_items]
+            lead_promo = None
+            secondary_promos = None
+            if promo_list:
+                lead_promo = promo_list[0]
+                secondary_promos = promo_list[1:]
+
+            context.update({
+                'lead_promo': lead_promo,
+                'secondary_promos': secondary_promos,
+                'articles_to_exclude_from_list': [promo.pk for promo in promo_list]
+            })
+        
     def get_standard_context(self, context):
         self.get_section_links(context)
         self.paginate_list(context)
+        if self.section and SECTION_MAP[self.section]['gets_promo_items']:
+            self.get_promo_items(context, 3)
         
         return ''
         
@@ -145,6 +125,7 @@ class ArticleList(ListView):
 
 class ArticleDetail(DetailView):
     model = Article
+    template_name = 'articles/article_detail.html'
 
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -159,4 +140,17 @@ class ArticleDetail(DetailView):
         queryset = queryset.prefetch_related('articleblock_set', 'authors', 'people', 'organizations', 'code')
         
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetail, self).get_context_data(**kwargs)
+
+        # make sure `section` kwarg matches this article's section
+        if self.kwargs['section'] != self.object.section['slug']:
+            raise Http404
+
+        context.update({
+            'section': self.object.section,
+        })
+
+        return context
 

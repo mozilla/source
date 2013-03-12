@@ -1,3 +1,7 @@
 {% extends "base.html" %}
-{% set active_nav = "features" %}
-{% block page_title %}Features{% if tags %} tagged: {% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %} - {{ super() }}{% endblock %}
+
+{% if section %}
+    {% set active_nav = section.slug %}
+{% endif %}
+
+{% block page_title %}{% if section %}{{ section.name }}{% else %}Features{% endif %}{% if tags %} tagged: {% for tag in tags %}{{ tag.name }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %} - {{ super() }}{% endblock %}
