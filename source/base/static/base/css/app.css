@@ -207,11 +207,45 @@ article .article-block {
     overflow: hidden;
 }
 
-h1, h2, h3, h5, h6, ul, ol, .caption, label {
+h1, h2, h3, h5, h6, ul, ol, .caption, label, table {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
     text-align: left;
     color: #2e2e2d;
+}
+
+table {
+    font-size: 15px;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: transparent;
+    width: 100%;
+    margin-bottom: 18px;
+}
+
+table th,
+table td {
+    padding: 8px;
+    line-height: 18px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+table thead th {
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
+table thead:first-child tr:first-child th,
+table thead:first-child tr:first-child td {
+    border-top: 0;
+}
+
+tbody tr:nth-child(odd) td,
+tbody tr:nth-child(odd) th {
+  background-color: #f9f9f9;
 }
 
 h1, h2 {
@@ -1107,6 +1141,10 @@ a.promo p {
     article p, .page-block p, article ul li, article ol li {
         font-size: 17px;
         line-height: 1.8em;
+    }
+    
+    article table {
+        font-size: 12px;
     }
     
     p.tagline {
