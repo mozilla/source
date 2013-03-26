@@ -106,7 +106,7 @@ class Article(CachingMixin, models.Model):
     authors = models.ManyToManyField(Person, blank=True, null=True, related_name='article_authors')
     image = ImageField(upload_to='img/uploads/article_images', help_text='Resized to fit 100% column width in template', blank=True, null=True)
     image_caption = models.TextField(blank=True)
-    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens. Accepts HTML.')
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
@@ -205,7 +205,7 @@ class ArticleBlock(CachingMixin, models.Model):
     image = ImageField(upload_to='img/uploads/article_images', blank=True, null=True)
     image_presentation = models.CharField(max_length=24, choices=IMAGE_PRESENTATION_CHOICES, blank=True)
     image_caption = models.TextField(blank=True)
-    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens.')
+    image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens. Accepts HTML.')
     body = models.TextField()
     objects = models.Manager()
     
