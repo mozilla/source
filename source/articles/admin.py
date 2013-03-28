@@ -16,6 +16,8 @@ class ArticleBlockInline(AdminImageMixin, admin.StackedInline):
         field = super(ArticleBlockInline, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'image_caption':
             field.widget.attrs['style'] = 'height: 5em;'
+        if db_field.name == 'image_credit':
+            field.widget.attrs['style'] = 'width: 45em;'
         return field
 
 class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
@@ -46,7 +48,7 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         # More usable heights and widths in admin form fields
         field = super(ArticleAdmin, self).formfield_for_dbfield(db_field, **kwargs)
-        if db_field.name in ['subhead','tags','technology_tags','concept_tags']:
+        if db_field.name in ['subhead','tags','technology_tags','concept_tags','image_credit']:
             field.widget.attrs['style'] = 'width: 45em;'
         if db_field.name in ['title','slug']:
             field.widget.attrs['style'] = 'width: 30em;'
