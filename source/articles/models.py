@@ -110,6 +110,7 @@ class Article(CachingMixin, models.Model):
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
+    category = models.ForeignKey('Category', null=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
@@ -236,3 +237,31 @@ class ArticleBlock(CachingMixin, models.Model):
         return _body
 
 
+class Section(CachingMixin, models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField()
+    objects = models.Manager()
+    
+    class Meta:
+        ordering = ('name',)
+
+    def __unicode__(self):
+        return u'%s' % (self.name)
+
+
+class Category(CachingMixin, models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    section = models.ForeignKey(Section)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField()
+    objects = models.Manager()
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name_plural = 'Categories'
+
+    def __unicode__(self):
+        return u'%s: %s' % (self.section.name, self.name)
