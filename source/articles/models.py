@@ -294,6 +294,9 @@ class Section(CachingMixin, models.Model):
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField()
+    description = models.TextField(blank=True)
+    gets_promo_items = models.BooleanField(default=False)
+    special_template = models.CharField(max_length=255, blank=True)
     objects = models.Manager()
     
     class Meta:
