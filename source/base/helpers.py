@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 
@@ -17,6 +18,10 @@ def linebreaks(string):
 @register.filter
 def escapejs(string):
     return django_escapejs(string)
+
+@register.function
+def get_timestamp():
+    return datetime.datetime.now()
 
 @register.function
 def thumbnail(source, *args, **kwargs):
