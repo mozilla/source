@@ -33,14 +33,13 @@ TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
     'source.base.context_processors.warnr',
 ]
 
-# Adding to standard funfactory middleware classes. Need to insert the
-# UpdateCacheMiddleware early on, then append FetchFromCacheMiddleware
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
-MIDDLEWARE_CLASSES.insert(2, 'django.middleware.cache.UpdateCacheMiddleware')
 MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackMiddleware')
-MIDDLEWARE_CLASSES.append('django.middleware.cache.FetchFromCacheMiddleware')
+# Responsive design means we can remove mobility helpers
+MIDDLEWARE_CLASSES = filter(lambda middleware: 'mobility' not in middleware, MIDDLEWARE_CLASSES)
 
-CACHE_MIDDLEWARE_SECONDS = 120
+CACHE_MIDDLEWARE_SECONDS = 60*2
+FEED_CACHE_SECONDS = 60*15
 
 # Search with django-haystack
 HAYSTACK_CONNECTIONS = {
