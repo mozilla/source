@@ -939,6 +939,22 @@ a.promo p {
     width: 100%;
 }
 
+.author-box {
+    border-top: 1px solid #ccc;
+    margin-top: 25px;
+}
+
+.author-box h3 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    color: black;
+}
+
+.author-box p {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;

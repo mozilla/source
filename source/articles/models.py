@@ -191,6 +191,13 @@ class Article(CachingMixin, models.Model):
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
 
+    def get_live_author_bios(self):
+        author_set = self.get_live_author_set()
+        _bios = ''.join(
+            [linebreaks(author.description) for author in author_set if author.description]
+        )
+        return _bios
+
 
 IMAGE_PRESENTATION_CHOICES = (
     ('full-width', 'Full-Width Above Text'),
