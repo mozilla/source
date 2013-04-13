@@ -18,6 +18,21 @@
         hash: true
     });
     {% endif %}
+    
+    $(document).ready(function(){
+        var sourceData = {};
+        $('.twitter-bio').each(function(index, element) {
+            sourceData.twitter_name = this['id'].replace('bio-','');
+sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+sourceData.twitter_name+'&callback=?';
+            $.getJSON(sourceData.twitter_api_url, function(data) {
+                // returns 'success' even on 404, so ensure that data exists
+                if (data['profile_image_url']) {
+                    sourceData.twitter_avatar = '<img src="' + data['profile_image_url'] + '">';
+                    $(element).prepend(sourceData.twitter_avatar);
+                }
+            });
+        });
+    });
 </script>
 {% endblock %}
 
@@ -93,6 +108,17 @@
         {% endif %}
     </div>
     {% endfor %}
+    
+    {# test for author bios in person db, add block if found #}
+    {% if article.get_live_author_bios() %}
+    <div class="page-block article-block author-box">
+        {% for author in article.get_live_author_set() %}
+        <h3 id="about-authors">About <a href="{{ author.get_absolute_url() }}">{{ author.name() }}</a></h3>
+        <p{% if author.twitter_username %} class="twitter-bio" id="bio-{{ author.twitter_username }}"{% endif %}>
+            {{ author.description|safe }}
+        </p>
+        {% endfor %}
+    </div>{% endif %}
     
     <aside class="article-people">
         {% with code_link_list = article.get_live_code_set() %}
