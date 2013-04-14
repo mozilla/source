@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Source admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Source administration' %}{% block appname %}{% endblock%}</h1>
+{% endblock %}
+
+{% block userlinks %}
+    {% if user.is_authenticated %}
+        <a href="{% url clear_cache %}?path=/">Clear homepage cache</a> /
+    {% endif %}
+    {{ block.super }}
+{% endblock %}
+

@@ -13,9 +13,6 @@ PROJECT_MODULE = 'source'
 ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
 INSTALLED_APPS = list(INSTALLED_APPS) + [
-    'django.contrib.admin',
-    'django.contrib.flatpages',
-    'django.contrib.sites',
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
@@ -26,6 +23,9 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'sorl.thumbnail',
     'south',
     'taggit',
+    'django.contrib.admin',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
