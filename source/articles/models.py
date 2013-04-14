@@ -261,9 +261,6 @@ def clear_caches_for_article(sender, instance, **kwargs):
         'article_list_by_category',
         kwargs = { 'category': instance.article_type }
     ))
-    
-    # clear cache for homepage
-    expire_page_cache(reverse('homepage'))
 
     # clear caches for related organizations
     for organization in instance.get_live_organization_set():

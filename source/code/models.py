@@ -129,9 +129,6 @@ def clear_caches_for_code(sender, instance, **kwargs):
     # clear cache for code list page
     expire_page_cache(reverse('code_list'))
     
-    # clear cache for homepage
-    expire_page_cache(reverse('homepage'))
-    
     # clear caches for related articles
     for article in instance.get_live_article_set():
         expire_page_cache(article.get_absolute_url())
