@@ -489,13 +489,13 @@ h1.maintopic {
 
 .twitter-bio {
     margin-bottom: 1em;
-    padding-left: 42px;
+    padding-left: 60px;
 }
 
 .twitter-bio img {
     vertical-align: top;
-    width: 30px;
-    margin-left: -42px;
+    width: 48px;
+    margin-left: -60px;
     float: left;
 }
 
