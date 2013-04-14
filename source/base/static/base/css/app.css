@@ -489,13 +489,13 @@ h1.maintopic {
 
 .twitter-bio {
     margin-bottom: 1em;
-    padding-left: 42px;
+    padding-left: 60px;
 }
 
 .twitter-bio img {
     vertical-align: top;
-    width: 30px;
-    margin-left: -42px;
+    width: 48px;
+    margin-left: -60px;
     float: left;
 }
 
@@ -937,6 +937,23 @@ a.promo p {
 
 .promo.secondary-promo img {
     width: 100%;
+}
+
+.author-box {
+    border-top: 1px solid #ccc;
+    margin-top: 25px;
+}
+
+.author-box h3 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    color: black;
+}
+
+.author-box p {
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 840px) {
