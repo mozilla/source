@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 
 from .models import Article, SECTION_MAP, CATEGORY_MAP
-from source.base.utils import paginate
 from source.tags.utils import filter_queryset_by_tags
+from source.utils.pagination import paginate
 
 class ArticleList(ListView):
     model = Article
