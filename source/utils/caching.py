@@ -1,12 +1,15 @@
 import hashlib
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.urlresolvers import resolve
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.utils.cache import get_cache_key
+from django.utils.decorators import method_decorator
 from django.utils.encoding import iri_to_uri
 from django.utils.translation import get_language
+from django.views.generic import View
 
 from funfactory import urlresolvers
 
@@ -50,4 +53,15 @@ def get_url_cache_key(url, language=None, key_prefix=None):
     if language:
         cache_key += '.%s' % language
     return cache_key
-    
+
+
+class ClearCache(View):
+    @method_decorator(login_required)
+    def get(self, request, *args, **kwargs):
+        path = request.GET.get('path', None)
+        try:
+            resolved_path = resolve(path)
+            expire_page_cache(path)
+            return HttpResponse('Cache cleared for "%s"!' % path)
+        except:
+            return HttpResponse('No matching path to clear.')

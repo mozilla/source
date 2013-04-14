@@ -9,6 +9,7 @@ from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
 from source.articles.models import CATEGORY_MAP, SECTION_MAP
 from source.articles.views import ArticleList, ArticleDetail
+from source.utils.caching import ClearCache
 
 article_section_options = "|".join(SECTION_MAP.keys())
 article_category_options = "|".join(CATEGORY_MAP.keys())
@@ -64,6 +65,12 @@ urlpatterns = patterns('',
         view = search_view_factory(view_class=SourceSearchView, form_class=SearchForm, searchqueryset=SearchQuerySet().order_by('django_ct')),
         kwargs = {},
         name = 'haystack_search',
+    ),
+    url(
+        regex = '^clear-cache/$',
+        view = ClearCache.as_view(),
+        kwargs = {},
+        name = 'clear_cache',
     ),
     (r'^articles/', include('source.articles.urls')),
     (r'^code/', include('source.code.urls')),
