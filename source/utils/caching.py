@@ -4,7 +4,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.urlresolvers import resolve
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseForbidden, Http404
+from django.utils import simplejson
 from django.utils.cache import get_cache_key
 from django.utils.decorators import method_decorator
 from django.utils.encoding import iri_to_uri
@@ -12,6 +13,7 @@ from django.utils.translation import get_language
 from django.views.generic import View
 
 from funfactory import urlresolvers
+from .json import LazyEncoder
 
 
 def expire_page_cache(path, key_prefix=None):
@@ -31,7 +33,7 @@ def expire_page_cache(path, key_prefix=None):
     key = get_url_cache_key(
         path_with_locale, language=language, key_prefix=key_prefix
     )
-    print path_with_locale, key
+
     if key:
         if cache.get(key):
             cache.set(key, None, 0)
@@ -56,12 +58,22 @@ def get_url_cache_key(url, language=None, key_prefix=None):
 
 
 class ClearCache(View):
+    def render_json_to_response(self, context):
+        result = simplejson.dumps(context, cls=LazyEncoder)
+        return HttpResponse(result, mimetype='application/javascript')
+
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         path = request.GET.get('path', None)
+        
         try:
             resolved_path = resolve(path)
             expire_page_cache(path)
-            return HttpResponse('Cache cleared for "%s"!' % path)
         except:
-            return HttpResponse('No matching path to clear.')
+            raise Http404
+        if self.request.is_ajax():
+            result = {'success': 'True'}
+            return self.render_json_to_response(result)
+        else:
+            return HttpResponse('Cache cleared for "%s"!' % path)
+            
