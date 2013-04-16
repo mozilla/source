@@ -25,3 +25,6 @@
 [submodule "vendor-local/src/django-taggit"]
 	path = vendor-local/src/django-taggit
 	url = https://github.com/ryanpitts/django-taggit.git
+[submodule "vendor-local/src/python-twitter"]
+	path = vendor-local/src/python-twitter
+	url = git://github.com/bear/python-twitter.git
