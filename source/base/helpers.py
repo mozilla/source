@@ -1,9 +1,10 @@
+import datetime
 import logging
 import os
 
 from django.conf import settings
 from django.template.defaultfilters import linebreaks as django_linebreaks,\
-    escapejs as django_escapejs
+    escapejs as django_escapejs, pluralize as django_pluralize
 
 from jingo import register
 from sorl.thumbnail import get_thumbnail
@@ -17,6 +18,14 @@ def linebreaks(string):
 @register.filter
 def escapejs(string):
     return django_escapejs(string)
+
+@register.function
+def get_timestamp():
+    return datetime.datetime.now()
+    
+@register.filter
+def dj_pluralize(string, arg='s'):
+    return django_pluralize(string, arg)
 
 @register.function
 def thumbnail(source, *args, **kwargs):
@@ -43,3 +52,4 @@ def thumbnail(source, *args, **kwargs):
         logger.error('Thumbnail had Exception: %s' % (e,))
         source = getattr(settings, 'DEFAULT_IMAGE_SRC')
         return get_thumbnail(source, *args, **kwargs)
+

@@ -1,7 +1,10 @@
 from datetime import datetime
 import itertools
 
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.defaultfilters import date as dj_date, linebreaks, removetags
 
 from caching.base import CachingManager, CachingMixin
@@ -9,6 +12,7 @@ from sorl.thumbnail import ImageField
 from source.code.models import Code
 from source.people.models import Person, Organization
 from source.tags.models import TechnologyTaggedItem, ConceptTaggedItem
+from source.utils.caching import expire_page_cache
 from taggit.managers import TaggableManager
 
 
@@ -188,6 +192,13 @@ class Article(CachingMixin, models.Model):
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
 
+    def get_live_author_bios(self):
+        author_set = self.get_live_author_set()
+        _bios = ''.join(
+            [linebreaks(author.description) for author in author_set if author.description]
+        )
+        return _bios
+
 
 IMAGE_PRESENTATION_CHOICES = (
     ('full-width', 'Full-Width Above Text'),
@@ -236,7 +247,6 @@ class ArticleBlock(CachingMixin, models.Model):
             _body = linebreaks(_body)
         return _body
 
-
 class Section(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -268,3 +278,44 @@ class Category(CachingMixin, models.Model):
 
     def __unicode__(self):
         return u'%s: %s' % (self.section.name, self.name)
+
+
+@receiver(post_save, sender=Article)
+def clear_caches_for_article(sender, instance, **kwargs):
+    # clear cache for article detail page
+    expire_page_cache(instance.get_absolute_url())
+    
+    # clear cache for article list pages
+    expire_page_cache(reverse(
+        'article_list_by_section',
+        kwargs = { 'section': instance.section['slug'] }
+    ))
+    expire_page_cache(reverse(
+        'article_list_by_category',
+        kwargs = { 'category': instance.article_type }
+    ))
+
+    # clear caches for related organizations
+    for organization in instance.get_live_organization_set():
+        expire_page_cache(organization.get_absolute_url())
+        
+    # clear caches for related people
+    for person in instance.get_live_people_set():
+        expire_page_cache(person.get_absolute_url())
+
+    # clear caches for related authors
+    for author in instance.get_live_author_set():
+        expire_page_cache(person.get_absolute_url())
+
+    # clear caches for related code index entries
+    for code in instance.get_live_code_set():
+        expire_page_cache(code.get_absolute_url())
+        
+    # clear caches for tag pages. FWIW this will miss
+    # tag intersection queries like /foo+bar+baz/, so if we
+    # implement those, they may need to expire naturally
+    for tag in instance.tags.all():
+        expire_page_cache(reverse(
+            'article_list_by_tag',
+            kwargs = { 'tag_slugs': tag.slug }
+        ))
