@@ -45,8 +45,8 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
         </div>
     {% endif %}
 
-    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title }}</h2>
-    <h4>{{ article.subhead }}</h4>
+    <h2>{% include "articles/_article_category_and_tags_overline.html" %}{{ article.title|typogrify }}</h2>
+    <h4>{{ article.subhead|typogrify }}</h4>
     
     <aside>
         <div class="byline">
@@ -55,13 +55,13 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
                 {% for article_block in article.articleblock_set.all() %}
                     {% if loop.first %}<h3 class="subhead list-header">In this case study</h3>
                         <ul class="toc">{% endif %}
-                            <li><i class="icon-circle-arrow-right"></i> <a href="#{{ article_block.slug }}">{{ article_block.title }}</a></li>
+                            <li><i class="icon-circle-arrow-right"></i> <a href="#{{ article_block.slug }}">{{ article_block.title|typogrify }}</a></li>
                     {% if loop.last %}</ul>{% endif %}
                 {% endfor %}
             </div>
             {% endif %}
 
-            <h6 class="date">{{ article.pretty_pubdate }}</h6>
+            <h6 class="date">{{ article.pretty_pubdate|typogrify }}</h6>
             {% if article.get_live_author_set().exists() %}<h6 class="byline-name">{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</h6>{% endif %}
             <ul class="link-list">
                 <li><i class="icon-comments"></i><a href="{{ HTTP_PROTOCOL }}://{{ request.get_host() }}{{ article.get_absolute_url() }}#disqus_thread" data-disqus-identifier="article_detail_{{ article.pk }}">Comments</a></li>
@@ -80,11 +80,11 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
         </div>
     </aside>
     
-    {{ article.pretty_body_text|safe }}
+    {{ article.pretty_body_text|typogrify|safe }}
     
     {% for articleblock in article.articleblock_set.all() %}
     <div class="page-block article-block">
-        <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
+        <h3 id="{{ articleblock.slug }}">{{ articleblock.title|typogrify }}</h3>
         {% if articleblock.image and articleblock.image_presentation in ['full-width','inset-left','inset-right'] %}
             {% set _image_width_options = {
                 'full-width':'800',
@@ -94,16 +94,16 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
             {% set _this_image_width = _image_width_options[articleblock.image_presentation] %}
             <div class="image-{{ articleblock.image_presentation }}-wrapper">
                 <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}">
-                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|safe }}</p>{% endif %}
+                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|typogrify|safe }}</p>{% endif %}
             </div>
         {% endif %}
         
-        {{ articleblock.pretty_body_text|safe }}
+        {{ articleblock.pretty_body_text|typogrify|safe }}
         
         {% if articleblock.image and articleblock.image_presentation == 'full-width-below' %}
             <div class="image-full-width-wrapper">
                 <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}">
-                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|safe }}</p>{% endif %}
+                {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|typogrify|safe }}</p>{% endif %}
             </div>
         {% endif %}
     </div>
@@ -115,7 +115,7 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
         {% for author in article.get_live_author_set() %}
         <h3 id="about-{{ author.slug }}">About <a href="{{ author.get_absolute_url() }}">{{ author.name() }}</a></h3>
         <p{% if author.twitter_username %} class="twitter-bio" id="bio-{{ author.twitter_username }}"{% endif %}>
-            {{ author.description|safe }}
+            {{ author.description|typogrify|safe }}
         </p>
         {% endfor %}
     </div>{% endif %}

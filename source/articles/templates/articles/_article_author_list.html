@@ -1,1 +1,1 @@
-{% for author in author_list %}{% if loop.first %}By {% endif %}<a href="{{ author.get_absolute_url() }}">{{ author.name() }}</a>{% if not loop.last %}, {% endif %}{% endfor %}
+{% for author in author_list %}{% if loop.first %}By {% endif %}<a href="{{ author.get_absolute_url() }}">{{ author.name()|smartypants }}</a>{% if not loop.last %}, {% endif %}{% endfor %}

@@ -14,10 +14,10 @@
         <a class="page-block lead promo" href="{{ article.get_absolute_url() }}">
             {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "525x400", crop="center") }}" alt="{{ article.title }}">{% endif %}
             <h2>
-                <span class="category">{% if article.article_type %}{{ article.get_article_type_display() }}{% endif %}{% if article.tags.all().exists() %} <span class="tags">/ {% for tag in article.tags.all() %}{{ tag }}{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
-                {{ article.title }}
+                <span class="category">{% if article.article_type %}{{ article.get_article_type_display() }}{% endif %}{% if article.tags.all().exists() %} <span class="tags">/ {% for tag in article.tags.all() %}{{ tag.name|smartypants }}{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
+                {{ article.title|typogrify }}
             </h2>
-            <p>{{ article.safe_summary|safe }}</p>
+            <p>{{ article.safe_summary|typogrify|safe }}</p>
         </a>
     {% endwith %}
 
@@ -28,9 +28,9 @@
                 {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "200x90", crop="center") }}" alt="{{ article.title }}">{% endif %}
                 <h2>
                     <span class="category">{% if article.article_type %}{{ article.get_article_type_display() }}{% endif %}{% if article.tags.all().exists() %} <span class="tags">/ {% for tag in article.tags.all() %}{{ tag }}{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
-                    {{ article.title }}
+                    {{ article.title|typogrify }}
                 </h2>
-                <p>{{ article.safe_summary|safe }}</p>
+                <p>{{ article.safe_summary|typogrify|safe }}</p>
             </a>
         {% endfor %}
     </div>

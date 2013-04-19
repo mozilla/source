@@ -10,13 +10,18 @@ from django.template.defaultfilters import linebreaks as django_linebreaks,\
 from jingo import register
 from jinja2 import Markup
 from sorl.thumbnail import get_thumbnail
-from typogrify.filters import typogrify as dj_typogrify
+from typogrify.filters import typogrify as dj_typogrify,\
+    smartypants as dj_smartypants
 
 logger = logging.getLogger('base.helpers')
 
 @register.filter
 def typogrify(string):
     return Markup(dj_typogrify(string))
+
+@register.filter
+def smartypants(string):
+    return Markup(dj_smartypants(string))
 
 @register.filter
 def linebreaks(string):
