@@ -11,7 +11,7 @@
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
         {% for organization in alpha.list %}
         <div class="grid-box space-below">
-            <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a></h3>
+            <h3><a href="{{ organization.get_absolute_url() }}">{{ organization.name|smartypants }}</a></h3>
         </div>
         {% endfor %}
     </div>

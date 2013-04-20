@@ -6,7 +6,7 @@
 <h1 class="maintopic"><a href="{{ url('code_list') }}">Code</a></h1>
 
 <div class="page-block">
-    <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name }}</h2>
+    <h2 id="code-name">{% include "code/_code_category_and_tags_overline.html" %}{{ code.name|typogrify }}</h2>
 
     {% if code.screenshot %}
         <div class="image-inset-right-wrapper">
@@ -14,7 +14,7 @@
         </div>
     {% endif %}
 
-    {% if code.description_or_summary %}{{ code.description_or_summary|linebreaks|safe }}{% endif %}
+    {% if code.description_or_summary %}{{ code.description_or_summary|linebreaks|typogrify|safe }}{% endif %}
     <ul class="link-list" id="code-details">
         <li>
             <i class="icon-home"></i><a id="code-url" href="{{ code.url }}">Code repo</a>

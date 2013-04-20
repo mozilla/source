@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ArticleBlock
+from .models import Article, ArticleBlock, Section, Category
 from source.base.widgets import AdminImageMixin
 
 class ArticleBlockInline(AdminImageMixin, admin.StackedInline):
@@ -25,11 +25,11 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
     list_filter = ('is_live', 'article_type',)
-    list_display = ('title', 'pubdate', 'article_type', 'is_live')
+    list_display = ('title', 'pubdate', 'article_type', 'category', 'is_live')
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
+        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), 'category', ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
@@ -56,4 +56,15 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
             field.widget.attrs['style'] = 'height: 5em;'
         return field
 
+class CategoryInline(admin.TabularInline):
+    model = Category
+    extra = 1
+    prepopulated_fields = {'slug': ('name',)}
+
+class SectionAdmin(AdminImageMixin, admin.ModelAdmin):
+    save_on_top = True
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [CategoryInline,]
+
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Section, SectionAdmin)
