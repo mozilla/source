@@ -11,10 +11,10 @@
         <h2 class="grouper-header"><span class="category">{{ alpha.grouper }}</span></h2>
         {% for person in alpha.list %}
         <div class="grid-box">
-            <h3><a href="{{ person.get_absolute_url() }}">{{ person.name() }}</a></h3>
+            <h3><a href="{{ person.get_absolute_url() }}">{{ person.name()|smartypants }}</a></h3>
             {% if person.get_live_organization_set().exists() %}
             <ul class="link-list">
-                <li><i class="icon-cogs small"></i>{% for organization in person.get_live_organization_set() %}<a class="small" href="{{ organization.get_absolute_url() }}">{{ organization.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+                <li><i class="icon-cogs small"></i>{% for organization in person.get_live_organization_set() %}<a class="small" href="{{ organization.get_absolute_url() }}">{{ organization.name|smartypants }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
             </ul>{% endif %}
         </div>
         {% endfor %}

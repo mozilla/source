@@ -6,8 +6,8 @@
 <h1 class="maintopic"><a href="{{ url('person_list') }}">People</a></h1>
 
 <div class="page-block">
-    <h2 id="person-name">{{ person.name() }}</h2>
-    {% if person.description %}{{ person.description|linebreaks|safe }}{% endif %}
+    <h2 id="person-name">{{ person.name()|typogrify }}</h2>
+    {% if person.description %}{{ person.description|linebreaks|typogrify|safe }}{% endif %}
 
     <ul class="link-list">
         {% with organization_link_list = person.get_live_organization_set() %}
@@ -16,7 +16,7 @@
         {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
         {% if person.twitter_username %}<li id="person-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
         {% if person.github_username %}<li id="person-github"><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
-        {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name }}</a></li>{% endfor %}
+        {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name|typogrify }}</a></li>{% endfor %}
     </ul>
 </div>
 
