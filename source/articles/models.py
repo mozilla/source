@@ -114,7 +114,7 @@ class Article(CachingMixin, models.Model):
     body = models.TextField()
     summary = models.TextField()
     article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
-    category = models.ForeignKey('Category', null=True)
+    category = models.ForeignKey('Category', blank=True, null=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
