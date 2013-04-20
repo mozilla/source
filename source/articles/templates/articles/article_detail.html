@@ -41,7 +41,7 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
     {% if article.image %}
         <div class="image-full-width-wrapper">
             <img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
-            {% if article.pretty_caption %}<p class="caption">{{ article.pretty_caption|safe }}</p>{% endif %}
+            {% if article.pretty_caption %}<p class="caption">{{ article.pretty_caption|typogrify|safe }}</p>{% endif %}
         </div>
     {% endif %}
 
@@ -113,7 +113,7 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
     {% if article.get_live_author_bios() %}
     <div class="page-block article-block author-box">
         {% for author in article.get_live_author_set() %}
-        <h3 id="about-{{ author.slug }}">About <a href="{{ author.get_absolute_url() }}">{{ author.name() }}</a></h3>
+        <h3 id="about-{{ author.slug }}">About <a href="{{ author.get_absolute_url() }}">{{ author.name()|smartypants }}</a></h3>
         <p{% if author.twitter_username %} class="twitter-bio" id="bio-{{ author.twitter_username }}"{% endif %}>
             {{ author.description|typogrify|safe }}
         </p>
