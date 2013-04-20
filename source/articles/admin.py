@@ -25,11 +25,11 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
     list_filter = ('is_live', 'article_type',)
-    list_display = ('title', 'pubdate', 'article_type', 'category', 'is_live')
+    list_display = ('title', 'pubdate', 'article_type', 'is_live')
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), 'category', ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
+        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
@@ -67,4 +67,4 @@ class SectionAdmin(AdminImageMixin, admin.ModelAdmin):
     inlines = [CategoryInline,]
 
 admin.site.register(Article, ArticleAdmin)
-admin.site.register(Section, SectionAdmin)
+#admin.site.register(Section, SectionAdmin)
