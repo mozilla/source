@@ -38,7 +38,7 @@ MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackM
 # Responsive design means we can remove mobility helpers
 MIDDLEWARE_CLASSES = filter(lambda middleware: 'mobility' not in middleware, MIDDLEWARE_CLASSES)
 
-CACHE_MIDDLEWARE_SECONDS = 60*2
+CACHE_MIDDLEWARE_SECONDS = 60*15
 FEED_CACHE_SECONDS = 60*15
 
 # Search with django-haystack
