@@ -13,7 +13,7 @@ from source.utils.caching import ClearCache
 
 article_section_options = "|".join(SECTION_MAP.keys())
 article_category_options = "|".join(CATEGORY_MAP.keys())
-STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*2)
+STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 FEED_CACHE_TIME = getattr(settings, 'FEED_CACHE_SECONDS', 60*15)
 
 urlpatterns = patterns('',
