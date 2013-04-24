@@ -25,25 +25,7 @@
 </div>
 
 <div class="page-block">
-    {% if not '//github.com/' in code.url %}
-        {% with person_link_list = code.get_live_people_set() %}
-        {% include "people/_person_link_list.html" %}{% endwith %}
-
-        {% with organization_link_list = code.get_live_organization_set() %}
-        {% include "people/_organization_link_list.html" %}{% endwith %}
-    
-        {% with article_link_list = code.get_live_article_set() %}
-        {% include "articles/_article_link_list.html" %}{% endwith %}
-    
-        {% with basic_link_list = code.codelink_set.all() %}
-        {% include "utils/_basic_link_list.html" %}{% endwith %}
-    {% else %}
-    <div class="code-repo-browse">
-        <h5>Browse this repo</h5>
-        <div id="repo"></div>
-    </div>
-    
-    <div class="code-repo-meta">
+    <div id="code-link-lists">
         {% with person_link_list = code.get_live_people_set() %}
         {% include "people/_person_link_list.html" %}{% endwith %}
     
@@ -56,7 +38,6 @@
         {% with basic_link_list = code.codelink_set.all() %}
         {% include "utils/_basic_link_list.html" %}{% endwith %}
     </div>
-    {% endif %}
 </div>
 {% endblock content %}
 
@@ -70,21 +51,40 @@ $(document).ready(function(){
     sourceData.github_location = '{{ code.url }}'.split('github.com/')[1];
     sourceData.github_user = sourceData.github_location.split('/')[0];
     sourceData.github_repo = sourceData.github_location.split('/')[1];
-    $('#repo').repo({ user: sourceData.github_user, name: sourceData.github_repo });
     sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_user + '/' + sourceData.github_repo + '?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
+        // get some repo details to append to description
         sourceData.github_last_push = new Date(data.data['pushed_at']).toString('dddd, MMM d, yyyy');
         sourceData.github_forks = data.data['forks'];
         sourceData.github_watchers = data.data['watchers'];
-        sourceData.github_details = '<li class="spacers"><i class="icon-github"></i><span>Forks: ' + sourceData.github_forks + '</span><span>Watchers: ' + sourceData.github_watchers + '</span><span>Last push: ' + sourceData.github_last_push + '</span></li>'
+        sourceData.github_details = '<li class="spacers"><i class="icon-github"></i>'
+            + '<span>Forks: ' + sourceData.github_forks + '</span>'
+            + '<span>Watchers: ' + sourceData.github_watchers + '</span>'
+            + '<span>Last push: ' + sourceData.github_last_push + '</span></li>'
+        $('#code-details').append(sourceData.github_details);
+        
+        // if we don't have our own description, use GitHub's
         {% if not code.description %}
         if (data.data['description']) {
             $('#code-details').before('<p>' + data.data['description'] + '</p>');
         }
         {% endif %}
-        $('#code-details').append(sourceData.github_details);
+
+        // get the master branch name for repo.js
+        sourceData.github_master_branch = data.data['master_branch'];
+        loadRepo(sourceData.github_user, sourceData.github_repo, sourceData.github_master_branch);
     });
 });
+
+function loadRepo(user, repo, branch) {
+    var repoContainer = '<div class="code-repo-browse"><h5>Browse this repo</h5><div id="repo"></div></div>';
+    $('#code-link-lists').addClass('code-repo-meta').before(repoContainer);
+    $('#repo').repo({
+        user: user,
+        name: repo,
+        branch: branch
+    });
+}
 </script>
 {% endif %}
 {% endblock %}
