@@ -275,7 +275,7 @@ def clear_caches_for_article(sender, instance, **kwargs):
 
     # clear caches for related authors
     for author in instance.get_live_author_set():
-        expire_page_cache(person.get_absolute_url())
+        expire_page_cache(author.get_absolute_url())
 
     # clear caches for related code index entries
     for code in instance.get_live_code_set():
