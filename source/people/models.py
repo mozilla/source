@@ -196,25 +196,29 @@ def clear_caches_for_person(sender, instance, **kwargs):
     # clear caches for related articles
     for article in instance.get_live_article_set():
         expire_page_cache(article.get_absolute_url())
-        expire_page_cache(reverse(
-            'article_list_by_section',
-            kwargs = { 'section': article.section['slug'] }
-        ))
-        expire_page_cache(reverse(
-            'article_list_by_category',
-            kwargs = { 'category': article.article_type }
-        ))
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
 
     for article in instance.get_live_article_authored_set():
         expire_page_cache(article.get_absolute_url())
-        expire_page_cache(reverse(
-            'article_list_by_section',
-            kwargs = { 'section': article.section['slug'] }
-        ))
-        expire_page_cache(reverse(
-            'article_list_by_category',
-            kwargs = { 'category': article.article_type }
-        ))
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
 
     # clear caches for related organizations
     for organization in instance.get_live_organization_set():
@@ -236,14 +240,16 @@ def clear_caches_for_organization(sender, instance, **kwargs):
     # clear caches for related articles
     for article in instance.get_live_article_set():
         expire_page_cache(article.get_absolute_url())
-        expire_page_cache(reverse(
-            'article_list_by_section',
-            kwargs = { 'section': article.section['slug'] }
-        ))
-        expire_page_cache(reverse(
-            'article_list_by_category',
-            kwargs = { 'category': article.article_type }
-        ))
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
 
     # clear caches for related people
     for person in instance.get_live_person_set():
