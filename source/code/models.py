@@ -1,13 +1,17 @@
 from datetime import datetime
 import itertools
 
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.defaultfilters import striptags, truncatewords
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
 from source.people.models import Person, Organization
 from source.tags.models import TechnologyTaggedItem, ConceptTaggedItem
+from source.utils.caching import expire_page_cache
 from taggit.managers import TaggableManager
 
 
@@ -116,3 +120,42 @@ class CodeLink(CachingMixin, models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.code.name, self.name)
 
+
+@receiver(post_save, sender=Code)
+def clear_caches_for_code(sender, instance, **kwargs):
+    # clear cache for code detail page
+    expire_page_cache(instance.get_absolute_url())
+
+    # clear cache for code list page
+    expire_page_cache(reverse('code_list'))
+    
+    # clear caches for related articles
+    for article in instance.get_live_article_set():
+        expire_page_cache(article.get_absolute_url())
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
+
+    # clear caches for related organizations
+    for organization in instance.get_live_organization_set():
+        expire_page_cache(organization.get_absolute_url())
+
+    # clear caches for related people
+    for person in instance.get_live_people_set():
+        expire_page_cache(person.get_absolute_url())
+
+    # clear caches for tag pages. FWIW this will miss
+    # tag intersection queries like /foo+bar+baz/, so if we
+    # implement those, they may need to expire naturally
+    for tag in instance.tags.all():
+        expire_page_cache(reverse(
+            'code_list_by_tag',
+            kwargs = { 'tag_slugs': tag.slug }
+        ))

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ArticleBlock
+from .models import Article, ArticleBlock, Section, Category
 from source.base.widgets import AdminImageMixin
 
 class ArticleBlockInline(AdminImageMixin, admin.StackedInline):
@@ -56,4 +56,15 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
             field.widget.attrs['style'] = 'height: 5em;'
         return field
 
+class CategoryInline(admin.TabularInline):
+    model = Category
+    extra = 1
+    prepopulated_fields = {'slug': ('name',)}
+
+class SectionAdmin(AdminImageMixin, admin.ModelAdmin):
+    save_on_top = True
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [CategoryInline,]
+
 admin.site.register(Article, ArticleAdmin)
+#admin.site.register(Section, SectionAdmin)

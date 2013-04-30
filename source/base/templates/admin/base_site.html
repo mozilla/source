@@ -1,0 +1,7 @@
+{% extends "admin/base.html" %}{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Source admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Source administration' %}{% block appname %}{% endblock%}</h1>
+{% endblock %}

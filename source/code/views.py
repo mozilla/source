@@ -4,8 +4,8 @@ from django.template import RequestContext
 from django.views.generic import ListView, DetailView
 
 from .models import Code
-from source.base.utils import paginate
 from source.tags.utils import filter_queryset_by_tags
+from source.utils.pagination import paginate
 
 
 class CodeList(ListView):

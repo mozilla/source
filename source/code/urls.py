@@ -6,7 +6,7 @@ from django.views.generic.simple import redirect_to
 from .views import CodeList, CodeDetail
 from source.base.feeds import CodeFeed
 
-STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*2)
+STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 FEED_CACHE_TIME = getattr(settings, 'FEED_CACHE_SECONDS', 60*15)
 
 urlpatterns = patterns('',

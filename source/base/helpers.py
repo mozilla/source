@@ -1,15 +1,27 @@
 import datetime
 import logging
 import os
+from functools import wraps
 
 from django.conf import settings
 from django.template.defaultfilters import linebreaks as django_linebreaks,\
-    escapejs as django_escapejs
+    escapejs as django_escapejs, pluralize as django_pluralize
 
 from jingo import register
+from jinja2 import Markup
 from sorl.thumbnail import get_thumbnail
+from typogrify.filters import typogrify as dj_typogrify,\
+    smartypants as dj_smartypants
 
 logger = logging.getLogger('base.helpers')
+
+@register.filter
+def typogrify(string):
+    return Markup(dj_typogrify(string))
+
+@register.filter
+def smartypants(string):
+    return Markup(dj_smartypants(string))
 
 @register.filter
 def linebreaks(string):
@@ -22,6 +34,10 @@ def escapejs(string):
 @register.function
 def get_timestamp():
     return datetime.datetime.now()
+    
+@register.filter
+def dj_pluralize(string, arg='s'):
+    return django_pluralize(string, arg)
 
 @register.function
 def thumbnail(source, *args, **kwargs):
@@ -48,3 +64,4 @@ def thumbnail(source, *args, **kwargs):
         logger.error('Thumbnail had Exception: %s' % (e,))
         source = getattr(settings, 'DEFAULT_IMAGE_SRC')
         return get_thumbnail(source, *args, **kwargs)
+

@@ -13,9 +13,6 @@ PROJECT_MODULE = 'source'
 ROOT_URLCONF = '%s.urls' % PROJECT_MODULE
 
 INSTALLED_APPS = list(INSTALLED_APPS) + [
-    'django.contrib.admin',
-    'django.contrib.flatpages',
-    'django.contrib.sites',
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
@@ -26,6 +23,9 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'sorl.thumbnail',
     'south',
     'taggit',
+    'django.contrib.admin',
+    'django.contrib.flatpages',
+    'django.contrib.sites',
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
@@ -38,7 +38,7 @@ MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackM
 # Responsive design means we can remove mobility helpers
 MIDDLEWARE_CLASSES = filter(lambda middleware: 'mobility' not in middleware, MIDDLEWARE_CLASSES)
 
-CACHE_MIDDLEWARE_SECONDS = 60*2
+CACHE_MIDDLEWARE_SECONDS = 60*15
 FEED_CACHE_SECONDS = 60*15
 
 # Search with django-haystack

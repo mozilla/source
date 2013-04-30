@@ -1,8 +1,12 @@
 from datetime import datetime
 
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.encoding import force_unicode
 
+from source.utils.caching import expire_page_cache
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
 
@@ -180,3 +184,77 @@ class OrganizationLink(CachingMixin, models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.organization.name, self.name)
 
+
+@receiver(post_save, sender=Person)
+def clear_caches_for_person(sender, instance, **kwargs):
+    # clear cache for person detail page
+    expire_page_cache(instance.get_absolute_url())
+
+    # clear cache for person list page
+    expire_page_cache(reverse('person_list'))
+
+    # clear caches for related articles
+    for article in instance.get_live_article_set():
+        expire_page_cache(article.get_absolute_url())
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
+
+    for article in instance.get_live_article_authored_set():
+        expire_page_cache(article.get_absolute_url())
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
+
+    # clear caches for related organizations
+    for organization in instance.get_live_organization_set():
+        expire_page_cache(organization.get_absolute_url())
+
+    # clear caches for related code index entries
+    for code in instance.get_live_code_set():
+        expire_page_cache(code.get_absolute_url())
+
+
+@receiver(post_save, sender=Organization)
+def clear_caches_for_organization(sender, instance, **kwargs):
+    # clear cache for organization detail page
+    expire_page_cache(instance.get_absolute_url())
+
+    # clear cache for organization list page
+    expire_page_cache(reverse('organization_list'))
+
+    # clear caches for related articles
+    for article in instance.get_live_article_set():
+        expire_page_cache(article.get_absolute_url())
+        if article.section['slug']:
+            expire_page_cache(reverse(
+                'article_list_by_section',
+                kwargs = { 'section': article.section['slug'] }
+            ))
+        if article.article_type:
+            expire_page_cache(reverse(
+                'article_list_by_category',
+                kwargs = { 'category': article.article_type }
+            ))
+
+    # clear caches for related people
+    for person in instance.get_live_person_set():
+        expire_page_cache(person.get_absolute_url())
+
+    # clear caches for related code index entries
+    for code in instance.get_live_code_set():
+        expire_page_cache(code.get_absolute_url())
