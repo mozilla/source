@@ -254,14 +254,16 @@ def clear_caches_for_article(sender, instance, **kwargs):
     expire_page_cache(instance.get_absolute_url())
     
     # clear cache for article list pages
-    expire_page_cache(reverse(
-        'article_list_by_section',
-        kwargs = { 'section': instance.section['slug'] }
-    ))
-    expire_page_cache(reverse(
-        'article_list_by_category',
-        kwargs = { 'category': instance.article_type }
-    ))
+    if instance.section['slug']:
+        expire_page_cache(reverse(
+            'article_list_by_section',
+            kwargs = { 'section': instance.section['slug'] }
+        ))
+    if instance.article_type:
+        expire_page_cache(reverse(
+            'article_list_by_category',
+            kwargs = { 'category': instance.article_type }
+        ))
 
     # clear caches for related organizations
     for organization in instance.get_live_organization_set():
