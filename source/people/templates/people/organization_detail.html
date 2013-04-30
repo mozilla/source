@@ -6,12 +6,12 @@
 <h1 class="maintopic"><a href="{{ url('organization_list') }}">Organizations</a></h1>
 
 <div class="page-block item-detail">
-    <h2>{{ organization.name }}</h2>
+    <h2>{{ organization.name|typogrify }}</h2>
     
     {% if organization.location_string_for_static_map %}
     <div class="image-inset-right-wrapper">
         <a href="https://maps.google.com/maps?q={{ organization.location_string_for_static_map }}"><img src="https://maps.googleapis.com/maps/api/staticmap?sensor=false&scale=2&zoom=13&maptype=terrain&size=300x250&markers=size:small|color:AD3121|{{ organization.location_string_for_static_map }}" alt="{{ organization.name }} location" class="map-inset"></a>
-        {% if organization.address or organization.location_string_city %}<p class="caption">{% if organization.address %}{{ organization.address }}{% endif %}{% if organization.address and organization.location_string_city %}, {% endif %}{% if organization.location_string_city %}{{ organization.location_string_city }}{% endif %}</p>{% endif %}
+        {% if organization.address or organization.location_string_city %}<p class="caption">{% if organization.address %}{{ organization.address|typogrify }}{% endif %}{% if organization.address and organization.location_string_city %}, {% endif %}{% if organization.location_string_city %}{{ organization.location_string_city|typogrify }}{% endif %}</p>{% endif %}
     </div>
     {% endif %}
     
@@ -19,7 +19,7 @@
         <img class="logo" src="{{ MEDIA_URL }}{{ thumbnail(organization.logo, "200x50") }}" alt="{{ organization.name }}">
     {% endif %}
     
-    {% if organization.description %}{{ organization.description|linebreaks|safe }}{% endif %}
+    {% if organization.description %}{{ organization.description|linebreaks|typogrify|safe }}{% endif %}
     
     {% if organization.twitter_username or organization.github_username or organization.homepage %}
     <ul class="link-list">        

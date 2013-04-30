@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 
 from source.people.views import PersonList, PersonDetail
 
-STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*2)
+STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 
 urlpatterns = patterns('',
     url(

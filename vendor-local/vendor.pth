@@ -6,4 +6,8 @@ src/django-cache-machine
 src/django-haystack
 src/pyelasticsearch
 src/sorl-thumbnail
+<<<<<<< HEAD
 src/python-twitter
+=======
+src/typogrify
+>>>>>>> development

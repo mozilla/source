@@ -52,7 +52,7 @@
     {% if person_results %}
         <h2>People</h2>
         <ul class="link-list">
-            <li><i class="icon-user"></i>{% for result in person_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name() }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+            <li><i class="icon-user"></i>{% for result in person_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name()|smartypants }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
         </ul>
     {% endif %}
 
@@ -60,7 +60,7 @@
     {% if organization_results %}
         <h2>Organizations</h2>
         <ul class="link-list">
-            <li><i class="icon-cogs"></i>{% for result in organization_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
+            <li><i class="icon-cogs"></i>{% for result in organization_results %}<a href="{{ result.object.get_absolute_url() }}">{{ result.object.name|smartypants }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</li>
         </ul>
     {% endif %}
     </aside>

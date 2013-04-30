@@ -2,6 +2,6 @@
 {% block page_title %}{{ flatpage.title }} - {{ super() }}{% endblock %}
 
 {% block content %}
-<h2>{{ flatpage.title }}</h2>
-{{ flatpage.content|linebreaks|safe }}
+<h2>{{ flatpage.title|typogrify }}</h2>
+{{ flatpage.content|linebreaks|typogrify|safe }}
 {% endblock content %}
