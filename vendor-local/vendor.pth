@@ -8,3 +8,4 @@ src/pyelasticsearch
 src/sorl-thumbnail
 src/python-twitter
 src/typogrify
+src/python-oauth2
