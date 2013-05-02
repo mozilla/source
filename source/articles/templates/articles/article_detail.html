@@ -18,21 +18,6 @@
         hash: true
     });
     {% endif %}
-    
-    $(document).ready(function(){
-        var sourceData = {};
-        $('p.twitter-bio').each(function(index, element) {
-            sourceData.twitter_name = this['id'].replace('bio-','');
-sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+sourceData.twitter_name+'&callback=?';
-            $.getJSON(sourceData.twitter_api_url, function(data) {
-                // returns 'success' even on 404, so ensure that data exists
-                if (data['profile_image_url']) {
-                    sourceData.twitter_avatar = '<img src="' + data['profile_image_url'] + '">';
-                    $(element).prepend(sourceData.twitter_avatar);
-                }
-            });
-        });
-    });
 </script>
 {% endblock %}
 
@@ -114,7 +99,8 @@ sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name='+so
     <div class="page-block article-block author-box">
         {% for author in article.get_live_author_set() %}
         <h3 id="about-{{ author.slug }}">About <a href="{{ author.get_absolute_url() }}">{{ author.name()|smartypants }}</a></h3>
-        <p{% if author.twitter_username %} class="twitter-bio" id="bio-{{ author.twitter_username }}"{% endif %}>
+        <p{% if author.twitter_profile_image_url %} class="twitter-bio"{% endif %}>
+            <img src="{{ author.twitter_profile_image_url }}">
             {{ author.description|typogrify|safe }}
         </p>
         {% endfor %}

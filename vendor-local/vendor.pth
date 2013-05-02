@@ -6,4 +6,6 @@ src/django-cache-machine
 src/django-haystack
 src/pyelasticsearch
 src/sorl-thumbnail
+src/python-twitter
 src/typogrify
+src/python-oauth2

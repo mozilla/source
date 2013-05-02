@@ -7,6 +7,7 @@
 
 <div class="page-block">
     <h2 id="person-name">{{ person.name()|typogrify }}</h2>
+    {% if person.twitter_bio %}<p class="twitter-bio"><img src="{{ person.twitter_profile_image_url }}">{{ person.twitter_bio }}</p>{% endif %}
     {% if person.description %}{{ person.description|linebreaks|typogrify|safe }}{% endif %}
 
     <ul class="link-list">
@@ -33,23 +34,10 @@
 {% endblock content %}
 
 {% block site_js_extra %}
-{% if person.twitter_username or person.github_username %}
+{% if person.github_username %}
 <script type="text/javascript">
 $(document).ready(function(){
     var sourceData = {};
-    {% if person.twitter_username %}
-    sourceData.twitter_api_url='//api.twitter.com/1/users/show.json?screen_name={{ person.twitter_username }}&callback=?';
-    $.getJSON(sourceData.twitter_api_url, function(data) {
-        // returns 'success' even on 404, so ensure that data exists
-        if (data['description']) {
-            sourceData.twitter_bio = data['description'];
-            sourceData.twitter_avatar = data['profile_image_url'];
-            sourceData.twitter_line = '<p class="twitter-bio"><img src="' + sourceData.twitter_avatar + '">' + sourceData.twitter_bio + '</p>';
-            $('#person-name').after(sourceData.twitter_line);
-        }
-    });
-    {% endif %}
-    {% if person.github_username %}
     sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}?callback=?';
     $.getJSON(sourceData.github_api_url, function(data) {
         // returns 'success' even on 404, so ensure that data exists
@@ -62,7 +50,6 @@ $(document).ready(function(){
             $('#person-github').append(sourceData.github_line);
         }
     });
-    {% endif %}
 });
 </script>
 {% endif %}

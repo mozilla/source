@@ -25,6 +25,8 @@ class Person(CachingMixin, models.Model):
     slug = models.SlugField(unique=True)
     email = models.EmailField('Email address', blank=True)
     twitter_username = models.CharField(max_length=32, blank=True)
+    twitter_bio = models.TextField(blank=True)
+    twitter_profile_image_url = models.URLField(verify_exists=False, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
