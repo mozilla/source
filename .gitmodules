@@ -28,3 +28,6 @@
 [submodule "vendor-local/src/typogrify"]
 	path = vendor-local/src/typogrify
 	url = git://github.com/mintchaos/typogrify.git
+[submodule "vendor-local/src/python-twitter"]
+	path = vendor-local/src/python-twitter
+	url = git://github.com/bear/python-twitter.git
