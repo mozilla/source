@@ -1,3 +1,8 @@
+'''
+This management command updates Twitter information on a per-person basis,
+one API call at a time. Ideally we'll never have to use this, and we'll
+go with `bulk_update_twitter_bios` instead. This left here just in case.
+'''
 import twitter
 from time import sleep
 
@@ -19,16 +24,15 @@ class Command(BaseCommand):
             access_token_secret=settings.TWITTER_ACCESS_TOKEN_SECRET
         )
         
-        people = Person.objects.all()
+        people = Person.objects.exclude(twitter_username='')
         for person in people:
-            if person.twitter_username:
-                try:
-                    sleep(SLEEP_SECONDS)
-                    user = api.GetUser(person.twitter_username)
-                    person.twitter_bio = user.description
-                    person.twitter_profile_image_url = user.profile_image_url
-                    person.save()
-                except twitter.TwitterError:
-                    # bad twitter username, don't update
-                    pass
-                
+            try:
+                sleep(SLEEP_SECONDS)
+                user = api.GetUser(person.twitter_username)
+                person.twitter_bio = user.description
+                person.twitter_profile_image_url = user.profile_image_url
+                person.save()
+            except twitter.TwitterError:
+                # bad twitter username, don't update
+                pass
+            
