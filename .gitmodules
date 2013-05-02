@@ -31,3 +31,6 @@
 [submodule "vendor-local/src/python-twitter"]
 	path = vendor-local/src/python-twitter
 	url = git://github.com/bear/python-twitter.git
+[submodule "vendor-local/src/python-oauth2"]
+	path = vendor-local/src/python-oauth2
+	url = git://github.com/simplegeo/python-oauth2.git
