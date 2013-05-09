@@ -6,7 +6,9 @@ that list into chunks of 100, then hits the Twitter lookup with each
 chunk. Loops through the response and uses an .update() query to update
 the `twitter_bio` and `twitter_profile_image_url` for each Person.
 '''
+from datetime import datetime
 import json
+import logging
 import oauth2 as oauth
 from time import sleep
 
@@ -23,6 +25,8 @@ CONSUMER_SECRET=settings.TWITTER_CONSUMER_SECRET
 ACCESS_KEY=settings.TWITTER_ACCESS_TOKEN
 ACCESS_SECRET=settings.TWITTER_ACCESS_TOKEN_SECRET
 
+logging.basicConfig(filename='twitter_update.log', filemode='w', level=logging.INFO)
+
 
 def chunks(object_list, chunk_size=100):
     for i in xrange(0, len(object_list), chunk_size):
@@ -31,6 +35,7 @@ def chunks(object_list, chunk_size=100):
 class Command(BaseCommand):
     help = 'Uses Twitter 1.1 API to update bios and profile images for Person records.'
     def handle(self, *args, **options):
+        logging.info('Started update: %s' % datetime.now())
         # get all the Person records with Twitter usernames
         person_queryset = Person.objects.exclude(twitter_username='').values_list('twitter_username')
         # flatten the list of tuples from values_list
@@ -65,10 +70,12 @@ class Command(BaseCommand):
                         twitter_bio = twitter_bio,
                         twitter_profile_image_url = twitter_avatar
                     )
+                    logging.info('Succesful update: %s' % twitter_username)
                 except:
-                    #bad twitter username
+                    logging.info('ERROR: %s' % user['screen_name'])
                     pass
 
             # abide by rate limit
             sleep(SLEEP_SECONDS)
-
+        logging.info('Finished update: %s' % datetime.now())
+        
