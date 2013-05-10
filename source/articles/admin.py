@@ -67,4 +67,4 @@ class SectionAdmin(AdminImageMixin, admin.ModelAdmin):
     inlines = [CategoryInline,]
 
 admin.site.register(Article, ArticleAdmin)
-#admin.site.register(Section, SectionAdmin)
+admin.site.register(Section, SectionAdmin)

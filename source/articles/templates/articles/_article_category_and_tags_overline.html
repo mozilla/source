@@ -1,4 +1,4 @@
-<span class="category">{% if article.article_type %}<a href="{{ url('article_list_by_category', article.article_type) }}">{{ article.get_article_type_display() }}</a>{% endif %}{% if article.tags.all().exists() %} <span class="tags">{% for tag in article.tags.all() %}<a href="{{ url('article_list_by_tag', tag.slug) }}">{{ tag.name|smartypants }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
+<span class="category">{% if article.category %}<a href="{{ url('article_list_by_category', article.category.slug) }}">{{ article.category.name }}</a>{% endif %}{% if article.tags.all().exists() %} <span class="tags">{% for tag in article.tags.all() %}<a href="{{ url('article_list_by_tag', tag.slug) }}">{{ tag.name|smartypants }}</a>{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
 
 {#
 
