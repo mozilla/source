@@ -71,7 +71,7 @@ class ArticleFeed(ObjectWithTagsFeed):
         
     def item_categories(self, item):
         if item.article_type:
-            return item.get_article_type_display()
+            return [item.get_article_type_display()]
         return ''
         
     def items(self, obj):
