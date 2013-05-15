@@ -62,7 +62,7 @@ class Command(BaseCommand):
                     # take the data from each user returned...
                     twitter_username = user['screen_name']
                     twitter_avatar = user['profile_image_url_https']
-                    twitter_bio = user['description']
+                    twitter_bio = user['description'] or ''
                 
                     # ... and update directly into the matching Person record
                     # iexact because Twitter may return a screen_name with caps
