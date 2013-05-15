@@ -317,7 +317,7 @@ class Category(CachingMixin, models.Model):
     objects = models.Manager()
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('section', 'name',)
         verbose_name_plural = 'Categories'
 
     def __unicode__(self):

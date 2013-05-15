@@ -1,0 +1,127 @@
+[
+    {
+        "pk": 2, 
+        "model": "articles.section", 
+        "fields": {
+            "special_template": "", 
+            "description": "", 
+            "created": "2013-03-28T22:22:46.340", 
+            "modified": "2013-05-08T22:02:27.062", 
+            "gets_promo_items": false, 
+            "slug": "articles", 
+            "name": "Features"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "articles.section", 
+        "fields": {
+            "special_template": "", 
+            "description": "", 
+            "created": "2013-03-28T22:15:32.205", 
+            "modified": "2013-05-08T22:13:50.110", 
+            "gets_promo_items": true, 
+            "slug": "learning", 
+            "name": "Learning"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "event", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.145", 
+            "name": "Event", 
+            "created": "2013-05-08T22:01:59.145"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "how-to", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.139", 
+            "name": "How-to", 
+            "created": "2013-05-08T22:01:59.139"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "interview", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.143", 
+            "name": "Interview", 
+            "created": "2013-05-08T22:01:59.143"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "project", 
+            "section": 2, 
+            "modified": "2013-03-28T22:22:46.342", 
+            "name": "Project", 
+            "created": "2013-03-28T22:22:46.342"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "roundtable", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.144", 
+            "name": "Roundtable", 
+            "created": "2013-05-08T22:01:59.144"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "roundup", 
+            "section": 2, 
+            "modified": "2013-03-28T22:22:46.342", 
+            "name": "Roundup", 
+            "created": "2013-03-28T22:22:46.342"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "tool", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.139", 
+            "name": "Tool", 
+            "created": "2013-05-08T22:01:59.138"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "update", 
+            "section": 2, 
+            "modified": "2013-05-08T22:01:59.145", 
+            "name": "Update", 
+            "created": "2013-05-08T22:01:59.145"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "articles.category", 
+        "fields": {
+            "slug": "learning", 
+            "section": 1, 
+            "modified": "2013-03-28T22:21:32.412", 
+            "name": "Learning", 
+            "created": "2013-03-28T22:21:32.412"
+        }
+    }
+]

@@ -1,8 +1,8 @@
 {% if obj.get_live_author_set().exists() %}<p><strong>{% for author in obj.get_live_author_set() %}{% if loop.first %}By {% endif %}{{ author.name() }}{% if not loop.last %}, {% endif %}{% endfor %}</strong></p>{% endif %}
 
 {% if obj.image %}
-    <img src="{{ MEDIA_URL }}{{ thumbnail(obj.image, "800") }}" alt="{{ obj.title }}">
-    {% if obj.pretty_caption %}<p><strong>{{ obj.pretty_caption }}</strong></p>{% endif %}
+    <img src="//{{ site.domain }}{{ MEDIA_URL }}{{ thumbnail(obj.image, "800") }}" alt="{{ obj.title }}">
+    {% if obj.pretty_caption %}<p><strong>{{ obj.pretty_caption|safe }}</strong></p>{% endif %}
 {% endif %}
 
 {{ obj.pretty_body_text|safe }}
@@ -10,7 +10,7 @@
 {% for articleblock in obj.articleblock_set.all() %}
     <h3 id="{{ articleblock.slug }}">{{ articleblock.title }}</h3>
     {% if articleblock.image %}
-        <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "300") }}" alt="{{ articleblock.title }}" align="right">
+        <img src="//{{ site.domain }}{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "300") }}" alt="{{ articleblock.title }}" align="right">
     {% endif %}
     {{ articleblock.pretty_body_text|safe }}
 {% endfor %}
