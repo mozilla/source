@@ -187,17 +187,19 @@ class Article(CachingMixin, models.Model):
         return self.people.filter(is_live=True)
 
     def get_live_author_set(self):
-        return self.authors.filter(is_live=True)
+        author_set = self.authors.filter(is_live=True)
+        return author_set
 
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
 
-    def get_live_author_bios(self):
-        author_set = self.get_live_author_set()
-        _bios = ''.join(
-            [linebreaks(author.description) for author in author_set if author.description]
-        )
-        return _bios
+    def get_live_author_bio_set(self):
+        # only authors with acutal bio information
+        author_set = self.get_live_author_set().exclude(description='')
+        # filter out bio boxes for Erin and Erika
+        authors_to_exclude = ['erin-kissane','erika-owens']
+        author_set = author_set.exclude(slug__in=authors_to_exclude)
+        return author_set
 
 
 IMAGE_PRESENTATION_CHOICES = (
