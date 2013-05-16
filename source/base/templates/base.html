@@ -5,15 +5,15 @@
         <title>{% block page_title %}Source: An OpenNews project{% endblock %}</title>
         <meta name="description" content="Source - Journalism Code, Context & Community">
         <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;">
-        {% compress css %}
-            <link href="{{ static('base/css/bootstrap.css') }}" rel="stylesheet">
-            <link href="{{ static('base/css/font-awesome.css') }}" rel="stylesheet">
-            <link href="{{ static('base/css/app.css') }}" rel="stylesheet">
-        {% endcompress %}
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet">
         <!--[if IE 7]>
-        <link href="{{ static('base/css/font-awesome-ie7.min.css') }}" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome-ie7.min.css" rel="stylesheet">
         <![endif]-->
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+        {% compress css %}
+            <link href="{{ static('base/css/app.css') }}" rel="stylesheet">
+        {% endcompress %}
         {% if APP_MSG %}
             <link rel="stylesheet" href="{{ static('base/css/warnr.css') }}">
         {% endif %}
