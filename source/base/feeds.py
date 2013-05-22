@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 
-from source.articles.models import Article, CATEGORY_MAP, SECTION_MAP
+from source.articles.models import Article, Section, Category
 from source.code.models import Code
 from source.tags.models import TechnologyTag, ConceptTag
 from source.tags.utils import get_validated_tag_list, get_tag_filtered_queryset
@@ -15,7 +15,11 @@ class ObjectWithTagsFeed(Feed):
     '''common get_object for Article and Code feeds to handle tag queries'''
     def get_object(self, request, *args, **kwargs):
         self.section = kwargs.get('section', None)
+        if self.section:
+            self.section = get_object_or_404(Section, slug=self.section)
         self.category = kwargs.get('category', None)
+        if self.category:
+            self.category = get_object_or_404(Category, slug=self.category)
         self.tag_slugs = kwargs.get('tag_slugs', None)
         if self.tag_slugs:
             self.tag_slug_list = self.tag_slugs.split('+')
@@ -27,18 +31,18 @@ class ArticleFeed(ObjectWithTagsFeed):
     
     def title(self, obj):
         if self.section:
-            return "Source: %s" % SECTION_MAP[self.section]['name']
+            return "Source: %s" % self.section.name
         elif self.category:
-            return "Source: Articles in the category %s" % CATEGORY_MAP[self.category]['name']
+            return "Source: Articles in the category %s" % self.category.name
         elif self.tag_slugs:
             return "Source: Articles tagged with '%s'" % "+".join([tag.name for tag in self.tags])
         return "Source"
 
     def link(self, obj):
         if self.section:
-            return reverse('article_list_by_section', kwargs={'section': self.section})
+            return reverse('article_list_by_section', kwargs={'section': self.section.slug})
         elif self.category:
-            return reverse('article_list_by_category', kwargs={'category': self.category})
+            return reverse('article_list_by_category', kwargs={'category': self.category.slug})
         elif self.tag_slugs:
             return reverse('article_list_by_tag', kwargs={'tag_slugs': self.tag_slugs})
         return reverse('homepage')
@@ -46,9 +50,9 @@ class ArticleFeed(ObjectWithTagsFeed):
     def description(self, obj):
         identifier = 'from Source'
         if self.section:
-            identifier = "in the %s section" % SECTION_MAP[self.section]['name']
+            identifier = "in the %s section" % self.section.name
         elif self.category:
-            identifier = "in the %s category" % CATEGORY_MAP[self.category]['name']
+            identifier = "in the %s category" % self.category.name
         elif self.tag_slugs:
             identifier = "tagged with '%s'" % "+".join([tag.name for tag in self.tags])
         return "Recent articles %s" % identifier
@@ -77,9 +81,9 @@ class ArticleFeed(ObjectWithTagsFeed):
     def items(self, obj):
         queryset = Article.live_objects.all()
         if self.section:
-            queryset = queryset.filter(article_type__in=SECTION_MAP[self.section]['article_types'])
+            queryset = queryset.filter(category__section=self.section)
         elif self.category:
-            queryset = queryset.filter(article_type=self.category)
+            queryset = queryset.filter(category=self.category)
         elif self.tag_slugs:
             queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
         return queryset[:20]
