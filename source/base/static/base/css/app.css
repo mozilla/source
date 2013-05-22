@@ -10,11 +10,6 @@
     margin: 0 15px;
 }
 
-.page-block {
-    margin-bottom: 2em;
-    overflow: hidden;
-}
-
 footer {
     border-top: none;
     margin: 1em 0;
@@ -205,7 +200,24 @@ article, .container {
 
 article .article-block {
     margin-bottom: 0;
-    overflow: hidden;
+}
+
+.page-block {
+    margin-bottom: 2em;
+}
+
+.page-block, .article-block {
+    *zoom: 1;
+}
+
+.page-block:before, .page-block:after,
+.article-block:before, .article-block:after {
+    display: table;
+    content: "";
+}
+
+.page-block:after, .article-block:after {
+    clear: both;
 }
 
 h1, h2, h3, h5, h6, ul, ol, .caption, label, table {
