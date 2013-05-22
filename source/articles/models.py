@@ -298,8 +298,8 @@ class Section(CachingMixin, models.Model):
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField()
-    description = models.TextField(blank=True)
-    gets_promo_items = models.BooleanField(default=False)
+    description = models.TextField(blank=True, help_text='Optional text to add at top of page. (Shows on promo template only.)')
+    gets_promo_items = models.BooleanField(default=False, help_text='Check this to use special template with three promo cards at top.')
     special_template = models.CharField(max_length=255, blank=True)
     objects = models.Manager()
     
