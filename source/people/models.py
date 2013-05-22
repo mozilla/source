@@ -1,14 +1,16 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.encoding import force_unicode
 
-from source.utils.caching import expire_page_cache
 from caching.base import CachingManager, CachingMixin
+import requests
 from sorl.thumbnail import ImageField
+from source.utils.caching import expire_page_cache
 
 class LivePersonManager(CachingManager):
     def get_query_set(self):
@@ -28,6 +30,8 @@ class Person(CachingMixin, models.Model):
     twitter_bio = models.TextField(blank=True)
     twitter_profile_image_url = models.URLField(verify_exists=False, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
+    github_repos_num = models.PositiveIntegerField(blank=True, null=True)
+    github_gists_num = models.PositiveIntegerField(blank=True, null=True)
     description = models.TextField('Bio', blank=True)
     organizations = models.ManyToManyField('Organization', blank=True, null=True)
     objects = models.Manager()
@@ -111,6 +115,8 @@ class Organization(CachingMixin, models.Model):
     slug = models.SlugField(unique=True)
     twitter_username = models.CharField(max_length=32, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
+    github_repos_num = models.PositiveIntegerField(blank=True, null=True)
+    github_gists_num = models.PositiveIntegerField(blank=True, null=True)
     homepage = models.URLField(verify_exists=False, blank=True)
     description = models.TextField(blank=True)
     # Location
