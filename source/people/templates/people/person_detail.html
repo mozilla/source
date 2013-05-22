@@ -14,9 +14,24 @@
         {% with organization_link_list = person.get_live_organization_set() %}
         {% include "people/_organization_link_list_inline.html" %}{% endwith %}
         
-        {% if person.email %}<li><i class="icon-envelope-alt"></i><a href="mailto:{{ person.email }}">{{ person.email }}</a></li>{% endif %}
-        {% if person.twitter_username %}<li id="person-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a></li>{% endif %}
-        {% if person.github_username %}<li id="person-github"><i class="icon-github"></i><a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a></li>{% endif %}
+        {% if person.email %}
+        <li>
+            <i class="icon-envelope-alt"></i>
+            <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+        </li>{% endif %}
+        {% if person.twitter_username %}
+        <li id="person-twitter">
+            <i class="icon-twitter"></i>
+            <a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a>
+        </li>{% endif %}
+        {% if person.github_username %}
+        <li id="person-github">
+            <i class="icon-github"></i>
+            <a href="http://github.com/{{ person.github_username }}">{{ person.github_username }}</a>
+            {% if person.github_repos_num or person.github_gists_num %}
+                <span class="github-stats">({{ person.github_repos_num }} repo{{ person.github_repos_num|dj_pluralize }} / {{ person.github_gists_num }} gist{{ person.github_gists_num|dj_pluralize }})</span>
+            {% endif %}
+        </li>{% endif %}
         {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name|typogrify }}</a></li>{% endfor %}
     </ul>
 </div>
@@ -33,24 +48,3 @@
 </div>
 {% endblock content %}
 
-{% block site_js_extra %}
-{% if person.github_username %}
-<script type="text/javascript">
-$(document).ready(function(){
-    var sourceData = {};
-    sourceData.github_api_url='https://api.github.com/users/{{ person.github_username }}?callback=?';
-    $.getJSON(sourceData.github_api_url, function(data) {
-        // returns 'success' even on 404, so ensure that data exists
-        if (data.data['public_repos']) {
-            sourceData.github_repos = data.data['public_repos'];
-            sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
-            sourceData.github_gists = data.data['public_gists'];
-            sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
-            sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
-            $('#person-github').append(sourceData.github_line);
-        }
-    });
-});
-</script>
-{% endif %}
-{% endblock %}
