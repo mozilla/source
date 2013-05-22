@@ -176,6 +176,7 @@ body {
     font-family: Georgia;
     font-size: 14px;
     line-height: 1.8;
+    padding: 0;
 }
 
 article, p {
@@ -1042,7 +1043,7 @@ a.promo p {
 
 @media screen and (max-width: 690px) {
     .promo.lead {
-        width: 94%;
+        width: auto;
         margin-right: 0;
         height: auto;
     }
@@ -1066,6 +1067,19 @@ a.promo p {
     .promo.second-promo {
         float: right;
     }
+
+    #navigation li#nav-search {
+        display: inline-block;
+    }
+
+    #navigation li a:hover {
+        border: none;
+    }
+
+    #topbar .search-form {
+        display: none;
+    }
+
 }
 
 
@@ -1113,18 +1127,6 @@ a.promo p {
         padding: 10px 7px;
     }
     
-    #navigation li#nav-search {
-        display: inline-block;
-    }
-
-    #navigation li a:hover {
-        border: none;
-    }
-
-    #topbar .search-form {
-        display: none;
-    }
-
     .col {
         padding-left: 15px;
         padding-right: 15px;
