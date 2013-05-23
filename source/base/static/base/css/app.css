@@ -1131,6 +1131,8 @@ a.promo p {
         font-size: 12px;
         width: auto;
         padding-top: 5px;
+        margin-left: -10px;
+        margin-right: -10px;
     }
 
     #navigation li a, #navigation li a:hover, #navigation li.active a {
@@ -1214,7 +1216,6 @@ a.promo p {
 }
 
 @media screen and (max-width: 525px) {
-    
     .secondary-promo-wrap {
         width: 94%;
         height: auto;
@@ -1233,11 +1234,7 @@ a.promo p {
     span.tinyhide {
         display: none;
     }
-    
-    ul#navigation {
-        margin-left: -10px;
-        margin-right: -10px;
-    }    
+
     #navigation li a, #navigation li a:hover, #navigation li.active a {
         padding-right: 4px;
         padding-left: 4px;
