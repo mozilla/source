@@ -27,7 +27,9 @@ def filter_queryset_by_tags(queryset, tag_slugs, tags=[]):
     are split into separate pieces so they can be used independently. By the
     feeds framework, for example.
     
-    TODO: remove support for original `tags` field
+    The original `tags` field still exists, and mirrors the contents
+    of the split tagfields. This provides some utility for building queries,
+    and has the side effect of making sure django-taggit still works.
     '''
 
     _tag_slug_list = tag_slugs.split('+')
@@ -65,10 +67,12 @@ def get_validated_tag_list(tag_slug_list, tags=[]):
 
 def get_tag_filtered_queryset(queryset, tag_slug_list=[]):
     for tag_slug in tag_slug_list:
-        # Look for matches in both types of tagfields
-        # TODO: Remove original `tags` query once content migrates
-        # to new split tagfields
-        queryset = queryset.filter(Q(tags__slug=tag_slug) | Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
+        # Because tags are mirrored in primary tag model, just hit that
+        queryset = queryset.filter(tags__slug=tag_slug)
+
+        # Alternatively: Remove original `tags` query, only use split tagfields
+        # queryset = queryset.filter(Q(technology_tags__slug=tag_slug) | Q(concept_tags__slug=tag_slug))
+
         # A record might match multiple tags, but we only want it once
         queryset = queryset.distinct()
 
