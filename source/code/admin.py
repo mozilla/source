@@ -31,6 +31,10 @@ class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     readonly_fields = ('tags',)
     
     def save_model(self, request, obj, form, change):
+        '''
+        Mirror split tagfield contents in primary `tags` model.
+        See source.tags.models for further details.
+        '''
         technology_tags_list = form.cleaned_data['technology_tags']
         concept_tags_list = form.cleaned_data['concept_tags']
         merged_tags = technology_tags_list + concept_tags_list
