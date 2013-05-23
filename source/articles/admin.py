@@ -24,8 +24,8 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
-    list_filter = ('is_live', 'article_type',)
-    list_display = ('title', 'pubdate', 'article_type', 'is_live')
+    list_filter = ('is_live', 'category',)
+    list_display = ('title', 'pubdate', 'category', 'is_live')
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
