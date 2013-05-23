@@ -24,12 +24,12 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('title',)}
     filter_horizontal = ('authors', 'people', 'organizations', 'code',)
-    list_filter = ('is_live', 'article_type',)
-    list_display = ('title', 'pubdate', 'article_type', 'is_live')
+    list_filter = ('is_live', 'category',)
+    list_display = ('title', 'pubdate', 'category', 'is_live')
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('article_type', 'tags'), 'technology_tags', 'concept_tags', )}),
+        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('category', 'tags'), 'technology_tags', 'concept_tags', )}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
@@ -37,6 +37,10 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     readonly_fields = ('tags',)
 
     def save_model(self, request, obj, form, change):
+        '''
+        Mirror split tagfield contents in primary `tags` model.
+        See source.tags.models for further details.
+        '''
         technology_tags_list = form.cleaned_data['technology_tags']
         concept_tags_list = form.cleaned_data['concept_tags']
         merged_tags = technology_tags_list + concept_tags_list
@@ -67,4 +71,4 @@ class SectionAdmin(AdminImageMixin, admin.ModelAdmin):
     inlines = [CategoryInline,]
 
 admin.site.register(Article, ArticleAdmin)
-#admin.site.register(Section, SectionAdmin)
+admin.site.register(Section, SectionAdmin)

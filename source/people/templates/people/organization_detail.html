@@ -22,10 +22,25 @@
     {% if organization.description %}{{ organization.description|linebreaks|typogrify|safe }}{% endif %}
     
     {% if organization.twitter_username or organization.github_username or organization.homepage %}
-    <ul class="link-list">        
-        {% if organization.twitter_username %}<li id="organization-twitter"><i class="icon-twitter"></i><a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a></li>{% endif %}
-        {% if organization.github_username %}<li id="organization-github"><i class="icon-github"></i><a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a></li>{% endif %}
-        {% if organization.homepage %}<li id="organization-homepage"><i class="icon-home"></i><a href="{{ organization.homepage }}">{{ organization.homepage }}</a></li>{% endif %}
+    <ul class="link-list">
+        {% if organization.twitter_username %}
+        <li id="organization-twitter">
+            <i class="icon-twitter"></i>
+            <a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a>
+        </li>{% endif %}
+        {% if organization.github_username %}
+        <li id="organization-github">
+            <i class="icon-github"></i>
+            <a href="http://github.com/{{ organization.github_username }}">{{ organization.github_username }}</a>
+            {% if organization.github_repos_num or organization.github_gists_num %}
+                <span class="github-stats">({{ organization.github_repos_num }} repo{{ organization.github_repos_num|dj_pluralize }} / {{ organization.github_gists_num }} gist{{ organization.github_gists_num|dj_pluralize }})</span>
+            {% endif %}
+        </li>{% endif %}
+        {% if organization.homepage %}
+        <li id="organization-homepage">
+            <i class="icon-home"></i>
+            <a href="{{ organization.homepage }}">{{ organization.homepage }}</a>
+        </li>{% endif %}
     </ul>{% endif %}
 </div>
 
@@ -44,25 +59,3 @@
     {% include "articles/_article_link_list.html" %}{% endwith %}
 </div>
 {% endblock content %}
-
-{% block site_js_extra %}
-{% if organization.github_username %}
-<script type="text/javascript">
-$(document).ready(function(){
-    var sourceData = {};
-    sourceData.github_api_url='https://api.github.com/orgs/{{ organization.github_username }}?callback=?';
-    $.getJSON(sourceData.github_api_url, function(data) {
-        // returns 'success' even on 404, so ensure that data exists
-        if (data.data['public_repos']) {
-            sourceData.github_repos = data.data['public_repos'];
-            sourceData.repo_word = (sourceData.github_repos == 1 ? 'repo' : 'repos')
-            sourceData.github_gists = data.data['public_gists'];
-            sourceData.gist_word = (sourceData.github_gists == 1 ? 'gist' : 'gists')
-            sourceData.github_line = '<span class="github-stats">(' + sourceData.github_repos + ' ' + sourceData.repo_word + ' / ' + sourceData.github_gists + ' ' + sourceData.gist_word + ')</span>';
-            $('#organization-github').append(sourceData.github_line);
-        }
-    });
-});
-</script>
-{% endif %}
-{% endblock %}

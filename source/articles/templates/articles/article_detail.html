@@ -95,9 +95,9 @@
     {% endfor %}
     
     {# test for author bios in person db, add block if found #}
-    {% if article.get_live_author_bios() %}
+    {% if article.get_live_author_bio_set().exists() %}
     <div class="page-block article-block author-box">
-        {% for author in article.get_live_author_set() %}
+        {% for author in article.get_live_author_bio_set() %}
         <h3 id="about-{{ author.slug }}">About <a href="{{ author.get_absolute_url() }}">{{ author.name()|smartypants }}</a></h3>
         <p{% if author.twitter_profile_image_url %} class="twitter-bio"{% endif %}>
             <img src="{{ author.twitter_profile_image_url }}">

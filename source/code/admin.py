@@ -24,13 +24,17 @@ class CodeAdmin(AdminImageMixin, admin.ModelAdmin):
     list_filter = ('is_live', 'is_active',)
     search_fields = ('name', 'description',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'technology_tags', 'concept_tags', 'screenshot', 'description', 'summary',)}),
+        ('', {'fields': (('name', 'slug'), ('is_live', 'is_active', 'seeking_contributors'), 'url', 'tags', 'technology_tags', 'concept_tags', 'screenshot', 'description', ('repo_last_push', 'repo_forks', 'repo_watchers'), 'repo_master_branch', 'repo_description', 'summary',)}),
         ('Related objects', {'fields': ('people', 'organizations',)}),
     )
     inlines = [CodeLinkInline,]
     readonly_fields = ('tags',)
     
     def save_model(self, request, obj, form, change):
+        '''
+        Mirror split tagfield contents in primary `tags` model.
+        See source.tags.models for further details.
+        '''
         technology_tags_list = form.cleaned_data['technology_tags']
         concept_tags_list = form.cleaned_data['concept_tags']
         merged_tags = technology_tags_list + concept_tags_list

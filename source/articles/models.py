@@ -16,85 +16,6 @@ from source.utils.caching import expire_page_cache
 from taggit.managers import TaggableManager
 
 
-ARTICLE_TYPE_CHOICES = (
-    ('project', 'Project'),
-    ('tool', 'Tool'),
-    ('how-to', 'How-To'),
-    ('interview', 'Interview'),
-    ('roundtable', 'Roundtable'),
-    ('roundup', 'Roundup'),
-    ('event', 'Event'),
-    ('update', 'Community Update'),
-    ('learning', 'Learning'),
-)
-
-# Current iteration does not use this in nav, but leaving dict
-# in place for feed, url imports until we make a permanent call
-SECTION_MAP = {
-    'articles': {
-        'name': 'Features', 
-        'slug': 'articles',
-        'article_types': ['project', 'tool', 'how-to', 'interview', 'roundtable', 'roundup', 'event', 'update'],
-        'gets_promo_items': False,
-    },
-    'learning': {
-        'name': 'Learning', 
-        'slug': 'learning',
-        'article_types': ['learning',],
-        'gets_promo_items': True,
-    },
-}
-
-# Current iteration only has *one* articles section, but this map is in place
-# in case we split out into multiple sections that need parent categories
-CATEGORY_MAP = {
-    'project': {
-        'name': 'Project',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'tool': {
-        'name': 'Tool',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'how-to': {
-        'name': 'How-to',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'interview': {
-        'name': 'Interview',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'roundtable': {
-        'name': 'Roundtable',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'roundup': {
-        'name': 'Roundup',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'event': {
-        'name': 'Event',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'update': {
-        'name': 'Update',
-        'parent_name': 'Features',
-        'parent_slug': 'articles',
-    },
-    'learning': {
-        'name': 'Learning',
-        'parent_name': 'Learning',
-        'parent_slug': 'learning',
-    },
-}
-
 class LiveArticleManager(CachingManager):
     def get_query_set(self):
         return super(LiveArticleManager, self).get_query_set().filter(is_live=True, pubdate__lte=datetime.now())
@@ -113,8 +34,8 @@ class Article(CachingMixin, models.Model):
     image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens. Accepts HTML.')
     body = models.TextField()
     summary = models.TextField()
-    article_type = models.CharField(max_length=32, choices=ARTICLE_TYPE_CHOICES, blank=True)
-    category = models.ForeignKey('Category', blank=True, null=True)
+    article_type = models.CharField(max_length=32, blank=True)
+    category = models.ForeignKey('Category')
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
     code = models.ManyToManyField(Code, blank=True, null=True)
@@ -134,17 +55,16 @@ class Article(CachingMixin, models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('article_detail', (), {
-            'section': self.section['slug'],
+            'section': self.section.slug,
             'slug': self.slug
         })
         
     @property
     def section(self):
-        '''determine whether article matches specific section'''
-        for section in SECTION_MAP:
-            if self.article_type in SECTION_MAP[section]['article_types']:
-                return SECTION_MAP[section]
-        return SECTION_MAP['articles']
+        '''follow article category through to section'''
+        if self.category:
+            return self.category.section
+        return None
             
     @property
     def pretty_pubdate(self):
@@ -187,17 +107,19 @@ class Article(CachingMixin, models.Model):
         return self.people.filter(is_live=True)
 
     def get_live_author_set(self):
-        return self.authors.filter(is_live=True)
+        author_set = self.authors.filter(is_live=True)
+        return author_set
 
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
 
-    def get_live_author_bios(self):
-        author_set = self.get_live_author_set()
-        _bios = ''.join(
-            [linebreaks(author.description) for author in author_set if author.description]
-        )
-        return _bios
+    def get_live_author_bio_set(self):
+        # only authors with acutal bio information
+        author_set = self.get_live_author_set().exclude(description='')
+        # filter out bio boxes for Erin and Erika
+        authors_to_exclude = ['erin-kissane','erika-owens']
+        author_set = author_set.exclude(slug__in=authors_to_exclude)
+        return author_set
 
 
 IMAGE_PRESENTATION_CHOICES = (
@@ -254,15 +176,15 @@ def clear_caches_for_article(sender, instance, **kwargs):
     expire_page_cache(instance.get_absolute_url())
     
     # clear cache for article list pages
-    if instance.section['slug']:
+    if instance.section.slug:
         expire_page_cache(reverse(
             'article_list_by_section',
-            kwargs = { 'section': instance.section['slug'] }
+            kwargs = { 'section': instance.section.slug }
         ))
-    if instance.article_type:
+    if instance.category:
         expire_page_cache(reverse(
             'article_list_by_category',
-            kwargs = { 'category': instance.article_type }
+            kwargs = { 'category': instance.category.slug }
         ))
 
     # clear caches for related organizations
@@ -296,8 +218,8 @@ class Section(CachingMixin, models.Model):
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField()
-    description = models.TextField(blank=True)
-    gets_promo_items = models.BooleanField(default=False)
+    description = models.TextField(blank=True, help_text='Optional text to add at top of page. (Shows on promo template only.)')
+    gets_promo_items = models.BooleanField(default=False, help_text='Check this to use special template with three promo cards at top.')
     special_template = models.CharField(max_length=255, blank=True)
     objects = models.Manager()
     
