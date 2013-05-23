@@ -27,7 +27,8 @@
             <span>Forks: {{ code.repo_forks|dj_intcomma }}</span>
             <span>Watchers: {{ code.repo_watchers|dj_intcomma }}</span>
             <span>Last push: {{ dj_date(code.repo_last_push, "l, F j, Y") }}</span>
-        </li>{% endif %}
+        </li>
+        {% endif %}
     </ul>
 </div>
 
