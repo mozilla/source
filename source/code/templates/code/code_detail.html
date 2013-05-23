@@ -21,6 +21,13 @@
             {% if code.is_active %}<i class="icon-ok" style="margin-left: 1em;"></i>Active project{% endif %}
             {% if code.seeking_contributors %}<i class="icon-ok" style="margin-left: 1em;"></i>Seeking contributors{% endif %}
         </li>
+        {% if code.repo_last_push %}
+        <li class="spacers">
+            <i class="icon-github"></i>
+            <span>Forks: {{ code.repo_forks|dj_intcomma }}</span>
+            <span>Watchers: {{ code.repo_watchers|dj_intcomma }}</span>
+            <span>Last push: {{ dj_date(code.repo_last_push, "F j, Y") }}</span>
+        </li>{% endif %}
     </ul>
 </div>
 
@@ -42,8 +49,7 @@
 {% endblock content %}
 
 {% block site_js_extra %}
-{% if '//github.com/' in code.url %}
-<script src="{{ static('code/js/date.js') }}"></script>
+{% if code.repo_master_branch %}
 <script src="{{ static('code/js/repo.js') }}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -51,29 +57,8 @@ $(document).ready(function(){
     sourceData.github_location = '{{ code.url }}'.split('github.com/')[1];
     sourceData.github_user = sourceData.github_location.split('/')[0];
     sourceData.github_repo = sourceData.github_location.split('/')[1];
-    sourceData.github_api_url='https://api.github.com/repos/' + sourceData.github_user + '/' + sourceData.github_repo + '?callback=?';
-    $.getJSON(sourceData.github_api_url, function(data) {
-        // get some repo details to append to description
-        sourceData.github_last_push = new Date(data.data['pushed_at']).toString('dddd, MMM d, yyyy');
-        sourceData.github_forks = data.data['forks'];
-        sourceData.github_watchers = data.data['watchers'];
-        sourceData.github_details = '<li class="spacers"><i class="icon-github"></i>'
-            + '<span>Forks: ' + sourceData.github_forks + '</span>'
-            + '<span>Watchers: ' + sourceData.github_watchers + '</span>'
-            + '<span>Last push: ' + sourceData.github_last_push + '</span></li>'
-        $('#code-details').append(sourceData.github_details);
-        
-        // if we don't have our own description, use GitHub's
-        {% if not code.description %}
-        if (data.data['description']) {
-            $('#code-details').before('<p>' + data.data['description'] + '</p>');
-        }
-        {% endif %}
-
-        // get the master branch name for repo.js
-        sourceData.github_master_branch = data.data['master_branch'];
-        loadRepo(sourceData.github_user, sourceData.github_repo, sourceData.github_master_branch);
-    });
+    sourceData.github_master_branch = '{{ code.repo_master_branch }}';
+    loadRepo(sourceData.github_user, sourceData.github_repo, sourceData.github_master_branch);
 });
 
 function loadRepo(user, repo, branch) {

@@ -1,11 +1,13 @@
 import datetime
 import logging
 import os
-from functools import wraps
+import re
 
 from django.conf import settings
 from django.template.defaultfilters import linebreaks as django_linebreaks,\
-    escapejs as django_escapejs, pluralize as django_pluralize
+    escapejs as django_escapejs, pluralize as django_pluralize,\
+    date as django_date
+from django.utils.encoding import force_text
 
 from jingo import register
 from jinja2 import Markup
@@ -40,6 +42,10 @@ def dj_pluralize(string, arg='s'):
     return django_pluralize(string, arg)
 
 @register.function
+def dj_date(value, format_string):
+    return django_date(value, format_string)
+
+@register.function
 def thumbnail(source, *args, **kwargs):
     """
     Wraps sorl thumbnail with an additional 'default' keyword
@@ -65,3 +71,17 @@ def thumbnail(source, *args, **kwargs):
         source = getattr(settings, 'DEFAULT_IMAGE_SRC')
         return get_thumbnail(source, *args, **kwargs)
 
+@register.filter
+def dj_intcomma(value):
+    """
+    https://github.com/django/django/blob/master/django/contrib/humanize/templatetags/humanize.py
+    Converts an integer to a string containing commas every three digits.
+    For example, 3000 becomes '3,000' and 45000 becomes '45,000'.
+    """
+    orig = force_text(value)
+    new = re.sub("^(-?\d+)(\d{3})", '\g<1>,\g<2>', orig)
+    if orig == new:
+        return new
+    else:
+        return dj_intcomma(new)
+        
