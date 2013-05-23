@@ -1,5 +1,5 @@
 '''
-Uses the GitHub API bulk lookup to udpates stats for Organization records.
+Uses the GitHub API to update stats for Organization records.
 '''
 from datetime import datetime
 import logging
@@ -25,7 +25,7 @@ class Command(BaseCommand):
         for organization in organization_list:
             github_username = organization.github_username
             github_api_url = 'https://api.github.com/orgs/%s?client_id=%s&client_secret=%s' % (
-                github_username, CLIENT_ID, CLIENT_SECRET
+                github_username.lower(), CLIENT_ID, CLIENT_SECRET
             )
             r = requests.get(github_api_url)
             data = r.json
