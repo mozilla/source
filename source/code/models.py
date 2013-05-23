@@ -33,10 +33,10 @@ class Code(CachingMixin, models.Model):
     screenshot = ImageField(upload_to='img/uploads/code_screenshots', help_text="Resized to fit 350x250 box in template", blank=True, null=True)
     people = models.ManyToManyField(Person, blank=True, null=True)
     organizations = models.ManyToManyField(Organization, blank=True, null=True)
-    # adding repo_ fields for future local storage of github data
     repo_last_push = models.DateTimeField(blank=True, null=True)
     repo_forks = models.PositiveIntegerField(blank=True, null=True)
     repo_watchers = models.PositiveIntegerField(blank=True, null=True)
+    repo_master_branch = models.CharField(max_length=64, blank=True)
     repo_description = models.TextField(blank=True)
     tags = TaggableManager(blank=True, help_text='Automatic combined list of Technology Tags and Concept Tags, for easy searching')
     technology_tags = TaggableManager(verbose_name='Technology Tags', help_text='A comma-separated list of tags describing relevant technologies', through=TechnologyTaggedItem, blank=True)
