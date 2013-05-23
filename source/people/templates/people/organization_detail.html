@@ -27,7 +27,8 @@
         <li id="organization-twitter">
             <i class="icon-twitter"></i>
             <a href="http://twitter.com/{{ organization.twitter_username }}">@{{ organization.twitter_username }}</a>
-        </li>{% endif %}
+        </li>
+        {% endif %}
         {% if organization.github_username %}
         <li id="organization-github">
             <i class="icon-github"></i>
@@ -35,27 +36,36 @@
             {% if organization.github_repos_num or organization.github_gists_num %}
                 <span class="github-stats">({{ organization.github_repos_num }} repo{{ organization.github_repos_num|dj_pluralize }} / {{ organization.github_gists_num }} gist{{ organization.github_gists_num|dj_pluralize }})</span>
             {% endif %}
-        </li>{% endif %}
+        </li>
+        {% endif %}
         {% if organization.homepage %}
         <li id="organization-homepage">
             <i class="icon-home"></i>
             <a href="{{ organization.homepage }}">{{ organization.homepage }}</a>
-        </li>{% endif %}
-    </ul>{% endif %}
+        </li>
+        {% endif %}
+    </ul>
+    {% endif %}
 </div>
 
 <div class="page-block">
     {% with person_link_list = organization.get_live_person_set() %}
-    {% if person_link_list %}<h3 class="subhead list-header">People</h3>
-    <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>{% endif %}{% endwith %}
+        {% if person_link_list %}
+        <h3 class="subhead list-header">People</h3>
+        <ul class="link-list">{% include "people/_person_link_list_inline.html" %}</ul>
+        {% endif %}
+    {% endwith %}
 
     {% with code_link_list = organization.get_live_code_set() %}
-    {% include "code/_code_link_list.html" %}{% endwith %}
+        {% include "code/_code_link_list.html" %}
+    {% endwith %}
 
     {% with basic_link_list = organization.organizationlink_set.all() %}
-    {% include "utils/_basic_link_list.html" %}{% endwith %}
+        {% include "utils/_basic_link_list.html" %}
+    {% endwith %}
 
     {% with article_link_list = organization.get_live_article_set() %}
-    {% include "articles/_article_link_list.html" %}{% endwith %}
+        {% include "articles/_article_link_list.html" %}
+    {% endwith %}
 </div>
 {% endblock content %}

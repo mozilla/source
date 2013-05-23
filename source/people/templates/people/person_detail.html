@@ -12,18 +12,21 @@
 
     <ul class="link-list">
         {% with organization_link_list = person.get_live_organization_set() %}
-        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+            {% include "people/_organization_link_list_inline.html" %}
+        {% endwith %}
         
         {% if person.email %}
         <li>
             <i class="icon-envelope-alt"></i>
             <a href="mailto:{{ person.email }}">{{ person.email }}</a>
-        </li>{% endif %}
+        </li>
+        {% endif %}
         {% if person.twitter_username %}
         <li id="person-twitter">
             <i class="icon-twitter"></i>
             <a href="http://twitter.com/{{ person.twitter_username }}">@{{ person.twitter_username }}</a>
-        </li>{% endif %}
+        </li>
+        {% endif %}
         {% if person.github_username %}
         <li id="person-github">
             <i class="icon-github"></i>
@@ -31,20 +34,24 @@
             {% if person.github_repos_num or person.github_gists_num %}
                 <span class="github-stats">({{ person.github_repos_num }} repo{{ person.github_repos_num|dj_pluralize }} / {{ person.github_gists_num }} gist{{ person.github_gists_num|dj_pluralize }})</span>
             {% endif %}
-        </li>{% endif %}
+        </li>
+        {% endif %}
         {% for link in person.personlink_set.all() %}<li><i class="icon-bookmark"></i><a href="{{ link.url }}">{{ link.name|typogrify }}</a></li>{% endfor %}
     </ul>
 </div>
 
 <div class="page-block">
     {% with code_link_list = person.get_live_code_set() %}
-    {% include "code/_code_link_list.html" %}{% endwith %}
+        {% include "code/_code_link_list.html" %}
+    {% endwith %}
 
     {% with article_link_list = person.get_live_article_set(), override_list_title = 'Projects' %}
-    {% include "articles/_article_link_list.html" %}{% endwith %}
+        {% include "articles/_article_link_list.html" %}
+    {% endwith %}
 
     {% with article_link_list = person.get_live_article_authored_set(), override_list_title = 'Articles by %s' % person.first_name %}
-    {% include "articles/_article_link_list.html" %}{% endwith %}
+        {% include "articles/_article_link_list.html" %}
+    {% endwith %}
 </div>
 {% endblock content %}
 
