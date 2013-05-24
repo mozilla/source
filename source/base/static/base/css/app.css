@@ -10,11 +10,6 @@
     margin: 0 15px;
 }
 
-.page-block {
-    margin-bottom: 2em;
-    overflow: hidden;
-}
-
 footer {
     border-top: none;
     margin: 1em 0;
@@ -176,6 +171,7 @@ body {
     font-family: Georgia;
     font-size: 14px;
     line-height: 1.8;
+    padding: 0;
 }
 
 article, p {
@@ -204,7 +200,24 @@ article, .container {
 
 article .article-block {
     margin-bottom: 0;
-    overflow: hidden;
+}
+
+.page-block {
+    margin-bottom: 2em;
+}
+
+.page-block, .article-block {
+    *zoom: 1;
+}
+
+.page-block:before, .page-block:after,
+.article-block:before, .article-block:after {
+    display: table;
+    content: "";
+}
+
+.page-block:after, .article-block:after {
+    clear: both;
 }
 
 h1, h2, h3, h5, h6, ul, ol, .caption, label, table {
@@ -840,7 +853,8 @@ pre.prettyprint {
     margin-bottom: 2em;
 }
 
-.learning p.intro {
+.learning p.intro,
+.section-with-promos p.intro {
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size: 16px;
     margin-bottom: 25px;
@@ -1041,7 +1055,7 @@ a.promo p {
 
 @media screen and (max-width: 690px) {
     .promo.lead {
-        width: 94%;
+        width: auto;
         margin-right: 0;
         height: auto;
     }
@@ -1065,6 +1079,19 @@ a.promo p {
     .promo.second-promo {
         float: right;
     }
+
+    #navigation li#nav-search {
+        display: inline-block;
+    }
+
+    #navigation li a:hover {
+        border: none;
+    }
+
+    #topbar .search-form {
+        display: none;
+    }
+
 }
 
 
@@ -1104,6 +1131,8 @@ a.promo p {
         font-size: 12px;
         width: auto;
         padding-top: 5px;
+        margin-left: -10px;
+        margin-right: -10px;
     }
 
     #navigation li a, #navigation li a:hover, #navigation li.active a {
@@ -1112,18 +1141,6 @@ a.promo p {
         padding: 10px 7px;
     }
     
-    #navigation li#nav-search {
-        display: inline-block;
-    }
-
-    #navigation li a:hover {
-        border: none;
-    }
-
-    #topbar .search-form {
-        display: none;
-    }
-
     .col {
         padding-left: 15px;
         padding-right: 15px;
@@ -1199,7 +1216,6 @@ a.promo p {
 }
 
 @media screen and (max-width: 525px) {
-    
     .secondary-promo-wrap {
         width: 94%;
         height: auto;
@@ -1218,11 +1234,7 @@ a.promo p {
     span.tinyhide {
         display: none;
     }
-    
-    ul#navigation {
-        margin-left: -10px;
-        margin-right: -10px;
-    }    
+
     #navigation li a, #navigation li a:hover, #navigation li.active a {
         padding-right: 4px;
         padding-left: 4px;

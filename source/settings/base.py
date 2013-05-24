@@ -1,12 +1,9 @@
-# This is your project's main settings file that can be committed to your
-# repo. If you need to override a setting locally, use settings_local.py
+# Project's main settings file that can be committed to your repo.
+# To override a setting locally, use settings/local.py
 
 from funfactory.settings_base import *
 
 # Name of the top-level module where you put all your apps.
-# If you did not install Playdoh with the funfactory installer script
-# you may need to edit this value. See the docs about installing from a
-# clone.
 PROJECT_MODULE = 'source'
 
 # Defines the views served for root URLs.
@@ -50,15 +47,14 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-# Because Jinja2 is the default template loader, add any non-Jinja templated
-# apps here:
+# Jinja2 is the default template loader. Add any non-Jinja templated apps here:
 JINGO_EXCLUDE_APPS = [
     'admin',
     'registration',
 ]
 
-# dev is under https and live is (currently) only on http - quick hack to ensure
-# we embed the disqus code from the right protocol
+# dev is under https and live is (currently) on http
+# make sure we embed the disqus code with the right protocol
 HTTP_PROTOCOL = 'http'
 
 # sorl-thumbnail settings

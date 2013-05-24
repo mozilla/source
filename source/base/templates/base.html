@@ -5,6 +5,7 @@
         <title>{% block page_title %}Source: An OpenNews project{% endblock %}</title>
         <meta name="description" content="Source - Journalism Code, Context & Community">
         <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1;">
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         {% compress css %}
             <link href="{{ static('base/css/bootstrap.css') }}" rel="stylesheet">
             <link href="{{ static('base/css/font-awesome.css') }}" rel="stylesheet">
@@ -13,12 +14,11 @@
         <!--[if IE 7]>
         <link href="{{ static('base/css/font-awesome-ie7.min.css') }}" rel="stylesheet">
         <![endif]-->
-        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
         {% if APP_MSG %}
             <link rel="stylesheet" href="{{ static('base/css/warnr.css') }}">
         {% endif %}
         {% if rss_link %}
-        <link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
+            <link rel="alternate" href="{{ rss_link }}" type="application/rss+xml" title="RSS" />
         {% endif %}
         <link rel="shortcut icon" href="{{ static('base/img/favicon.ico') }}" />
         {% compress js %}

@@ -13,8 +13,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'', include(urls)),
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
     # Generate a robots.txt
     (r'^robots.txt$',
@@ -22,7 +20,8 @@ urlpatterns = patterns('',
             "User-agent: *\n%s: /" % ('Allow' if settings.ENGAGE_ROBOTS else 'Disallow') ,
             mimetype="text/plain"
         )
-    )
+    ),
+    (r'', include(urls)),
 )
 
 ## In DEBUG mode, serve media files through Django.
