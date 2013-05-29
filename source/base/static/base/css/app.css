@@ -216,7 +216,7 @@ article .article-block {
     content: "";
 }
 
-.page-block:after, .article-block:after {
+.page-block:after {
     clear: both;
 }
 
@@ -956,6 +956,7 @@ a.promo p {
 .author-box {
     border-top: 1px solid #ccc;
     margin-top: 25px;
+    clear: both;
 }
 
 .author-box h3 {
@@ -1017,7 +1018,7 @@ a.promo p {
         float: left;
     }
     
-    .page-block {
+    .page-block, .article-block {
         margin-bottom: 1.5em;
     }
     
@@ -1187,8 +1188,8 @@ a.promo p {
         line-height: 1.2em;
     }
     
-    ul.link-list, ul.toc {
-        font-size: 0.6em;
+    ul.link-list, ul.toc, h6.date, h6.byline-name {
+        font-size: .8em;
     }
     
     ul.link-list.link-list-inline li {
@@ -1242,10 +1243,6 @@ a.promo p {
 }
 
 @media screen and (max-width: 480px) {
-    h6.date, h6.byline-name {
-        font-size: .8em;
-    }
-    
     h3 {
         font-size: 20px;
     }
@@ -1302,7 +1299,7 @@ a.promo p {
         -moz-columns:1;
     }
     
-    .page-block {
+    .page-block, .article-block {
        margin-bottom: 1em;
     }
     
