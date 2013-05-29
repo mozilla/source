@@ -68,7 +68,7 @@
     {{ article.pretty_body_text|typogrify|safe }}
     
     {% for articleblock in article.articleblock_set.all() %}
-    <div class="page-block article-block">
+    <div class="article-block">
         <h3 id="{{ articleblock.slug }}">{{ articleblock.title|typogrify }}</h3>
         {% if articleblock.image and articleblock.image_presentation in ['full-width','inset-left','inset-right'] %}
             {% set _image_width_options = {
