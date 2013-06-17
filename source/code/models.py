@@ -62,9 +62,8 @@ class Code(CachingMixin, models.Model):
         if self.url and 'github.com' in self.url:
             self.url = self.url.rstrip('/')
             
-        # update GitHub stats if this the record's first save
-        if not self.pk:
-            self.update_github_stats()
+        # update GitHub stats
+        self.update_github_stats()
             
         super(Code, self).save(*args, **kwargs)
 
@@ -115,17 +114,16 @@ class Code(CachingMixin, models.Model):
     def get_live_people_set(self):
         return self.people.filter(is_live=True)
         
-    @classmethod
     def update_github_stats(self):
         '''
         Attempts to fetch stats for this repo from the GitHub API. This method
         does _not_ save those stats. That is left to the function that calls
         the method to avoid unnecessary db hits (e.g. the save() method above).
         '''
-        if '//github.com/' in self.url.lower():
+        if self.url and '//github.com/' in self.url.lower():
             # create our connection to the GitHub API
             _github_location = self.url.split('github.com/')[1]
-            _github_user, _github_repo = github_location.split('/')
+            _github_user, _github_repo = _github_location.split('/')
             _github_api_url = 'https://api.github.com/repos/%s/%s?client_id=%s&client_secret=%s' % (
                 _github_user.lower(), _github_repo.lower(),
                 GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
