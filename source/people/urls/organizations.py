@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
+from django.views.generic import TemplateView
 
 from source.people.views import OrganizationList, OrganizationDetail
 
@@ -12,6 +13,12 @@ urlpatterns = patterns('',
         view = cache_page(OrganizationList.as_view(), STANDARD_CACHE_TIME),
         kwargs = {},
         name = 'organization_list',
+    ),
+    url(
+        regex = '^manage/$',
+        view = TemplateView.as_view(template_name="people/organization_manage.html"),
+        kwargs = {},
+        name = 'organization_manage',
     ),
     url(
         regex = '^(?P<slug>[-\w]+)/$',

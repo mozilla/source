@@ -21,13 +21,20 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'south',
     'taggit',
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.flatpages',
     'django.contrib.sites',
+    'django_browserid',
 ]
+
+AUTHENTICATION_BACKENDS = (
+   'django_browserid.auth.BrowserIDBackend',
+)
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
     'source.base.context_processors.http_protocol',
     'source.base.context_processors.warnr',
+    'django_browserid.context_processors.browserid',
 ]
 
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
@@ -50,6 +57,7 @@ HAYSTACK_CONNECTIONS = {
 # Jinja2 is the default template loader. Add any non-Jinja templated apps here:
 JINGO_EXCLUDE_APPS = [
     'admin',
+    'browserid',
     'registration',
 ]
 

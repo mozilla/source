@@ -1,0 +1,21 @@
+{% extends "people/_base_people.html" %}
+
+{% block content %}
+<h1 class="maintopic">
+    <span class="category">Manage Your Organization</a>
+</h1>
+
+<div class="authentication">
+    {{ browserid_info() }}
+    {% if user.is_authenticated() %}
+        {{ browserid_logout(text='Logout') }}
+    {% else %}
+        {{ browserid_login(text='Login') }}
+    {% endif %}
+</div>
+
+{% endblock content %}
+
+{% block site_js_extra %}
+    {{ browserid_js() }}
+{% endblock %}
