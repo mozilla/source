@@ -28,7 +28,8 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
 ]
 
 AUTHENTICATION_BACKENDS = (
-   'django_browserid.auth.BrowserIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
@@ -60,6 +61,11 @@ JINGO_EXCLUDE_APPS = [
     'browserid',
     'registration',
 ]
+
+SITE_URL = (
+    'http://source.mozillaopennews.org',
+    'http://source-dev.mozillalabs.com',
+)
 
 # dev is under https and live is (currently) on http
 # make sure we embed the disqus code with the right protocol

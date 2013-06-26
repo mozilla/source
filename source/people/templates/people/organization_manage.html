@@ -1,5 +1,9 @@
 {% extends "people/_base_people.html" %}
 
+{% block head_extra %}
+{{ browserid_css() }}
+{% endblock %}
+
 {% block content %}
 <h1 class="maintopic">
     <span class="category">Manage Your Organization</a>
@@ -8,9 +12,9 @@
 <div class="authentication">
     {{ browserid_info() }}
     {% if user.is_authenticated() %}
-        {{ browserid_logout(text='Logout') }}
+        {{ browserid_logout(text='Log out') }}
     {% else %}
-        {{ browserid_login(text='Login') }}
+        {{ browserid_login(text='Log in', color='dark') }}
     {% endif %}
 </div>
 
