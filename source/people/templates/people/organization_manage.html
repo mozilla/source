@@ -5,17 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="maintopic">
-    <span class="category">Manage Your Organization</a>
-</h1>
-
 <div class="authentication">
     {{ browserid_info() }}
     {% if user.is_authenticated() %}
         {{ browserid_logout(text='Log out') }}
     {% else %}
-        {{ browserid_login(text='Log in', color='dark') }}
+        {{ browserid_login(text='Log in to change organization details') }}
     {% endif %}
+</div>
+
+<div id="organization-manage">
+    {{ user }}, {{ organization }}
 </div>
 
 {% endblock content %}

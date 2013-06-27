@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView, TemplateView
 
 from .models import Person, Organization
 
@@ -34,3 +35,19 @@ class OrganizationDetail(DetailView):
         queryset = Organization.live_objects.prefetch_related('organizationlink_set', 'person_set', 'code_set', 'article_set')
         
         return queryset
+
+class OrganizationManage(TemplateView):
+    template_name = "people/organization_manage.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(OrganizationManage, self).get_context_data(**kwargs)
+        user = self.request.user
+        if not user.is_anonymous and user.is_authenticated:
+            organization = get_object_or_404(Organization, is_live=True, email=user.email)
+            context.update({
+                'user': user,
+                'organization': organization,
+            })
+
+        return context
+        
