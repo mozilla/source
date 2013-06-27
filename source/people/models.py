@@ -113,6 +113,7 @@ class Organization(CachingMixin, models.Model):
     show_in_lists = models.BooleanField('Show on Organization list page', default=True)
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
+    email = models.EmailField('Email address', blank=True)
     twitter_username = models.CharField(max_length=32, blank=True)
     github_username = models.CharField(max_length=32, blank=True)
     github_repos_num = models.PositiveIntegerField(blank=True, null=True)
