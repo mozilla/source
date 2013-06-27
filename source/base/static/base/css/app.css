@@ -220,11 +220,17 @@ article .article-block {
     clear: both;
 }
 
-h1, h2, h3, h5, h6, ul, ol, .caption, label, table {
+h1, h2, h3, h5, h6, ul, ol, .caption, label, table,
+.helptext, .browserid-logout {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: 400;
     text-align: left;
     color: #2e2e2d;
+}
+
+.helptext {
+    display: inline-block;
+    font-size: 12px;
 }
 
 table {
@@ -365,6 +371,12 @@ h6 a {
     margin-bottom: 1.5em;
     clear: both;
     overflow: hidden;
+}
+
+.column-half {
+    float: left;
+    width: 47%;
+    margin-right: 3%;
 }
 
 .column-third {
@@ -971,6 +983,23 @@ a.promo p {
     overflow: hidden;
 }
 
+#form-organization-update input[type="text"],
+#form-organization-update .input-prepend,
+#form-organization-update textarea {
+    display: auto;
+    width: 90%;
+}
+#form-organization-update .input-prepend {
+    margin-bottom: 0;
+}
+
+.alert {
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.3;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;
@@ -1147,6 +1176,7 @@ a.promo p {
         padding-right: 15px;
     }
 
+    .column-half,
     .column-third {
         width: auto;
         float: none;

@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 
-from source.people.views import OrganizationList, OrganizationDetail, OrganizationManage
+from source.people.views import OrganizationList, OrganizationDetail, OrganizationUpdate
 
 STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 
@@ -15,10 +15,10 @@ urlpatterns = patterns('',
         name = 'organization_list',
     ),
     url(
-        regex = '^manage/$',
-        view = OrganizationManage.as_view(),
+        regex = '^update/$',
+        view = OrganizationUpdate.as_view(),
         kwargs = {},
-        name = 'organization_manage',
+        name = 'organization_update',
     ),
     url(
         regex = '^(?P<slug>[-\w]+)/$',

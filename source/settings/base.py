@@ -29,7 +29,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
 
 # BrowserID authentication settings
 BROWSERID_CREATE_USER = '%s.people.utils.create_organization_user' % PROJECT_MODULE
-LOGIN_REDIRECT_URL = '/organizations/manage/'
+LOGIN_REDIRECT_URL = '/organizations/update/'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_browserid.auth.BrowserIDBackend',

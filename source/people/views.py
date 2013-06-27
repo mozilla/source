@@ -1,6 +1,10 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView
+from django.contrib import messages
+from django.http import Http404
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
+from django.views.generic import ListView, DetailView, View
 
+from .forms import OrganizationUpdateForm
 from .models import Person, Organization
 
 
@@ -36,18 +40,45 @@ class OrganizationDetail(DetailView):
         
         return queryset
 
-class OrganizationManage(TemplateView):
-    template_name = "people/organization_manage.html"
+class OrganizationUpdate(View):
+    template_name = "people/organization_update.html"
     
-    def get_context_data(self, **kwargs):
-        context = super(OrganizationManage, self).get_context_data(**kwargs)
+    def get_organization(self):
         user = self.request.user
-        if not user.is_anonymous and user.is_authenticated:
+        if user.is_authenticated() and user.is_active:
             organization = get_object_or_404(Organization, is_live=True, email=user.email)
+            return organization
+        return None
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        organization = self.get_organization()
+        
+        if organization:
+            organization_form = OrganizationUpdateForm(instance=organization)
             context.update({
-                'user': user,
+                'user': request.user,
                 'organization': organization,
+                'organization_form': organization_form,
+            })
+            
+        return render_to_response(self.template_name, context, context_instance=RequestContext(request))
+
+    def post(self, request, *args, **kwargs):
+        context = {}
+        organization = self.get_organization()
+
+        if organization:
+            organization_form = OrganizationUpdateForm(instance=organization, data=request.POST)
+            context.update({
+                'user': request.user,
+                'organization': organization,
+                'organization_form': organization_form,
             })
 
-        return context
+            if organization_form.is_valid():
+                organization_form.save()
+                messages.success(request, 'Updated!')
+        
+        return render_to_response(self.template_name, context, context_instance=RequestContext(request))
         

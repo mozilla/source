@@ -1,0 +1,72 @@
+{% extends "people/_base_people.html" %}
+
+{% block head_extra %}
+{{ browserid_css() }}
+{% endblock %}
+
+{% block content %}
+<div class="authentication">
+    {{ browserid_info() }}
+    {% if not user.is_authenticated() %}
+        {{ browserid_login(text='Log in to change your organization details') }}
+    {% endif %}
+</div>
+
+{% if user.is_authenticated() and user.is_active %}
+<div id="organization-manage">
+    
+    <h2>Edit settings: {{ organization }}</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert">{{ message|safe }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action="" id="form-organization-update">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+        <div class="column-half">
+            <label for="id_address">Address:</label>
+            {{ organization_form.address }}
+        
+            <div class="column-half">
+                <label for="id_city">City:</label>
+                {{ organization_form.city }}
+            </div>
+            <div class="column-half">
+                <label for="id_state">State:</label>
+                {{ organization_form.state }}
+            </div>
+
+            <label for="id_description">Description:</label>
+            {{ organization_form.description }}
+        </div>
+        
+        <div class="column-half">
+            <label for="id_twitter_username">Twitter username:</label>
+            <div class="input-prepend">
+                <span class="add-on">@</span>
+                <input id="id_twitter_username" type="text" name="twitter_username" value="SpokesmanReview" maxlength="32" />
+            </div>
+
+            <label for="id_github_username">Github username:</label>
+            <input id="id_github_username" type="text" name="github_username" value="SpokesmanReview" maxlength="32" />
+        
+            <label for="id_homepage">Homepage:</label>
+            <input id="id_homepage" type="text" name="homepage" value="http://www.spokesman.com/" maxlength="200" />
+        </div>
+        
+        <div class="page-block clear">
+            <input class="btn btn-primary" name="organization_update" type="submit" value="Update organization details">
+            {{ browserid_logout(text='Log out', link_class='btn') }}
+        </div>
+    </form>
+    
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block site_js_extra %}
+    {{ browserid_js() }}
+{% endblock %}
