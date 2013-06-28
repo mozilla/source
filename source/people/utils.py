@@ -1,12 +1,16 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from .models import Organization
 
 def create_organization_user(email):
-    # only create a user if there's a matching organization
     try:
-        matching_organization = Organization.objects.get(email=email)
+        # only create a user if there's a matching organization
+        matching_organization = Organization.objects.get(email__iexact=email)
+        # assign them to an admin group for possible future use
+        organization_admin_group, created = Group.objects.get_or_create(name='Organization Admins')
         if matching_organization:
-            return User.objects.create_user(email, email)
+            new_user = User.objects.create_user(email, email)
+            new_user.groups.add(organization_admin_group)
+            return new_user
     except:
         return False
