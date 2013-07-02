@@ -1,11 +1,14 @@
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from django.utils import simplejson
 from django.views.generic import ListView, DetailView, View
 
 from .forms import OrganizationUpdateForm
 from .models import Person, Organization
+
+from source.utils.json import LazyEncoder
 
 
 class PersonList(ListView):
@@ -43,6 +46,10 @@ class OrganizationDetail(DetailView):
 class OrganizationUpdate(View):
     template_name = "people/organization_update.html"
     
+    def render_json_to_response(self, context):
+        result = simplejson.dumps(context, cls=LazyEncoder)
+        return HttpResponse(result, mimetype='application/javascript')
+    
     def get_organization(self):
         user = self.request.user
         if user.is_authenticated() and user.is_active:
@@ -78,7 +85,12 @@ class OrganizationUpdate(View):
 
             if organization_form.is_valid():
                 organization_form.save()
-                messages.success(request, 'Updated!')
-        
+                
+        if request.is_ajax():
+            result = {'success': 'True'}
+            return self.render_json_to_response(result)
+
+        # if for some reason we're not hitting via ajax
+        messages.success(request, 'Updates saved')
         return render_to_response(self.template_name, context, context_instance=RequestContext(request))
         

@@ -1,9 +1,5 @@
 {% extends "people/_base_people.html" %}
 
-{% block head_extra %}
-{{ browserid_css() }}
-{% endblock %}
-
 {% block content %}
 <div class="authentication">
     {{ browserid_info() }}
@@ -12,7 +8,7 @@
     {% endif %}
 </div>
 
-{% if user.is_authenticated() and user.is_active %}
+{% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
 <div id="organization-manage">
     
     <h2>Edit settings: {{ organization }}</h2>
@@ -23,7 +19,7 @@
         {% endfor %}
     {% endif %}
 
-    <form method="post" action="" id="form-organization-update">
+    <form method="post" action="" id="form-organization-update" onsubmit="submitUpdate();return false">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
         
         <div class="column-half">
@@ -47,19 +43,19 @@
             <label for="id_twitter_username">Twitter username:</label>
             <div class="input-prepend">
                 <span class="add-on">@</span>
-                <input id="id_twitter_username" type="text" name="twitter_username" value="SpokesmanReview" maxlength="32" />
+                {{ organization_form.twitter_username }}
             </div>
 
             <label for="id_github_username">Github username:</label>
-            <input id="id_github_username" type="text" name="github_username" value="SpokesmanReview" maxlength="32" />
+            {{ organization_form.github_username }}
         
             <label for="id_homepage">Homepage:</label>
-            <input id="id_homepage" type="text" name="homepage" value="http://www.spokesman.com/" maxlength="200" />
+            {{ organization_form.homepage }}
         </div>
         
         <div class="page-block clear">
-            <input class="btn btn-primary" name="organization_update" type="submit" value="Update organization details">
-            {{ browserid_logout(text='Log out', link_class='btn') }}
+            <input class="btn btn-primary" id="organization-update-button" type="submit" value="Update details">
+            {#}{{ browserid_logout(text='Log out', link_class='btn') }}{#}
         </div>
     </form>
     
@@ -68,5 +64,31 @@
 {% endblock content %}
 
 {% block site_js_extra %}
-    {{ browserid_js() }}
+{{ browserid_js() }}
+
+<script type="text/javascript">
+function alertSave(container, msg) {
+    container.text(msg).delay(500).fadeOut('slow', function() {
+        container.remove();
+    });
+}
+
+function submitUpdate() {
+    var statusMsg = $('<span class="save-alert">Saving</span>');
+    var submitButton = $('#organization-update-button');
+    submitButton.after(statusMsg);
+    $.ajax({
+        type: "POST",
+        url: "{{ url('organization_update') }}",
+        data: $('#form-organization-update').serialize(),
+        dataType: "json",
+        success: function(response) {
+            alertSave(statusMsg, 'Saved!');
+        },
+        error: function(response) {
+            alertSave(statusMsg, 'Error saving...');
+        }
+    });
+}
+</script>
 {% endblock %}
