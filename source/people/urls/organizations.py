@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
-from django.views.generic import TemplateView
 
 from source.people.views import OrganizationList, OrganizationDetail, OrganizationUpdate
 

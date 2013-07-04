@@ -10,55 +10,94 @@
 
 {% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
 <div id="organization-manage">
+    <div class="page-block">
+        <h2>Edit settings: {{ organization }}</h2>
     
-    <h2>Edit settings: {{ organization }}</h2>
-    
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert">{{ message|safe }}</div>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message|safe }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="" id="form-organization-update" class="form-organization-update" onsubmit="submitOrganizationUpdate();return false">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+            <div class="column-half">
+                <label for="id_address">Address:</label>
+                {{ organization_form.address }}
+        
+                <div class="column-half">
+                    <label for="id_city">City:</label>
+                    {{ organization_form.city }}
+                </div>
+                <div class="column-half">
+                    <label for="id_state">State:</label>
+                    {{ organization_form.state }}
+                </div>
+
+                <label for="id_description">Description:</label>
+                {{ organization_form.description }}
+            </div>
+        
+            <div class="column-half">
+                <label for="id_twitter_username">Twitter username:</label>
+                <div class="input-prepend">
+                    <span class="add-on">@</span>
+                    {{ organization_form.twitter_username }}
+                </div>
+
+                <label for="id_github_username">Github username:</label>
+                {{ organization_form.github_username }}
+        
+                <label for="id_homepage">Homepage:</label>
+                {{ organization_form.homepage }}
+            </div>
+        
+            <div class="page-block clear">
+                <input class="btn btn-primary" id="organization-update-button" type="submit" value="Update details">
+                {#}{{ browserid_logout(text='Log out', link_class='btn') }}{#}
+            </div>
+        </form>
+    </div>
+    <div class="page-block">
+        <h2>Edit People: {{ organization }}</h2>
+        
+        
+        {% for person in organization.get_live_person_set() %}
+        <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+            <input type="hidden" name="person" value="{{ person.pk }}" />
+            <input type="hidden" name="organization_task" value="update" />
+
+            <div class="column-half">
+                <div class="column-half">
+                    <label for="id_form-{{ person.pk }}-first_name">First name:</label>
+                    <input id="id_form-{{ person.pk }}-first_name" type="text" name="first_name" value="{{ person.first_name }}" maxlength="128" />
+                </div>
+                <div class="column-half">
+                    <label for="id_form-{{ person.pk }}-last_name">Last name:</label>
+                    <input id="id_form-{{ person.pk }}-last_name" type="text" name="last_name" value="{{ person.last_name }}" maxlength="128" />
+                </div>
+
+                <label for="id_form-{{ person.pk }}-email">Email address:</label>
+                <input id="id_form-{{ person.pk }}-email" type="text" name="email" value="{{ person.email }}" maxlength="75" />
+            </div>
+
+            <div class="column-half">
+                <label for="id_form-{{ person.pk }}-twitter_username">Twitter username:</label>
+                <input id="id_form-{{ person.pk }}-twitter_username" type="text" name="twitter_username" value="{{ person.twitter_username }}" maxlength="32" />
+
+                <label for="id_form-{{ person.pk }}-github_username">Github username:</label>
+                <input id="id_form-{{ person.pk }}-github_username" type="text" name="github_username" value="{{ person.github_username }}" maxlength="32" />
+            </div>
+
+            <div id="submit-container-{{ person.pk }}" class="page-block">
+                <input class="btn btn-primary btn-small" name="person-update-button-{{ person.pk }}" type="submit" value="Update">
+                <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmRemove({{ person.pk }});">
+            </div>
+        </form>
         {% endfor %}
-    {% endif %}
-
-    <form method="post" action="" id="form-organization-update" onsubmit="submitUpdate();return false">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-        
-        <div class="column-half">
-            <label for="id_address">Address:</label>
-            {{ organization_form.address }}
-        
-            <div class="column-half">
-                <label for="id_city">City:</label>
-                {{ organization_form.city }}
-            </div>
-            <div class="column-half">
-                <label for="id_state">State:</label>
-                {{ organization_form.state }}
-            </div>
-
-            <label for="id_description">Description:</label>
-            {{ organization_form.description }}
-        </div>
-        
-        <div class="column-half">
-            <label for="id_twitter_username">Twitter username:</label>
-            <div class="input-prepend">
-                <span class="add-on">@</span>
-                {{ organization_form.twitter_username }}
-            </div>
-
-            <label for="id_github_username">Github username:</label>
-            {{ organization_form.github_username }}
-        
-            <label for="id_homepage">Homepage:</label>
-            {{ organization_form.homepage }}
-        </div>
-        
-        <div class="page-block clear">
-            <input class="btn btn-primary" id="organization-update-button" type="submit" value="Update details">
-            {#}{{ browserid_logout(text='Log out', link_class='btn') }}{#}
-        </div>
-    </form>
-    
+    </div>
 </div>
 {% endif %}
 {% endblock content %}
@@ -67,13 +106,26 @@
 {{ browserid_js() }}
 
 <script type="text/javascript">
-function alertSave(container, msg) {
-    container.text(msg).delay(500).fadeOut('slow', function() {
+function alertSave(container, msg, disableFade) {
+    container.text(msg);
+    if (!disableFade) {
+        container.delay(500).fadeOut('slow', function() {
+            container.remove();
+        });
+    }
+}
+
+function clearAlerts() {
+    $('.save-alert').remove();
+}
+
+function removeContainer(container) {
+    container.fadeOut('slow', function() {
         container.remove();
     });
 }
 
-function submitUpdate() {
+function submitOrganizationUpdate() {
     var statusMsg = $('<span class="save-alert">Saving</span>');
     var submitButton = $('#organization-update-button');
     submitButton.after(statusMsg);
@@ -89,6 +141,49 @@ function submitUpdate() {
             alertSave(statusMsg, 'Error saving...');
         }
     });
+}
+
+function submitPersonUpdate(personID) {
+    clearAlerts();
+    var statusMsg = $('<span class="save-alert">Saving</span>');
+    var submitContainer = $('#submit-container-'+personID);
+    submitContainer.append(statusMsg);
+    $.ajax({
+        type: "POST",
+        url: "{{ url('person_update') }}",
+        data: $('#form-person-update-'+personID).serialize(),
+        dataType: "json",
+        success: function(response) {
+            if (response['message'] != 'Saved!') {
+                alertSave(statusMsg, response['message'], true);
+            } else {
+                alertSave(statusMsg, response['message']);
+            }
+        },
+        error: function(response) {
+            alertSave(statusMsg, 'Error saving...');
+        }
+    });
+}
+
+function confirmRemove(personID) {
+    var submitContainer = $('#submit-container-'+personID);
+    if (confirm('Are you sure you want to remove this person from your organization?')) {
+        $.ajax({
+            type: "POST",
+            url: "{{ url('person_update') }}",
+            data: "csrfmiddlewaretoken={{ csrf_token }}&organization_task=remove&person="+personID,
+            dataType: "json",
+            success: function(response) {
+                removeContainer(submitContainer.parent());
+            },
+            error: function(response) {
+                var statusMsg = $('<span class="save-alert"></span>');
+                submitContainer.after(statusMsg);
+                alertSave(statusMsg, 'Error removing...');
+            }
+        });
+    }
 }
 </script>
 {% endblock %}

@@ -983,9 +983,12 @@ a.promo p {
     overflow: hidden;
 }
 
-#form-organization-update input[type="text"],
-#form-organization-update .input-prepend,
-#form-organization-update textarea {
+.form-organization-update input[type="text"],
+.form-organization-update .input-prepend,
+.form-organization-update textarea,
+.form-person-update input[type="text"],
+.form-person-update .input-prepend,
+.form-person-update textarea {
     display: auto;
     width: 90%;
 }

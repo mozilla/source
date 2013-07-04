@@ -16,5 +16,20 @@ class OrganizationUpdateForm(ModelForm):
             'state',
         )
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 6}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+        
+class PersonUpdateForm(ModelForm):
+    class Meta:
+        model = Person
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'twitter_username',
+            'github_username',
+            'description',
+        )
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
         }

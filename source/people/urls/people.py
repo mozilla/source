@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
-from source.people.views import PersonList, PersonDetail
+from source.people.views import PersonList, PersonDetail, PersonUpdate
 
 STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 
@@ -12,6 +12,12 @@ urlpatterns = patterns('',
         view = cache_page(PersonList.as_view(), STANDARD_CACHE_TIME),
         kwargs = {},
         name = 'person_list',
+    ),
+    url(
+        regex = '^update/$',
+        view = PersonUpdate.as_view(),
+        kwargs = {},
+        name = 'person_update',
     ),
     url(
         regex = '^(?P<slug>[-\w]+)/$',

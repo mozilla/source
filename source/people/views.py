@@ -1,11 +1,12 @@
 from django.contrib import messages
+from django.forms.models import modelformset_factory
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
 from django.views.generic import ListView, DetailView, View
 
-from .forms import OrganizationUpdateForm
+from .forms import OrganizationUpdateForm, PersonUpdateForm
 from .models import Person, Organization
 
 from source.utils.json import LazyEncoder
@@ -43,12 +44,70 @@ class OrganizationDetail(DetailView):
         
         return queryset
 
-class OrganizationUpdate(View):
-    template_name = "people/organization_update.html"
-    
+class AjaxableUpdateView(View):
     def render_json_to_response(self, context):
         result = simplejson.dumps(context, cls=LazyEncoder)
         return HttpResponse(result, mimetype='application/javascript')
+
+class PersonUpdate(AjaxableUpdateView):
+    template_name = "people/person_update.html"
+    form_message = ''
+
+    def get_organization(self):
+        user = self.request.user
+        if user.is_authenticated() and user.is_active:
+            organization = get_object_or_404(Organization, is_live=True, email=user.email)
+            return organization
+        return None
+
+    def get_person(self, pk=None, organization=None):
+        user = self.request.user
+        if user.is_authenticated() and user.is_active:
+            if pk and organization:
+                # ensure that Organization admin can modify this record
+                person = get_object_or_404(Person, is_live=True, pk=pk, organizations=organization)
+            else:
+                # or that the authenticated user *is* this person
+                person = get_object_or_404(Person, is_live=True, email=user.email)
+            return person
+        return None
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        if 'organization_task' in data:
+            self.template_name = "people/organization_update.html"
+            task = data['organization_task']
+            organization = self.get_organization()
+            person = self.get_person(data['person'], organization)
+            if task == 'remove':
+                person.organizations.remove(organization)
+        else:
+            person = self.get_person()
+            
+        if person:
+            person_form = PersonUpdateForm(instance=person, data=data)
+            if person_form.is_valid():
+                person_form.save()
+                form_message = 'Saved!'
+            else:
+                error_message = ''
+                for field in person_form:
+                    if field.errors:
+                        add_label = field.label
+                        add_errors = ', '.join([error for error in field.errors])
+                        error_message += '%s: %s ' % (add_label, add_errors)
+                form_message = error_message
+    
+        if request.is_ajax():
+            result = {'message': form_message}
+            return self.render_json_to_response(result)
+
+        # if for some reason we're not hitting via ajax
+        messages.success(request, form_message)
+        return render_to_response(self.template_name, context, context_instance=RequestContext(request))
+    
+class OrganizationUpdate(AjaxableUpdateView):
+    template_name = "people/organization_update.html"
     
     def get_organization(self):
         user = self.request.user
