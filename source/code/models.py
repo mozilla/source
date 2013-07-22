@@ -1,6 +1,9 @@
 from datetime import datetime
+import dateutil.parser
 import itertools
+import requests
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
@@ -13,6 +16,9 @@ from source.people.models import Person, Organization
 from source.tags.models import TechnologyTaggedItem, ConceptTaggedItem
 from source.utils.caching import expire_page_cache
 from taggit.managers import TaggableManager
+
+GITHUB_CLIENT_ID=settings.GITHUB_CLIENT_ID
+GITHUB_CLIENT_SECRET=settings.GITHUB_CLIENT_SECRET
 
 
 class LiveCodeManager(CachingManager):
@@ -51,10 +57,14 @@ class Code(CachingMixin, models.Model):
         return u'%s' % self.name
     
     def save(self, *args, **kwargs):
-        # GitHub API does not like trailing slashes on repo links
+        # GitHub API does not like trailing slashes on repo links,
         # so clean things up just in case
         if self.url and 'github.com' in self.url:
             self.url = self.url.rstrip('/')
+            
+        # update GitHub stats
+        self.update_github_stats()
+            
         super(Code, self).save(*args, **kwargs)
 
     @models.permalink
@@ -103,6 +113,41 @@ class Code(CachingMixin, models.Model):
 
     def get_live_people_set(self):
         return self.people.filter(is_live=True)
+        
+    def update_github_stats(self):
+        '''
+        Attempts to fetch stats for this repo from the GitHub API. This method
+        does _not_ save those stats. That is left to the function that calls
+        the method to avoid unnecessary db hits (e.g. the save() method above).
+        '''
+        if self.url and '//github.com/' in self.url.lower():
+            # create our connection to the GitHub API
+            _github_location = self.url.split('github.com/')[1]
+            _github_user, _github_repo = _github_location.split('/')
+            _github_api_url = 'https://api.github.com/repos/%s/%s?client_id=%s&client_secret=%s' % (
+                _github_user.lower(), _github_repo.lower(),
+                GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+            )
+            
+            # get the data for this repo
+            r = requests.get(_github_api_url)
+            _data = r.json
+
+            try:
+                # handle GitHub API's ISO8601 timestamps
+                last_push = _data['pushed_at'].strip('Z')
+                last_push = dateutil.parser.parse(last_push, fuzzy=True)
+                self.repo_last_push = last_push
+                # the rest of the API data
+                self.repo_forks = _data['forks']
+                self.repo_watchers = _data['watchers']
+                self.repo_description = _data['description']
+                self.repo_master_branch = _data['master_branch']
+                return True
+            except:
+                return False
+                
+        return False
 
 
 class CodeLink(CachingMixin, models.Model):
