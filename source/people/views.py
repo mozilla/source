@@ -42,10 +42,11 @@ class PersonSearchJson(View):
     def get(self, request, *args, **kwargs):
         people = self.get_queryset()
 
+        q = self.request.GET.get('q', None)
         if 'q' in self.request.GET:
-            people = people.filter(Q(first_name__icontains = q) | Q(last_name_icontains = q))
+            people = people.filter(Q(first_name__icontains = q) | Q(last_name__icontains = q))
             
-        people = people.values('first_name', 'last_name', 'email', 'twitter_username', 'github_username')
+        people = people.values('first_name', 'last_name', 'email', 'twitter_username', 'github_username', 'id')
 
         return render_json_to_response(list(people))
 
@@ -82,12 +83,16 @@ class PersonUpdate(View):
             return organization
         return None
 
-    def get_person(self, pk=None, organization=None):
+    def get_person(self, pk=None, organization=None, task=None):
         user = self.request.user
         if USER_DEBUG or (user.is_authenticated() and user.is_active):
             if pk and organization:
-                # ensure that Organization admin can modify this record
-                person = get_object_or_404(Person, is_live=True, pk=pk, organizations=organization)
+                # allow for 'add' task
+                if task == 'add':
+                    person = get_object_or_404(Person, is_live=True, pk=pk)
+                else:
+                    # ensure that Organization admin can modify this record
+                    person = get_object_or_404(Person, is_live=True, pk=pk, organizations=organization)
             else:
                 # or that the authenticated user *is* this person
                 person = get_object_or_404(Person, is_live=True, email=user.email)
@@ -104,9 +109,11 @@ class PersonUpdate(View):
             self.template_name = "people/organization_update.html"
             task = data['organization_task']
             organization = self.get_organization()
-            person = self.get_person(data['person'], organization)
+            person = self.get_person(data['person'], organization, 'add')
             if task == 'remove':
                 person.organizations.remove(organization)
+            elif task == 'add':
+                person.organizations.add(organization)
         else:
             person = self.get_person()
             

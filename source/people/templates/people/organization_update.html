@@ -8,7 +8,7 @@
     {% endif %}
 </div>
 
-{% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
+{% if debug or user.is_authenticated() and user.is_active and perms.people.change_organization %}
 <div id="organization-manage">
     <div class="page-block">
         <h2>Edit settings: {{ organization }}</h2>
@@ -59,15 +59,22 @@
             </div>
         </form>
     </div>
+    
     <div class="page-block">
-        <h2>Edit People: {{ organization }}</h2>
+        <h2>Add New Person</h2>
+        <input type="text" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
+        
+    </div>
+    
+    <div class="page-block">
+        <h2>Edit Current People</h2>
         
         
         {% for person in organization.get_live_person_set() %}
         <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
-            <input type="hidden" name="person" value="{{ person.pk }}" />
-            <input type="hidden" name="organization_task" value="update" />
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="person" value="{{ person.pk }}">
+            <input type="hidden" name="organization_task" value="update">
 
             <div class="column-half">
                 <div class="column-half">
@@ -104,8 +111,28 @@
 
 {% block site_js_extra %}
 {{ browserid_js() }}
+<script src="{{ static('base/js/libs/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ static('base/js/libs/typeahead.min.js') }}"></script>
+<script src="{{ static('base/js/libs/hogan-2.0.0.js') }}"></script>
 
 <script type="text/javascript">
+jQuery(document).ready(function(){
+    var personSearch = $('#person-search');
+    personSearch.typeahead({
+        name: 'people',
+        valueKey: 'last_name',
+        remote: '{{ url("person_search_json") }}?q=%QUERY',
+        limit: 20,
+        template: {% raw %}'<p>{{first_name}} {{last_name}}</p>'{% endraw %},
+        engine: Hogan
+    });
+    personSearch.on('typeahead:selected', function(obj, datum) {
+        personSearch.typeahead('setQuery', '');
+        submitPersonUpdate(datum['id'], 'add');
+    });
+    
+})
+
 function alertSave(container, msg, disableFade) {
     container.text(msg);
     if (!disableFade) {
@@ -143,15 +170,27 @@ function submitOrganizationUpdate() {
     });
 }
 
-function submitPersonUpdate(personID) {
+function submitPersonUpdate(personID, task) {
     clearAlerts();
-    var statusMsg = $('<span class="save-alert">Saving</span>');
-    var submitContainer = $('#submit-container-'+personID);
+
+    var statusMsg = $('<span class="save-alert">Saving</span>'),
+        submitContainer = $('#submit-container-'+personID),
+        formData = $('#form-person-update-'+personID).serialize();
     submitContainer.append(statusMsg);
+    
+    if (!!task) {
+        if (!formData) {
+            formData = {person: personID};
+        }
+        formData['organization_task'] = task;
+        formData['csrfmiddlewaretoken'] = '{{ csrf_token }}';
+        alert(formData);
+    }
+
     $.ajax({
         type: "POST",
         url: "{{ url('person_update') }}",
-        data: $('#form-person-update-'+personID).serialize(),
+        data: formData,
         dataType: "json",
         success: function(response) {
             if (response['message'] != 'Saved!') {
@@ -164,6 +203,10 @@ function submitPersonUpdate(personID) {
             alertSave(statusMsg, 'Error saving...');
         }
     });
+
+    if (task == 'remove') {
+        removeContainer(submitContainer.parent());
+    }
 }
 
 function confirmRemove(personID) {
