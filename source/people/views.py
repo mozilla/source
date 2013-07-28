@@ -109,8 +109,9 @@ class PersonUpdate(View):
             self.template_name = "people/organization_update.html"
             task = data['organization_task']
             organization = self.get_organization()
-            person = self.get_person(data['person'], organization, 'add')
+            person = self.get_person(data['person'], organization, task)
             if task == 'remove':
+                print '1'
                 person.organizations.remove(organization)
             elif task == 'add':
                 person.organizations.add(organization)

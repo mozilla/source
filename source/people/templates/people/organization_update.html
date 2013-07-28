@@ -174,17 +174,18 @@ function submitPersonUpdate(personID, task) {
     clearAlerts();
 
     var statusMsg = $('<span class="save-alert">Saving</span>'),
-        submitContainer = $('#submit-container-'+personID),
-        formData = $('#form-person-update-'+personID).serialize();
+        submitContainer = $('#submit-container-'+personID);
     submitContainer.append(statusMsg);
     
-    if (!!task) {
-        if (!formData) {
-            formData = {person: personID};
+    if (!!task && task == 'add' || 'remove') {
+        formData = {
+            person: personID,
+            organization_task: task,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
         }
-        formData['organization_task'] = task;
-        formData['csrfmiddlewaretoken'] = '{{ csrf_token }}';
         alert(formData);
+    } else {
+        formData = $('#form-person-update-'+personID).serialize();
     }
 
     $.ajax({
@@ -210,22 +211,8 @@ function submitPersonUpdate(personID, task) {
 }
 
 function confirmRemove(personID) {
-    var submitContainer = $('#submit-container-'+personID);
     if (confirm('Are you sure you want to remove this person from your organization?')) {
-        $.ajax({
-            type: "POST",
-            url: "{{ url('person_update') }}",
-            data: "csrfmiddlewaretoken={{ csrf_token }}&organization_task=remove&person="+personID,
-            dataType: "json",
-            success: function(response) {
-                removeContainer(submitContainer.parent());
-            },
-            error: function(response) {
-                var statusMsg = $('<span class="save-alert"></span>');
-                submitContainer.after(statusMsg);
-                alertSave(statusMsg, 'Error removing...');
-            }
-        });
+        submitPersonUpdate(personID, 'remove');
     }
 }
 </script>
