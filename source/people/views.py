@@ -1,7 +1,10 @@
+from django.conf import settings
 from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.forms.models import modelformset_factory
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.utils import simplejson
 from django.views.generic import ListView, DetailView, View
@@ -9,7 +12,9 @@ from django.views.generic import ListView, DetailView, View
 from .forms import OrganizationUpdateForm, PersonUpdateForm
 from .models import Person, Organization
 
-from source.utils.json import LazyEncoder
+from source.utils.json import render_json_to_response
+
+USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
 
 
 class PersonList(ListView):
@@ -27,6 +32,22 @@ class PersonDetail(DetailView):
         queryset = Person.live_objects.prefetch_related('personlink_set', 'organizations', 'code_set', 'article_set', 'article_authors')
         
         return queryset
+        
+class PersonSearchJson(View):
+    def get_queryset(self):
+        queryset = Person.live_objects.exclude(show_in_lists=False)
+        
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        people = self.get_queryset()
+
+        if 'q' in self.request.GET:
+            people = people.filter(Q(first_name__icontains = q) | Q(last_name_icontains = q))
+            
+        people = people.values('first_name', 'last_name', 'email', 'twitter_username', 'github_username')
+
+        return render_json_to_response(list(people))
 
 class OrganizationList(ListView):
     model = Organization
@@ -44,25 +65,26 @@ class OrganizationDetail(DetailView):
         
         return queryset
 
-class AjaxableUpdateView(View):
-    def render_json_to_response(self, context):
-        result = simplejson.dumps(context, cls=LazyEncoder)
-        return HttpResponse(result, mimetype='application/javascript')
-
-class PersonUpdate(AjaxableUpdateView):
+class PersonUpdate(View):
     template_name = "people/person_update.html"
     form_message = ''
+    
+    def get_success_url(self):
+        return reverse('person_update')
 
     def get_organization(self):
         user = self.request.user
         if user.is_authenticated() and user.is_active:
             organization = get_object_or_404(Organization, is_live=True, email=user.email)
             return organization
+        elif USER_DEBUG:
+            organization = get_object_or_404(Organization, is_live=True, slug='spokesman-review')
+            return organization
         return None
 
     def get_person(self, pk=None, organization=None):
         user = self.request.user
-        if user.is_authenticated() and user.is_active:
+        if USER_DEBUG or (user.is_authenticated() and user.is_active):
             if pk and organization:
                 # ensure that Organization admin can modify this record
                 person = get_object_or_404(Person, is_live=True, pk=pk, organizations=organization)
@@ -74,7 +96,11 @@ class PersonUpdate(AjaxableUpdateView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
+        form_message = ''
+        success_url = self.get_success_url()
+        
         if 'organization_task' in data:
+            success_url = reverse('organization_update')
             self.template_name = "people/organization_update.html"
             task = data['organization_task']
             organization = self.get_organization()
@@ -100,19 +126,22 @@ class PersonUpdate(AjaxableUpdateView):
     
         if request.is_ajax():
             result = {'message': form_message}
-            return self.render_json_to_response(result)
+            return render_json_to_response(result)
 
         # if for some reason we're not hitting via ajax
         messages.success(request, form_message)
-        return render_to_response(self.template_name, context, context_instance=RequestContext(request))
+        return redirect(success_url)
     
-class OrganizationUpdate(AjaxableUpdateView):
+class OrganizationUpdate(View):
     template_name = "people/organization_update.html"
     
     def get_organization(self):
         user = self.request.user
         if user.is_authenticated() and user.is_active:
             organization = get_object_or_404(Organization, is_live=True, email=user.email)
+            return organization
+        elif USER_DEBUG:
+            organization = get_object_or_404(Organization, is_live=True, slug='spokesman-review')
             return organization
         return None
 
@@ -147,7 +176,7 @@ class OrganizationUpdate(AjaxableUpdateView):
                 
         if request.is_ajax():
             result = {'success': 'True'}
-            return self.render_json_to_response(result)
+            return render_json_to_response(result)
 
         # if for some reason we're not hitting via ajax
         messages.success(request, 'Updates saved')
