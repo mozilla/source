@@ -63,46 +63,49 @@
     <div class="page-block">
         <h2>Add New Person</h2>
         <input type="text" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
-        
     </div>
     
-    <div class="page-block">
-        <h2>Edit Current People</h2>
-        
-        
+    <div class="page-block striped edit-list">
+        <h2>People In Your Organization</h2>
         {% for person in organization.get_live_person_set() %}
-        <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <input type="hidden" name="person" value="{{ person.pk }}">
-            <input type="hidden" name="organization_task" value="update">
+        <div id="person-{{ person.pk }}" class="stripe">
+            <h5>
+                <a class="btn edit-button">Edit</a>
+                {{ person.name() }}
+            </h5>
+            <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="person" value="{{ person.pk }}">
+                <input type="hidden" name="organization_task" value="update">
 
-            <div class="column-half">
                 <div class="column-half">
-                    <label for="id_form-{{ person.pk }}-first_name">First name:</label>
-                    <input id="id_form-{{ person.pk }}-first_name" type="text" name="first_name" value="{{ person.first_name }}" maxlength="128" />
+                    <div class="column-half">
+                        <label for="id_form-{{ person.pk }}-first_name">First name:</label>
+                        <input id="id_form-{{ person.pk }}-first_name" type="text" name="first_name" value="{{ person.first_name }}" maxlength="128" />
+                    </div>
+                    <div class="column-half">
+                        <label for="id_form-{{ person.pk }}-last_name">Last name:</label>
+                        <input id="id_form-{{ person.pk }}-last_name" type="text" name="last_name" value="{{ person.last_name }}" maxlength="128" />
+                    </div>
+
+                    <label for="id_form-{{ person.pk }}-email">Email address:</label>
+                    <input id="id_form-{{ person.pk }}-email" type="text" name="email" value="{{ person.email }}" maxlength="75" />
                 </div>
+
                 <div class="column-half">
-                    <label for="id_form-{{ person.pk }}-last_name">Last name:</label>
-                    <input id="id_form-{{ person.pk }}-last_name" type="text" name="last_name" value="{{ person.last_name }}" maxlength="128" />
+                    <label for="id_form-{{ person.pk }}-twitter_username">Twitter username:</label>
+                    <input id="id_form-{{ person.pk }}-twitter_username" type="text" name="twitter_username" value="{{ person.twitter_username }}" maxlength="32" />
+
+                    <label for="id_form-{{ person.pk }}-github_username">Github username:</label>
+                    <input id="id_form-{{ person.pk }}-github_username" type="text" name="github_username" value="{{ person.github_username }}" maxlength="32" />
                 </div>
 
-                <label for="id_form-{{ person.pk }}-email">Email address:</label>
-                <input id="id_form-{{ person.pk }}-email" type="text" name="email" value="{{ person.email }}" maxlength="75" />
-            </div>
-
-            <div class="column-half">
-                <label for="id_form-{{ person.pk }}-twitter_username">Twitter username:</label>
-                <input id="id_form-{{ person.pk }}-twitter_username" type="text" name="twitter_username" value="{{ person.twitter_username }}" maxlength="32" />
-
-                <label for="id_form-{{ person.pk }}-github_username">Github username:</label>
-                <input id="id_form-{{ person.pk }}-github_username" type="text" name="github_username" value="{{ person.github_username }}" maxlength="32" />
-            </div>
-
-            <div id="submit-container-{{ person.pk }}" class="page-block">
-                <input class="btn btn-primary btn-small" name="person-update-button-{{ person.pk }}" type="submit" value="Update">
-                <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmRemove({{ person.pk }});">
-            </div>
-        </form>
+                <div id="submit-container-{{ person.pk }}" class="page-block">
+                    <input class="btn btn-primary btn-small" name="person-update-button-{{ person.pk }}" type="submit" value="Update">
+                    <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmRemove({{ person.pk }});">
+                </div>
+            </form>
+        </div>
         {% endfor %}
     </div>
 </div>
@@ -117,6 +120,12 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
+    var editList = $('.edit-list');
+    editList.find('form').hide();
+    editList.on('click', '.edit-button', function(e) {
+        $(this).parent().siblings('form').slideToggle('fast');
+    });
+    
     var personSearch = $('#person-search');
     personSearch.typeahead({
         name: 'people',
@@ -177,13 +186,12 @@ function submitPersonUpdate(personID, task) {
         submitContainer = $('#submit-container-'+personID);
     submitContainer.append(statusMsg);
     
-    if (!!task && task == 'add' || 'remove') {
+    if (!!task && (task == 'add' || 'remove')) {
         formData = {
             person: personID,
             organization_task: task,
             csrfmiddlewaretoken: '{{ csrf_token }}'
         }
-        alert(formData);
     } else {
         formData = $('#form-person-update-'+personID).serialize();
     }

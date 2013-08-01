@@ -263,8 +263,24 @@ table thead:first-child tr:first-child td {
 }
 
 tbody tr:nth-child(odd) td,
-tbody tr:nth-child(odd) th {
-  background-color: #f9f9f9;
+tbody tr:nth-child(odd) th,
+.striped .stripe:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+.stripe {
+    padding: 1em;
+}
+.edit-list h5 {
+    margin-bottom: 0;
+}
+.edit-list h5 .btn {
+    float: right;
+    font-size: .67em;
+    padding: .2em 1em;
+    margin-top: -.5em;
+}
+.edit-list form {
+    margin-top: 1em;
 }
 
 h1, h2 {
