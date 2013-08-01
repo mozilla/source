@@ -24,6 +24,7 @@ class Article(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
+    show_in_lists = models.BooleanField(default=True, help_text="Uncheck to leave article public, but remove from list pages")
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     pubdate = models.DateTimeField(default=datetime.now)
