@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.forms.models import modelformset_factory
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
+from django.template.defaultfilters import slugify
 from django.utils import simplejson
 from django.views.generic import ListView, DetailView, View
 
@@ -47,6 +49,8 @@ class PersonSearchJson(View):
             people = people.filter(Q(first_name__icontains = q) | Q(last_name__icontains = q))
             
         people = people.values('first_name', 'last_name', 'email', 'twitter_username', 'github_username', 'id')
+        for person in list(people):
+            person['name'] = '%s %s' % (person['first_name'], person['last_name'])
 
         return render_json_to_response(list(people))
 
@@ -98,7 +102,54 @@ class PersonUpdate(View):
                 person = get_object_or_404(Person, is_live=True, email=user.email)
             return person
         return None
+        
+    def create_person(self, data, organization):
+        name = data['name']
+        # make sure we actually have been given a name
+        if name:
+            try:
+                first_name, last_name = name.split(' ', 1)
+            except:
+                first_name, last_name = name, ''
+                
+            person_kwargs = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'slug': slugify('-'.join([first_name, last_name]))
+            }
 
+            i = 0
+            found = True
+            while found:
+                i += 1
+                try:
+                    person = Person.objects.get(slug=person_kwargs['slug'])
+                    person_kwargs['slug'] = slugify('-'.join([first_name, last_name, str(i)]))
+                except ObjectDoesNotExist:
+                    person = Person(**person_kwargs)
+                    person.save()
+                    person.organizations.add(organization)
+                    found = False
+            
+            return person
+        return None
+
+    def process_form(self, person, data):
+        person_form = PersonUpdateForm(instance=person, data=data)
+        if person_form.is_valid():
+            person_form.save()
+            form_message = 'Saved!'
+        else:
+            error_message = ''
+            for field in person_form:
+                if field.errors:
+                    add_label = field.label
+                    add_errors = ', '.join([error for error in field.errors])
+                    error_message += '%s: %s ' % (add_label, add_errors)
+            form_message = error_message
+
+        return form_message
+        
     def post(self, request, *args, **kwargs):
         data = request.POST
         form_message = ''
@@ -109,32 +160,34 @@ class PersonUpdate(View):
             self.template_name = "people/organization_update.html"
             task = data['organization_task']
             organization = self.get_organization()
-            person = self.get_person(data['person'], organization, task)
-            if task == 'remove':
-                person.organizations.remove(organization)
-            elif task == 'add':
-                person.organizations.add(organization)
+            
+            if task == 'create':
+                person = self.create_person(data, organization)
+                success_url += '?new=%s' % person.pk
+            else:
+                person = self.get_person(data['person'], organization, task)
+                if task == 'update':
+                    form_message = self.process_form(person, data)
+                elif task == 'remove':
+                    person.organizations.remove(organization)
+                    form_message = 'Removed'
+                elif task == 'add':
+                    person.organizations.add(organization)
+                    form_message = 'Added'
         else:
             person = self.get_person()
-            
-        if person:
-            person_form = PersonUpdateForm(instance=person, data=data)
-            if person_form.is_valid():
-                person_form.save()
-                form_message = 'Saved!'
-            else:
-                error_message = ''
-                for field in person_form:
-                    if field.errors:
-                        add_label = field.label
-                        add_errors = ', '.join([error for error in field.errors])
-                        error_message += '%s: %s ' % (add_label, add_errors)
-                form_message = error_message
-    
+            form_message = self.process_form(person, data)
+        
         if request.is_ajax():
             result = {
                 'message': form_message,
-                'name': person.name()
+                'name': person.name(),
+                'pk': person.pk,
+                'first_name': person.first_name,
+                'last_name': person.last_name,
+                'email': person.email,
+                'twitter_username': person.twitter_username,
+                'github_username': person.github_username
             }
             return render_json_to_response(result)
 

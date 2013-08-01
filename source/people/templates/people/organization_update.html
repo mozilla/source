@@ -61,8 +61,13 @@
     </div>
     
     <div class="page-block">
-        <h2>Add New Person</h2>
-        <input type="text" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
+        <h2>Add A Person To Your Organization</h2>
+        <form method="post" action="{{ url('person_update') }}" id="form-person-create">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="organization_task" value="create">
+            <input type="text" name="name" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
+            <input type="submit" class="btn" value="Add">
+        </form>
     </div>
     
     <div class="page-block striped edit-list">
@@ -115,6 +120,8 @@
 <script src="{{ static('base/js/libs/jquery-1.7.2.min.js') }}"></script>
 <script src="{{ static('base/js/libs/typeahead.min.js') }}"></script>
 <script src="{{ static('base/js/libs/hogan-2.0.0.js') }}"></script>
+<script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
+<script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
@@ -127,8 +134,8 @@ jQuery(document).ready(function(){
     var personSearch = $('#person-search');
     personSearch.typeahead({
         name: 'people',
-        valueKey: 'last_name',
-        remote: '{{ url("person_search_json") }}?q=%QUERY',
+        valueKey: 'name',
+        prefetch: '{{ url("person_search_json") }}',
         limit: 20,
         template: {% raw %}'<p>{{first_name}} {{last_name}}</p>'{% endraw %},
         engine: Hogan
@@ -137,7 +144,6 @@ jQuery(document).ready(function(){
         personSearch.typeahead('setQuery', '');
         submitPersonUpdate(datum['id'], 'add');
     });
-    
 })
 
 function alertSave(container, msg, disableFade) {
