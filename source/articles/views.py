@@ -42,7 +42,7 @@ class ArticleList(ListView):
         return template_list
         
     def get_queryset(self):
-        queryset = Article.live_objects.prefetch_related('authors', 'people', 'organizations')
+        queryset = Article.live_objects.filter(show_in_lists=True).prefetch_related('authors', 'people', 'organizations')
 
         if self.section:
             queryset = queryset.filter(category__section=self.section)
