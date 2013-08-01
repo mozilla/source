@@ -68,11 +68,9 @@
     <div class="page-block striped edit-list">
         <h2>People In Your Organization</h2>
         {% for person in organization.get_live_person_set() %}
-        <div id="person-{{ person.pk }}" class="stripe">
-            <h5>
-                <a class="btn edit-button">Edit</a>
-                {{ person.name() }}
-            </h5>
+        <div id="person-{{ person.pk }}" class="stripe person-edit">
+            <a class="btn edit-button">Edit</a>
+            <h5>{{ person.name() }}</h5>
             <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <input type="hidden" name="person" value="{{ person.pk }}">
@@ -123,7 +121,7 @@ jQuery(document).ready(function(){
     var editList = $('.edit-list');
     editList.find('form').hide();
     editList.on('click', '.edit-button', function(e) {
-        $(this).parent().siblings('form').slideToggle('fast');
+        $(this).closest('.person-edit').find('form').slideToggle('fast');
     });
     
     var personSearch = $('#person-search');
@@ -206,7 +204,9 @@ function submitPersonUpdate(personID, task) {
                 alertSave(statusMsg, response['message'], true);
             } else {
                 alertSave(statusMsg, response['message']);
+                submitContainer.closest('.person-edit').find('h5').text(response['name']);
             }
+            console.log(response);
         },
         error: function(response) {
             alertSave(statusMsg, 'Error saving...');
@@ -214,7 +214,7 @@ function submitPersonUpdate(personID, task) {
     });
 
     if (task == 'remove') {
-        removeContainer(submitContainer.parent());
+        removeContainer(submitContainer.closest('.person-edit'));
     }
 }
 

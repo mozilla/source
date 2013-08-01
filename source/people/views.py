@@ -111,7 +111,6 @@ class PersonUpdate(View):
             organization = self.get_organization()
             person = self.get_person(data['person'], organization, task)
             if task == 'remove':
-                print '1'
                 person.organizations.remove(organization)
             elif task == 'add':
                 person.organizations.add(organization)
@@ -133,7 +132,10 @@ class PersonUpdate(View):
                 form_message = error_message
     
         if request.is_ajax():
-            result = {'message': form_message}
+            result = {
+                'message': form_message,
+                'name': person.name()
+            }
             return render_json_to_response(result)
 
         # if for some reason we're not hitting via ajax

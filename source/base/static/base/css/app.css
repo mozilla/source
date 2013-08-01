@@ -273,9 +273,10 @@ tbody tr:nth-child(odd) th,
 .edit-list h5 {
     margin-bottom: 0;
 }
-.edit-list h5 .btn {
+.edit-list .edit-button {
+    font-family: 'Open Sans', Helvetica, sans-serif;
     float: right;
-    font-size: .67em;
+    font-size: 12px;
     padding: .2em 1em;
     margin-top: -.5em;
 }
