@@ -1055,11 +1055,12 @@ a.promo p {
 }
 
 /* AUTOCOMPLETE */
-.twitter-typeahead {
+.typeahead-widget .twitter-typeahead,
+.typeahead-widget .tt-query {
     width: 100%;
 }
-.tt-query {
-    width: 50%;
+.typeahead-widget .btn {
+    vertical-align: top;
 }
 .tt-hint {
     visibility: hidden;

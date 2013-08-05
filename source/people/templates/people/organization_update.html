@@ -66,11 +66,13 @@
 
 <div id="people" class="admin-panel">
     <h2>Add A Person To Your Organization</h2>
-    <div class="page-block">
+    <div class="page-block typeahead-widget">
         <form method="post" action="{{ url('person_update') }}" id="form-person-create" onsubmit="createPerson();return false;">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="organization_task" value="create">
-            <input type="text" name="name" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
+            <div class="column-half">
+                <input type="text" name="name" id="person-search" class="autocomplete" autocomplete="off" placeholder="Find existing person or add a new one...">
+            </div>
             <input type="submit" class="btn" value="Add">
         </form>
     </div>
