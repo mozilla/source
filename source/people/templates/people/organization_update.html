@@ -9,7 +9,11 @@
 </div>
 
 {% if debug or user.is_authenticated() and user.is_active and perms.people.change_organization %}
-<div id="organization-manage">
+<div class="toggle-buttons">
+    <a href="#organization" class="active">Your organization</a>
+    <a href="#people">Your people</a>
+</div>
+<div id="organization" class="admin-panel">
     <h2>Edit settings: {{ organization }}</h2>
     <div class="page-block">
         {% if messages %}
@@ -58,7 +62,9 @@
             </div>
         </form>
     </div>
-    
+</div>
+
+<div id="people" class="admin-panel">
     <h2>Add A Person To Your Organization</h2>
     <div class="page-block">
         <form method="post" action="{{ url('person_update') }}" id="form-person-create" onsubmit="createPerson();return false;">
@@ -68,7 +74,7 @@
             <input type="submit" class="btn" value="Add">
         </form>
     </div>
-    
+
     <h2>People In Your Organization</h2>
     <div class="page-block striped edit-list" id="person-list">
         {% for person in organization.get_live_person_set() %}
@@ -168,6 +174,16 @@ jQuery(document).ready(function(){
     editList.on('click', '.edit-button', function(e) {
         $(this).closest('.person-edit').find('form').slideToggle('fast');
     });
+    
+    $('#people').hide();
+    var toggleContainer = $('.toggle-buttons');
+    toggleContainer.on('click', 'a', function(e) {
+        e.preventDefault();
+        toggleContainer.find('a').toggleClass('active');
+        $('.admin-panel').hide();
+        var target = $(this).attr('href');
+        $(target).show();
+    })
     
     var personSearch = $('#person-search');
     personSearch.typeahead({

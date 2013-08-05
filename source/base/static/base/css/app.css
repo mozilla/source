@@ -1026,6 +1026,34 @@ a.promo p {
     margin-left: 1em;
 }
 
+.toggle-buttons {
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1;
+    padding: 0 .67em;
+    margin-bottom: 1em;
+}
+.toggle-buttons a {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    display: inline-block;
+    line-height: 1;
+    margin: 0;
+    padding: .67em 1em;
+    font-size: 14px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.toggle-buttons a.active {
+    background-color: #f0f0f0;
+}
+.toggle-buttons a:hover {
+    text-decoration: none;
+}
+
 /* AUTOCOMPLETE */
 .twitter-typeahead {
     width: 100%;
