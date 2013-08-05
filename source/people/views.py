@@ -163,6 +163,7 @@ class PersonUpdate(View):
             
             if task == 'create':
                 person = self.create_person(data, organization)
+                form_message = 'Created'
                 success_url += '?new=%s' % person.pk
             else:
                 person = self.get_person(data['person'], organization, task)
@@ -181,13 +182,15 @@ class PersonUpdate(View):
         if request.is_ajax():
             result = {
                 'message': form_message,
-                'name': person.name(),
-                'pk': person.pk,
-                'first_name': person.first_name,
-                'last_name': person.last_name,
-                'email': person.email,
-                'twitter_username': person.twitter_username,
-                'github_username': person.github_username
+                'person': {
+                    'name': person.name(),
+                    'pk': person.pk,
+                    'first_name': person.first_name,
+                    'last_name': person.last_name,
+                    'email': person.email,
+                    'twitter_username': person.twitter_username,
+                    'github_username': person.github_username
+                }
             }
             return render_json_to_response(result)
 
