@@ -8,11 +8,13 @@
     {% endif %}
 </div>
 
-{% if debug or user.is_authenticated() and user.is_active and perms.people.change_organization %}
+{% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
 <div class="toggle-buttons">
     <a href="#organization" class="active">Your organization</a>
     <a href="#people">Your people</a>
+    {{ browserid_logout(text='Log out')}}
 </div>
+
 <div id="organization" class="admin-panel">
     <h2>Edit settings: {{ organization }}</h2>
     <div class="page-block">
@@ -181,7 +183,8 @@ jQuery(document).ready(function(){
     var toggleContainer = $('.toggle-buttons');
     toggleContainer.on('click', 'a', function(e) {
         e.preventDefault();
-        toggleContainer.find('a').toggleClass('active');
+        toggleContainer.find('a').removeClass('active');
+        $(this).addClass('active');
         $('.admin-panel').hide();
         var target = $(this).attr('href');
         $(target).show();
