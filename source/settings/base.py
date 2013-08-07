@@ -21,13 +21,24 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'south',
     'taggit',
     'django.contrib.admin',
+    'django.contrib.auth',
     'django.contrib.flatpages',
     'django.contrib.sites',
+    'django_browserid',
 ]
+
+# BrowserID authentication settings
+BROWSERID_CREATE_USER = '%s.people.utils.create_organization_user' % PROJECT_MODULE
+LOGIN_REDIRECT_URL = '/organizations/update/'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
+)
 
 TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
     'source.base.context_processors.http_protocol',
     'source.base.context_processors.warnr',
+    'django_browserid.context_processors.browserid',
 ]
 
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
@@ -50,8 +61,14 @@ HAYSTACK_CONNECTIONS = {
 # Jinja2 is the default template loader. Add any non-Jinja templated apps here:
 JINGO_EXCLUDE_APPS = [
     'admin',
+    'browserid',
     'registration',
 ]
+
+SITE_URL = (
+    'http://source.mozillaopennews.org',
+    'http://source-dev.mozillalabs.com',
+)
 
 # dev is under https and live is (currently) on http
 # make sure we embed the disqus code with the right protocol
