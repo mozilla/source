@@ -28,7 +28,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
 ]
 
 # BrowserID authentication settings
-BROWSERID_CREATE_USER = '%s.people.utils.create_organization_user' % PROJECT_MODULE
+BROWSERID_CREATE_USER = '%s.people.utils.create_auth_user' % PROJECT_MODULE
 LOGIN_REDIRECT_URL = '/organizations/update/'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -67,7 +67,9 @@ JINGO_EXCLUDE_APPS = [
 
 SITE_URL = (
     'http://source.mozillaopennews.org',
+    'https://source.mozillaopennews.org',
     'http://source-dev.mozillalabs.com',
+    'https://source-dev.mozillalabs.com',
 )
 
 # dev is under https and live is (currently) on http
