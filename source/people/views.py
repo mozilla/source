@@ -201,8 +201,7 @@ class PersonUpdate(View):
 class OrganizationUpdate(View):
     template_name = "people/organization_update.html"
     
-    def get_organization(self):
-        user = self.request.user
+    def get_organization(self, user):
         if user.is_authenticated() and user.is_active:
             organization = get_object_or_404(Organization, is_live=True, email=user.email)
             return organization
@@ -213,21 +212,24 @@ class OrganizationUpdate(View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        organization = self.get_organization()
+        user = request.user
         
-        if organization:
-            organization_form = OrganizationUpdateForm(instance=organization)
-            context.update({
-                'user': request.user,
-                'organization': organization,
-                'organization_form': organization_form,
-            })
+        if user.is_authenticated() and user.is_active:
+            organization = self.get_organization(user)
+            if organization:
+                organization_form = OrganizationUpdateForm(instance=organization)
+                context.update({
+                    'user': request.user,
+                    'organization': organization,
+                    'organization_form': organization_form,
+                })
             
         return render_to_response(self.template_name, context, context_instance=RequestContext(request))
 
     def post(self, request, *args, **kwargs):
         context = {}
-        organization = self.get_organization()
+        user = request.user
+        organization = self.get_organization(user)
 
         if organization:
             organization_form = OrganizationUpdateForm(instance=organization, data=request.POST)
