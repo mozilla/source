@@ -1,4 +1,4 @@
 -r ../vendor/src/funfactory/funfactory/requirements/prod.txt
 django_browserid
 requests
-newrelic==1.10.2.38
+newrelic==1.11.0.55
