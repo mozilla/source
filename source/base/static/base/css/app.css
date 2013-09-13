@@ -232,6 +232,9 @@ h1, h2, h3, h5, h6, ul, ol, .caption, label, table,
     display: inline-block;
     font-size: 12px;
 }
+.admin-panel .helptext {
+    display: block;
+}
 
 table {
     font-size: 15px;
