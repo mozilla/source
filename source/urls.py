@@ -14,6 +14,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
+    (r'^browserid/', include('django_browserid.urls')),
     # Generate a robots.txt
     (r'^robots.txt$',
         lambda r: HttpResponse(

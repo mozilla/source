@@ -1,0 +1,318 @@
+{% extends "people/_base_organizations.html" %}
+
+{% block page_title %}Update Your Organization - {{ super() }}{% endblock %}
+
+{% block content %}
+<div class="authentication">
+    {{ browserid_info() }}
+    {% if not user.is_authenticated() %}
+        {{ browserid_login(text='Log in to change your organization details') }}
+    {% endif %}
+</div>
+
+{% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
+<div class="toggle-buttons">
+    <a href="#organization" class="active">Your organization</a>
+    <a href="#people">Your people</a>
+    {{ browserid_logout(text='Log out')}}
+</div>
+
+<div id="organization" class="admin-panel">
+    <h2>Edit settings: {{ organization }}</h2>
+    <div class="page-block">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert">{{ message|safe }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="" id="form-organization-update" class="form-organization-update" onsubmit="submitOrganizationUpdate();return false">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+            <div class="column-half">
+                <label for="id_address">Address:</label>
+                {{ organization_form.address }}
+        
+                <div class="column-half">
+                    <label for="id_city">City:</label>
+                    {{ organization_form.city }}
+                </div>
+                <div class="column-half">
+                    <label for="id_state">State:</label>
+                    {{ organization_form.state }}
+                </div>
+
+                <label for="id_description">Description:</label>
+                {{ organization_form.description }}
+            </div>
+        
+            <div class="column-half">
+                <label for="id_twitter_username">Twitter username:</label>
+                <div class="input-prepend">
+                    <span class="add-on">@</span>
+                    {{ organization_form.twitter_username }}
+                </div>
+
+                <label for="id_github_username">Github username:</label>
+                {{ organization_form.github_username }}
+        
+                <label for="id_homepage">Homepage:</label>
+                {{ organization_form.homepage }}
+            </div>
+        
+            <div class="page-block clear">
+                <input class="btn btn-primary" id="organization-update-button" type="submit" value="Update details">
+                {#}{{ browserid_logout(text='Log out', link_class='btn') }}{#}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="people" class="admin-panel">
+    <h2>Add A Person To Your Organization</h2>
+    <p class="helptext">Select a person already in the Source database, or type a full name to create someone new and add them to your staff list below.</p>
+    <div class="page-block typeahead-widget">
+        <form method="post" action="{{ url('person_update') }}" id="form-person-create" onsubmit="createPerson();return false;">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="organization_task" value="create">
+            <div class="column-half">
+                <input type="text" name="name" id="person-search" class="autocomplete" autocomplete="off" placeholder="Start typing a name...">
+            </div>
+            <input type="submit" class="btn" value="Add">
+        </form>
+    </div>
+
+    <h2>People In Your Organization</h2>
+    <div class="page-block striped edit-list" id="person-list">
+        {% for person in organization.get_live_person_set() %}
+        <div id="person-{{ person.pk }}" class="stripe person-edit">
+            <a class="btn edit-button">Edit</a>
+            <h5>{{ person.name() }}</h5>
+            <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="person" value="{{ person.pk }}">
+                <input type="hidden" name="organization_task" value="update">
+
+                <div class="column-half">
+                    <div class="column-half">
+                        <label for="id_form-{{ person.pk }}-first_name">First name:</label>
+                        <input id="id_form-{{ person.pk }}-first_name" type="text" name="first_name" value="{{ person.first_name }}" maxlength="128" />
+                    </div>
+                    <div class="column-half">
+                        <label for="id_form-{{ person.pk }}-last_name">Last name:</label>
+                        <input id="id_form-{{ person.pk }}-last_name" type="text" name="last_name" value="{{ person.last_name }}" maxlength="128" />
+                    </div>
+
+                    <label for="id_form-{{ person.pk }}-email">Email address:</label>
+                    <input id="id_form-{{ person.pk }}-email" type="text" name="email" value="{{ person.email }}" maxlength="75" />
+                </div>
+
+                <div class="column-half">
+                    <label for="id_form-{{ person.pk }}-twitter_username">Twitter username:</label>
+                    <input id="id_form-{{ person.pk }}-twitter_username" type="text" name="twitter_username" value="{{ person.twitter_username }}" maxlength="32" />
+
+                    <label for="id_form-{{ person.pk }}-github_username">Github username:</label>
+                    <input id="id_form-{{ person.pk }}-github_username" type="text" name="github_username" value="{{ person.github_username }}" maxlength="32" />
+                </div>
+
+                <div id="submit-container-{{ person.pk }}" class="page-block">
+                    <input class="btn btn-primary btn-small" name="person-update-button-{{ person.pk }}" type="submit" value="Update">
+                    <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmRemove({{ person.pk }});">
+                </div>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block site_js_extra %}
+{{ browserid_js() }}
+<script src="{{ static('base/js/libs/jquery-1.7.2.min.js') }}"></script>
+<script src="{{ static('base/js/libs/typeahead.min.js') }}"></script>
+<script src="{{ static('base/js/libs/hogan-2.0.0.js') }}"></script>
+
+<script id="personTemplate" type="text/mustache">
+{% raw %}<div id="person-{{person.pk}}" class="stripe person-edit">
+    <a class="btn edit-button">Edit</a>
+    <h5>{{person.name}}</h5>
+    <form method="post" action="/people/update/" id="form-person-update-{{person.pk}}" class="form-person-update" onsubmit="submitPersonUpdate({{person.pk}});return false;">{% endraw %}
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        {% raw %}<input type="hidden" name="person" value="{{person.pk}}">
+        <input type="hidden" name="organization_task" value="update">
+
+        <div class="column-half">
+            <div class="column-half">
+                <label for="id_form-{{person.pk}}-first_name">First name:</label>
+                <input id="id_form-{{person.pk}}-first_name" type="text" name="first_name" value="{{person.first_name}}" maxlength="128" />
+            </div>
+            <div class="column-half">
+                <label for="id_form-{{person.pk}}-last_name">Last name:</label>
+                <input id="id_form-{{person.pk}}-last_name" type="text" name="last_name" value="{{person.last_name}}" maxlength="128" />
+            </div>
+
+            <label for="id_form-{{person.pk}}-email">Email address:</label>
+            <input id="id_form-{{person.pk}}-email" type="text" name="email" value="{{person.email}}" maxlength="75" />
+        </div>
+
+        <div class="column-half">
+            <label for="id_form-{{person.pk}}-twitter_username">Twitter username:</label>
+            <input id="id_form-{{person.pk}}-twitter_username" type="text" name="twitter_username" value="{{person.twitter_username}}" maxlength="32" />
+
+            <label for="id_form-{{person.pk}}-github_username">Github username:</label>
+            <input id="id_form-{{person.pk}}-github_username" type="text" name="github_username" value="{{person.github_username}}" maxlength="32" />
+        </div>
+
+        <div id="submit-container-{{person.pk}}" class="page-block">
+            <input class="btn btn-primary btn-small" name="person-update-button-{{person.pk}}" type="submit" value="Update">
+            <input class="btn btn-danger btn-small" name="person-remove-button-{{person.pk}}" type="button" value="Remove" onclick="confirmRemove({{person.pk}});">
+        </div>
+    </form>
+</div>{% endraw %}
+</script>
+<script type="text/javascript">
+var template = $('#personTemplate').html();
+var compiledTemplate = Hogan.compile(template);
+
+jQuery(document).ready(function(){
+    var editList = $('.edit-list');
+    editList.find('form').hide();
+    editList.on('click', '.edit-button', function(e) {
+        $(this).closest('.person-edit').find('form').slideToggle('fast');
+    });
+    
+    $('#people').hide();
+    var toggleContainer = $('.toggle-buttons');
+    toggleContainer.on('click', 'a', function(e) {
+        e.preventDefault();
+        toggleContainer.find('a').removeClass('active');
+        $(this).addClass('active');
+        $('.admin-panel').hide();
+        var target = $(this).attr('href');
+        $(target).show();
+    })
+    
+    var personSearch = $('#person-search');
+    personSearch.typeahead({
+        name: 'people',
+        valueKey: 'name',
+        prefetch: '{{ url("person_search_json") }}',
+        limit: 20,
+        template: {% raw %}'<p>{{first_name}} {{last_name}}</p>'{% endraw %},
+        engine: Hogan
+    });
+    personSearch.on('typeahead:selected', function(obj, datum) {
+        personSearch.typeahead('setQuery', '');
+        submitPersonUpdate(datum['id'], 'add');
+    });
+})
+
+function alertSave(container, msg, disableFade) {
+    container.text(msg);
+    if (!disableFade) {
+        container.delay(500).fadeOut('slow', function() {
+            container.remove();
+        });
+    }
+}
+
+function clearAlerts() {
+    $('.save-alert').remove();
+}
+
+function removeContainer(container) {
+    container.fadeOut('slow', function() {
+        container.remove();
+    });
+}
+
+function submitOrganizationUpdate() {
+    var statusMsg = $('<span class="save-alert">Saving</span>');
+    var submitButton = $('#organization-update-button');
+    submitButton.after(statusMsg);
+    $.ajax({
+        type: "POST",
+        url: "{{ url('organization_update') }}",
+        data: $('#form-organization-update').serialize(),
+        dataType: "json",
+        success: function(response) {
+            alertSave(statusMsg, 'Saved!');
+        },
+        error: function(response) {
+            alertSave(statusMsg, 'Error saving...');
+        }
+    });
+}
+
+function createPerson() {
+    clearAlerts();
+
+    formData = $('#form-person-create').serialize();
+    $.ajax({
+        type: "POST",
+        url: "{{ url('person_update') }}",
+        data: formData,
+        dataType: "json",
+        success: function(response) {
+            if (response['message'] == 'Created') {
+                var newPerson = compiledTemplate.render(response);
+                $(newPerson).hide().prependTo('#person-list').fadeIn();
+            }
+        },
+        error: function(response) {
+            alertSave(statusMsg, 'Error saving...');
+        }
+    });
+}
+
+function submitPersonUpdate(personID, task) {
+    clearAlerts();
+
+    var statusMsg = $('<span class="save-alert">Saving</span>'),
+        submitContainer = $('#submit-container-'+personID);
+    submitContainer.append(statusMsg);
+    
+    if (!!task && (task == 'add' || 'remove')) {
+        formData = {
+            person: personID,
+            organization_task: task,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        }
+    } else {
+        formData = $('#form-person-update-'+personID).serialize();
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "{{ url('person_update') }}",
+        data: formData,
+        dataType: "json",
+        success: function(response) {
+            if (response['message'] == 'Added') {
+                var newPerson = compiledTemplate.render(response);
+                $(newPerson).hide().prependTo('#person-list').fadeIn();
+            } else if (response['message'] != 'Saved!') {
+                alertSave(statusMsg, response['message'], true);
+            } else {
+                alertSave(statusMsg, response['message']);
+                submitContainer.closest('.person-edit').find('h5').text(response['person']['name']);
+            }
+        },
+        error: function(response) {
+            alertSave(statusMsg, 'Error saving...');
+        }
+    });
+
+    if (task == 'remove') {
+        removeContainer(submitContainer.closest('.person-edit'));
+    }
+}
+
+function confirmRemove(personID) {
+    if (confirm('Are you sure you want to remove this person from your organization?')) {
+        submitPersonUpdate(personID, 'remove');
+    }
+}
+</script>
+{% endblock %}
