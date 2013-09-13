@@ -23,6 +23,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.flatpages',
+    'django.contrib.redirects',
     'django.contrib.sites',
     'django_browserid',
 ]
@@ -42,7 +43,9 @@ TEMPLATE_CONTEXT_PROCESSORS = list(TEMPLATE_CONTEXT_PROCESSORS) + [
 ]
 
 MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES)
+MIDDLEWARE_CLASSES.append('django.contrib.redirects.middleware.RedirectFallbackMiddleware')
 MIDDLEWARE_CLASSES.append('django.contrib.flatpages.middleware.FlatpageFallbackMiddleware')
+
 # Responsive design means we can remove mobility helpers
 MIDDLEWARE_CLASSES = filter(lambda middleware: 'mobility' not in middleware, MIDDLEWARE_CLASSES)
 
