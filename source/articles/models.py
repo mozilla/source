@@ -118,8 +118,8 @@ class Article(CachingMixin, models.Model):
     def get_live_author_bio_set(self):
         # only authors with acutal bio information
         author_set = self.get_live_author_set().exclude(description='')
-        # filter out bio boxes for Erin and Erika
-        authors_to_exclude = ['erin-kissane','erika-owens']
+        # filter out bio boxes for Erin, Erika, 
+        authors_to_exclude = ['erin-kissane','erika-owens','kio-stark']
         author_set = author_set.exclude(slug__in=authors_to_exclude)
         return author_set
 
