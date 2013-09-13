@@ -15,18 +15,14 @@ site.addsitedir(os.path.abspath(os.path.join(wsgidir, '../')))
 import manage
 from django.conf import settings
 
+# attempt to engage with New Relic...
 NEW_RELIC_CONFIG_FILE = getattr(settings, 'NEW_RELIC_CONFIG_FILE', None)
-NEW_RELIC_ENVIRONMENT = getattr(settings, 'NEW_RELIC_ENVIRONMENT', None)
-
-if NEW_RELIC_CONFIG_FILE and NEW_RELIC_ENVIRONMENT:
-    import newrelic.agent
-    newrelic.agent.initialize(NEW_RELIC_CONFIG_FILE, NEW_RELIC_ENVIRONMENT)
-    newrelic_settings = newrelic.agent.globalsettings()
-
-import django.core.handlers.wsgi
-application = django.core.handlers.wsgi.WSGIHandler()
-
 if NEW_RELIC_CONFIG_FILE:
-    application = newrelic.agent.wsgi_application()(application)
+    import newrelic.agent
+    newrelic.agent.initialize(NEW_RELIC_CONFIG_FILE)
+
+# load the app
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 
 # vim: ft=python

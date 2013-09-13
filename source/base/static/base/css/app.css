@@ -232,6 +232,9 @@ h1, h2, h3, h5, h6, ul, ol, .caption, label, table,
     display: inline-block;
     font-size: 12px;
 }
+.admin-panel .helptext {
+    display: block;
+}
 
 table {
     font-size: 15px;
@@ -728,7 +731,8 @@ p.tagline {
 }
 
 ul.orderswitch {
-    margin: 0px 0px 15px;
+    margin: 0 0 15px;
+    padding: 0;
 }
 
 ul.orderswitch li {
@@ -736,9 +740,9 @@ ul.orderswitch li {
     font-weight: normal;
     text-transform: uppercase;
     font-size: .7em;
-    padding: 0px;
-    text-indent: 0px;
-    margin-left: 0px;
+    padding: 0;
+    text-indent: 0;
+    margin-left: 0;
     list-style: none;
     display: inline-block;
     color: gray;
