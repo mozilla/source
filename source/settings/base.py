@@ -27,6 +27,8 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     'django.contrib.sites',
     'django_browserid',
 ]
+INSTALLED_APPS = filter(lambda app: 'djcelery' not in app, INSTALLED_APPS)
+
 
 # BrowserID authentication settings
 BROWSERID_CREATE_USER = '%s.people.utils.create_auth_user' % PROJECT_MODULE
