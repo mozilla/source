@@ -20,7 +20,11 @@ class Migration(SchemaMigration):
             ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=50)),
             ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
             ('twitter_username', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('twitter_bio', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('twitter_profile_image_url', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
             ('github_username', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('github_repos_num', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('github_gists_num', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
         ))
         db.send_create_signal('people', ['Person'])
@@ -50,9 +54,21 @@ class Migration(SchemaMigration):
             ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('is_live', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('show_in_lists', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=50)),
+            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
+            ('twitter_username', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('github_username', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('github_repos_num', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('github_gists_num', self.gf('django.db.models.fields.PositiveIntegerField')(null=True, blank=True)),
+            ('homepage', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('address', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
+            ('city', self.gf('django.db.models.fields.CharField')(max_length=64, blank=True)),
+            ('state', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('country', self.gf('django.db.models.fields.CharField')(max_length=32, blank=True)),
+            ('logo', self.gf('sorl.thumbnail.fields.ImageField')(max_length=100, null=True, blank=True)),
         ))
         db.send_create_signal('people', ['Organization'])
 
@@ -88,13 +104,25 @@ class Migration(SchemaMigration):
     models = {
         'people.organization': {
             'Meta': {'ordering': "('name',)", 'object_name': 'Organization'},
+            'address': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '64', 'blank': 'True'}),
+            'country': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'github_gists_num': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'github_repos_num': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'github_username': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
+            'homepage': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_live': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'logo': ('sorl.thumbnail.fields.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'})
+            'show_in_lists': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'}),
+            'state': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
+            'twitter_username': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'})
         },
         'people.organizationlink': {
             'Meta': {'ordering': "('organization', 'name')", 'object_name': 'OrganizationLink'},
@@ -111,6 +139,8 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'github_gists_num': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'github_repos_num': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'github_username': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_live': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
@@ -119,6 +149,8 @@ class Migration(SchemaMigration):
             'organizations': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': "orm['people.Organization']", 'null': 'True', 'blank': 'True'}),
             'show_in_lists': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'}),
+            'twitter_bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'twitter_profile_image_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             'twitter_username': ('django.db.models.fields.CharField', [], {'max_length': '32', 'blank': 'True'})
         },
         'people.personlink': {
