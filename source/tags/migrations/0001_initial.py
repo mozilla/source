@@ -21,7 +21,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('object_id', self.gf('django.db.models.fields.IntegerField')(db_index=True)),
             ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(related_name='tags_technologytaggeditem_tagged_items', to=orm['contenttypes.ContentType'])),
-            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tags.TechnologyTag'])),
+            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(related_name='tags_technologytaggeditem_techtag_items', to=orm['tags.TechnologyTag'])),
         ))
         db.send_create_signal('tags', ['TechnologyTaggedItem'])
 
@@ -38,7 +38,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('object_id', self.gf('django.db.models.fields.IntegerField')(db_index=True)),
             ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(related_name='tags_concepttaggeditem_tagged_items', to=orm['contenttypes.ContentType'])),
-            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tags.ConceptTag'])),
+            ('tag', self.gf('django.db.models.fields.related.ForeignKey')(related_name='tags_concepttaggeditem_concepttag_items', to=orm['tags.ConceptTag'])),
         ))
         db.send_create_signal('tags', ['ConceptTaggedItem'])
 
@@ -76,7 +76,7 @@ class Migration(SchemaMigration):
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'tags_concepttaggeditem_tagged_items'", 'to': "orm['contenttypes.ContentType']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
-            'tag': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['tags.ConceptTag']"})
+            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'tags_concepttaggeditem_concepttag_items'", 'to': "orm['tags.ConceptTag']"})
         },
         'tags.technologytag': {
             'Meta': {'object_name': 'TechnologyTag'},
@@ -89,7 +89,7 @@ class Migration(SchemaMigration):
             'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'tags_technologytaggeditem_tagged_items'", 'to': "orm['contenttypes.ContentType']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
-            'tag': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['tags.TechnologyTag']"})
+            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'tags_technologytaggeditem_techtag_items'", 'to': "orm['tags.TechnologyTag']"})
         }
     }
 
