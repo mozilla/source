@@ -71,8 +71,8 @@ JINGO_EXCLUDE_APPS = [
 ]
 
 SITE_URL = (
-    'http://source.mozillaopennews.org',
-    'https://source.mozillaopennews.org',
+    'http://source.opennews.org',
+    'https://source.opennews.org',
     'http://source-dev.mozillalabs.com',
     'https://source-dev.mozillalabs.com',
 )
