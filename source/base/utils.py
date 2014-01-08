@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, InvalidPage
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.utils import simplejson
 
 
 def paginate(request, queryset, results_per_page=20):
@@ -15,3 +16,10 @@ def paginate(request, queryset, results_per_page=20):
         raise PermissionDenied()
         
     return page, paginator
+
+def render_json_to_response(context):
+    '''
+    Utility method for rendering a view's data to JSON response.
+    '''
+    result = simplejson.dumps(context, sort_keys=False, indent=4)
+    return HttpResponse(result, mimetype='application/javascript')

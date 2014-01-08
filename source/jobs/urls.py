@@ -21,4 +21,10 @@ urlpatterns = patterns('',
         kwargs = {},
         name = 'job_list_feed',
     ),
+    url(
+        regex = '^json/$',
+        view = cache_page(JobList.as_view(), FEED_CACHE_TIME),
+        kwargs = {'render_json': True},
+        name = 'job_list_feed_json',
+    ),
 )
