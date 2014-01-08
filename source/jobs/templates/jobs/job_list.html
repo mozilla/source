@@ -1,0 +1,11 @@
+{% extends "jobs/_base_jobs.html" %}
+
+{% block content %}
+
+<ul>
+{% for job in object_list %}
+    <li>{{ job }}</li>
+{% endfor %}
+</ul>
+
+{% endblock content %}

@@ -11,7 +11,7 @@ class JobList(ListView):
 
     def dispatch(self, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        return super(CodeList, self).dispatch(*args, **kwargs)
+        return super(JobList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = Job.live_objects.all()

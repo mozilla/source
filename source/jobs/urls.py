@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
-from .views import JobList, JobDetail
+from .views import JobList
 #from source.base.feeds import JobFeed
 
 STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
