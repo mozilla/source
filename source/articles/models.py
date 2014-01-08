@@ -24,6 +24,8 @@ class Article(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
+    show_in_lists = models.BooleanField(default=True)
+    allow_comments = models.BooleanField(default=True)
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     pubdate = models.DateTimeField(default=datetime.now)
@@ -116,8 +118,8 @@ class Article(CachingMixin, models.Model):
     def get_live_author_bio_set(self):
         # only authors with acutal bio information
         author_set = self.get_live_author_set().exclude(description='')
-        # filter out bio boxes for Erin and Erika
-        authors_to_exclude = ['erin-kissane','erika-owens']
+        # filter out bio boxes for Erin, Erika, 
+        authors_to_exclude = ['erin-kissane','erika-owens','kio-stark']
         author_set = author_set.exclude(slug__in=authors_to_exclude)
         return author_set
 

@@ -29,7 +29,7 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('title', 'body', 'summary',)
     date_hierarchy = 'pubdate'
     fieldsets = (
-        ('', {'fields': (('title', 'slug'), 'subhead', ('pubdate', 'is_live'), ('category', 'tags'), 'technology_tags', 'concept_tags', )}),
+        ('', {'fields': (('pubdate', 'is_live', 'show_in_lists', 'allow_comments'), ('title', 'slug'), 'subhead', ('category', 'tags'), 'technology_tags', 'concept_tags',)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
     )
