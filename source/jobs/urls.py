@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
 from .views import JobList
-#from source.base.feeds import JobFeed
+from source.base.feeds import JobFeed
 
 STANDARD_CACHE_TIME = getattr(settings, 'CACHE_MIDDLEWARE_SECONDS', 60*15)
 FEED_CACHE_TIME = getattr(settings, 'FEED_CACHE_SECONDS', 60*15)
@@ -14,5 +14,11 @@ urlpatterns = patterns('',
         view = cache_page(JobList.as_view(), STANDARD_CACHE_TIME),
         kwargs = {},
         name = 'job_list',
+    ),
+    url(
+        regex = '^rss/$',
+        view = cache_page(JobFeed(), FEED_CACHE_TIME),
+        kwargs = {},
+        name = 'job_list_feed',
     ),
 )

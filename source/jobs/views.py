@@ -22,7 +22,7 @@ class JobList(ListView):
         context = super(JobList, self).get_context_data(**kwargs)
         context['active_nav'] = 'Jobs'
 
-        #context['rss_link'] = reverse('code_list_feed')
+        context['rss_link'] = reverse('job_list_feed')
         #context['json_link'] = reverse('code_list_feed_json')
         
         return context
