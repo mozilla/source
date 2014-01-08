@@ -6,10 +6,10 @@ class JobAdmin(admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('is_live', 'organization',)
-    search_fields = ('name', 'description',)
+    list_display = ('name', 'organization', 'will_show_on_site', 'listing_start_date', 'listing_end_date')
+    search_fields = ('name', 'organization__name',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug', 'is_live'), 'organization', ('listing_start_date', 'listing_end_date'),)}),
-        ('Job Details', {'fields': ('description', 'summary', 'requirements', 'salary', 'location', 'job_start_date', 'url')}),
+        ('', {'fields': (('name', 'slug'), 'organization', 'url', 'listing_start_date', 'listing_end_date', 'is_live',)}),
     )
 
 admin.site.register(Job, JobAdmin)
