@@ -4,7 +4,6 @@ from django.template import RequestContext
 from django.views.generic import ListView, DetailView
 
 from .models import Job
-from source.utils.pagination import paginate
 
 
 class JobList(ListView):
@@ -27,12 +26,3 @@ class JobList(ListView):
         #context['json_link'] = reverse('code_list_feed_json')
         
         return context
-
-
-class JobDetail(DetailView):
-    model = Job
-
-    def get_queryset(self):
-        queryset = Job.live_objects.all()
-        
-        return queryset

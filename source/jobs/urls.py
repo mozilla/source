@@ -15,10 +15,4 @@ urlpatterns = patterns('',
         kwargs = {},
         name = 'job_list',
     ),
-    url(
-        regex = '^(?P<slug>[-\w]+)/$',
-        view = cache_page(JobDetail.as_view(), STANDARD_CACHE_TIME),
-        kwargs = {},
-        name = 'job_detail',
-    ),
 )
