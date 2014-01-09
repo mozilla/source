@@ -28,6 +28,7 @@ class Job(CachingMixin, models.Model):
     slug = models.SlugField(unique=True)
     listing_start_date = models.DateField(default=TODAY)
     listing_end_date = models.DateField(default=TODAY_PLUS_30)
+    tweeted_at = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True, null=True, verify_exists=False)
     objects = models.Manager()
     live_objects = LiveJobManager()
