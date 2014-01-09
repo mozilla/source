@@ -77,6 +77,7 @@ SITE_URL = (
     'http://source-dev.mozillalabs.com',
     'https://source-dev.mozillalabs.com',
 )
+BASE_SITE_URL = 'https://source.opennews.org'
 
 # dev is under https and live is (currently) on http
 # make sure we embed the disqus code with the right protocol
