@@ -1,11 +1,26 @@
 {% extends "jobs/_base_jobs.html" %}
 
 {% block content %}
+<h1 class="maintopic">Jobs</h1>
 
-<ul>
-{% for job in object_list %}
-    <li>{{ job }}</li>
-{% endfor %}
-</ul>
-
+<table>
+    <thead>
+        <tr>
+            <th>Job</th>
+            <th>Contact</th>
+            <th>Organization</th>
+            <th>Listing date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in object_list %}
+        <tr>
+            <td>{{ job.name|title }}</td>
+            <td>{% if job.get_contact_link %}<a href="{{ job.get_contact_link }}">{{ job.get_contact_text }}</a>{% endif %}</td>
+            <td><a href="{{ job.organization.get_absolute_url() }}">{{ job.organization.name }}</a></td>
+            <td>{{ job.pretty_start_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock content %}

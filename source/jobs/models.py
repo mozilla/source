@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.defaultfilters import date as dj_date
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -42,6 +43,29 @@ class Job(CachingMixin, models.Model):
     def will_show_on_site(self):
         return (self.is_live and self.listing_start_date <= TODAY and self.listing_end_date >= TODAY)
     will_show_on_site.boolean = True
+
+    @property
+    def get_contact_link(self):
+        '''returns job url, falls back to organzation email'''
+        if self.url:
+            return self.url
+        elif self.organzation.email:
+            return 'mailto:%s' % self.organzation.email
+        return ''
+
+    @property
+    def get_contact_text(self):
+        '''returns text for contact link'''
+        if self.url:
+            return 'Job page'
+        elif self.organzation.email:
+            return 'Email'
+        return ''
+    
+    @property
+    def pretty_start_date(self):
+        '''pre-process for simpler template logic'''
+        return dj_date(self.listing_start_date,"F j, Y")
 
     def save(self, *args, **kwargs):
         '''prepend pk to job slug to keep things unique'''
