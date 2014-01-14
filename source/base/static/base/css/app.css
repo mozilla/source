@@ -1478,7 +1478,9 @@ a.promo p {
         width: auto;
         margin: .33em 0 1em;
     }
-    
+    table .cell-secondary {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 480px) {
