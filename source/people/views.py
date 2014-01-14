@@ -66,7 +66,7 @@ class OrganizationDetail(DetailView):
     model = Organization
 
     def get_queryset(self):
-        queryset = Organization.live_objects.prefetch_related('organizationlink_set', 'person_set', 'code_set', 'article_set')
+        queryset = Organization.live_objects.prefetch_related('organizationlink_set', 'person_set', 'code_set', 'article_set', 'job_set')
         
         return queryset
 
