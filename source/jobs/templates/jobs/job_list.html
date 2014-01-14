@@ -16,7 +16,11 @@
         {% for job in object_list %}
         <tr>
             <td>{{ job.name|title }}</td>
-            <td>{% if job.get_contact_link %}<a href="{{ job.get_contact_link }}">{{ job.get_contact_text }}</a>{% endif %}</td>
+            <td>
+                {% if job.url %}<a href="{{ job.url }}">Job page</a>{% endif %}
+                {% if job.url and job.get_contact_email %} / {% endif %}
+                {% if job.get_contact_email %}<a href="mailto:{{ job.get_contact_email }}">Email</a>{% endif %}
+            </td>
             <td><a href="{{ job.organization.get_absolute_url() }}">{{ job.organization.name }}</a></td>
             <td>{{ job.pretty_start_date }}</td>
         </tr>

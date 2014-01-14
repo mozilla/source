@@ -31,6 +31,7 @@ class Job(CachingMixin, models.Model):
     listing_end_date = models.DateField(default=TODAY_PLUS_30)
     tweeted_at = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True, null=True, verify_exists=False)
+    email = models.EmailField('Email address', blank=True)
     objects = models.Manager()
     live_objects = LiveJobManager()
     
@@ -45,22 +46,9 @@ class Job(CachingMixin, models.Model):
     will_show_on_site.boolean = True
 
     @property
-    def get_contact_link(self):
-        '''returns job url, falls back to organzation email'''
-        if self.url:
-            return self.url
-        elif self.organzation.email:
-            return 'mailto:%s' % self.organzation.email
-        return ''
-
-    @property
-    def get_contact_text(self):
-        '''returns text for contact link'''
-        if self.url:
-            return 'Job page'
-        elif self.organzation.email:
-            return 'Email'
-        return ''
+    def get_contact_email(self):
+        '''returns job email, falls back to organzation email'''
+        return self.email or self.organization.email
     
     @property
     def pretty_start_date(self):

@@ -10,7 +10,7 @@ class JobAdmin(admin.ModelAdmin):
     list_display = ('name', 'organization', 'will_show_on_site', 'listing_start_date', 'listing_end_date')
     search_fields = ('name', 'organization__name',)
     fieldsets = (
-        ('', {'fields': (('name', 'slug'), 'organization', 'url', 'tweeted_at', 'listing_start_date', 'listing_end_date', 'is_live',)}),
+        ('', {'fields': (('name', 'slug'), 'organization', 'url', 'email', 'tweeted_at', 'listing_start_date', 'listing_end_date', 'is_live',)}),
     )
 
 admin.site.register(Job, JobAdmin)
