@@ -85,7 +85,7 @@
     <h2>People In Your Organization</h2>
     <div class="page-block striped edit-list" id="person-list">
         {% for person in organization.get_live_person_set() %}
-        <div id="person-{{ person.pk }}" class="stripe person-edit">
+        <div id="person-{{ person.pk }}" class="stripe object-edit">
             <a class="btn edit-button">Edit</a>
             <h5>{{ person.name() }}</h5>
             <form method="post" action="{{ url('person_update') }}" id="form-person-update-{{ person.pk }}" class="form-person-update" onsubmit="submitPersonUpdate({{ person.pk }});return false;">
@@ -117,7 +117,7 @@
 
                 <div id="submit-container-{{ person.pk }}" class="page-block">
                     <input class="btn btn-primary btn-small" name="person-update-button-{{ person.pk }}" type="submit" value="Update">
-                    <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmRemove({{ person.pk }});">
+                    <input class="btn btn-danger btn-small" name="person-remove-button-{{ person.pk }}" type="button" value="Remove" onclick="confirmPersonRemove({{ person.pk }});">
                 </div>
             </form>
         </div>
@@ -134,7 +134,7 @@
 <script src="{{ static('base/js/libs/hogan-2.0.0.js') }}"></script>
 
 <script id="personTemplate" type="text/mustache">
-{% raw %}<div id="person-{{person.pk}}" class="stripe person-edit">
+{% raw %}<div id="person-{{person.pk}}" class="stripe object-edit">
     <a class="btn edit-button">Edit</a>
     <h5>{{person.name}}</h5>
     <form method="post" action="/people/update/" id="form-person-update-{{person.pk}}" class="form-person-update" onsubmit="submitPersonUpdate({{person.pk}});return false;">{% endraw %}
@@ -166,23 +166,24 @@
 
         <div id="submit-container-{{person.pk}}" class="page-block">
             <input class="btn btn-primary btn-small" name="person-update-button-{{person.pk}}" type="submit" value="Update">
-            <input class="btn btn-danger btn-small" name="person-remove-button-{{person.pk}}" type="button" value="Remove" onclick="confirmRemove({{person.pk}});">
+            <input class="btn btn-danger btn-small" name="person-remove-button-{{person.pk}}" type="button" value="Remove" onclick="confirmPersonRemove({{person.pk}});">
         </div>
     </form>
 </div>{% endraw %}
 </script>
 <script type="text/javascript">
-var template = $('#personTemplate').html();
-var compiledTemplate = Hogan.compile(template);
+var personTemplate = $('#personTemplate').html();
+var compiledPersonTemplate = Hogan.compile(personTemplate);
 
 jQuery(document).ready(function(){
     var editList = $('.edit-list');
     editList.find('form').hide();
     editList.on('click', '.edit-button', function(e) {
-        $(this).closest('.person-edit').find('form').slideToggle('fast');
+        toggleEditForm($(this));
     });
     
-    $('#people').hide();
+    $('.admin-panel:not(#organization)').hide();
+
     var toggleContainer = $('.toggle-buttons');
     toggleContainer.on('click', 'a', function(e) {
         e.preventDefault();
@@ -207,6 +208,10 @@ jQuery(document).ready(function(){
         submitPersonUpdate(datum['id'], 'add');
     });
 })
+
+function toggleEditForm(element) {
+    $(element).closest('.object-edit').find('form').slideToggle('fast');
+}
 
 function alertSave(container, msg, disableFade) {
     container.text(msg);
@@ -256,7 +261,7 @@ function createPerson() {
         dataType: "json",
         success: function(response) {
             if (response['message'] == 'Created') {
-                var newPerson = compiledTemplate.render(response);
+                var newPerson = compiledPersonTemplate.render(response);
                 $(newPerson).hide().prependTo('#person-list').fadeIn();
             }
         },
@@ -270,8 +275,8 @@ function submitPersonUpdate(personID, task) {
     clearAlerts();
 
     var statusMsg = $('<span class="save-alert">Saving</span>'),
-        submitContainer = $('#submit-container-'+personID);
-    submitContainer.append(statusMsg);
+        submitContainer = $('#submit-container-'+personID),
+        nameContainer = $('#person-'+personID+' h5');
     
     if (!!task && (task == 'add' || 'remove')) {
         formData = {
@@ -290,13 +295,16 @@ function submitPersonUpdate(personID, task) {
         dataType: "json",
         success: function(response) {
             if (response['message'] == 'Added') {
-                var newPerson = compiledTemplate.render(response);
+                var newPerson = compiledPersonTemplate.render(response);
                 $(newPerson).hide().prependTo('#person-list').fadeIn();
             } else if (response['message'] != 'Saved!') {
+                submitContainer.append(statusMsg);
                 alertSave(statusMsg, response['message'], true);
             } else {
+                toggleEditForm(nameContainer);
+                submitContainer.closest('.object-edit').find('h5').text(response['person']['name']);
+                nameContainer.append(statusMsg);
                 alertSave(statusMsg, response['message']);
-                submitContainer.closest('.person-edit').find('h5').text(response['person']['name']);
             }
         },
         error: function(response) {
@@ -305,11 +313,11 @@ function submitPersonUpdate(personID, task) {
     });
 
     if (task == 'remove') {
-        removeContainer(submitContainer.closest('.person-edit'));
+        removeContainer(submitContainer.closest('.object-edit'));
     }
 }
 
-function confirmRemove(personID) {
+function confirmPersonRemove(personID) {
     if (confirm('Are you sure you want to remove this person from your organization?')) {
         submitPersonUpdate(personID, 'remove');
     }
