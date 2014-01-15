@@ -265,6 +265,10 @@ table thead:first-child tr:first-child td {
     border-top: 0;
 }
 
+table .cell-secondary {
+    white-space: nowrap;
+}
+
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th,
 .striped .stripe:nth-child(odd) {
@@ -1007,9 +1011,9 @@ a.promo p {
 .form-organization-update input[type="text"],
 .form-organization-update .input-prepend,
 .form-organization-update textarea,
-.form-person-update input[type="text"],
-.form-person-update .input-prepend,
-.form-person-update textarea {
+.object-edit input[type="text"],
+.object-edit .input-prepend,
+.object-edit textarea {
     display: auto;
     width: 90%;
 }
