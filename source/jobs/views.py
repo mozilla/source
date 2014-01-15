@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
+from django.template.defaultfilters import slugify
 from django.views.generic import ListView, DetailView, View
 
 from .forms import JobUpdateForm
@@ -78,15 +79,13 @@ class JobUpdate(View):
         return None
 
     def create_job(self, data, organization):
-        name = data['name']
-        # make sure we actually have been given a name
-        if name:
-            job_kwargs = {
-                'name': name,
-                'email': email,
-                'url': url,
-                'organization': organization,
-            }
+        # use built-in form validation for new data
+        job_form = JobUpdateForm(data=data)
+        if job_form.is_valid():
+            job_kwargs = job_form.cleaned_data
+            job_kwargs.update({
+                'organization': organization
+            })
 
             job = Job(**job_kwargs)
             job.save()
@@ -120,7 +119,6 @@ class JobUpdate(View):
         organization = self.get_organization()
 
         if task == 'create':
-            print 'creating'
             job = self.create_job(data, organization)
             form_message = 'Created'
         else:
@@ -128,7 +126,6 @@ class JobUpdate(View):
             if task == 'update':
                 form_message = self.process_form(job, data)
             elif task == 'remove':
-                print 'removing'
                 job.delete()
                 form_message = 'Removed'
 

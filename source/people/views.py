@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -222,6 +224,7 @@ class OrganizationUpdate(View):
                     'user': request.user,
                     'organization': organization,
                     'organization_form': organization_form,
+                    'default_job_listing_end_date': datetime.today().date() + timedelta(days=30)
                 })
             
         return render_to_response(self.template_name, context, context_instance=RequestContext(request))
