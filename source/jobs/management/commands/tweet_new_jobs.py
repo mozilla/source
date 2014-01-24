@@ -15,6 +15,7 @@ of jobs that haven't been tweeted yet.
 from datetime import datetime
 import logging
 import oauth2 as oauth
+import random
 import urllib
 
 from django.conf import settings
@@ -51,7 +52,7 @@ class Command(BaseCommand):
             try:
                 # build the tweet
                 job_url = job.url or ('%s%s' % (settings.BASE_SITE_URL, reverse('job_list')))
-                tweet = "New job listing from %s: %s %s" % (job.organization.name, job.name, job_url)
+                tweet = make_tweet(job.organization.name, job.name, job_url)
                 if settings.DEBUG:
                     tweet = "TEST POST: %s" % tweet
                 
@@ -71,11 +72,38 @@ class Command(BaseCommand):
                 # won't be picked up in queryset on next run
                 job.tweeted_at = datetime.now()
                 job.save()
-                
+
                 logging.info('Succesful update: %s' % tweet)
             except:
                 logging.info('ERROR: %s' % job)
                 pass
 
         logging.info('Finished posting: %s' % datetime.now())
+
+TWEET_CONSTRUCTS = [
+    ('New job listing from %s: %s.', ('org', 'job')),
+    ('Job opening at %s: %s.', ('org', 'job')),
+    ('%s is hiring. See the %s listing:', ('org', 'job')),
+    ('New on the @source jobs page: %s opening at %s.', ('job', 'org')),
+    ('%s job listing posted by %s.', ('job', 'org')),
+    ('%s opening at %s.', ('job', 'org')),
+    ('%s listing on the @source jobs page. %s is hiring:', ('job', 'org')),
+]
+
+def make_tweet(org_name, job_name, job_url):
+    # stash the variables for our madlib
+    tweet_data = {
+        'org': org_name,
+        'job': job_name,
+        'url': job_url
+    }
+
+    # get a random tweet template, along with order of org name and job name
+    tweet_template, template_vars = TWEET_CONSTRUCTS[random.randrange(len(TWEET_CONSTRUCTS))]
+    first, second = template_vars
     
+    # build the tweet, then append the url
+    tweet = tweet_template % (tweet_data[first], tweet_data[second])
+    tweet = '%s %s' % (tweet, tweet_data['url'])
+    
+    return tweet
