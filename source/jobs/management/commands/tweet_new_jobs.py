@@ -15,6 +15,7 @@ of jobs that haven't been tweeted yet.
 from datetime import datetime
 import logging
 import oauth2 as oauth
+import urllib
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -22,10 +23,10 @@ from django.core.urlresolvers import reverse
 
 from source.jobs.models import Job
 
-CONSUMER_KEY=settings.TWITTER_CONSUMER_KEY
-CONSUMER_SECRET=settings.TWITTER_CONSUMER_SECRET
-ACCESS_KEY=settings.TWITTER_ACCESS_TOKEN
-ACCESS_SECRET=settings.TWITTER_ACCESS_TOKEN_SECRET
+CONSUMER_KEY=settings.JOBS_TWITTER_CONSUMER_KEY
+CONSUMER_SECRET=settings.JOBS_TWITTER_CONSUMER_SECRET
+ACCESS_KEY=settings.JOBS_TWITTER_ACCESS_TOKEN
+ACCESS_SECRET=settings.JOBS_TWITTER_ACCESS_TOKEN_SECRET
 
 logging.basicConfig(filename='twitter_job_posts.log', filemode='w', level=logging.INFO)
 
@@ -41,9 +42,9 @@ class Command(BaseCommand):
         client = oauth.Client(consumer, access_token)
         api_endpoint = 'https://api.twitter.com/1.1/statuses/update.json'
 
-        # get all the Job records that are live, within proper
-        # time frame, but have not been posted to Twitter yet
-        jobs = Job.live_objects.filter(tweeted_at=None)
+        # get up to three Job records that are live, within proper time frame,
+        # but have not been posted to Twitter yet. oldest records first
+        jobs = Job.live_objects.filter(tweeted_at=None).order_by('listing_start_date')[:3]
 
         # loop through our queryset
         for job in jobs:
@@ -51,11 +52,23 @@ class Command(BaseCommand):
                 # build the tweet
                 job_url = job.url or ('%s%s' % (settings.BASE_SITE_URL, reverse('job_list')))
                 tweet = "New job listing from %s: %s %s" % (job.organization.name, job.name, job_url)
+                if settings.DEBUG:
+                    tweet = "TEST POST: %s" % tweet
                 
-                # TODO: actually post to Twitter
-                print tweet
+                # post the tweet to Twitter
+                try:
+                    response, content = client.request(
+                        api_endpoint, method='POST',
+                        body = urllib.urlencode({
+                            'status': tweet,
+                            'wrap_links': True
+                        }),
+                    )
+                except oauth.Error as err:
+                    logging.info('TWITTER ERROR: %s' % err)
                 
-                # update `tweeted_at` timestamp
+                # update `tweeted_at` timestamp so this record
+                # won't be picked up in queryset on next run
                 job.tweeted_at = datetime.now()
                 job.save()
                 
@@ -65,3 +78,4 @@ class Command(BaseCommand):
                 pass
 
         logging.info('Finished posting: %s' % datetime.now())
+    
