@@ -87,6 +87,7 @@ TWEET_CONSTRUCTS = [
     ('New on the @source jobs page: %s opening at %s.', ('job', 'org')),
     ('%s job listing posted by %s.', ('job', 'org')),
     ('%s opening at %s.', ('job', 'org')),
+    ('%s? %s is hiring:', ('job', 'org')),
     ('%s listing on the @source jobs page. %s is hiring:', ('job', 'org')),
 ]
 
