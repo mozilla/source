@@ -52,7 +52,7 @@
         <h3 class="subhead list-header">Job openings</h3>
         <ul class="simple-list">
             {% for job in job_list %}
-            <li>{{ job.name|title }}: {% if job.url %}<a href="{{ job.url }}">Job page</a>{% endif %}{% if job.url and job.get_contact_email %} / {% endif %}{% if job.get_contact_email %}<a href="mailto:{{ job.get_contact_email }}">Email for details</a>{% endif %}</li>
+            <li>{{ job.name|title }}{% if job.url or job.get_contact_email %}: {% if job.url %}<a href="{{ job.url }}">Job page</a>{% endif %}{% if job.url and job.get_contact_email %} / {% endif %}{% if job.get_contact_email %}<a href="mailto:{{ job.get_contact_email }}">Email for details</a>{% endif %}{% endif %}</li>
             {% endfor %}
         </ul>
         {% endif %}
