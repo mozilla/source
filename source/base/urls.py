@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     ),
     (r'^articles/', include('source.articles.urls')),
     (r'^code/', include('source.code.urls')),
+    (r'^jobs/', include('source.jobs.urls')),
     (r'^people/', include('source.people.urls.people')),
     (r'^organizations/', include('source.people.urls.organizations')),
     url(

@@ -40,7 +40,7 @@ ul.errorlist li {
     padding-bottom: 4px; border-bottom: 1px solid #ddd; margin-bottom: 18px;
 }
 
-.link-list, .toc {
+.link-list, .toc, .simple-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -56,7 +56,7 @@ aside .byline .link-list {
     margin-bottom: .5em;
 }
 
-.link-list li {
+.link-list li, .simple-list li {
     line-height: 1.2;
     margin-bottom: .67em;
 }
@@ -265,6 +265,10 @@ table thead:first-child tr:first-child td {
     border-top: 0;
 }
 
+table .cell-secondary {
+    white-space: nowrap;
+}
+
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd) th,
 .striped .stripe:nth-child(odd) {
@@ -450,12 +454,12 @@ p.organization {
     margin-top: -10px;
 }
 
-ul.link-list {
+.link-list, .simple-list {
     font-size: .7em;
     font-weight: 300;
 }
 
-aside ul.link-list {
+aside .link-list {
     font-size: .8em;
 }
 
@@ -552,7 +556,7 @@ h1.maintopic {
     margin-bottom: 1em;
 }
 
-.caption {
+.caption, .page-block p.caption {
     font-size: 14px;
     line-height: 21px;
     margin: .25em 0 0;
@@ -1007,9 +1011,9 @@ a.promo p {
 .form-organization-update input[type="text"],
 .form-organization-update .input-prepend,
 .form-organization-update textarea,
-.form-person-update input[type="text"],
-.form-person-update .input-prepend,
-.form-person-update textarea {
+.object-edit input[type="text"],
+.object-edit .input-prepend,
+.object-edit textarea {
     display: auto;
     width: 90%;
 }
@@ -1354,6 +1358,14 @@ a.promo p {
     .code-repo-browse {
         display: none;
     }
+
+    .image-inset-left-wrapper, .image-inset-right-wrapper {
+        width: 200px;
+    }
+
+    .image-inset-left-wrapper img, .image-inset-right-wrapper img {
+        width: 198px;
+    }
 }
 
 @media screen and (max-width: 525px) {
@@ -1380,6 +1392,18 @@ a.promo p {
         padding-right: 4px;
         padding-left: 4px;
     }
+    
+    .image-inset-left-wrapper,
+    .image-inset-right-wrapper {
+        float: none;
+        width: auto;
+        margin: .33em 0 1em;
+    }
+    
+    img.map-inset {
+        display: none;
+    }
+    
 }
 
 @media screen and (max-width: 480px) {
@@ -1458,10 +1482,6 @@ a.promo p {
         font-size: .9em;
     }
     
-    img.map-inset {
-        display: none;
-    }
-    
     .grid-box {
         display: block;
         width: auto;
@@ -1472,13 +1492,9 @@ a.promo p {
         width: auto;
     }
 
-    .image-inset-left-wrapper,
-    .image-inset-right-wrapper {
-        float: none;
-        width: auto;
-        margin: .33em 0 1em;
+    table .cell-secondary {
+        display: block;
     }
-    
 }
 
 @media screen and (max-width: 480px) {
