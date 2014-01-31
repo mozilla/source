@@ -135,7 +135,10 @@ class JobUpdate(View):
                 'job': {
                     'name': job.name,
                     'pk': job.pk,
+                    'contact_name': job.contact_name,
                     'email': job.email,
+                    'description': job.description,
+                    'location': job.location,
                     'url': job.url,
                     'listing_end_date': job.listing_end_date
                 }

@@ -1009,13 +1009,18 @@ a.promo p {
 }
 
 .form-organization-update input[type="text"],
+.form-organization-update input[type="date"],
 .form-organization-update .input-prepend,
 .form-organization-update textarea,
 .object-edit input[type="text"],
+.object-edit input[type="date"],
 .object-edit .input-prepend,
 .object-edit textarea {
     display: auto;
     width: 90%;
+}
+.object-edit .submit-container input {
+    margin-top: 2em;
 }
 #form-organization-update .input-prepend {
     margin-bottom: 0;
@@ -1117,7 +1122,7 @@ a.promo p {
 }
 .job-listing h3 {
     color: #808080;
-    margin: 0 0 .5em;
+    margin: 0 0 .4em;
     line-height: 1.2;
 }
 .job-listing p {
