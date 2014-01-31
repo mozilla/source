@@ -1111,6 +1111,25 @@ a.promo p {
     margin: 0;
 }
 
+.job-listing {
+    clear: both;
+    margin: 0 0 2em;
+}
+.job-listing h3 {
+    color: #808080;
+    margin: 0 0 .5em;
+    line-height: 1.2;
+}
+.job-listing p {
+    line-height: 1.4;
+    margin-bottom: .5em;
+}
+.job-listing h5 {
+    margin-bottom: .5em;
+}
+.job-listing .job-contact-block:before {
+    content: "| ";
+}
 
 @media screen and (max-width: 840px) {
     h2 span.category {
@@ -1495,9 +1514,18 @@ a.promo p {
     table .cell-secondary {
         display: block;
     }
-}
 
-@media screen and (max-width: 480px) {
+    .job-listing h5 {
+        font-size: 15px;
+    }
+    .job-listing .job-contact-block {
+        display: block;
+    }
+    .job-listing .job-contact-block:before {
+        content: "";
+    }
+    
+
     .image-inset-left-wrapper img,
     .image-inset-right-wrapper img {
         width: 98%;

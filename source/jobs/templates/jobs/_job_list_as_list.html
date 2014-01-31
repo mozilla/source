@@ -1,0 +1,12 @@
+{% for job in job_list %}
+<div class="job-listing">
+    <h3>{{ job.wrapped_job_name }} at {{ job.wrapped_organization_name }}</h3>
+    {% if job.description %}<p>{{ job.description }}</p>{% endif %}
+    <h5>
+        <i class="icon-cogs small"></i> {{ job.wrapped_organization_name }}
+        {% if job.location %}<span class="job-contact-block">Location: {{ job.location }}</span>{% endif %}
+        {% if job.wrapped_contact_name %}<span class="job-contact-block">Contact: {{ job.wrapped_contact_name }}</span>{% endif %}
+    </h5>
+    <h5>Posted {{ job.listing_start_date|simple_datesince }}</h5>
+</div>
+{% endfor %}

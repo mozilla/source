@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th>Job<span class="tinyhide">  / Organization</span></th>
+            <th>Job<span class="tinyhide"> / Organization</span></th>
             <th>Contact</th>
             <th>Listing<span class="tinyhide"> date</span></th>
         </tr>
@@ -9,12 +9,8 @@
     <tbody>
         {% for job in job_list %}
         <tr>
-            <td>{{ job.name|title }}, <span class="cell-secondary"><a href="{{ job.organization.get_absolute_url() }}">{{ job.organization.name }}</a></span></td>
-            <td>
-                {% if job.url %}<a href="{{ job.url }}">Job page</a>{% endif %}
-                {% if job.url and job.get_contact_email %} / {% endif %}
-                {% if job.get_contact_email %}<a href="mailto:{{ job.get_contact_email }}">Email</a>{% endif %}
-            </td>
+            <td>{{ job.wrapped_job_name }}, <span class="cell-secondary">{{ job.wrapped_organization_name }}</span></td>
+            <td>{% if job.wrapped_contact_name %}{{ job.wrapped_contact_name }}{% endif %}</td>
             <td>{{ job.pretty_start_date }}</td>
         </tr>
         {% endfor %}
