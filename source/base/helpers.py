@@ -8,6 +8,7 @@ from django.template.defaultfilters import linebreaks as django_linebreaks,\
     escapejs as django_escapejs, pluralize as django_pluralize,\
     date as django_date
 from django.utils.encoding import force_text
+from django.utils.timesince import timesince
 
 from jingo import register
 from jinja2 import Markup
@@ -85,3 +86,27 @@ def dj_intcomma(value):
     else:
         return dj_intcomma(new)
         
+@register.filter
+def simple_timesince(value):
+    now = datetime.datetime.now()
+    try:
+        difference = now - value
+    except:
+        return value
+
+    if difference <= datetime.timedelta(minutes=1):
+        return 'just now'
+    return '%(time)s ago' % {'time': timesince(value).split(', ')[0]}
+    
+@register.filter
+def simple_datesince(value):
+    today = datetime.datetime.today().date()
+    print today, value
+    try:
+        difference = today - value
+    except:
+        return value
+
+    if difference <= datetime.timedelta(days=1):
+        return 'today'
+    return '%(days)s ago' % {'days': timesince(value).split(', ')[0]}
