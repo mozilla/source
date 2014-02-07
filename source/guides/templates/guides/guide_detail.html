@@ -4,6 +4,8 @@
 
 {% block article_class %}guide-detail{% endblock %}
 {% block content %}
+<h1 class="maintopic">Guides</h1>
+
     <section id="guide-header" class="page-block">
         <header>
             {% if guide.image %}
@@ -19,8 +21,9 @@
     </section>
 
     <section id="guide-articles">
-        {% for article in guide.get_live_article_set() %}
-            {% with article=article.article %}
+        {% for guidearticle in guide.get_live_article_set() %}
+            {% if guidearticle.article_notes %}<p class="notes"><em>{{ guidearticle.article_notes|typogrify|safe }}</em></p>{% endif %}
+            {% with article=guidearticle.article %}
                 {% include "articles/_article_list_item.html" %}
             {% endwith %}
         {% endfor %}

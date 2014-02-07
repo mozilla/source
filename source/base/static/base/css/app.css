@@ -1139,6 +1139,9 @@ a.promo p {
 #guide-header p:not(.caption) {
     font-size: 1em;
 }
+#guide-articles .notes {
+    margin-bottom: 0;
+}
 
 @media screen and (max-width: 840px) {
     h2 span.category {
