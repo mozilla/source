@@ -206,6 +206,10 @@ def clear_caches_for_article(sender, instance, **kwargs):
     # clear caches for related code index entries
     for code in instance.get_live_code_set():
         expire_page_cache(code.get_absolute_url())
+
+    # clear caches for related guides
+    for guide in instance.get_live_guide_set():
+        expire_page_cache(guide.get_absolute_url())
         
     # clear caches for tag pages. FWIW this will miss
     # tag intersection queries like /foo+bar+baz/, so if we
