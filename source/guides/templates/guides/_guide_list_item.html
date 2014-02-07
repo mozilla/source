@@ -1,0 +1,6 @@
+{# standard presentation block for an guide on list pages #}
+<div class="page-block">
+    <h2><a href="{{ guide.get_absolute_url() }}">{{ guide.title|typogrify }}</a></h2>
+    {% if guide.image %}<a href="{{ guide.get_absolute_url() }}"><img class="list-thumbnail" src="{{ MEDIA_URL }}{{ thumbnail(guide.image, "300x180", crop="center") }}" alt="{{ guide.title }}"></a>{% endif %}
+    <p>{{ guide.summary_or_description|typogrify|safe }}</p>
+</div>

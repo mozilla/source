@@ -563,7 +563,7 @@ h1.maintopic {
 }
 
 .image-full-width-wrapper {
-    width: 99%;
+    width: 100%;
     margin-bottom: 1em;
 }
 
@@ -1134,6 +1134,10 @@ a.promo p {
 }
 .job-listing .job-contact-block:before {
     content: "| ";
+}
+
+#guide-header p:not(.caption) {
+    font-size: 1em;
 }
 
 @media screen and (max-width: 840px) {

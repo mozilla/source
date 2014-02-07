@@ -1,0 +1,10 @@
+{% extends "guides/_base_guides.html" %}
+
+{% block content %}
+<h1 class="maintopic">Guides</h1>
+
+{% for guide in object_list %}
+    {% include "guides/_guide_list_item.html" %}
+{% endfor %}
+
+{% endblock content %}
