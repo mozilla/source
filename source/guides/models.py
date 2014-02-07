@@ -14,7 +14,7 @@ from source.utils.caching import expire_page_cache
 
 class LiveGuideManager(CachingManager):
     def get_query_set(self):
-        return super(LiveGuideManager, self).get_query_set().filter(is_live=True, pubdate__lte=datetime.now())
+        return super(LiveGuideManager, self).get_query_set().filter(is_live=True, show_in_lists=True, pubdate__lte=datetime.now())
 
 class Guide(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -96,6 +96,17 @@ class GuideArticle(CachingMixin, models.Model):
 
     def __unicode__(self):
         return u'%s: %s' % (self.guide.title, self.article.title)
+
+    @models.permalink
+    def get_absolute_url(self):
+        '''shortcut for linking to Guide when GuideArticle is in context'''
+        return ('guide_detail', (), {
+            'slug': self.guide.slug
+        })
+        
+    @property
+    def title(self):
+        return self.guide.title
 
 
 @receiver(post_save, sender=Guide)

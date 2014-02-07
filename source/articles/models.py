@@ -109,11 +109,13 @@ class Article(CachingMixin, models.Model):
         return self.people.filter(is_live=True)
 
     def get_live_author_set(self):
-        author_set = self.authors.filter(is_live=True)
-        return author_set
+        return self.authors.filter(is_live=True)
 
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
+        
+    def get_live_guide_set(self):
+        return self.guidearticle_set.filter(guide__is_live=True, guide__show_in_lists=True, guide__pubdate__lte=datetime.now)
 
     def get_live_author_bio_set(self):
         # only authors with acutal bio information
