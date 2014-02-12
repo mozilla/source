@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import date as dj_date
+from django.utils.safestring import mark_safe
 
 from caching.base import CachingManager, CachingMixin
 from sorl.thumbnail import ImageField
@@ -27,11 +28,14 @@ class Job(CachingMixin, models.Model):
     organization = models.ForeignKey(Organization, blank=True, null=True)
     name = models.CharField('Job name', max_length=128)
     slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
     listing_start_date = models.DateField(default=TODAY)
     listing_end_date = models.DateField(default=TODAY_PLUS_30)
     tweeted_at = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True, null=True, verify_exists=False)
-    email = models.EmailField('Email address', blank=True)
+    contact_name = models.CharField('Contact name', max_length=128, blank=True)
+    email = models.EmailField('Contact email', blank=True)
+    location = models.CharField('Job location', max_length=128, blank=True)
     objects = models.Manager()
     live_objects = LiveJobManager()
     
@@ -54,6 +58,32 @@ class Job(CachingMixin, models.Model):
     def pretty_start_date(self):
         '''pre-process for simpler template logic'''
         return dj_date(self.listing_start_date,"F j, Y")
+        
+    @property
+    def wrapped_job_name(self):
+        if self.url:
+            link = '<a href="%s">%s</a>' % (self.url, self.name)
+            return mark_safe(link)
+        else:
+            return self.name
+
+    @property
+    def wrapped_organization_name(self):
+        if self.organization.is_live and self.organization.show_in_lists:
+            link = '<a href="%s">%s</a>' % (self.organization.get_absolute_url(), self.organization.name)
+            return mark_safe(link)
+        else:
+            return self.organization.name
+
+    @property
+    def wrapped_contact_name(self):
+        if self.get_contact_email:
+            name = self.contact_name or 'Email'
+            link = '<a href="mailto:%s">%s</a>' % (self.get_contact_email, name)
+            return mark_safe(link)
+        else:
+            name = self.contact_name or ''
+            return name
 
     def save(self, *args, **kwargs):
         '''prepend pk to job slug to keep things unique'''

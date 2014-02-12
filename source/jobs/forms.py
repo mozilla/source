@@ -8,7 +8,10 @@ class JobUpdateForm(ModelForm):
         model = Job
         fields = (
             'name',
+            'description',
+            'location',
             'url',
+            'contact_name',
             'email',
             'listing_end_date',
         )

@@ -39,7 +39,10 @@ ul.errorlist li {
 .divider {
     padding-bottom: 4px; border-bottom: 1px solid #ddd; margin-bottom: 18px;
 }
-
+.divided-section {
+    padding-top: .5em;
+    border-top: 1px solid #ddd;
+}
 .link-list, .toc, .simple-list {
     list-style: none;
     margin: 0;
@@ -324,14 +327,18 @@ article h3 {
     margin-top: 1em;
 }
 
-h4, .toc li {
+h4, h4.subhead, .toc li {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 1em;
     line-height: 1.3em;
     color: rgba(163,163,163,1);
+}
+article h4 {
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 h5, h3.subhead {
@@ -865,6 +872,15 @@ blockquote {
     padding: 10px 15px;
     overflow: hidden;
 }
+blockquote p {
+    line-height: 1.8;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+blockquote h4 {
+    color: #717171;
+    margin-bottom: -10px;
+}
 
 span.category {
     line-height: 1.5em;
@@ -890,8 +906,7 @@ pre.prettyprint {
     margin-bottom: 2em;
 }
 
-.learning p.intro,
-.section-with-promos p.intro {
+p.intro {
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size: 16px;
     margin-bottom: 25px;
@@ -1009,13 +1024,18 @@ a.promo p {
 }
 
 .form-organization-update input[type="text"],
+.form-organization-update input[type="date"],
 .form-organization-update .input-prepend,
 .form-organization-update textarea,
 .object-edit input[type="text"],
+.object-edit input[type="date"],
 .object-edit .input-prepend,
 .object-edit textarea {
     display: auto;
     width: 90%;
+}
+.object-edit .submit-container input {
+    margin-top: 2em;
 }
 #form-organization-update .input-prepend {
     margin-bottom: 0;
@@ -1111,6 +1131,26 @@ a.promo p {
     margin: 0;
 }
 
+.job-listing {
+    clear: both;
+    margin: 0 0 2em;
+}
+.job-listing h3 {
+    color: #808080;
+    margin: 0 0 .4em;
+    line-height: 1.2;
+}
+.job-listing p {
+    line-height: 1.4;
+    margin-bottom: .5em;
+}
+.job-listing h5 {
+    margin-bottom: .33em;
+    font-size: .6em;
+}
+.job-listing .job-contact-block:before {
+    content: "| ";
+}
 
 @media screen and (max-width: 840px) {
     h2 span.category {
@@ -1495,9 +1535,18 @@ a.promo p {
     table .cell-secondary {
         display: block;
     }
-}
 
-@media screen and (max-width: 480px) {
+    .job-listing h5 {
+        font-size: 15px;
+    }
+    .job-listing .job-contact-block {
+        display: block;
+    }
+    .job-listing .job-contact-block:before {
+        content: "";
+    }
+    
+
     .image-inset-left-wrapper img,
     .image-inset-right-wrapper img {
         width: 98%;

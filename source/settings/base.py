@@ -68,6 +68,7 @@ HAYSTACK_CONNECTIONS = {
 JINGO_EXCLUDE_APPS = [
     'admin',
     'browserid',
+    'haystack',
     'registration',
 ]
 
