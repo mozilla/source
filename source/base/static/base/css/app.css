@@ -1145,7 +1145,8 @@ a.promo p {
     margin-bottom: .5em;
 }
 .job-listing h5 {
-    margin-bottom: .5em;
+    margin-bottom: .33em;
+    font-size: .6em;
 }
 .job-listing .job-contact-block:before {
     content: "| ";
