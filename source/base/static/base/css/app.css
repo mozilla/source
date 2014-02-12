@@ -324,14 +324,18 @@ article h3 {
     margin-top: 1em;
 }
 
-h4, .toc li {
+h4, h4.subhead, .toc li {
     font-family: 'Open Sans', Helvetica, sans-serif;
     font-weight: normal;
     font-size: .9em;
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 1em;
     line-height: 1.3em;
     color: rgba(163,163,163,1);
+}
+article h4 {
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 h5, h3.subhead {
@@ -864,6 +868,15 @@ blockquote {
     background-color: #f8f8f8;
     padding: 10px 15px;
     overflow: hidden;
+}
+blockquote p {
+    line-height: 1.8;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+blockquote h4 {
+    color: #717171;
+    margin-bottom: -10px;
 }
 
 span.category {
