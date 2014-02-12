@@ -3,5 +3,37 @@
 {% block content %}
 <h1 class="maintopic">Jobs</h1>
 
-{% include "jobs/_job_list_as_list.html" %}
+<header>
+    <p class="intro">Source jobs collects job listings for people who design and build news apps, write and deploy code in newsrooms, and sling journalistic data. Want to list open positions at your news organization? <a href="#about-jobs">Get started here</a>.</p>
+</header>
+
+<section>
+    <h3>Recent listings</h3>
+    {% include "jobs/_job_list_as_list.html" %}
+</section>
+
+<section id="about-jobs" class="divided-section">
+    <h3>About Source Jobs Listings</h3>
+    <p>To list open jobs, you&rsquo;ll need an organization profile the listings can be associated with. Here's how to get started.</p>
+
+    <ul>
+        <li>If you already have a contact person registered to update your Source organizational profile, that person can log in and add job listings immediately.</li>
+        <li>If you have a <a href="{{ url('organization_list') }}">Source organization profile</a>, but don't have a contact person registered, have your news apps editor (or nearest person to that role) <a href="mailto:source@mozillafoundation.org?subject=Registration for Job Listings">contact us</a> to register and start listing jobs.</li>
+        <li>If you don't have an organizational profile but you want to list news tech jobs, <a href="mailto:source@mozillafoundation.org?subject=Job Listings">contact us</a> to request a listing.</li>
+    </ul>
+</section>
+
 {% endblock content %}
+
+{% block site_js_extra %}
+{% compress js %}
+    <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
+    <script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
+{% endcompress %}
+<script type="text/javascript">
+    $('.intro').localScroll({
+        offset: -80,
+        hash: true
+    });
+</script>
+{% endblock %}
