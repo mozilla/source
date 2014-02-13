@@ -10,12 +10,19 @@
     {% endif %}
 </div>
 
-{% if user.is_authenticated() and user.is_active and perms.people.change_organization %}
+{% if error_message %}
+    <div class="toggle-buttons">
+        {{ browserid_logout(text='Log out') }}
+    </div>
+    <p>{{ error_message }}</p>
+{% endif %}
+
+{% if user.is_authenticated() and user.is_active and perms.people.change_organization and not error_message %}
 <div class="toggle-buttons">
     <a href="#organization" class="active">Your organization</a>
     <a href="#people">Your people</a>
     <a href="#jobs">Your job listings</a>
-    {{ browserid_logout(text='Log out')}}
+    {{ browserid_logout(text='Log out') }}
 </div>
 
 <div id="organization" class="admin-panel">

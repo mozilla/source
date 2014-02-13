@@ -595,9 +595,7 @@ h1.maintopic {
 }
 
 img.list-thumbnail,
-.image-full-width-wrapper img,
-.image-inset-left-wrapper img,
-.image-inset-right-wrapper img {
+article img {
     border: 1px solid black;
 }
 
@@ -1150,6 +1148,10 @@ a.promo p {
 }
 .job-listing .job-contact-block:before {
     content: "| ";
+}
+
+.unbordered {
+    border: none !important;
 }
 
 @media screen and (max-width: 840px) {

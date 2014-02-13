@@ -101,7 +101,6 @@ def simple_timesince(value):
 @register.filter
 def simple_datesince(value):
     today = datetime.datetime.today().date()
-    print today, value
     try:
         difference = today - value
     except:

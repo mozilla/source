@@ -23,7 +23,7 @@ class JobList(ListView):
         return super(JobList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = Job.live_objects.order_by('-listing_start_date')
+        queryset = Job.live_objects.order_by('-listing_start_date', '-modified')
 
         return queryset
 

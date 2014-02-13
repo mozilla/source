@@ -202,14 +202,18 @@ class PersonUpdate(View):
     
 class OrganizationUpdate(View):
     template_name = "people/organization_update.html"
+    error_message = ""
     
     def get_organization(self, user):
         if user.is_authenticated() and user.is_active:
-            organization = get_object_or_404(Organization, is_live=True, email=user.email)
-            return organization
-        elif USER_DEBUG:
-            organization = get_object_or_404(Organization, is_live=True, slug='spokesman-review')
-            return organization
+            try:
+                organization = Organization.objects.get(is_live=True, email=user.email)
+                return organization
+            except Organization.DoesNotExist:
+                self.error_message = "No Organization account found that matches the email address used to log in."
+            except Organization.MultipleObjectsReturned:
+                self.error_message = "Uh-oh, somehow there are multiple Organization accounts attached to this email address. Please contact us for cleanup."
+                
         return None
 
     def get(self, request, *args, **kwargs):
@@ -225,6 +229,10 @@ class OrganizationUpdate(View):
                     'organization': organization,
                     'organization_form': organization_form,
                     'default_job_listing_end_date': datetime.today().date() + timedelta(days=30)
+                })
+            else:
+                context.update({
+                    'error_message': self.error_message
                 })
             
         return render_to_response(self.template_name, context, context_instance=RequestContext(request))
