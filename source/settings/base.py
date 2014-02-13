@@ -13,6 +13,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
+    '%s.jobs' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
     '%s.tags' % PROJECT_MODULE,
     'caching',
@@ -67,6 +68,7 @@ HAYSTACK_CONNECTIONS = {
 JINGO_EXCLUDE_APPS = [
     'admin',
     'browserid',
+    'haystack',
     'registration',
 ]
 
@@ -76,6 +78,7 @@ SITE_URL = (
     'http://source-dev.mozillalabs.com',
     'https://source-dev.mozillalabs.com',
 )
+BASE_SITE_URL = 'https://source.opennews.org'
 
 # dev is under https and live is (currently) on http
 # make sure we embed the disqus code with the right protocol

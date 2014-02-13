@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th>Job<span class="tinyhide"> / Organization</span></th>
+            <th>Contact</th>
+            <th>Listing<span class="tinyhide"> date</span></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in job_list %}
+        <tr>
+            <td>{{ job.wrapped_job_name }}, <span class="cell-secondary">{{ job.wrapped_organization_name }}</span></td>
+            <td>{% if job.wrapped_contact_name %}{{ job.wrapped_contact_name }}{% endif %}</td>
+            <td>{{ job.pretty_start_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
