@@ -15,6 +15,21 @@ $(document).ready(function () {
     });
 });
 
+// add the mobile menu
+var snapper = new Snap({
+    element: document.getElementById('snap-content-wrapper'),
+    disable: 'left',
+    minPosition: -205
+});
+$('.toggle-navigation').on('click', function() {
+    if (snapper.state().state == 'right') {
+        snapper.close();
+    } else {
+        snapper.open('right');
+    }
+    return false;
+})
+
 // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
 jQuery(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {
