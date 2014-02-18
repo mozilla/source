@@ -3,8 +3,14 @@
 {% block content %}
 <h1 class="maintopic">Guides</h1>
 
+<header>
+    <p class="intro">Source Guides are collections of tutorials, project discussions, and advice on topics of interest to developers and interactive designers in newsrooms. Is there a Guide topic missing that you&rsquo;d like to see here? <a href="mailto:opennews@mozillafoundation.org">Let us know</a>.</p>
+</header>
+
+<section>
 {% for guide in object_list %}
     {% include "guides/_guide_list_item.html" %}
 {% endfor %}
+</section>
 
 {% endblock content %}
