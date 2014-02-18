@@ -1,5 +1,5 @@
 {% for article in article_link_list %}
     {% if loop.first %}{% if not hide_link_list_title %}<h3 class="subhead list-header">{% if override_list_title %}{{ override_list_title|smartypants }} {% else %}Articles{% endif %}</h3>{% endif %}
     <ul class="link-list">{% endif %}
-        <li><i class="icon-file"></i><a href="{{ article.get_absolute_url() }}">{{ article.title|typogrify }}</a>{% if show_article_summary %}<p>{{ article.summary|typogrify }}</p>{% endif %}</li>
+        <li><i class="icon-file"></i> <a href="{{ article.get_absolute_url() }}">{{ article.title|typogrify }}</a>{% if show_article_summary %}<p>{{ article.summary|typogrify }}</p>{% endif %}</li>
     {% if loop.last %}</ul>{% endif %}{% endfor %}

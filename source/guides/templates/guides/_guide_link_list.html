@@ -1,0 +1,5 @@
+{% for guide in guide_link_list %}
+    {% if loop.first %}{% if not hide_link_list_title %}<h3 class="subhead list-header">Part of a Guide</h3>{% endif %}
+    <ul class="toc">{% endif %}
+        <li><i class="icon-circle-arrow-right"></i> <a href="{{ guide.get_absolute_url() }}">{{ guide.title|typogrify }}</a></li>
+    {% if loop.last %}</ul>{% endif %}{% endfor %}

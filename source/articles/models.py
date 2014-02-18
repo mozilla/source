@@ -24,8 +24,8 @@ class Article(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_live = models.BooleanField('Display on site', default=True)
-    show_in_lists = models.BooleanField(default=True)
-    allow_comments = models.BooleanField(default=True)
+    show_in_lists = models.BooleanField('Show in lists', default=True)
+    allow_comments = models.BooleanField('Allow comments', default=True)
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True)
     pubdate = models.DateTimeField(default=datetime.now)
@@ -109,11 +109,13 @@ class Article(CachingMixin, models.Model):
         return self.people.filter(is_live=True)
 
     def get_live_author_set(self):
-        author_set = self.authors.filter(is_live=True)
-        return author_set
+        return self.authors.filter(is_live=True)
 
     def get_live_code_set(self):
         return self.code.filter(is_live=True)
+        
+    def get_live_guide_set(self):
+        return self.guidearticle_set.filter(guide__is_live=True, guide__show_in_lists=True, guide__pubdate__lte=datetime.now)
 
     def get_live_author_bio_set(self):
         # only authors with acutal bio information
@@ -204,6 +206,10 @@ def clear_caches_for_article(sender, instance, **kwargs):
     # clear caches for related code index entries
     for code in instance.get_live_code_set():
         expire_page_cache(code.get_absolute_url())
+
+    # clear caches for related guides
+    for guide in instance.get_live_guide_set():
+        expire_page_cache(guide.get_absolute_url())
         
     # clear caches for tag pages. FWIW this will miss
     # tag intersection queries like /foo+bar+baz/, so if we
