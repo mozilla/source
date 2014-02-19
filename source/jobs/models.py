@@ -12,7 +12,7 @@ from sorl.thumbnail import ImageField
 from source.people.models import Organization
 from source.utils.caching import expire_page_cache
 
-TODAY = datetime.today().date()
+TODAY = datetime.now().date()
 TODAY_PLUS_30 = TODAY + timedelta(days=30)
 
 class LiveJobManager(CachingManager):
