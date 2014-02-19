@@ -143,34 +143,28 @@
             <div class="column-half">
                 <label for="new-job-name">Job name:</label>
                 <input id="new-job-name" type="text" name="name" maxlength="128" />
-            </div>
-            
-            <div class="column-half show-later">
-                <label for="new-job-url">Job page URL:</label>
-                <input id="new-job-url" type="text" name="url" maxlength="75" />
-            </div>
-        
-            <div class="column-half show-later">
-                <label for="new-job-location">Job location:</label>
-                <input id="new-job-location" type="text" name="location" value="{{ organization.location_string_city }}" maxlength="128" />
+
+                <div class="show-later">
+                    <label for="new-job-location">Job location:</label>
+                    <input id="new-job-location" type="text" name="location" value="{{ organization.location_string_city }}" maxlength="128" />
+
+                    <label for="new-job-listing_end_date">Listing expiration date:</label>
+                    <input id="new-job-listing_end_date" type="date" name="listing_end_date" value="{{ default_job_listing_end_date }}" />
+                </div>
             </div>
 
             <div class="column-half show-later">
                 <label for="new-job-contact_name">Contact name:</label>
                 <input id="new-job-contact_name" type="text" name="contact_name" maxlength="128" />
-            </div>
 
-            <div class="column-half show-later">
-                <label for="new-job-listing_end_date">Listing expiration date:</label>
-                <input id="new-job-listing_end_date" type="date" name="listing_end_date" value="{{ default_job_listing_end_date }}" />
-            </div>
-
-            <div class="column-half show-later">
                 <label for="new-job-email">Contact email:</label>
                 <input id="new-job-email" type="text" name="email" value="{{ organization.email }}" maxlength="75" />
             </div>
 
-            <div class="column-half show-later">
+            <div class="column-full show-later">
+                <label for="new-job-url">Job page URL:</label>
+                <input id="new-job-url" type="text" name="url" maxlength="200" />
+
                 <label for="new-job-description">One-sentence description:</label>
                 <textarea id="new-job-description" name="description"></textarea>
             </div>
@@ -201,20 +195,22 @@
 
                     <label for="id_form-{{ job.pk }}-listing_end_date">Listing expiration date:</label>
                     <input id="id_form-{{ job.pk }}-listing_end_date" type="date" name="listing_end_date" value="{{ job.listing_end_date }}" />
-
-                    <label for="id_form-{{ job.pk }}-description">One-sentence description:</label>
-                    <textarea id="id_form-{{ job.pk }}-description" name="description">{{ job.description }}</textarea>
                 </div>
 
                 <div class="column-half">
-                    <label for="id_form-{{ job.pk }}-url">Job page URL:</label>
-                    <input id="id_form-{{ job.pk }}-url" type="text" name="url" value="{{ job.url }}" maxlength="75" />
-
                     <label for="id_form-{{ job.pk }}-contact_name">Contact name:</label>
                     <input id="id_form-{{ job.pk }}-contact_name" type="text" name="contact_name" value="{{ job.contact_name }}" maxlength="128" />
 
                     <label for="id_form-{{ job.pk }}-email">Contact email:</label>
                     <input id="id_form-{{ job.pk }}-email" type="text" name="email" value="{{ job.email }}" maxlength="75" />
+                </div>
+                
+                <div class="column-full">
+                    <label for="id_form-{{ job.pk }}-url">Job page URL:</label>
+                    <input id="id_form-{{ job.pk }}-url" type="text" name="url" value="{{ job.url }}" maxlength="200" />
+
+                    <label for="id_form-{{ job.pk }}-description">One-sentence description:</label>
+                    <textarea id="id_form-{{ job.pk }}-description" name="description">{{ job.description }}</textarea>
                 </div>
 
                 <div id="submit-container-{{ job.pk }}" class="submit-container page-block">
@@ -292,20 +288,22 @@
 
             <label for="id_form-{{job.pk}}-listing_end_date">Listing expire date:</label>
             <input id="id_form-{{job.pk}}-listing_end_date" type="date" name="listing_end_date" value="{{job.listing_end_date}}" />
-
-            <label for="id_form-{{job.pk}}-description">One-sentence description:</label>
-            <textarea id="id_form-{{job.pk}}-description" name="description">{{job.description}}</textarea>
         </div>
 
         <div class="column-half">
-            <label for="id_form-{{job.pk}}-url">Job page URL:</label>
-            <input id="id_form-{{job.pk}}-url" type="text" name="url" value="{{job.url}}" maxlength="75" />
-
             <label for="id_form-{{job.pk}}-contact_name">Contact name:</label>
             <input id="id_form-{{job.pk}}-contact_name" type="text" name="contact_name" value="{{job.contact_name}}" maxlength="128" />
 
             <label for="id_form-{{job.pk}}-email">Email contact address:</label>
             <input id="id_form-{{job.pk}}-email" type="text" name="email" value="{{job.email}}" maxlength="75" />
+        </div>
+
+        <div class="column-full">
+            <label for="id_form-{{job.pk}}-url">Job page URL:</label>
+            <input id="id_form-{{job.pk}}-url" type="text" name="url" value="{{job.url}}" maxlength="200" />
+
+            <label for="id_form-{{job.pk}}-description">One-sentence description:</label>
+            <textarea id="id_form-{{job.pk}}-description" name="description">{{job.description}}</textarea>
         </div>
 
         <div id="submit-container-{{job.pk}}" class="page-block">
