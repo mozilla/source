@@ -12,13 +12,17 @@ from sorl.thumbnail import ImageField
 from source.people.models import Organization
 from source.utils.caching import expire_page_cache
 
-TODAY = datetime.now().date()
-TODAY_PLUS_30 = TODAY + timedelta(days=30)
-
+def get_today():
+    return datetime.now().date()
+    
+def get_today_plus_30():
+    return datetime.now().date() + timedelta(days=30)
+    
 class LiveJobManager(CachingManager):
     def get_query_set(self):
+        today = get_today()
         return super(LiveJobManager, self).get_query_set().filter(
-            is_live=True, listing_start_date__lte=TODAY, listing_end_date__gte=TODAY
+            is_live=True, listing_start_date__lte=today, listing_end_date__gte=today
         )
 
 class Job(CachingMixin, models.Model):
@@ -29,8 +33,8 @@ class Job(CachingMixin, models.Model):
     name = models.CharField('Job name', max_length=128)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
-    listing_start_date = models.DateField(default=TODAY)
-    listing_end_date = models.DateField(default=TODAY_PLUS_30)
+    listing_start_date = models.DateField(default=get_today)
+    listing_end_date = models.DateField(default=get_today_plus_30)
     tweeted_at = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True, null=True, verify_exists=False)
     contact_name = models.CharField('Contact name', max_length=128, blank=True)
@@ -46,7 +50,8 @@ class Job(CachingMixin, models.Model):
         return u'%s: %s' % (self.name, self.organization)
         
     def will_show_on_site(self):
-        return (self.is_live and self.listing_start_date <= TODAY and self.listing_end_date >= TODAY)
+        today = get_today()
+        return (self.is_live and self.listing_start_date <= today and self.listing_end_date >= today)
     will_show_on_site.boolean = True
 
     @property
@@ -88,7 +93,8 @@ class Job(CachingMixin, models.Model):
     def save(self, *args, **kwargs):
         '''prepend pk to job slug to keep things unique'''
         # save so we have a pk for new records
-        super(Job, self).save(*args, **kwargs)
+        if not self.pk:
+            super(Job, self).save(*args, **kwargs)
 
         # if we're resaving an existing record, strip the pk
         # off the front so we don't end up multiplying them
@@ -102,10 +108,13 @@ class Job(CachingMixin, models.Model):
         super(Job, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=Job)
-def clear_caches_for_jobs(sender, instance, **kwargs):
-    # clear cache for job list page
-    expire_page_cache(reverse('job_list'))
+def clear_caches_for_jobs(sender, instance, created, **kwargs):
+    # ignore the initial save on creation of new record;
+    # it will get re-saved once the pk is known
+    if not created:
+        # clear cache for job list page
+        expire_page_cache(reverse('job_list'))
     
-    # clear caches for related organization
-    if instance.organization:
-        expire_page_cache(instance.organization.get_absolute_url())
+        # clear caches for related organization
+        if instance.organization:
+            expire_page_cache(instance.organization.get_absolute_url())
