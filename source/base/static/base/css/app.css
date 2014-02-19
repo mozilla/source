@@ -410,6 +410,11 @@ h6 a {
     margin-right: 3%;
 }
 
+.column-full {
+    width: 100%;
+    clear: both;
+}
+
 .column-third {
     float: left;
     width: 30%;
