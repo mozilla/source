@@ -8,8 +8,12 @@
 </header>
 
 <section>
-    <h3>Recent listings</h3>
-    {% include "jobs/_job_list_as_list.html" %}
+    <div id="filterable-list">
+        <div class="filter-block">
+            <h3>Recent listings</h3>
+            {% include "jobs/_job_list_as_list.html" %}
+        </div>
+    </div>
 </section>
 
 <section id="about-jobs" class="divided-section">
@@ -27,6 +31,7 @@
 
 {% block site_js_extra %}
 {% compress js %}
+    <script src="{{ static('base/js/listfilter.js') }}"></script>
     <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
     <script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
 {% endcompress %}
