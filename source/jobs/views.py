@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
@@ -30,9 +32,15 @@ class JobList(ListView):
     def get_context_data(self, **kwargs):
         context = super(JobList, self).get_context_data(**kwargs)
         context['active_nav'] = 'Jobs'
-
         context['rss_link'] = reverse('job_list_feed')
         context['json_link'] = reverse('job_list_feed_json')
+        
+        this_week = datetime.now().date() - timedelta(days=7)
+        last_week = datetime.now().date() - timedelta(days=14)
+        print this_week, last_week
+        context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
+        context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
+        context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
         
         return context
 

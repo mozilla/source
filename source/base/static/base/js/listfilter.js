@@ -7,7 +7,7 @@ $.expr[':'].icontains = function(element, index, match) {
 $(document).ready(function() {
     // set up initial vars
     var filterForm = '<div id="js-filter-form">\
-        <label for="list-filter">Start typing to filter list</label>\
+        <label for="list-filter">Search list</label>\
         <input class="filter" type="text" id="list-filter" />\
     </div>';
     var filteredList = $('#filterable-list');
@@ -22,26 +22,22 @@ $(document).ready(function() {
         if (filterVal) {
             // hide the list container to avoid potential repaints
             filteredList.css('display','none');
-            // hide items that don't have matching text, lists that don't have
-            // visible items, and blocks that don't have visible lists
-            filteredList.find('li:not(:icontains(' + filterVal + '))').css('display','none');
-            filteredList.find('.filter-list:not(:has(li:visible))').css('display','none');
-            filteredList.find('.filter-block:not(:has(li:visible))').css('display','none');
-            // show blocks/lists/items that contain matching text
-            filteredList.find('.filter-block:has(li:icontains(' + filterVal + '))').css('display','block');
-            filteredList.find('.filter-list:has(li:icontains(' + filterVal + '))').css('display','block');
-            filteredList.find('li:icontains(' + filterVal + ')').css('display','block');
+            // hide items that don't have matching text
+            filteredList.find('.filter-item:not(:icontains(' + filterVal + '))').css('display','none');
+            filteredList.find('.filter-block:not(:has(.filter-item:visible))').css('display','none');
+            // show items that contain matching text
+            filteredList.find('.filter-block:has(.filter-item:icontains(' + filterVal + '))').css('display','block');
+            filteredList.find('.filter-item:icontains(' + filterVal + ')').css('display','block');
             // show the list container again
             filteredList.css('display','block');
         } else {
             // nothing in filter form, so make sure everything is visible
             filteredList.find('.filter-block').css('display','block');
-            filteredList.find('.filter-list').css('display','block');
-            filteredList.find('li').css('display','block');
+            filteredList.find('.filter-item').css('display','block');
         }
         
         // show 'no results' message if we've removed all the items
-        if ($('.filter-list > li:visible').length == 0) {
+        if ($('.filter-item:visible').length == 0) {
             $('#no-results').remove();
             $('#js-filter-form').after('<p id="no-results">No matching results found.</p>');
         } else {

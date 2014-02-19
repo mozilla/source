@@ -45,6 +45,7 @@
 
     {% set navigation_links = [
         ('/', 'home', 'Home'),
+        ('/articles/', 'articles', 'Features'),
         ('/learning/', 'learning', 'Learning'),
         ('/people/', 'community', 'Community'),
         ('/code/', 'code', 'Code'),
@@ -79,7 +80,7 @@
                 
                     <ul id="navigation">
                     {% for url, id, name in navigation_links %}
-                        <li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
+                        {% if id != "home" %}<li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>{% endif %}
                     {% endfor %}
                     </ul>
                     <a class="toggle-navigation" href="#"><i class="icon-reorder"></i></a>
