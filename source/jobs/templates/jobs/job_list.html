@@ -9,10 +9,27 @@
 
 <section>
     <div id="filterable-list">
+        {% if jobs_this_week %}
         <div class="filter-block">
-            <h3>Recent listings</h3>
-            {% include "jobs/_job_list_as_list.html" %}
+            <h3>Posted this week</h3>
+            {% with job_list = jobs_this_week %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
         </div>
+        {% endif %}
+        {% if jobs_last_week %}
+        <div class="filter-block">
+            <h3>Posted last week</h3>
+            {% with job_list = jobs_last_week %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
+        </div>
+        {% endif %}
+        {% if jobs_previously %}
+        <div class="filter-block">
+            <h3>Posted previously</h3>
+            {% with job_list = jobs_previously %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
+        </div>
+        {% endif %}
     </div>
 </section>
 
