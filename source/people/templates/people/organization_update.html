@@ -15,9 +15,8 @@
         {{ browserid_logout(text='Log out') }}
     </div>
     <p>{{ error_message }}</p>
-{% endif %}
 
-{% if user.is_authenticated() and user.is_active and perms.people.change_organization and not error_message %}
+{% elif user.is_authenticated() and user.is_active and perms.people.change_organization %}
 <div class="toggle-buttons">
     <a href="#organization" class="active">Your organization</a>
     <a href="#people">Your people</a>
