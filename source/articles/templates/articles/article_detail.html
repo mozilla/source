@@ -8,10 +8,8 @@
         <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
         <script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
     {% endif %}
-    <script src="{{ static('articles/js/jquery.syntaxhighlighter.min.js') }}"></script>
 {% endcompress %}
 <script type="text/javascript">
-    $.SyntaxHighlighter.init();
     {% if article.section.slug == "learning" %}
     $('.article-toc').localScroll({
         offset: -80,
@@ -130,7 +128,7 @@
         {% include "people/_organization_link_list.html" %}{% endwith %}
     </aside>
     
-    {% if article.allow_comments %}
+    {% if article.allow_comments and not settings.DEBUG %}
     <div id="disqus_thread"></div>
     <script type="text/javascript">
         var disqus_shortname = "source-opennews";
