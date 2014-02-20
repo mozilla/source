@@ -25,7 +25,7 @@ class JobList(ListView):
         return super(JobList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = Job.live_objects.order_by('-listing_start_date', '-modified')
+        queryset = Job.live_objects.order_by('-listing_start_date', '-created')
 
         return queryset
 
@@ -37,7 +37,7 @@ class JobList(ListView):
         
         this_week = datetime.now().date() - timedelta(days=7)
         last_week = datetime.now().date() - timedelta(days=14)
-        print this_week, last_week
+
         context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
         context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
         context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
