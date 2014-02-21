@@ -13,7 +13,8 @@
     {% if article.section.slug == "learning" %}
     $('.article-toc').localScroll({
         offset: -80,
-        hash: true
+        hash: true,
+        target: '#snap-content-wrapper'
     });
     {% endif %}
 </script>
