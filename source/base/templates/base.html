@@ -54,17 +54,6 @@
     ] -%}
     {% set active_nav = active_nav %}
     <body>
-        <div class="snap-drawers">
-            <div class="snap-drawer snap-drawer-right">
-                <a href="/"><img class="drawer-logo" src="{{ static('base/img/source_retina_top_invert.png') }}" alt="Source"></a>
-                <ul>
-                {% for url, id, name in navigation_links %}
-                    <li class="{% if id not in "home|search" %}indent{% endif %}" id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
-                {% endfor %}
-                </ul>
-            </div>
-        </div>
-        
         <div id="snap-content-wrapper" class="snap-content">
             <header id="topbar">
                 {% if APP_MSG %}
@@ -114,7 +103,9 @@
                             <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
                             <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
                         </ul>
+                        {% if not settings.DEBUG %}
                         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        {% endif %}
                     </div>
                     <div class="col">
                         <h2>About Source</h2>
@@ -126,6 +117,16 @@
                     </div>
                 </section>
             {% endblock footer %}</footer>
+        </div>
+        <div class="snap-drawers hidden">
+            <div class="snap-drawer snap-drawer-right">
+                <a href="/"><img class="drawer-logo" src="{{ static('base/img/source_retina_top_invert.png') }}" alt="Source"></a>
+                <ul>
+                {% for url, id, name in navigation_links %}
+                    <li class="{% if id not in "home|search" %}indent{% endif %}" id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
+                {% endfor %}
+                </ul>
+            </div>
         </div>
         
         {% block site_js %}

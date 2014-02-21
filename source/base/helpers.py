@@ -100,12 +100,12 @@ def simple_timesince(value):
     
 @register.filter
 def simple_datesince(value):
-    today = datetime.datetime.today().date()
+    today = datetime.datetime.now().date()
     try:
         difference = today - value
     except:
         return value
 
-    if difference <= datetime.timedelta(days=1):
+    if difference < datetime.timedelta(days=1):
         return 'today'
     return '%(days)s ago' % {'days': timesince(value).split(', ')[0]}

@@ -48,16 +48,18 @@ $(window).smartresize(function(e) {
 })
 
 // snap.js nav pane
-var snapper = new Snap({
+var navPane = new Snap({
     element: document.getElementById('snap-content-wrapper'),
     disable: 'left',
+    slideIntent: 30,
+    minDragDistance: 20,
     minPosition: -205
 });
 $('.toggle-navigation').on('click', function() {
-    if (snapper.state().state == 'right') {
-        snapper.close();
+    if (navPane.state().state == 'right') {
+        navPane.close();
     } else {
-        snapper.open('right');
+        navPane.open('right');
     }
     return false;
 })
@@ -66,10 +68,12 @@ $('.toggle-navigation').on('click', function() {
 var applyNavPane = function() {
     window.browserWidth = document.documentElement.clientWidth;
 
-    if (window.browserWidth <= 480) {
-        snapper.enable();
+    if (browserWidth <= 480) {
+        navPane.enable();
+        $('.snap-drawers').removeClass('hidden')
     } else {
-        snapper.disable();
+        navPane.disable();
+        $('.snap-drawers').addClass('hidden')
     }
 }
 // initial page load

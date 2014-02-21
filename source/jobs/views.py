@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.template.defaultfilters import slugify
 from django.views.generic import ListView, DetailView, View
 
 from .forms import JobUpdateForm
@@ -12,6 +11,7 @@ from .models import Job
 from source.base.helpers import dj_date
 from source.base.utils import render_json_to_response
 from source.people.models import Organization
+from source.utils.caching import expire_page_cache
 from source.utils.json import render_json_to_response
 
 USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
@@ -25,7 +25,7 @@ class JobList(ListView):
         return super(JobList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = Job.live_objects.order_by('-listing_start_date', '-modified')
+        queryset = Job.live_objects.order_by('-listing_start_date', '-created')
 
         return queryset
 
@@ -37,7 +37,7 @@ class JobList(ListView):
         
         this_week = datetime.now().date() - timedelta(days=7)
         last_week = datetime.now().date() - timedelta(days=14)
-        print this_week, last_week
+
         context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
         context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
         context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
@@ -97,8 +97,6 @@ class JobUpdate(View):
 
             job = Job(**job_kwargs)
             job.save()
-            job.slug = '%s-%s' % (job.pk, slugify(job.name))
-            job.save()
 
             return job
         return None
@@ -135,6 +133,8 @@ class JobUpdate(View):
                 form_message = self.process_form(job, data)
             elif task == 'remove':
                 job.delete()
+                expire_page_cache(reverse('job_list'))
+                expire_page_cache(organization.get_absolute_url())
                 form_message = 'Removed'
 
         if request.is_ajax():
