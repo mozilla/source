@@ -85,7 +85,9 @@
             <div class="column-half">
                 <input type="text" name="name" id="person-search" class="autocomplete" autocomplete="off" placeholder="Start typing a name...">
             </div>
-            <input type="submit" class="btn" value="Add Person">
+            <div class="submit-container">
+                <input type="submit" class="btn" value="Add Person">
+            </div>
         </form>
     </div>
 
@@ -405,7 +407,10 @@ function submitOrganizationUpdate() {
 
 function createPerson() {
     clearAlerts();
-    var formData = $('#form-person-create').serialize();
+    var personForm = $('#form-person-create'),
+        submitContainer = personForm.find('.submit-container'),
+        formData = personForm.serialize(),
+        statusMsg = $('<span class="save-alert">Saving</span>');
 
     $.ajax({
         type: "POST",
@@ -417,8 +422,10 @@ function createPerson() {
                 var newPerson = compiledPersonTemplate.render(response);
                 $(newPerson).hide().prependTo('#person-list').fadeIn();
             }
+            personForm[0].reset();
         },
         error: function(response) {
+            statusMsg.addClass('error-message').hide().appendTo(submitContainer).fadeIn();
             alertSave(statusMsg, 'Error saving...');
         }
     });
@@ -427,7 +434,9 @@ function createPerson() {
 function createJob() {
     clearAlerts();
     var jobForm = $('#form-job-create'),
-        formData = jobForm.serialize();
+        submitContainer = jobForm.find('.submit-container'),
+        formData = jobForm.serialize(),
+        statusMsg = $('<span class="save-alert">Saving</span>');
         
     $.ajax({
         type: "POST",
@@ -443,6 +452,7 @@ function createJob() {
             jobShowLaters.fadeOut();
         },
         error: function(response) {
+            statusMsg.addClass('error-message').hide().appendTo(submitContainer).fadeIn();
             alertSave(statusMsg, 'Error saving...');
         }
     });
@@ -474,8 +484,8 @@ function submitPersonUpdate(personID, task) {
             if (response['message'] == 'Added') {
                 var newPerson = compiledPersonTemplate.render(response);
                 $(newPerson).hide().prependTo('#person-list').fadeIn();
-            } else if (response['message'] != 'Saved!') {
-                submitContainer.append(statusMsg);
+            } else if (response['message'] != 'Saved!' && response['message'] != 'Removed') {
+                statusMsg.addClass('error-message').hide().appendTo(submitContainer).fadeIn();
                 alertSave(statusMsg, response['message'], true);
             } else {
                 toggleEditForm(nameContainer);
@@ -485,6 +495,7 @@ function submitPersonUpdate(personID, task) {
             }
         },
         error: function(response) {
+            nameContainer.append(statusMsg);
             alertSave(statusMsg, 'Error saving...');
         }
     });
@@ -517,11 +528,8 @@ function submitJobUpdate(jobID, task) {
         data: formData,
         dataType: "json",
         success: function(response) {
-            if (response['message'] == 'Added') {
-                var newPerson = compiledPersonTemplate.render(response);
-                $(newPerson).hide().prependTo('#person-list').fadeIn();
-            } else if (response['message'] != 'Saved!') {
-                submitContainer.append(statusMsg);
+            if (response['message'] != 'Saved!' && response['message'] != 'Removed') {
+                statusMsg.addClass('error-message').hide().appendTo(submitContainer).fadeIn();
                 alertSave(statusMsg, response['message'], true);
             } else {
                 toggleEditForm(nameContainer);
@@ -531,6 +539,7 @@ function submitJobUpdate(jobID, task) {
             }
         },
         error: function(response) {
+            nameContainer.append(statusMsg);
             alertSave(statusMsg, 'Error saving...');
         }
     });
