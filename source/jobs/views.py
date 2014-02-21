@@ -12,6 +12,7 @@ from .models import Job
 from source.base.helpers import dj_date
 from source.base.utils import render_json_to_response
 from source.people.models import Organization
+from source.utils.caching import expire_page_cache
 from source.utils.json import render_json_to_response
 
 USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
@@ -135,6 +136,8 @@ class JobUpdate(View):
                 form_message = self.process_form(job, data)
             elif task == 'remove':
                 job.delete()
+                expire_page_cache(reverse('job_list'))
+                expire_page_cache(organization.get_absolute_url())
                 form_message = 'Removed'
 
         if request.is_ajax():
