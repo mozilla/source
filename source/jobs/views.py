@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.template.defaultfilters import slugify
 from django.views.generic import ListView, DetailView, View
 
 from .forms import JobUpdateForm
@@ -97,8 +96,6 @@ class JobUpdate(View):
             })
 
             job = Job(**job_kwargs)
-            job.save()
-            job.slug = '%s-%s' % (job.pk, slugify(job.name))
             job.save()
 
             return job

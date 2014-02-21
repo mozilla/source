@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.template.defaultfilters import date as dj_date
+from django.template.defaultfilters import date as dj_date, slugify
 from django.utils.safestring import mark_safe
 
 from caching.base import CachingManager, CachingMixin
@@ -101,20 +101,27 @@ class Job(CachingMixin, models.Model):
         slug_prefix = '%s-' % self.pk
         if self.slug.startswith(slug_prefix):
             self.slug = self.slug.replace(slug_prefix, '')
+            
+        if self.slug == '':
+            self.slug = slugify(self.name)
         
         # prefix with pk
         self.slug = '%s%s' % (slug_prefix, self.slug)
 
+        # call this manually because of the double-save for slugging
+        clear_caches_for_job(self)
+
         super(Job, self).save(*args, **kwargs)
 
-@receiver(post_save, sender=Job)
-def clear_caches_for_jobs(sender, instance, created, **kwargs):
-    # ignore the initial save on creation of new record;
-    # it will get re-saved once the pk is known
-    if not created:
-        # clear cache for job list page
-        expire_page_cache(reverse('job_list'))
-    
-        # clear caches for related organization
-        if instance.organization:
-            expire_page_cache(instance.organization.get_absolute_url())
+def clear_caches_for_job(instance):
+    '''
+    Not triggering this via signal, as we seemed to have
+    trouble getting consistent results with the double-save
+    required for a unique slug. Called manually instead.
+    '''
+    # clear cache for job list page
+    expire_page_cache(reverse('job_list'))
+
+    # clear caches for related organization
+    if instance.organization:
+        expire_page_cache(instance.organization.get_absolute_url())
