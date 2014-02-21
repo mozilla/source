@@ -54,7 +54,7 @@
     ] -%}
     {% set active_nav = active_nav %}
     <body>
-        <div id="snap-content-wrapper" class="snap-content">
+        <div id="snap-content-wrapper" class="snap-content overthrow">
             <header id="topbar">
                 {% if APP_MSG %}
                     <div id="app_stage_box" class="whimper">
@@ -134,6 +134,7 @@
         <script>window.jQuery || document.write("<script src=\"{{ static('base/js/libs/jquery-1.7.2.min.js') }}\"><\/script>")</script>
         {% compress js %}
             <script src="{{ static('base/js/libs/snap.min.js') }}"></script>
+            <script src="{{ static('base/js/libs/overthrow.min.js') }}"></script>
             <script src="{{ static('base/js/app.js') }}"></script>
         {% endcompress %}
         {% endblock %}

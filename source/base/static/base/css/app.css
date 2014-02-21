@@ -1282,6 +1282,12 @@ a.promo p {
     color: #111;
 }
 
+/* https://github.com/filamentgroup/Overthrow */
+.overthrow-enabled .overthrow {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;
