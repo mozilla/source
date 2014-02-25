@@ -29,9 +29,10 @@ class Guide(CachingMixin, models.Model):
     image_credit = models.CharField(max_length=128, blank=True, help_text='Optional. Will be appended to end of caption in parens. Accepts HTML.')
     description = models.TextField('Description', blank=True)
     summary = models.TextField(blank=True, help_text='The two-sentence version of description, to be used on list pages.')
+    cover_color = models.CharField(max_length='32', blank=True, help_text='Hex code for background color of title card, e.g. `#256188`. Probably sampled from cover image.')
     objects = models.Manager()
     live_objects = LiveGuideManager()
-    
+
     class Meta:
         ordering = ('-pubdate','title',)
         
@@ -79,6 +80,11 @@ class Guide(CachingMixin, models.Model):
 
     def get_live_article_set(self):
         return self.guidearticle_set.filter(article__is_live=True, article__pubdate__lte=datetime.now)
+
+    def save(self, *args, **kwargs):
+        # clean up cover_color field, just in case
+        self.cover_color = self.cover_color.strip('#')
+        super(Organization, self).save(*args, **kwargs)
 
 
 class GuideArticle(CachingMixin, models.Model):
