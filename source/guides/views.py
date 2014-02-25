@@ -30,6 +30,10 @@ class GuideDetail(DetailView):
     model = Guide
 
     def get_queryset(self):
-        queryset = Guide.live_objects.prefetch_related('guidearticle_set')
+        if self.request.user.is_staff:
+            # allow preview for logged-in editors
+            queryset = Guide.objects.prefetch_related('guidearticle_set')
+        else:
+            queryset = Guide.live_objects.prefetch_related('guidearticle_set')
         
         return queryset
