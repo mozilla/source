@@ -1,6 +1,10 @@
 /*  Override bootstrap.css defaults here, 
     until all the styles are belong to us */
 
+*, *:before, *:after {
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
 .container {
     width: auto;
     max-width: 800px;
@@ -124,7 +128,7 @@ aside .byline .link-list {
     float: right;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-    font-size: 16px;
+    font-size: 15px;
     text-transform: uppercase;
     width: auto;
     text-shadow: 0px 1px 0px #f3f3f4;
@@ -145,8 +149,6 @@ aside .byline .link-list {
 }
 
 #navigation li a {
-    border-right: 1px solid #e4e4e4;
-    border-left: 1px solid #e4e4e4;
     padding: 15px 10px;
     padding-top: 16px;
     color: #333333;
@@ -155,8 +157,6 @@ aside .byline .link-list {
 }
 
 #navigation li a:hover, #navigation li.active a {
-    border-right: 1px solid #dfdfdf;
-    border-left: 1px solid #dfdfdf;
     background-color: #d8d8d8;
 }
 
@@ -417,8 +417,8 @@ h6 a {
 
 .column-third {
     float: left;
-    width: 30%;
-    margin-right: 3%;
+    width: 31%;
+    margin-right: 2%;
 }
 
 aside {
@@ -682,9 +682,9 @@ img.list-thumbnail {
     height: auto;
     font-size: 16px;
 }
-
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input
 .search-form input[type="text"] {
-    width: 300px;
+    height: auto;
 }
 
 #topbar .search-form {
@@ -791,7 +791,7 @@ article.search-results h2 {
 }
 
 article.search-results h3 {
-    margin-top: 0;
+    margin: 0;
 }
 
 article.search-results-single-col {
@@ -828,7 +828,7 @@ aside.search-results-single-col {
 .grid-box {
     display: inline-block;
     vertical-align: top;
-    width: 29%;
+    width: 30%;
     margin-right: 3%;
     zoom: 1;
     *display: inline;
@@ -1164,8 +1164,8 @@ a.promo p {
     content: "| ";
 }
 
-#guide-header p:not(.caption) {
-    font-size: 1em;
+#guide-header p {
+    font-size: 21px;
 }
 #guide-articles .notes {
     margin-bottom: 0;
@@ -1288,6 +1288,59 @@ a.promo p {
     -webkit-overflow-scrolling: touch;
 }
 
+.guides-box {
+    position: relative;
+    display: block;
+    background-color: #ff4e31;
+    height: 360px;
+}
+.guides-box-main {
+    height: auto;
+    max-height: 360px;
+    margin-bottom: 2em;
+}
+.guides-box .image-wrapper {
+    overflow: hidden;
+}
+.guides-box-main .image-wrapper {
+    float: right;
+    width: 50%;
+}
+.guides-box img {
+    border: none;
+    display: block;
+    width: 100%;
+}
+.guides-box h1,
+.guides-box h2 {
+    position: absolute;
+    bottom: 20px;
+    font-size: 1.2em;
+    line-height: 1.1em;
+    color: #fff;
+    padding: .5em;
+    font-family: 'Open Sans', Helvetica, sans-serif;
+    font-weight: normal;
+    vertical-align: bottom;
+    margin-bottom: -.4em;
+    padding-bottom: 0;
+    text-transform: none;
+    background-color: #ff4e31;
+}
+.guides-box h1:before,
+.guides-box h2:before {
+    font-size: .6em;
+    content: 'the source guide to';
+    display: block;
+}
+.guides-box-main h1,
+.guides-box-main h2 {
+    max-width: 50%;
+}
+.guides-box.column-third {
+    margin-bottom: 2%;
+}
+
 @media screen and (max-width: 840px) {
     h2 span.category {
         line-height: 1.3em;
@@ -1345,6 +1398,10 @@ a.promo p {
     
     .grid-box {
         width: 46%;
+        margin-bottom: 2em;
+    }
+    .grid-box .link-list {
+        margin-bottom: 0;
     }
     
     .promo.lead {
@@ -1369,15 +1426,22 @@ a.promo p {
         margin-right: 0px;
         margin-bottom: 10px;
     }
-}
-
-@media screen and (max-width: 730px) {
+    .column-third {
+        width: 48%;
+    }
+    .guides-box .image-wrapper {
+        max-height: 60%;
+    }
     #topbar .search-form {
         display: none;
     }
     #navigation li#nav-search {
         display: inline-block;
     }
+}
+
+
+@media screen and (max-width: 730px) {
 }
 
 @media screen and (max-width: 690px) {
@@ -1392,14 +1456,14 @@ a.promo p {
     }
     
     .secondary-promo-wrap {
-        width: 97%;
+        width: 100%;
         margin-right: 0;
         height: auto;
     }
     
     .promo.secondary-promo {
         float: left;
-        width: 45%;
+        width: 48%;
         height: auto;
     }
     
@@ -1415,6 +1479,20 @@ a.promo p {
     .tt-query {
         width: 100%;
     }
+    #navigation {
+        font-size: 12px;
+        width: auto;
+        padding-top: 5px;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    #navigation li a, #navigation li a:hover, #navigation li.active a {
+        font-weight: 400;
+        border: none;
+        padding: 10px 7px;
+    }
+    
 }
 
 
@@ -1449,29 +1527,15 @@ a.promo p {
         margin-right: 10px;
     }
     
-    #navigation {
-        font-size: 12px;
-        width: auto;
-        padding-top: 5px;
-        margin-left: -10px;
-        margin-right: -10px;
-    }
-
-    #navigation li a, #navigation li a:hover, #navigation li.active a {
-        font-weight: 400;
-        border: none;
-        padding: 10px 7px;
-    }
-    
     .col {
         padding-left: 15px;
         padding-right: 15px;
     }
 
-    .column-half,
-    .column-third {
+    .column-half {
         width: auto;
         float: none;
+        margin-right: 0;
     }
     
     aside.homepage, aside.search-results {
@@ -1544,6 +1608,12 @@ a.promo p {
     .image-inset-left-wrapper img, .image-inset-right-wrapper img {
         width: 198px;
     }
+    .guides-box .image-wrapper {
+        max-height: 67%;
+    }
+    #guide-header p {
+        font-size: 18px;
+    }
 }
 
 @media screen and (max-width: 525px) {
@@ -1575,6 +1645,17 @@ a.promo p {
     
     img.map-inset {
         display: none;
+    }
+    #navigation {
+        font-size: 11px;
+    }
+    .column-third {
+        width: auto;
+        float: none;
+        margin-right: 0;
+    }
+    .guides-box.column-third {
+        margin-bottom: 15px;
     }
 }
 
@@ -1626,7 +1707,9 @@ a.promo p {
     }
     
     img.list-thumbnail {
-        width: 100px;
+        float: none;
+        width: 100%;
+        margin-right: 0;
     }
     
     aside.homepage, aside.search-results {
@@ -1697,5 +1780,19 @@ a.promo p {
             -ms-transform: translate3d(0, 0, 0);
              -o-transform: translate3d(0, 0, 0);
                 transform: translate3d(0, 0, 0);
+    }
+    .guides-box-main {
+        margin-bottom: .75em;
+    }
+    .guides-box-main .img-wrapper,
+    .guides-box-main img {
+        display: none;
+    }
+    .guides-box-main h1 {
+        max-width: 100%;
+        position: relative;
+    }
+    #guide-header p {
+        font-size: 16px;
     }
 }
