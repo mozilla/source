@@ -84,7 +84,7 @@ class Guide(CachingMixin, models.Model):
     def save(self, *args, **kwargs):
         # clean up cover_color field, just in case
         self.cover_color = self.cover_color.strip('#')
-        super(Organization, self).save(*args, **kwargs)
+        super(Guide, self).save(*args, **kwargs)
 
 
 class GuideArticle(CachingMixin, models.Model):

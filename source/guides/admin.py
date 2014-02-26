@@ -18,7 +18,7 @@ class GuideAdmin(AdminImageMixin, admin.ModelAdmin):
     search_fields = ('title', 'summary', 'description',)
     fieldsets = (
         ('', {'fields': (('pubdate', 'is_live', 'show_in_lists'), ('title', 'slug'), 'description', 'summary')}),
-        ('', {'fields': ('cover_color', 'image', 'image_caption', 'image_credit')}),
+        ('', {'fields': ('cover_color', 'image')}),
     )
     inlines = [GuideArticleInline,]
     
