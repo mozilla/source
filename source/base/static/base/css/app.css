@@ -1314,7 +1314,6 @@ a.promo p {
 .guides-box h1,
 .guides-box h2 {
     position: absolute;
-    bottom: 20px;
     font-size: 1.2em;
     line-height: 1.1em;
     color: #fff;
@@ -1326,6 +1325,14 @@ a.promo p {
     padding-bottom: 0;
     text-transform: none;
     background-color: #ff4e31;
+}
+.guides-box h2 {
+    bottom: 25px;
+}
+.guides-box h1 {
+    bottom: 30px;
+    font-size: 1.6em;
+    line-height: 1em;
 }
 .guides-box h1:before,
 .guides-box h2:before {
@@ -1656,6 +1663,9 @@ a.promo p {
     }
     .guides-box.column-third {
         margin-bottom: 15px;
+    }
+    .guides-box h1 {
+        font-size: 1.4em;
     }
 }
 
