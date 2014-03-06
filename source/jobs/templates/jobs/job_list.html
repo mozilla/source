@@ -58,5 +58,12 @@
         hash: true,
         target: '#snap-content-wrapper'
     });
+    
+    $('#filterable-list').on('mouseenter', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').show();
+    });
+    $('#filterable-list').on('mouseleave', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').hide();
+    });
 </script>
 {% endblock %}

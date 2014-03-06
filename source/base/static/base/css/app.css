@@ -1163,6 +1163,33 @@ a.promo p {
 .job-listing .job-contact-block:before {
     content: "| ";
 }
+.offset-anchor {
+    display: block;
+    position: relative;
+    top: -75px;
+    visibility: hidden;
+}
+a.permalink {
+    text-decoration: none;
+    color: inherit;
+}
+a.permalink span,
+a.permalink i {
+    color: #808080;
+    display: none;
+}
+h3 a.permalink span,
+h3 a.permalink i {
+    font-size: .75em;
+    margin-left: .33em;
+}
+a.permalink:hover {
+    color: inherit;
+}
+a.permalink:hover span,
+a.permalink:hover i {
+    display: inherit;
+}
 
 #guide-header p {
     font-size: 21px;
