@@ -8,7 +8,16 @@
 </header>
 
 <section>
+    <div id="filter-list-input-container" class="clearfix">
+        <p id="sort-options" class="helptext">
+            Sort by: <a id="sort-date" href="{{ url('job_list') }}">Listing date</a> / <a id="sort-organization" href="{{ url('job_list') }}?sort=organization">Organization</a>
+        </p>
+    </div>
     <div id="filterable-list">
+        {% if jobs_by_organization %}
+            {% with job_list = jobs_by_organization|groupby('organization_sort_name'), grouper = 'organization' %}
+            {% include "jobs/_job_list_as_grouped_list.html" %}{% endwith %}
+        {% endif %}
         {% if jobs_this_week %}
         <div class="filter-block">
             <h3>Posted this week</h3>
@@ -58,5 +67,30 @@
         hash: true,
         target: '#snap-content-wrapper'
     });
+    
+    var filter = ListFilter({
+        inputContainer: '#filter-list-input-container',
+        listContainer: '#filterable-list',
+        filterItemClass: '.filter-item',
+        filterBlockClass: '.filter-block'
+    });
+    
+    $('#filterable-list').on('mouseenter', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').show();
+    });
+    $('#filterable-list').on('mouseleave', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').hide();
+    });
+
+    $('#filterable-list').on('click', 'a.job-name', function(e) {
+        var jobText = $(this).parent('h3').text();
+        gaTrackEvent('Jobs', 'Clicked job link', jobText);
+    })
+    $('#sort-options').on('click', 'a', function(e) {
+        gaTrackEvent('Jobs', 'Sort', $(this).text());
+    })
+    
+    var sortValue = '{{ sort_value }}';
+    $('#sort-'+sortValue).removeAttr('href').addClass('disabled');
 </script>
 {% endblock %}

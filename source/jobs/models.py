@@ -55,6 +55,10 @@ class Job(CachingMixin, models.Model):
     will_show_on_site.boolean = True
 
     @property
+    def organization_sort_name(self):
+        return self.organization.name.replace('The ', '')
+
+    @property
     def get_contact_email(self):
         '''returns job email, falls back to organzation email'''
         return self.email or self.organization.email
@@ -67,7 +71,7 @@ class Job(CachingMixin, models.Model):
     @property
     def wrapped_job_name(self):
         if self.url:
-            link = '<a href="%s">%s</a>' % (self.url, self.name)
+            link = '<a class="job-name" href="%s">%s</a>' % (self.url, self.name)
             return mark_safe(link)
         else:
             return self.name

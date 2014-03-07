@@ -5,7 +5,6 @@ from .models import Job
 class JobAdmin(admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('name',)}
-    readonly_fields = ('tweeted_at',)
     list_filter = ('is_live', 'organization',)
     list_display = ('name', 'organization', 'will_show_on_site', 'listing_start_date', 'listing_end_date', 'tweeted_at')
     search_fields = ('name', 'organization__name',)

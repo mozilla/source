@@ -15,6 +15,13 @@ $(document).ready(function () {
     });
 });
 
+var gaTrackEvent = function(category, action, label) {
+    // make sure we have Google Analytics function available
+    if (typeof(ga) == 'function') {
+        ga('send', 'event', category, action, label);
+    }
+}
+
 // http://www.hnldesign.nl/work/code/debouncing-events-with-jquery/
 var jQueryDebounce = function($,cf,of, interval) {
     // deBouncer by hnldesign.nl
