@@ -81,6 +81,14 @@
     $('#filterable-list').on('mouseleave', 'h3', function() {
         $(this).find('.permalink span, .permalink i').hide();
     });
+
+    $('#filterable-list').on('click', 'a.job-name', function(e) {
+        var jobText = $(this).parent('h3').text();
+        gaTrackEvent('Jobs', 'Clicked job link', jobText);
+    })
+    $('#sort-options').on('click', 'a', function(e) {
+        gaTrackEvent('Jobs', 'Sort', $(this).text());
+    })
     
     var sortValue = '{{ sort_value }}';
     $('#sort-'+sortValue).removeAttr('href').addClass('disabled');

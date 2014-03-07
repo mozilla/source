@@ -71,7 +71,7 @@ class Job(CachingMixin, models.Model):
     @property
     def wrapped_job_name(self):
         if self.url:
-            link = '<a href="%s">%s</a>' % (self.url, self.name)
+            link = '<a class="job-name" href="%s">%s</a>' % (self.url, self.name)
             return mark_safe(link)
         else:
             return self.name
