@@ -55,6 +55,10 @@ class Job(CachingMixin, models.Model):
     will_show_on_site.boolean = True
 
     @property
+    def organization_sort_name(self):
+        return self.organization.name.replace('The ', '')
+
+    @property
     def get_contact_email(self):
         '''returns job email, falls back to organzation email'''
         return self.email or self.organization.email

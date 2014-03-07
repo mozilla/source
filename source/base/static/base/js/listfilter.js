@@ -101,7 +101,7 @@ function ListFilter(options) {
         // show 'no results' message if we've removed all the items
         $('#filter-no-results').remove();
         if ($(filter.filterItemClass+':visible').length == 0) {
-            $('#'+filter.filterFormID).after('<p id="filter-no-results">No matching results found.</p>');
+            filter.filteredList.append('<p id="filter-no-results">No matching results found.</p>');
         }
     }
     

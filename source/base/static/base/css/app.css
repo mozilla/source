@@ -373,17 +373,30 @@ h6 a {
     margin-bottom: .5em;
 }
 
-#js-filter-form {
+#js-filter-form,
+#list-filter-form {
     margin-bottom: 1em;
 }
 
-#js-filter-form label {
+#list-filter-form,
+#sort-options {
+    display: inline;
+}
+
+#js-filter-form label,
+#list-filter-form label,
+#sort-options {
     display: inline-block;
     font-size: .67em;
     vertical-align: middle;
 }
+#filter-list-input-container #sort-options {
+    height: 20px;
+    margin-left: 1em;
+}
 
-#js-filter-form input {
+#js-filter-form input,
+#list-filter-form input {
     vertical-align: text-top;
 }
 
@@ -538,6 +551,12 @@ a {
 a:hover {
     text-decoration: underline;
     color: black;
+}
+
+a.disabled {
+    color: #808080;
+    cursor: default;
+    pointer-events: none;
 }
 
 h1.maintopic {
@@ -1647,6 +1666,10 @@ a.permalink:hover i {
     }
     #guide-header p {
         font-size: 18px;
+    }
+    #filter-list-input-container #sort-options {
+        display: block;
+        margin-left: 0;
     }
 }
 

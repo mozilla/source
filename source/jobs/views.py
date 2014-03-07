@@ -20,13 +20,13 @@ USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
 class JobList(ListView):
     model = Job
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        return super(JobList, self).dispatch(*args, **kwargs)
+        self.sort = request.GET.get('sort', None)
+        return super(JobList, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Job.live_objects.order_by('-listing_start_date', '-created')
-
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -34,13 +34,17 @@ class JobList(ListView):
         context['active_nav'] = 'Jobs'
         context['rss_link'] = reverse('job_list_feed')
         context['json_link'] = reverse('job_list_feed_json')
+        context['sort_value'] = self.sort or 'date'
         
         this_week = datetime.now().date() - timedelta(days=7)
         last_week = datetime.now().date() - timedelta(days=14)
-
-        context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
-        context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
-        context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
+        
+        if self.sort == 'organization':
+            context['jobs_by_organization'] = self.get_queryset().order_by('organization__name')
+        else:
+            context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
+            context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
+            context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
         
         return context
 
@@ -58,10 +62,10 @@ class JobList(ListView):
 
 class JobUpdate(View):
     form_message = ''
-    
+
     def get_success_url(self):
         return reverse('organization_update')
-    
+
     def get_organization(self):
         user = self.request.user
         if user.is_authenticated() and user.is_active:

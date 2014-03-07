@@ -1,0 +1,18 @@
+{% for group in job_list %}
+    <div class="filter-block">
+        <h3>{% if grouper == 'organization' %}{{ group.list[0].organization.name }}{% else %}{{ group.grouper }}{% endif %}</h3>
+        {% for job in group.list %}
+            <div class="job-listing filter-item">
+                <a class="offset-anchor" id="job-{{ job.pk }}"></a>
+                <h3>{{ job.wrapped_job_name }} {% if not sort_by_organization %}at {{ job.wrapped_organization_name }} {% endif %}<a class="permalink" href="#job-{{ job.pk }}"><i class="icon-link"></i></a></h3>
+                {% if job.description %}<p>{{ job.description }}</p>{% endif %}
+                <h5>
+                    <i class="icon-cogs small"></i> {{ job.wrapped_organization_name }}
+                    {% if job.location %}<span class="job-contact-block">Location: {{ job.location }}</span>{% endif %}
+                    {% if job.wrapped_contact_name %}<span class="job-contact-block">Contact: {{ job.wrapped_contact_name }}</span>{% endif %}
+                </h5>
+                <h5>Posted {{ job.listing_start_date|simple_datesince }}</h5>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

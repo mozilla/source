@@ -8,8 +8,16 @@
 </header>
 
 <section>
-    <div id="filter-list-input-container"></div>
+    <div id="filter-list-input-container" class="clearfix">
+        <p id="sort-options" class="helptext">
+            Sort by: <a id="sort-date" href="{{ url('job_list') }}">Listing date</a> / <a id="sort-organization" href="{{ url('job_list') }}?sort=organization">Organization</a>
+        </p>
+    </div>
     <div id="filterable-list">
+        {% if jobs_by_organization %}
+            {% with job_list = jobs_by_organization|groupby('organization_sort_name'), grouper = 'organization' %}
+            {% include "jobs/_job_list_as_grouped_list.html" %}{% endwith %}
+        {% endif %}
         {% if jobs_this_week %}
         <div class="filter-block">
             <h3>Posted this week</h3>
@@ -73,5 +81,8 @@
     $('#filterable-list').on('mouseleave', 'h3', function() {
         $(this).find('.permalink span, .permalink i').hide();
     });
+    
+    var sortValue = '{{ sort_value }}';
+    $('#sort-'+sortValue).removeAttr('href').addClass('disabled');
 </script>
 {% endblock %}
