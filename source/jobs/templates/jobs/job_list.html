@@ -8,6 +8,7 @@
 </header>
 
 <section>
+    <div id="filter-list-input-container"></div>
     <div id="filterable-list">
         {% if jobs_this_week %}
         <div class="filter-block">
@@ -57,6 +58,13 @@
         offset: -80,
         hash: true,
         target: '#snap-content-wrapper'
+    });
+    
+    var filter = ListFilter({
+        inputContainer: '#filter-list-input-container',
+        listContainer: '#filterable-list',
+        filterItemClass: '.filter-item',
+        filterBlockClass: '.filter-block'
     });
     
     $('#filterable-list').on('mouseenter', 'h3', function() {
