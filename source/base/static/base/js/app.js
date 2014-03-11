@@ -16,10 +16,8 @@ $(document).ready(function () {
 });
 
 var gaTrackEvent = function(category, action, label) {
-    // make sure we have Google Analytics function available
-    if (typeof(ga) == 'function') {
-        ga('send', 'event', category, action, label);
-    }
+    var _gaq = _gaq || [];
+    _gaq.push(['_trackEvent', category, action, label]);
 }
 
 // http://www.hnldesign.nl/work/code/debouncing-events-with-jquery/

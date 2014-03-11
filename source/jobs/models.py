@@ -79,7 +79,7 @@ class Job(CachingMixin, models.Model):
     @property
     def wrapped_organization_name(self):
         if self.organization.is_live and self.organization.show_in_lists:
-            link = '<a href="%s">%s</a>' % (self.organization.get_absolute_url(), self.organization.name)
+            link = '<a class="job-organization" href="%s">%s</a>' % (self.organization.get_absolute_url(), self.organization.name)
             return mark_safe(link)
         else:
             return self.organization.name
