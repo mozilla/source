@@ -107,7 +107,7 @@ class Job(CachingMixin, models.Model):
             self.slug = self.slug.replace(slug_prefix, '')
             
         if self.slug == '':
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name)[:40]
         
         # prefix with pk
         self.slug = '%s%s' % (slug_prefix, self.slug)
