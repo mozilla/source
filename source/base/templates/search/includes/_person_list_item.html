@@ -1,5 +1,5 @@
 {# slim presentation block for a person item in search results #}
 <div class="page-block">
     <h3>{% if not hide_list_item_categories %}<span class="category">Person:</span> {% endif %}<a href="{{ object.get_absolute_url() }}">{{ object.name()|typogrify }}</a></h3>
-    {% if object.description %}<p>{{ object.description|truncate(150)|typogrify|safe }}</p>{% endif %}
+    {% if object.description %}<p>{{ object.description|typogrify|safe }}</p>{% endif %}
 </div>
