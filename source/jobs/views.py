@@ -55,7 +55,13 @@ class JobList(ListView):
                 jobs.append({
                     'name': job.name,
                     'organization': job.organization.name,
+                    'description': job.description,
+                    'location': job.location,
+                    'contact_name': job.contact_name,
+                    'email': job.email,
                     'listed': dj_date(job.listing_start_date, 'F j, Y'),
+                    'url': job.url,
+                    'source_url': job.get_list_page_url,
                 })
             return render_json_to_response(jobs)
         return super(JobList, self).render_to_response(context)
