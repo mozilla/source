@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
@@ -48,11 +49,15 @@ class Job(CachingMixin, models.Model):
     
     def __unicode__(self):
         return u'%s: %s' % (self.name, self.organization)
-        
+
     def will_show_on_site(self):
         today = get_today()
         return (self.is_live and self.listing_start_date <= today and self.listing_end_date >= today)
     will_show_on_site.boolean = True
+
+    @property
+    def get_list_page_url(self):
+        return '%s%s#job-%s' % (settings.BASE_SITE_URL, reverse('job_list'), self.pk)
 
     @property
     def organization_sort_name(self):
@@ -107,7 +112,7 @@ class Job(CachingMixin, models.Model):
             self.slug = self.slug.replace(slug_prefix, '')
             
         if self.slug == '':
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name)[:40]
         
         # prefix with pk
         self.slug = '%s%s' % (slug_prefix, self.slug)
