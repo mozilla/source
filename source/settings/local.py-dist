@@ -75,3 +75,5 @@ SECRET_KEY = ''
 # Should robots.txt allow web crawlers?  Set this to True for production
 ENGAGE_ROBOTS = True
 
+if DEV:
+    SESSION_COOKIE_SECURE = False
