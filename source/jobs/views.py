@@ -9,7 +9,6 @@ from django.views.generic import ListView, DetailView, View
 from .forms import JobUpdateForm
 from .models import Job
 from source.base.helpers import dj_date
-from source.base.utils import render_json_to_response
 from source.people.models import Organization
 from source.utils.caching import expire_page_cache
 from source.utils.json import render_json_to_response

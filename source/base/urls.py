@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     (r'^jobs/', include('source.jobs.urls')),
     (r'^organizations/', include('source.people.urls.organizations')),
     (r'^people/', include('source.people.urls.people')),
+    (r'^api/1.0/', include('source.api.urls')),
     url(
         regex = '^search/$',
         view = search_view_factory(view_class=SourceSearchView, form_class=SearchForm, searchqueryset=SearchQuerySet().order_by('django_ct')),

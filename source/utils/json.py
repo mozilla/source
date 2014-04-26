@@ -11,5 +11,8 @@ class LazyEncoder(DjangoJSONEncoder):
         return super(LazyEncoder, self).default(obj)
 
 def render_json_to_response(context):
-    result = simplejson.dumps(context, cls=LazyEncoder)
+    '''
+    Utility method for rendering a view's data to JSON response.
+    '''
+    result = simplejson.dumps(context, sort_keys=False, indent=4, cls=LazyEncoder)
     return HttpResponse(result, mimetype='application/javascript')
