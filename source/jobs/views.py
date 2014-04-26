@@ -1,8 +1,9 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
-from django.template.defaultfilters import slugify
 from django.views.generic import ListView, DetailView, View
 
 from .forms import JobUpdateForm
@@ -10,6 +11,7 @@ from .models import Job
 from source.base.helpers import dj_date
 from source.base.utils import render_json_to_response
 from source.people.models import Organization
+from source.utils.caching import expire_page_cache
 from source.utils.json import render_json_to_response
 
 USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
@@ -18,21 +20,31 @@ USER_DEBUG = getattr(settings, 'USER_DEBUG', False)
 class JobList(ListView):
     model = Job
 
-    def dispatch(self, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.render_json = kwargs.get('render_json', False)
-        return super(JobList, self).dispatch(*args, **kwargs)
+        self.sort = request.GET.get('sort', None)
+        return super(JobList, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = Job.live_objects.order_by('-listing_start_date', '-modified')
-
+        queryset = Job.live_objects.order_by('-listing_start_date', '-created')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(JobList, self).get_context_data(**kwargs)
         context['active_nav'] = 'Jobs'
-
         context['rss_link'] = reverse('job_list_feed')
         context['json_link'] = reverse('job_list_feed_json')
+        context['sort_value'] = self.sort or 'date'
+        
+        this_week = datetime.now().date() - timedelta(days=7)
+        last_week = datetime.now().date() - timedelta(days=14)
+        
+        if self.sort == 'organization':
+            context['jobs_by_organization'] = self.get_queryset().order_by('organization__name')
+        else:
+            context['jobs_this_week'] = self.get_queryset().filter(listing_start_date__gt=this_week)
+            context['jobs_last_week'] = self.get_queryset().filter(listing_start_date__lte=this_week, listing_start_date__gt=last_week)
+            context['jobs_previously'] = self.get_queryset().filter(listing_start_date__lte=last_week)
         
         return context
 
@@ -43,17 +55,23 @@ class JobList(ListView):
                 jobs.append({
                     'name': job.name,
                     'organization': job.organization.name,
+                    'description': job.description,
+                    'location': job.location,
+                    'contact_name': job.contact_name,
+                    'email': job.email,
                     'listed': dj_date(job.listing_start_date, 'F j, Y'),
+                    'url': job.url,
+                    'source_url': job.get_list_page_url,
                 })
             return render_json_to_response(jobs)
         return super(JobList, self).render_to_response(context)
 
 class JobUpdate(View):
     form_message = ''
-    
+
     def get_success_url(self):
         return reverse('organization_update')
-    
+
     def get_organization(self):
         user = self.request.user
         if user.is_authenticated() and user.is_active:
@@ -88,8 +106,6 @@ class JobUpdate(View):
             })
 
             job = Job(**job_kwargs)
-            job.save()
-            job.slug = '%s-%s' % (job.pk, slugify(job.name))
             job.save()
 
             return job
@@ -127,6 +143,8 @@ class JobUpdate(View):
                 form_message = self.process_form(job, data)
             elif task == 'remove':
                 job.delete()
+                expire_page_cache(reverse('job_list'))
+                expire_page_cache(organization.get_absolute_url())
                 form_message = 'Removed'
 
         if request.is_ajax():

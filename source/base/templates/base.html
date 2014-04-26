@@ -42,79 +42,100 @@
         {% endif %}
         {% block head_extra %}{% endblock %}
     </head>
+
+    {% set navigation_links = [
+        ('/', 'home', 'Home'),
+        ('/articles/', 'articles', 'Features'),
+        ('/learning/', 'learning', 'Learning'),
+        ('/guides/', 'guides', 'Guides'),
+        ('/people/', 'community', 'Community'),
+        ('/code/', 'code', 'Code'),
+        ('/jobs/', 'jobs', 'Jobs'),
+        ('/search/', 'search', 'Search'),
+    ] -%}
+    {% set active_nav = active_nav %}
     <body>
-        <header id="topbar">
-            {% if APP_MSG %}
-                <div id="app_stage_box" class="whimper">
-                    <div class="busta">{{ APP_MSG|safe }}</div>
-                </div>
-            {% endif %}
-            <div class="container">
-                <form class="search-form" method="get" action="{{ url('haystack_search') }}">
-                    <input type="text" name="q" id="id_q" />
-                    <input class="btn" type="submit" value="Search">
-                </form>
+        <div id="snap-content-wrapper" class="snap-content overthrow">
+            <header id="topbar">
+                {% if APP_MSG %}
+                    <div id="app_stage_box" class="whimper">
+                        <div class="busta">{{ APP_MSG|safe }}</div>
+                    </div>
+                {% endif %}
+                <div class="container">
+                    <form class="search-form" method="get" action="{{ url('haystack_search') }}">
+                        <input type="text" name="q" id="id_q" />
+                        <input class="btn" type="submit" value="Search">
+                    </form>
                 
-                {% set navigation_links = [
-                    ('/articles/', 'articles', 'Features'),
-                    ('/learning/', 'learning', 'Learn<span class="tinyhide">ing</span>'),
-                    ('/people/', 'community', 'Community'),
-                    ('/code/', 'code', 'Code'),
-                    ('/search/', 'search', 'Search'),
-                ] -%}
-                {% set active_nav = active_nav %}
-                <ul id="navigation">
+                    <ul id="navigation">
+                    {% for url, id, name in navigation_links %}
+                        {% if id != "home" %}<li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>{% endif %}
+                    {% endfor %}
+                    </ul>
+                    <a class="toggle-navigation" href="#"><i class="icon-reorder"></i></a>
+
+                    <a href="{{ url('homepage') }}"><img src="{{ static('base/img/source_retina_top.png') }}" alt="Source" class="sourcelogomin"></a>
+                </div>
+            </header>
+            <div class="content">
+                <div class="container page-block">
+                    <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ static('base/img/source_retina.png') }}" alt="Source"></a>
+                    {% block base_tagline %}{% endblock %}
+                </div>
+        
+                <div class="container">
+                    {% block base_above_article %}{% endblock %}
+                    <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
+                    {% block base_aside %}{% endblock %}
+                    {% block base_below_article %}{% endblock %}
+                </div>
+            </div>
+            <footer class="container">{% block footer %}
+                <section class="external">
+                    <div class="col">
+                        <h2>Connect with Source</h2>
+                        <ul>
+                            {% if rss_link %}<li><i class="icon-rss"></i><a type="application/rss+xml" href="{{ rss_link }}">RSS for this page</a></li>{% endif %}
+                            {% if json_link %}<li><i class="icon-rss"></i><a type="application/json" href="{{ json_link }}">JSON for this page</a></li>{% endif %}
+                            <li><i class="icon-envelope-alt"></i><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
+                            <li><a href="/contribute/">Contribute code and articles</a></li>
+                            <li><a href="/subscribe/">Subscribe to our email update</a></li>
+                            <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
+                            <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/">{% if not settings.DEBUG %}<img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/80x15.png" />{% endif %}</a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
+                        </ul>
+                        {% if not settings.DEBUG %}
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        <h2>About Source</h2>
+                        <p>Source is a <a href="http://www.opennews.org">Knight-Mozilla OpenNews</a> project designed to amplify the impact of journalism code and the community of developers, designers, journalists, and editors who make it. Learn more <a href="/about/">about the project</a> or <a href="/contribute/">contribute your work</a>.</p>
+                    </div>
+                    <div class="col">
+                        <h2>About OpenNews</h2>
+                        <p>A multi-year partnership between <a href="http://www.mozilla.org/foundation/">Mozilla</a> and the <a href="http://www.knightfoundation.org/">Knight Foundation</a>, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web. More at <a href="http://opennews.org">opennews.org</a>.</p>
+                    </div>
+                </section>
+            {% endblock footer %}</footer>
+        </div>
+        <div class="snap-drawers hidden">
+            <div class="snap-drawer snap-drawer-right">
+                <a href="/"><img class="drawer-logo" src="{{ static('base/img/source_retina_top_invert.png') }}" alt="Source"></a>
+                <ul>
                 {% for url, id, name in navigation_links %}
-                    <li{% if id == active_nav %} class="active"{% endif %} id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
+                    <li class="{% if id not in "home|search" %}indent{% endif %}" id="nav-{{ id }}"><a href="{{ url|e }}">{{ name|safe|e }}</a></li>
                 {% endfor %}
                 </ul>
-
-                <a href="{{ url('homepage') }}"><img src="{{ static('base/img/source_retina_top.png') }}" alt="Source" class="sourcelogomin"></a>
-            </div>
-        </header>
-        <div class="content">
-            <div class="container page-block">
-                <a href="{{ url('homepage') }}"><img id="main-logo" src="{{ static('base/img/source_retina.png') }}" alt="Source"></a>
-                {% block base_tagline %}{% endblock %}
-            </div>
-        
-            <div class="container">
-                {% block base_above_article %}{% endblock %}
-                <article class="{% block article_class %}{% endblock %}">{% block content %}{% endblock %}</article>
-                {% block base_aside %}{% endblock %}
-                {% block base_below_article %}{% endblock %}
             </div>
         </div>
-        <footer class="container">{% block footer %}
-            <section class="external">
-             <div class="col">
-                <h2>Connect with Source</h2>
-                <ul>
-                    {% if rss_link %}<li><i class="icon-rss"></i><a type="application/rss+xml" href="{{ rss_link }}">RSS for this page</a></li>{% endif %}
-                    {% if json_link %}<li><i class="icon-rss"></i><a type="application/json" href="{{ json_link }}">JSON for this page</a></li>{% endif %}
-                    <li><i class="icon-envelope-alt"></i><a href="mailto:opennews@mozillafoundation.org">Contact us</a></li>
-                    <li><a href="/contribute/">Contribute code and articles</a></li>
-                    <li><a href="/subscribe/">Subscribe to our email update</a></li>
-                    <li>Connect on Twitter <a href="http://twitter.com/source" class="twitter-follow-button" data-show-count="false">@source</a></li>
-                    <li><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/80x15.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> CC Attribution 3.0</a>
-                </ul>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            </div>
-            <div class="col">
-                <h2>About Source</h2>
-                <p>Source is a <a href="http://www.opennews.org">Knight-Mozilla OpenNews</a> project designed to amplify the impact of journalism code and the community of developers, designers, journalists, and editors who make it. Learn more <a href="/about/">about the project</a> or <a href="/contribute/">contribute your work</a>.</p>
-            </div>
-            <div class="col">
-                <h2>About OpenNews</h2>
-                <p>A multi-year partnership between <a href="http://www.mozilla.org/foundation/">Mozilla</a> and the <a href="http://www.knightfoundation.org/">Knight Foundation</a>, Knight-Mozilla OpenNews is dedicated to creating an ecosystem to help strengthen and build community around journalism on the web. More at <a href="http://opennews.org">opennews.org</a>.</p>
-            </div>
-       </section>
-        {% endblock footer %}</footer>
-
+        
         {% block site_js %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>window.jQuery || document.write("<script src=\"{{ static('base/js/libs/jquery-1.7.2.min.js') }}\"><\/script>")</script>
         {% compress js %}
+            <script src="{{ static('base/js/libs/snap.min.js') }}"></script>
+            <script src="{{ static('base/js/libs/overthrow.min.js') }}"></script>
             <script src="{{ static('base/js/app.js') }}"></script>
         {% endcompress %}
         {% endblock %}

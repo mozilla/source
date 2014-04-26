@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.template.defaultfilters import date as dj_date
+from django.template.defaultfilters import date as dj_date, slugify
 from django.utils.safestring import mark_safe
 
 from caching.base import CachingManager, CachingMixin
@@ -12,13 +13,17 @@ from sorl.thumbnail import ImageField
 from source.people.models import Organization
 from source.utils.caching import expire_page_cache
 
-TODAY = datetime.today().date()
-TODAY_PLUS_30 = TODAY + timedelta(days=30)
-
+def get_today():
+    return datetime.now().date()
+    
+def get_today_plus_30():
+    return datetime.now().date() + timedelta(days=30)
+    
 class LiveJobManager(CachingManager):
     def get_query_set(self):
+        today = get_today()
         return super(LiveJobManager, self).get_query_set().filter(
-            is_live=True, listing_start_date__lte=TODAY, listing_end_date__gte=TODAY
+            is_live=True, listing_start_date__lte=today, listing_end_date__gte=today
         )
 
 class Job(CachingMixin, models.Model):
@@ -29,8 +34,8 @@ class Job(CachingMixin, models.Model):
     name = models.CharField('Job name', max_length=128)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
-    listing_start_date = models.DateField(default=TODAY)
-    listing_end_date = models.DateField(default=TODAY_PLUS_30)
+    listing_start_date = models.DateField(default=get_today)
+    listing_end_date = models.DateField(default=get_today_plus_30)
     tweeted_at = models.DateTimeField(blank=True, null=True)
     url = models.URLField(blank=True, null=True, verify_exists=False)
     contact_name = models.CharField('Contact name', max_length=128, blank=True)
@@ -44,10 +49,19 @@ class Job(CachingMixin, models.Model):
     
     def __unicode__(self):
         return u'%s: %s' % (self.name, self.organization)
-        
+
     def will_show_on_site(self):
-        return (self.is_live and self.listing_start_date <= TODAY and self.listing_end_date >= TODAY)
+        today = get_today()
+        return (self.is_live and self.listing_start_date <= today and self.listing_end_date >= today)
     will_show_on_site.boolean = True
+
+    @property
+    def get_list_page_url(self):
+        return '%s%s#job-%s' % (settings.BASE_SITE_URL, reverse('job_list'), self.pk)
+
+    @property
+    def organization_sort_name(self):
+        return self.organization.name.replace('The ', '')
 
     @property
     def get_contact_email(self):
@@ -62,7 +76,7 @@ class Job(CachingMixin, models.Model):
     @property
     def wrapped_job_name(self):
         if self.url:
-            link = '<a href="%s">%s</a>' % (self.url, self.name)
+            link = '<a class="job-name" href="%s">%s</a>' % (self.url, self.name)
             return mark_safe(link)
         else:
             return self.name
@@ -70,7 +84,7 @@ class Job(CachingMixin, models.Model):
     @property
     def wrapped_organization_name(self):
         if self.organization.is_live and self.organization.show_in_lists:
-            link = '<a href="%s">%s</a>' % (self.organization.get_absolute_url(), self.organization.name)
+            link = '<a class="job-organization" href="%s">%s</a>' % (self.organization.get_absolute_url(), self.organization.name)
             return mark_safe(link)
         else:
             return self.organization.name
@@ -88,24 +102,35 @@ class Job(CachingMixin, models.Model):
     def save(self, *args, **kwargs):
         '''prepend pk to job slug to keep things unique'''
         # save so we have a pk for new records
-        super(Job, self).save(*args, **kwargs)
+        if not self.pk:
+            super(Job, self).save(*args, **kwargs)
 
         # if we're resaving an existing record, strip the pk
         # off the front so we don't end up multiplying them
         slug_prefix = '%s-' % self.pk
         if self.slug.startswith(slug_prefix):
             self.slug = self.slug.replace(slug_prefix, '')
+            
+        if self.slug == '':
+            self.slug = slugify(self.name)[:40]
         
         # prefix with pk
         self.slug = '%s%s' % (slug_prefix, self.slug)
 
+        # call this manually because of the double-save for slugging
+        clear_caches_for_job(self)
+
         super(Job, self).save(*args, **kwargs)
 
-@receiver(post_save, sender=Job)
-def clear_caches_for_jobs(sender, instance, **kwargs):
+def clear_caches_for_job(instance):
+    '''
+    Not triggering this via signal, as we seemed to have
+    trouble getting consistent results with the double-save
+    required for a unique slug. Called manually instead.
+    '''
     # clear cache for job list page
     expire_page_cache(reverse('job_list'))
-    
+
     # clear caches for related organization
     if instance.organization:
         expire_page_cache(instance.organization.get_absolute_url())

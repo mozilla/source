@@ -15,6 +15,75 @@ $(document).ready(function () {
     });
 });
 
+var gaTrackEvent = function(category, action, label) {
+    var _gaq = _gaq || [];
+    _gaq.push(['_trackEvent', category, action, label]);
+}
+
+// http://www.hnldesign.nl/work/code/debouncing-events-with-jquery/
+var jQueryDebounce = function($,cf,of, interval) {
+    // deBouncer by hnldesign.nl
+    // based on code by Paul Irish and the original debouncing function from John Hann
+    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+    var debounce = function (func, threshold, execAsap) {
+        var timeout;
+
+        return function debounced () {
+            var obj = this, args = arguments;
+            function delayed () {
+                if (!execAsap)
+                    func.apply(obj, args);
+                timeout = null;
+                }
+                if (timeout)
+                    clearTimeout(timeout);
+                else if (execAsap)
+                    func.apply(obj, args);
+
+            timeout = setTimeout(delayed, threshold || interval);
+        };
+    };
+    jQuery.fn[cf] = function(fn){ return fn ? this.bind(of, debounce(fn)) : this.trigger(cf); };
+};
+
+// debounce the resize event, and apply nav pane if necessary
+jQueryDebounce(jQuery,'smartresize', 'resize', 100);
+$(window).smartresize(function(e) {
+    applyNavPane();
+})
+
+// snap.js nav pane
+var navPane = new Snap({
+    element: document.getElementById('snap-content-wrapper'),
+    disable: 'left',
+    slideIntent: 30,
+    minDragDistance: 20,
+    minPosition: -205
+});
+$('.toggle-navigation').on('click', function() {
+    if (navPane.state().state == 'right') {
+        navPane.close();
+    } else {
+        navPane.open('right');
+    }
+    return false;
+})
+
+// only enable the snap.js nav pane if appropriate for browser width
+var applyNavPane = function() {
+    window.browserWidth = document.documentElement.clientWidth;
+
+    if (browserWidth <= 480) {
+        navPane.enable();
+        $('.snap-drawers').removeClass('hidden')
+    } else {
+        navPane.disable();
+        $('.snap-drawers').addClass('hidden')
+    }
+}
+// initial page load
+applyNavPane();
+
 // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
 jQuery(document).ajaxSend(function(event, xhr, settings) {
     function getCookie(name) {

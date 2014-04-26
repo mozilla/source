@@ -13,6 +13,7 @@ INSTALLED_APPS = list(INSTALLED_APPS) + [
     '%s.base' % PROJECT_MODULE,
     '%s.articles' % PROJECT_MODULE,
     '%s.code' % PROJECT_MODULE,
+    '%s.guides' % PROJECT_MODULE,
     '%s.jobs' % PROJECT_MODULE,
     '%s.people' % PROJECT_MODULE,
     '%s.tags' % PROJECT_MODULE,

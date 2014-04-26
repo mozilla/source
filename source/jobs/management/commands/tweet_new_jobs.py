@@ -51,8 +51,9 @@ class Command(BaseCommand):
         for job in jobs:
             try:
                 # build the tweet
-                job_url = job.url or ('%s%s' % (settings.BASE_SITE_URL, reverse('job_list')))
+                job_url = '%s%s#job-%s' % (settings.BASE_SITE_URL, reverse('job_list'), job.pk)
                 tweet = make_tweet(job.organization.name, job.name, job_url)
+                
                 if settings.DEBUG:
                     tweet = "TEST POST: %s" % tweet
                 
@@ -106,5 +107,11 @@ def make_tweet(org_name, job_name, job_url):
     # build the tweet, then append the url
     tweet = tweet_template % (tweet_data[first], tweet_data[second])
     tweet = '%s %s' % (tweet, tweet_data['url'])
+    
+    # if we have a particularly long job title, fall back to a simpler version
+    if len(tweet) > 140:
+        tweet = '%s: %s. %s' % (tweet_data['org'], tweet_data['job'], tweet_data['url'])
+    if len(tweet) > 140:
+        tweet = 'New job listing from %s: %s' % (tweet_data['org'], tweet_data['url'])
     
     return tweet
