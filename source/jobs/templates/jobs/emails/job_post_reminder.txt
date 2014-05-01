@@ -1,0 +1,1 @@
+Testing the Amazon email setup. Text-only email here.
