@@ -3,7 +3,7 @@ Hi! This is just a quick monthly update from the Source Jobs page, to remind you
 Here's what we have posted for {{ organization.name }} right now:
 
 {% for job in jobs %}
-{{ job.name }} (expires {{ job.pretty_expiration_date }})
+* {{ job.name }} (expires {{ job.pretty_expiration_date }})
 {% endfor %}
 
 If you need to update any of these job listings, or if you're ready to add a new one, you can log in right here:
