@@ -1,3 +1,46 @@
-<h1>HTML version</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Monthly update from Source Jobs</title>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+</head>
+ 
+<body bgcolor="#ffffff" style="font-family: 'Open Sans', sans-serif; font-size: 16px; margin: 0;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="padding: 24px; background-color: #e4e4e4;">
+                <a href="{{ site_url }}"><img src="{{ site_url }}{{ static('base/img/source_retina_top.png') }}" alt="Source" height="30"></a>
+            </td>
+        </tr>
+    </table>
 
-<p>Testing the Amazon email setup. HTML email here.</p>
+    <table>
+        <tr>
+            <td style="padding: 12px 24px; background-color: #ffffff;">
+
+                <p>Hi! This is just a quick monthly update from the <a href="{{ site_url }}{{ url('job_list') }}">Source Jobs page</a>, to remind you about any listings you have on the site and when they expire.</p>
+
+                <p>Here&rsquo;s what we have posted for {{ organization.name }} right now:</p>
+                
+                <table cellpadding="0" cellspacing="0" style="padding: 15px 0; font-size: 13px;">
+                    <tr>
+                        <td><strong>Job</strong></td>
+                        <td><strong>Expires</strong></td>
+                    </tr>
+                    {% for job in jobs %}<tr>
+                        <td style="padding-top: 6px; padding-right: 24px;"><a href="{{ site_url }}{{ url('job_list') }}#job-{{ job.pk }}">{{ job.name }}</a></td>
+                        <td style="padding-top: 6px;">{{ job.pretty_expiration_date }}</td>
+                    </tr>{% endfor %}
+                </table>
+
+                <p>If you need to update any of these job listings, or if you&rsquo;re ready to add a new one, you can <a href="{{ site_url }}/organizations/update/">log in right here</a>.</p>
+
+                <p><em>&mdash; The Source team</em></p>
+                
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
