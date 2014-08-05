@@ -8,8 +8,15 @@ class GuideArticleInline(admin.StackedInline):
     extra = 1
     raw_id_fields = ('article',)
     fieldsets = (
-        ('', {'fields': ('article', 'order', 'article_notes')}),
+        ('', {'fields': ('order', 'article', 'external_url', 'external_title', 'article_notes')}),
     )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        # More usable heights and widths in admin form fields
+        field = super(GuideArticleInline, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ['external_url','external_title']:
+            field.widget.attrs['style'] = 'width: 30em;'
+        return field
     
 class GuideAdmin(AdminImageMixin, admin.ModelAdmin):
     save_on_top = True
