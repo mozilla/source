@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import date as dj_date, linebreaks, striptags, truncatewords
@@ -79,7 +80,7 @@ class Guide(CachingMixin, models.Model):
         return ''
 
     def get_live_article_set(self):
-        return self.guidearticle_set.filter(article__is_live=True, article__pubdate__lte=datetime.now)
+        return self.guidearticle_set.filter(Q(article__is_live=True, article__pubdate__lte=datetime.now) | Q(article__isnull=True))
 
     def save(self, *args, **kwargs):
         # clean up cover_color field, just in case
@@ -91,7 +92,9 @@ class GuideArticle(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     guide = models.ForeignKey(Guide)
-    article = models.ForeignKey(Article)
+    article = models.ForeignKey(Article, blank=True, null=True)
+    external_url = models.URLField(blank=True, null=True, verify_exists=False, help_text='Paste a URL here to link to an article elsewhere (overrides `Article` URL above).')
+    external_title = models.CharField(max_length=128, blank=True, help_text='Display title for link to article elsewhere (overrides `Article` title above).')
     order = models.PositiveIntegerField(default=1, blank=True, db_index=True, help_text="A '1' will appear first, a '2' will appear second, and so on.")
     article_notes = models.TextField(blank=True, help_text="Optional field for telling readers why this article is part of this guide.")
     objects = models.Manager()
@@ -101,7 +104,11 @@ class GuideArticle(CachingMixin, models.Model):
         verbose_name = 'Guide Article'
 
     def __unicode__(self):
-        return u'%s: %s' % (self.guide.title, self.article.title)
+        if self.article:
+            name = self.article.title
+        else:
+            name = self.external_title
+        return u'%s: %s' % (self.guide.title, name)
 
     @models.permalink
     def get_absolute_url(self):
@@ -125,4 +132,5 @@ def clear_caches_for_guide(sender, instance, **kwargs):
 
     # clear caches for related articles
     for article in instance.get_live_article_set():
-        expire_page_cache(article.article.get_absolute_url())
+        if article.article:
+            expire_page_cache(article.article.get_absolute_url())
