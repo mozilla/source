@@ -1,0 +1,98 @@
+{% extends "jobs/_base_jobs.html" %}
+
+{% block content %}
+<h1 class="maintopic">Jobs</h1>
+
+<header>
+    <p class="intro">Source Jobs publishes job listings for people who design interactive features, write code, and sling data in newsrooms. To list open positions in your news organization, <a href="#about-jobs">get started here</a>.</p>
+</header>
+
+<section>
+    <div id="filter-list-input-container" class="clearfix">
+        <p id="sort-options" class="helptext">
+            Sort by: <a id="sort-date" href="{{ url('job_list') }}">Listing date</a> / <a id="sort-organization" href="{{ url('job_list') }}?sort=organization">Organization</a>
+        </p>
+    </div>
+    <div id="filterable-list">
+        {% if jobs_by_organization %}
+            {% with job_list = jobs_by_organization|groupby('organization_sort_name'), grouper = 'organization' %}
+            {% include "jobs/_job_list_as_grouped_list.html" %}{% endwith %}
+        {% endif %}
+        {% if jobs_this_week %}
+        <div class="filter-block">
+            <h3>Posted this week</h3>
+            {% with job_list = jobs_this_week %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
+        </div>
+        {% endif %}
+        {% if jobs_last_week %}
+        <div class="filter-block">
+            <h3>Posted last week</h3>
+            {% with job_list = jobs_last_week %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
+        </div>
+        {% endif %}
+        {% if jobs_previously %}
+        <div class="filter-block">
+            <h3>Posted previously</h3>
+            {% with job_list = jobs_previously %}
+            {% include "jobs/_job_list_as_list.html" %}{% endwith %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section id="about-jobs" class="divided-section">
+    <h3>About Source Jobs Listings</h3>
+    <p>To add a listing, you&rsquo;ll need an organizational profile. Here&rsquo;s how to get started.</p>
+
+    <ul>
+        <li>If you already have a contact person registered to update your Source organizational profile, that person can <a href="{{ url('organization_update') }}">log in</a> and add job listings immediately.</li>
+        <li>If you have a <a href="{{ url('organization_list') }}">Source organization profile</a>, but don&rsquo;t have a contact person registered, have your news apps editor (or nearest person to that role) <a href="mailto:source@mozillafoundation.org?subject=Registration for Job Listings">contact us</a> to register and start listing jobs.</li>
+        <li>If you don&rsquo;t have an organizational profile but you want to list a job, <a href="mailto:source@mozillafoundation.org?subject=Job Listings">contact us</a> to request a listing.</li>
+    </ul>
+</section>
+
+{% endblock content %}
+
+{% block site_js_extra %}
+{% compress js %}
+    <script src="{{ static('base/js/listfilter.js') }}"></script>
+    <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
+    <script src="{{ static('articles/js/jquery.localScroll.min.js') }}"></script>
+{% endcompress %}
+<script type="text/javascript">
+    $('.intro').localScroll({
+        offset: -80,
+        hash: true,
+        target: '#snap-content-wrapper'
+    });
+    
+    var filter = ListFilter({
+        inputContainer: '#filter-list-input-container',
+        listContainer: '#filterable-list',
+        filterItemClass: '.filter-item',
+        filterBlockClass: '.filter-block'
+    });
+    
+    $('#filterable-list').on('mouseenter', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').show();
+    });
+    $('#filterable-list').on('mouseleave', 'h3', function() {
+        $(this).find('.permalink span, .permalink i').hide();
+    });
+
+    $('#filterable-list').on('click', 'a.job-name', function(e) {
+        var jobName = $(this).text(),
+            jobOrg = $(this).parent('h3').find('a.job-organization').text();
+
+        gaTrackEvent('Jobs', 'Clicked job link', jobOrg+': '+jobName);
+    })
+    $('#sort-options').on('click', 'a', function(e) {
+        gaTrackEvent('Jobs', 'Sort', $(this).text());
+    })
+    
+    var sortValue = '{{ sort_value }}';
+    $('#sort-'+sortValue).removeAttr('href').addClass('disabled');
+</script>
+{% endblock %}

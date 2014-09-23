@@ -177,6 +177,9 @@ class Organization(CachingMixin, models.Model):
     def get_live_code_set(self):
         return self.code_set.filter(is_live=True)
 
+    def get_live_job_set(self):
+        return self.job_set.filter(is_live=True, listing_start_date__lte=datetime.today, listing_end_date__gte=datetime.today)
+
 
 class OrganizationLink(CachingMixin, models.Model):
     created = models.DateTimeField(auto_now_add=True)

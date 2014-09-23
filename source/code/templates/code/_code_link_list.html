@@ -1,5 +1,5 @@
 {% for code in code_link_list %}
     {% if loop.first %}{% if not hide_link_list_title %}<h3 class="subhead list-header">Code</h3>{% endif %}
     <ul class="link-list">{% endif %}
-        <li><i class="icon-list-alt"></i><a href="{{ code.get_absolute_url() }}">{{ code.name|typogrify }}</a></li>
+        <li><i class="icon-list-alt"></i> <a href="{{ code.get_absolute_url() }}">{{ code.name|typogrify }}</a></li>
     {% if loop.last %}</ul>{% endif %}{% endfor %}

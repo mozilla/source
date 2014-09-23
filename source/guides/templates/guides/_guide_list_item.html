@@ -1,0 +1,5 @@
+{# standard presentation block for an guide on list pages #}
+<a class="column-third guides-box" href="{{ guide.get_absolute_url() }}"{% if guide.cover_color %} style="background-color: #{{ guide.cover_color }};"{% endif %}>
+    {% if guide.image %}<div class="image-wrapper"><img src="{{ MEDIA_URL }}{{ thumbnail(guide.image, "600x500", crop="center") }}" alt="{{ guide.title }}"></div>{% endif %}
+    <h2{% if guide.cover_color %} style="background-color: #{{ guide.cover_color }};"{% endif %}>{{ guide.title|typogrify }}</h2>
+</a>

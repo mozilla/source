@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 
 from source.articles.models import Article, Section, Category
 from source.code.models import Code
+from source.guides.models import Guide
+from source.jobs.models import Job
 from source.tags.models import TechnologyTag, ConceptTag
 from source.tags.utils import get_validated_tag_list, get_tag_filtered_queryset
 from taggit.models import Tag
@@ -121,5 +123,62 @@ class CodeFeed(ObjectWithTagsFeed):
         queryset = Code.live_objects.order_by('-created')
         if self.tag_slugs:
             queryset = get_tag_filtered_queryset(queryset, self.tag_slug_list)
+        return queryset[:20]
+
+class JobFeed(Feed):
+    def title(self, obj):
+        return "Source: Jobs"
+
+    def link(self, obj):
+        return reverse('job_list')
+
+    def description(self, obj):
+        return 'Recent jobs listed on Source'
+
+    def item_title(self, item):
+        _name = item.name
+        # Alert anyone using an RSS feed on staging
+        if settings.DEBUG:
+            _name = "THIS IS A TEST ENTRY ON THE STAGING SITE: " + _name
+
+        return _name
+
+    def item_description(self, item):
+        return 'Job posting from %s' % item.organization
+        
+    def item_link(self, item):
+        '''
+        We don't have individual detail pages, so use item.url
+        or fall back to jobs list page.
+        '''
+        return item.url or reverse('job_list')
+
+    def items(self, obj):
+        queryset = Job.live_objects.order_by('-created')
+        return queryset[:20]
+
+class GuideFeed(Feed):
+    def title(self, obj):
+        return "Source: Guides"
+
+    def link(self, obj):
+        return reverse('guide_list')
+
+    def description(self, obj):
+        return 'Recent guides from Source'
+
+    def item_title(self, item):
+        _name = item.title
+        # Alert anyone using an RSS feed on staging
+        if settings.DEBUG:
+            _name = "THIS IS A TEST ENTRY ON THE STAGING SITE: " + _name
+
+        return _name
+
+    def item_description(self, item):
+        return item.summary_or_description
+
+    def items(self, obj):
+        queryset = Guide.live_objects.order_by('-pubdate')
         return queryset[:20]
 
