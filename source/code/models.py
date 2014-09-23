@@ -106,7 +106,7 @@ class Code(CachingMixin, models.Model):
         return [item for item in itertools.chain(self.technology_tags.all(), self.concept_tags.all())]
 
     def get_live_article_set(self):
-        return self.article_set.filter(is_live=True, pubdate__lte=datetime.now)
+        return self.article_set.filter(is_live=True, show_in_lists=True, pubdate__lte=datetime.now)
 
     def get_live_organization_set(self):
         return self.organizations.filter(is_live=True)

@@ -79,7 +79,7 @@ class ArticleFeed(ObjectWithTagsFeed):
         return ''
         
     def items(self, obj):
-        queryset = Article.live_objects.all()
+        queryset = Article.live_objects.filter(show_in_lists=True)
         if self.section:
             queryset = queryset.filter(category__section=self.section)
         elif self.category:
