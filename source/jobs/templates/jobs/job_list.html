@@ -48,11 +48,10 @@
 
     <ul>
         <li>If you already have a contact person registered to update your Source organizational profile, that person can <a href="{{ url('organization_update') }}">log in</a> and add job listings immediately.</li>
-        <li>If you have a <a href="{{ url('organization_list') }}">Source organization profile</a>, but don&rsquo;t have a contact person registered, have your news apps editor (or nearest person to that role) <a href="mailto:source@mozillafoundation.org?subject=Registration for Job Listings">contact us</a> to register and start listing jobs.</li>
-        <li>If you don&rsquo;t have an organizational profile but you want to list a job, <a href="mailto:source@mozillafoundation.org?subject=Job Listings">contact us</a> to request a listing.</li>
+        <li>If you have a <a href="{{ url('organization_list') }}">Source organization profile</a>, but don&rsquo;t have a contact person registered, have your news apps editor (or nearest person to that role) <a class="send-message" href="mailto:source@mozillafoundation.org?subject=Registration for Job Listings">contact us</a> to register and start listing jobs.</li>
+        <li>If you don&rsquo;t have an organizational profile but you want to list a job, <a class="send-message" href="mailto:source@mozillafoundation.org?subject=Job Listings">contact us</a> to request a listing.</li>
     </ul>
 </section>
-
 {% endblock content %}
 
 {% block site_js_extra %}
@@ -94,5 +93,19 @@
     
     var sortValue = '{{ sort_value }}';
     $('#sort-'+sortValue).removeAttr('href').addClass('disabled');
+    
+    $('#about-jobs').on('click', '.send-message', function() {
+        var data = {
+            message: 'Pardon me, @channel, but someone just hit the Jobs button on Source.',
+            channel: 'source',
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+        $.ajax({
+            type: 'POST',
+            url: '{{ url("send_to_slack") }}',
+            data: data,
+            dataType: "json"
+        }); 
+    });
 </script>
 {% endblock %}
