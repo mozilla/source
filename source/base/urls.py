@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.decorators.cache import cache_page
 
 from .feeds import ArticleFeed
-from .views import SourceSearchView, HomepageView
+from .views import SourceSearchView, HomepageView, SlackMessageView
 from haystack.forms import SearchForm
 from haystack.query import SearchQuerySet
 from haystack.views import search_view_factory
@@ -38,6 +38,12 @@ urlpatterns = patterns('',
         view = ClearCache.as_view(),
         kwargs = {},
         name = 'clear_cache',
+    ),
+    url(
+        regex = '^send-to-slack/$',
+        view = SlackMessageView.as_view(),
+        kwargs = {},
+        name = 'send_to_slack',
     ),
     url(
         regex = '^rss/$',

@@ -1,10 +1,14 @@
-from django.views.generic import ListView
+import requests
+
+from django.conf import settings
+from django.views.generic import ListView, View
 
 from haystack.views import SearchView
 from source.articles.models import Article
 from source.articles.views import ArticleList
 from source.code.models import Code
 from source.people.models import Organization, Person
+from source.utils.json import render_json_to_response
 
 
 class HomepageView(ArticleList):
@@ -75,4 +79,24 @@ class SourceSearchView(SearchView):
             })
         
         return page_context
+
+class SlackMessageView(View):
+    def post(self, request, *args, **kwargs):
+        message = request.POST.get('message', None)
+        channel = request.POST.get('channel', None)
+        auth_token = getattr(settings, 'SLACK_TOKEN', None)
+        
+        if message and auth_token:
+            endpoint = 'https://membot.herokuapp.com/message/inbound/'
+            data = {
+                'message': message,
+                'channel': channel,
+                'token': auth_token
+            }
+            r = requests.post(endpoint, data=data)
+            result = 'success'
+        else:
+            result = 'failure'
+        
+        return render_json_to_response({'text': result})
     
