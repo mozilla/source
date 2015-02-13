@@ -24,7 +24,7 @@
 {% block content %}
     {% if article.image %}
         <div class="image-full-width-wrapper">
-            <img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}">
+            <img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "800") }}" alt="{{ article.title }}" onerror="this.parentNode.style.display='none'">
             {% if article.pretty_caption %}<p class="caption">{{ article.pretty_caption|typogrify|safe }}</p>{% endif %}
         </div>
     {% endif %}
@@ -81,7 +81,7 @@
             } -%}
             {% set _this_image_width = _image_width_options[articleblock.image_presentation] %}
             <div class="image-{{ articleblock.image_presentation }}-wrapper">
-                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}">
+                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, _this_image_width) }}" alt="{{ articleblock.title }}" onerror="this.parentNode.style.display='none'">
                 {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|typogrify|safe }}</p>{% endif %}
             </div>
         {% endif %}
@@ -90,7 +90,7 @@
         
         {% if articleblock.image and articleblock.image_presentation == 'full-width-below' %}
             <div class="image-full-width-wrapper">
-                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}">
+                <img src="{{ MEDIA_URL }}{{ thumbnail(articleblock.image, "800") }}" alt="{{ articleblock.title }}" onerror="this.parentNode.style.display='none'">
                 {% if articleblock.pretty_caption %}<p class="caption">{{ articleblock.pretty_caption|typogrify|safe }}</p>{% endif %}
             </div>
         {% endif %}
