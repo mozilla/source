@@ -3,6 +3,8 @@
 {% block page_title %} {{ article.title }} - {{ super() }}{% endblock %}
 
 {% block site_js_extra %}
+<link rel="stylesheet" href="{{ static('articles/css/highlight-theme.css') }}">
+<script src="//cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js"></script>
 {% compress js %}
     {% if article.section.slug == "learning" %}
         <script src="{{ static('articles/js/jquery.scrollTo.min.js') }}"></script>
@@ -10,6 +12,15 @@
     {% endif %}
 {% endcompress %}
 <script type="text/javascript">
+    {% if article.disable_auto_linebreaks %}
+    hljs.initHighlightingOnLoad();
+    {% else %}
+    hljs.configure({useBR: true});
+    $('code').each(function(i, block) {
+      hljs.highlightBlock(block);
+    });    
+    {% endif %}
+    
     {% if article.section.slug == "learning" %}
     $('.article-toc').localScroll({
         offset: -80,
