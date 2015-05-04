@@ -32,6 +32,7 @@ class ArticleAdmin(AdminImageMixin, admin.ModelAdmin):
         ('', {'fields': (('pubdate', 'is_live', 'show_in_lists', 'allow_comments'), ('title', 'slug'), 'subhead', ('category', 'tags'), 'technology_tags', 'concept_tags',)}),
         ('Article relationships', {'fields': ('authors', 'people', 'organizations', 'code',)}),
         ('Article body', {'fields': ('image', 'image_caption', 'image_credit', 'summary', 'body', 'disable_auto_linebreaks')}),
+        ('Article javascript', {'classes': ('collapse',), 'fields': ('article_js_header', 'article_js_footer')}),
     )
     inlines = [ArticleBlockInline,]
     readonly_fields = ('tags',)
