@@ -47,6 +47,8 @@ class Article(CachingMixin, models.Model):
     objects = models.Manager()
     live_objects = LiveArticleManager()
     disable_auto_linebreaks = models.BooleanField(default=False, help_text='Check this if body and article blocks already have HTML paragraph tags.')
+    article_js_header = models.TextField(blank=True)
+    article_js_footer = models.TextField(blank=True)
     
     class Meta:
         ordering = ('-pubdate','title',)

@@ -2,6 +2,10 @@
 
 {% block page_title %} {{ article.title }} - {{ super() }}{% endblock %}
 
+{% block head_extra %}{{ super() }}
+{% if article.article_js_header %}{{ article.article_js_header|safe }}{% endif %}
+{% endblock %}
+
 {% block site_js_extra %}
 <link rel="stylesheet" href="{{ static('articles/css/highlight-theme.css') }}">
 <script src="//cdn.jsdelivr.net/highlight.js/8.5/highlight.min.js"></script>
@@ -29,6 +33,8 @@
     });
     {% endif %}
 </script>
+    
+{% if article.article_js_footer %}{{ article.article_js_footer|safe }}{% endif %}
 {% endblock %}
 
 {% block article_class %}article-detail{% endblock %}
