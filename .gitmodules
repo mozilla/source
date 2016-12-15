@@ -21,7 +21,7 @@
 	url = git://github.com/toastdriven/pyelasticsearch.git
 [submodule "vendor-local/src/sorl-thumbnail"]
 	path = vendor-local/src/sorl-thumbnail
-	url = git://github.com/sorl/sorl-thumbnail.git
+	url = git://github.com/mariocesar/sorl-thumbnail.git
 [submodule "vendor-local/src/django-taggit"]
 	path = vendor-local/src/django-taggit
 	url = https://github.com/ryanpitts/django-taggit.git
