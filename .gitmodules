@@ -9,7 +9,7 @@
 	url = https://github.com/kennethreitz/requests.git
 [submodule "vendor-local/src/django-south"]
 	path = vendor-local/src/django-south
-	url = git://github.com/lambdafu/django-south.git
+	url = git://github.com/dmishe/django-south.git
 [submodule "vendor-local/src/django-cache-machine"]
 	path = vendor-local/src/django-cache-machine
 	url = git://github.com/jbalogh/django-cache-machine.git
@@ -21,7 +21,7 @@
 	url = git://github.com/toastdriven/pyelasticsearch.git
 [submodule "vendor-local/src/sorl-thumbnail"]
 	path = vendor-local/src/sorl-thumbnail
-	url = git://github.com/sorl/sorl-thumbnail.git
+	url = git://github.com/mariocesar/sorl-thumbnail.git
 [submodule "vendor-local/src/django-taggit"]
 	path = vendor-local/src/django-taggit
 	url = https://github.com/ryanpitts/django-taggit.git

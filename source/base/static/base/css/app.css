@@ -8,6 +8,7 @@
 .container {
     width: auto;
     max-width: 800px;
+    position: relative;
 }
 
 .content {
@@ -158,6 +159,15 @@ aside .byline .link-list {
 
 #navigation li a:hover, #navigation li.active a {
     background-color: #d8d8d8;
+}
+
+#promo-flag {
+    border: none;
+    float: right;
+    width: 200px;
+}
+#promo-flag img {
+    width: 190px;
 }
 
 .fixed {
@@ -561,7 +571,7 @@ a.disabled {
 
 h1.maintopic {
     text-align: right;
-    width: 550px;
+    width: 500px;
     margin-right: 0;
     margin-top: -20px;
     margin-bottom: 2em;
@@ -848,7 +858,7 @@ aside.search-results-single-col {
     display: inline-block;
     vertical-align: top;
     width: 30%;
-    margin-right: 3%;
+    margin-right: 2%;
     zoom: 1;
     *display: inline;
 }
@@ -914,7 +924,7 @@ h1 span.category {
 }
 
 img#main-logo {
-    width: 550px;
+    width: 500px;
 }
 
 pre.prettyprint {
@@ -1494,7 +1504,10 @@ a.permalink:hover i {
 }
 
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 768px) {
+    #promo-flag {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 690px) {

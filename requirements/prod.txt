@@ -2,3 +2,5 @@
 django_browserid
 requests
 newrelic==1.11.0.55
+python-dateutil==2.2
+six==1.6.1

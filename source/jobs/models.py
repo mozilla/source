@@ -72,6 +72,11 @@ class Job(CachingMixin, models.Model):
     def pretty_start_date(self):
         '''pre-process for simpler template logic'''
         return dj_date(self.listing_start_date,"F j, Y")
+
+    @property
+    def pretty_expiration_date(self):
+        '''pre-process for simpler template logic'''
+        return dj_date(self.listing_end_date,"F j, Y")
         
     @property
     def wrapped_job_name(self):

@@ -12,7 +12,7 @@
 {% if lead_promo %}
     {% with article=lead_promo %}
         <a class="page-block lead promo" href="{{ article.get_absolute_url() }}">
-            {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "525x400", crop="center") }}" alt="{{ article.title }}">{% endif %}
+            {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "525x400", crop="center") }}" alt="{{ article.title }}" onerror="this.style.display='none'">{% endif %}
             <h2>
                 <span class="category">{% if article.category %}{{ article.category.name }}{% endif %}{% if article.tags.all().exists() %} <span class="tags">/ {% for tag in article.tags.all() %}{{ tag.name|smartypants }}{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
                 {{ article.title|typogrify }}
@@ -25,7 +25,7 @@
         {# two secondary promo items go in here #}
         {% for article in secondary_promos %}
             <a class="page-block promo secondary-promo{% if not loop.first %} second-promo{% endif %}" href="{{ article.get_absolute_url() }}">
-                {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "200x90", crop="center") }}" alt="{{ article.title }}">{% endif %}
+                {% if article.image %}<img src="{{ MEDIA_URL }}{{ thumbnail(article.image, "200x90", crop="center") }}" alt="{{ article.title }}" onerror="this.style.display='none'">{% endif %}
                 <h2>
                     <span class="category">{% if article.category %}{{ article.category.name }}{% endif %}{% if article.tags.all().exists() %} <span class="tags">/ {% for tag in article.tags.all() %}{{ tag }}{% if not loop.last %} {% endif %}{% endfor %}</span>{% endif %}</span>
                     {{ article.title|typogrify }}

@@ -1,15 +1,19 @@
 {# standard presentation block for an article on a guide detail page #}
 <div class="page-block">
-    <h2><a href="{{ article.get_absolute_url() }}">{{ article.title|typogrify }}</a></h2>
-    <ul class="link-list link-list-inline">
-        {% if article.get_live_author_set().exists() %}<li>{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
-        {% with organization_link_list = article.get_live_organization_set() %}
-        {% include "people/_organization_link_list_inline.html" %}{% endwith %}
-    </ul>
-    {% if guidearticle.article_notes %}
-        <p class="notes"><em>{{ guidearticle.article_notes|typogrify|safe }}</em></p>
+    {% if guidearticle.external_url and guidearticle.external_title %}
+        <h2><a href="{{ guidearticle.external_url }}">{{ guidearticle.external_title|typogrify }}</a></h2>
     {% else %}
-        <p class="notes">{{ article.summary|typogrify|safe }}</p>
+        <h2><a href="{{ article.get_absolute_url() }}">{{ article.title|typogrify }}</a></h2>
+        <ul class="link-list link-list-inline">
+            {% if article.get_live_author_set().exists() %}<li>{% with author_list = article.get_live_author_set() %}{% include "articles/_article_author_list.html" %}{% endwith %}</li>{% endif %}
+            {% with organization_link_list = article.get_live_organization_set() %}
+            {% include "people/_organization_link_list_inline.html" %}{% endwith %}
+        </ul>
     {% endif %}
     
+    {% if guidearticle.article_notes %}
+        <p class="notes"><em>{{ guidearticle.article_notes|typogrify|safe }}</em></p>
+    {% elif article %}
+        <p class="notes">{{ article.summary|typogrify|safe }}</p>
+    {% endif %}
 </div>
